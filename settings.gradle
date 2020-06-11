@@ -1,0 +1,2 @@
+rootProject.name='PiliPili-Android'
+include ':app'
