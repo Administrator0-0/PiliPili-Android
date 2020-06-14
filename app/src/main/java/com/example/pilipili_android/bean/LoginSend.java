@@ -4,7 +4,7 @@ package com.example.pilipili_android.bean;
  * 用户登录
  */
 
-public class LoginSendBean {
+public class LoginSend {
 
     /**
      * email : 1727762240@qq.com

@@ -3,7 +3,7 @@ package com.example.pilipili_android.bean;
 /**
  * 用户注册
  */
-public class RegisterSendBean {
+public class RegisterSend {
 
     /**
      * email : 1727762240@qq.com
