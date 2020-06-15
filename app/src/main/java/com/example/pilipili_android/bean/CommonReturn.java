@@ -3,15 +3,15 @@ package com.example.pilipili_android.bean;
 /**
  * 一般情况的返回数据格式
  */
-public class CommonInfoBean {
+public class CommonReturn {
 
     /**
      * code : 200
-     * msg : 成功
+     * message : 成功
      */
 
     private int code;
-    private String msg;
+    private String message;
 
     public int getCode() {
         return code;
@@ -21,11 +21,11 @@ public class CommonInfoBean {
         this.code = code;
     }
 
-    public String getMsg() {
-        return msg;
+    public String getMessage() {
+        return message;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
