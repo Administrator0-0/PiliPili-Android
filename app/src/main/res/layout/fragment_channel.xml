@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.fragment_channel">
+
+    <TextView
+        android:id="@+id/bar_channel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="32sp"
+        android:text="频道"
+        android:gravity="center"
+        android:background="@color/qmui_config_color_blue"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_channel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/bar_channel"/>
+
+</RelativeLayout>

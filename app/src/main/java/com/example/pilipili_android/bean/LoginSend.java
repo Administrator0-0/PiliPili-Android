@@ -7,8 +7,8 @@ package com.example.pilipili_android.bean;
 public class LoginSend {
 
     /**
-     * email : 1727762240@qq.com
-     * password : HouTaiQiang666
+     * email : 2115914043@qq.com
+     * password : wdnmd2333
      */
 
     private String email;

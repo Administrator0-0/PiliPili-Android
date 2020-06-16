@@ -7,11 +7,11 @@ public class CommonReturn {
 
     /**
      * code : 200
-     * msg : 成功
+     * message : 成功
      */
 
     private int code;
-    private String msg;
+    private String message;
 
     public int getCode() {
         return code;
@@ -21,11 +21,11 @@ public class CommonReturn {
         this.code = code;
     }
 
-    public String getMsg() {
-        return msg;
+    public String getMessage() {
+        return message;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

@@ -6,9 +6,9 @@ package com.example.pilipili_android.bean;
 public class RegisterSend {
 
     /**
-     * email : 1727762240@qq.com
-     * username : HouTaiQiang
-     * password : HouTaiQiang666
+     * email : 2115914043@qq.com
+     * username : 大屁股裂了
+     * password : wdnmd2333
      */
 
     private String email;

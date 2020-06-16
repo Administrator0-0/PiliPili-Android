@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.fragment_mainpage">
+
+    <RelativeLayout
+        android:id="@+id/bar_mainpage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/qmui_config_color_blue">
+        <ImageButton
+            android:id="@+id/button_oneself"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/head"
+            android:background="@color/qmui_config_color_blue"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"/>
+        <EditText
+            android:id="@+id/edit_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/button_oneself"
+            android:hint="请输入搜索内容"
+            android:gravity="center"/>
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@+id/bar_mainpage"
+        android:id="@+id/recyclerview_mainpage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</RelativeLayout>

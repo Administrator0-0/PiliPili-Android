@@ -1,19 +1,16 @@
 package com.example.pilipili_android.bean;
 
-/**
- * 买币的返回数据
- */
-public class BuyCoinReturn {
+public class RenameReturn {
 
     /**
      * code : 200
-     * data : {"coins":100}
-     * message : 购买硬币成功
+     * message : wdnmd
+     * data : {"username":"中屁股裂了","coins":200}
      */
 
     private int code;
-    private DataBean data;
     private String message;
+    private DataBean data;
 
     public int getCode() {
         return code;
@@ -21,14 +18,6 @@ public class BuyCoinReturn {
 
     public void setCode(int code) {
         this.code = code;
-    }
-
-    public DataBean getData() {
-        return data;
-    }
-
-    public void setData(DataBean data) {
-        this.data = data;
     }
 
     public String getMessage() {
@@ -39,12 +28,30 @@ public class BuyCoinReturn {
         this.message = message;
     }
 
+    public DataBean getData() {
+        return data;
+    }
+
+    public void setData(DataBean data) {
+        this.data = data;
+    }
+
     public static class DataBean {
         /**
-         * coins : 100
+         * username : 中屁股裂了
+         * coins : 200
          */
 
+        private String username;
         private int coins;
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
 
         public int getCoins() {
             return coins;
