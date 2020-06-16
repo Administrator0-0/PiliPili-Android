@@ -1,14 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.RegisterFragment"
+    android:id="@+id/relativelayout_box"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragment.RegisterFragment">
+    android:layout_height="wrap_content">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
+        android:id="@+id/relativelayout_username"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="15dp">
+        <LinearLayout
+            android:id="@+id/linearlayout_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_marginStart="5dp"
+                android:layout_height="25dp"
+                android:src="@drawable/bay"
+                android:layout_gravity="center_vertical"/>
+            <EditText
+                android:id="@+id/edit_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:hint="  请输入用户名"/>
+        </LinearLayout>
 
-</FrameLayout>
+        <ImageView
+            android:id="@+id/clear_image_username"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/sobot_icon_evaluation_cancel"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativelayout_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="11dp"
+        android:layout_below="@id/relativelayout_username">
+        <LinearLayout
+            android:id="@+id/linearlayout_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/account"
+                android:layout_gravity="center_vertical"/>
+            <EditText
+                android:id="@+id/edit_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="  请输入邮箱"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/clear_image_account"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/sobot_icon_evaluation_cancel"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativelayout_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativelayout_account"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="11dp">
+        <LinearLayout
+            android:id="@+id/linearlayout_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="29dp"
+                android:layout_height="27dp"
+                android:src="@drawable/password"
+                android:layout_marginStart="3dp"
+                android:layout_gravity="center_vertical"/>
+            <EditText
+                android:layout_marginStart="4dp"
+                android:id="@+id/edit_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="  请输入密码"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/clear_image_password"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/sobot_icon_evaluation_cancel"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/relativelayout_password"
+        android:layout_marginTop="20dp">
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            android:id="@+id/button_back"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            app:qmui_borderColor="@color/qmui_btn_blue_border"
+            app:qmui_backgroundColor="@color/qmui_config_color_white"
+            app:qmui_isRadiusAdjustBounds="true"
+            app:qmui_radius="10dp"
+            android:text="返回"
+            android:textColor="@color/qmui_btn_blue_text"
+            android:textSize="18sp"/>
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            android:id="@+id/button_register"
+            app:qmui_borderColor="@color/qmui_config_color_15_white"
+            app:qmui_backgroundColor="@color/qmui_config_color_blue"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            app:qmui_isRadiusAdjustBounds="true"
+            app:qmui_radius="10dp"
+            android:text="注册"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="10dp"
+            android:textColor="@color/qmui_config_color_75_white"
+            android:textSize="18sp"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/hint_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="用户名只能由中英文及_组成哦~"
+        android:textColor="@color/palevioletred"
+        android:textSize="18sp"
+        android:layout_below="@+id/linear_bottom"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"/>
+
+</RelativeLayout>
+
+
