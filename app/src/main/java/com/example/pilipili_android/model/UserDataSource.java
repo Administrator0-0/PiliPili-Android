@@ -1,6 +1,7 @@
 package com.example.pilipili_android.model;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.pilipili_android.bean.BuyCoinReturn;
 import com.example.pilipili_android.bean.CommonReturn;
@@ -76,12 +77,13 @@ public class UserDataSource {
             public void onResponse(Call<CommonReturn> call, Response<CommonReturn> response) {
                 CommonReturn commonReturn = response.body();
                 if(commonReturn == null) {
-                    onNetRequestListener.onFail("token验证错误");
+                    onNetRequestListener.onFail();
                     return;
                 }
                 if(commonReturn.getCode() == 200) {
                     onNetRequestListener.onSuccess();
                 } else {
+
                     onNetRequestListener.onFail();
                 }
             }

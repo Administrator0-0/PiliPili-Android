@@ -8,8 +8,6 @@ public interface OnNetRequestListener {
 
     void onSuccess();
 
-    void onFail(int errorCode);
-
     void onFail();
 
     void onFail(String errorMessage);

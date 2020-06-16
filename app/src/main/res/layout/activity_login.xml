@@ -1,14 +1,197 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent" android:layout_width="match_parent">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.pilipili_android.view_model.UserViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="欢迎界面"
-        android:textSize="150sp"
-        android:gravity="center"/>
+        android:background="@color/qmui_config_color_white"
+        tools:context=".activity.LoginActivity">
+        <RelativeLayout
+            android:id="@+id/top_login"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/qmui_config_color_blue">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="密码登录"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_centerInParent="true"
+                android:textColor="@color/qmui_config_color_75_white"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/relativelayout_login_image"
+            app:layout_constraintTop_toBottomOf="@+id/top_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="80dp">
+            <ImageView
+                android:src="@drawable/left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"/>
+            <ImageView
+                android:src="@drawable/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"/>
+            <ImageView
+                android:src="@drawable/right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
 
-</LinearLayout>
+        <RelativeLayout
+            android:id="@+id/relativelayout_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/relativelayout_login_image">
+
+            <RelativeLayout
+                android:id="@+id/relativelayout_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="15dp">
+                <LinearLayout
+                    android:id="@+id/linearlayout_account"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/account"
+                        android:layout_gravity="center_vertical"/>
+                    <EditText
+                        android:id="@+id/edit_account"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="    请输入邮箱"/>
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/clear_image_account"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/sobot_icon_evaluation_cancel"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativelayout_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativelayout_account"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="11dp">
+                <LinearLayout
+                    android:id="@+id/linearlayout_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/password"
+                        android:layout_gravity="center_vertical"/>
+                    <EditText
+                        android:id="@+id/edit_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="    请输入密码"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/forget_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="忘记密码?"
+                    android:textSize="16sp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/qmui_config_color_blue"/>
+
+                <ImageView
+                    android:id="@+id/clear_image_password"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/sobot_icon_evaluation_cancel"
+                    android:layout_toStartOf="@+id/forget_password"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="15dp"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/relativelayout_password"
+                android:layout_marginTop="20dp">
+                <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                    android:id="@+id/button_sign"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    app:qmui_borderColor="@color/qmui_btn_blue_border"
+                    app:qmui_backgroundColor="@color/qmui_config_color_white"
+                    app:qmui_isRadiusAdjustBounds="true"
+                    app:qmui_radius="10dp"
+                    android:text="  注册  "
+                    android:textColor="@color/qmui_btn_blue_text"
+                    android:textSize="18sp"/>
+                <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                    android:id="@+id/button_login"
+                    app:qmui_borderColor="@color/qmui_config_color_15_white"
+                    app:qmui_backgroundColor="@color/qmui_config_color_blue"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="40dp"
+                    app:qmui_isRadiusAdjustBounds="true"
+                    app:qmui_radius="10dp"
+                    android:text="登录"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/qmui_config_color_75_white"
+                    android:textSize="18sp"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/policy_tv"
+            app:layout_constraintTop_toBottomOf="@id/relativelayout_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="登录即代表你同意用户协议和隐私政策"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/qmui_config_color_gray_6"/>
+
+        <TextView
+            android:id="@+id/help_tv"
+            app:layout_constraintTop_toBottomOf="@id/policy_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="遇到问题？查看帮助"
+            android:gravity="center"
+            android:layout_marginTop="14dp"
+            android:textColor="@color/qmui_config_color_gray_6"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+
