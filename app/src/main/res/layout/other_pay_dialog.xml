@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent">
+
+    <RelativeLayout
+        android:paddingEnd="12dp"
+        android:paddingStart="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/other_pay_corner">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="15dp"
+            android:text="金额选择"
+            android:id="@+id/choose"
+            android:textSize="20sp"/>
+
+        <LinearLayout
+            android:id="@+id/linear_top"
+            android:layout_width="match_parent"
+            android:baselineAligned="false"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="19dp"
+            android:layout_below="@+id/choose">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="15dp"
+                android:id="@+id/buy7"
+                android:background="@drawable/pay_button_unselected">
+
+                <TextView
+                    android:id="@+id/buy7_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:text="198 P币"
+                    android:textColor="@color/qmui_config_color_gray_5"
+                    android:layout_marginTop="12dp" />
+
+                <TextView
+                    android:id="@+id/buy7_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:textColor="@color/qmui_config_color_gray_5"
+                    android:text="¥198.00"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="12dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:id="@+id/buy8"
+                android:background="@drawable/pay_button_unselected">
+
+                <TextView
+                    android:id="@+id/buy8_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:text="233 P币"
+                    android:textColor="@color/qmui_config_color_gray_5"
+                    android:layout_marginTop="12dp" />
+
+                <TextView
+                    android:id="@+id/buy8_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:textColor="@color/qmui_config_color_gray_5"
+                    android:text="¥233.00"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="12dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="15dp"
+                android:id="@+id/buy9"
+                android:background="@drawable/pay_button_unselected">
+
+                <TextView
+                    android:id="@+id/buy9_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:text="388 P币"
+                    android:textColor="@color/qmui_config_color_gray_5"
+                    android:layout_marginTop="12dp" />
+
+                <TextView
+                    android:id="@+id/buy9_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:textColor="@color/qmui_config_color_gray_5"
+                    android:text="¥388.00"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="12dp" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_top2"
+            android:layout_below="@+id/linear_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="false"
+            android:layout_marginTop="12dp">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="15dp"
+                android:id="@+id/buy10"
+                android:background="@drawable/pay_button_unselected">
+
+                <TextView
+                    android:id="@+id/buy10_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:text="648 P币"
+                    android:textColor="@color/qmui_config_color_gray_5"
+                    android:layout_marginTop="12dp" />
+
+                <TextView
+                    android:id="@+id/buy10_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:textColor="@color/qmui_config_color_gray_5"
+                    android:text="¥648.00"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="12dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:id="@+id/buy11"
+                android:background="@drawable/pay_button_unselected">
+
+                <TextView
+                    android:id="@+id/buy11_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:text="998 P币"
+                    android:textColor="@color/qmui_config_color_gray_5"
+                    android:layout_marginTop="12dp" />
+
+                <TextView
+                    android:id="@+id/buy11_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:textColor="@color/qmui_config_color_gray_5"
+                    android:text="¥998.00"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="12dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:id="@+id/buy12"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/pay_button_unselected">
+
+                <TextView
+                    android:id="@+id/buy12_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:text="1298 P币"
+                    android:textColor="@color/qmui_config_color_gray_5"
+                    android:layout_marginTop="12dp" />
+
+                <TextView
+                    android:id="@+id/buy12_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:textColor="@color/qmui_config_color_gray_5"
+                    android:text="¥1298.00"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="12dp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:layout_below="@+id/linear_top2"
+            android:layout_marginBottom="10dp"/>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/cancel_pay_other"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="15dp"
+        android:src="@drawable/bms"
+        android:layout_alignParentEnd="true" />
+
+
+</RelativeLayout>
+

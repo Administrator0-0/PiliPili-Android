@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@color/qmui_btn_blue_border</color>
-    <color name="colorPrimaryDark">@color/qmui_btn_blue_border</color>
-    <color name="colorAccent">@color/qmui_btn_blue_border</color>
+    <color name="colorPrimary">#4ac7ff</color>
+    <color name="colorPrimaryDark">#4ac7ff</color>
+    <color name="colorAccent">#4ac7ff</color>
 
     <color name="transparent">#00000000</color><!--透明色 -->   
     <color name="white">#FFFFFF</color><!--白色 -->   

@@ -23,6 +23,8 @@ import com.example.pilipili_android.bean.LoginSend;
 import com.example.pilipili_android.view_model.UserViewModel;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -30,6 +32,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
 import butterknife.Unbinder;
+
+import static android.view.View.VISIBLE;
 
 public class RegisterFragment extends Fragment {
 
@@ -65,15 +69,14 @@ public class RegisterFragment extends Fragment {
     QMUIRoundButton buttonBack;
     @BindView(R.id.button_register)
     QMUIRoundButton buttonRegister;
-    private LoginFragment loginFragment;
 
+    private LoginFragment loginFragment;
     private Unbinder bind;
     private UserViewModel userViewModel;
 
     public RegisterFragment() {
 
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,9 +86,12 @@ public class RegisterFragment extends Fragment {
         userViewModel = new ViewModelProvider(RegisterFragment.this).get(UserViewModel.class);
         userViewModel.getLoginInfo().observe(getViewLifecycleOwner(), loginSend ->{
             hintTv.setText("");
+            loginFragment.autoSetFromRegister(loginSend.getEmail(), loginSend.getPassword());
             Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
                     .hide(RegisterFragment.this).show(loginFragment).commit();
+            EventBus.getDefault().post(FragmentMsg.getInstance("login", "show"));
         });
+        hintTv.setVisibility(View.GONE);
         return view;
     }
 
@@ -115,6 +121,7 @@ public class RegisterFragment extends Fragment {
             loginFragment.clearEditText();
             Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().hide(this)
                     .show(loginFragment).commit();
+            EventBus.getDefault().post(FragmentMsg.getInstance("login", "show"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -140,20 +147,26 @@ public class RegisterFragment extends Fragment {
 
     @OnFocusChange(R.id.edit_account)
     void showAccountHint(View v, boolean hasFocus){
-        if(hasFocus)
+        if(hasFocus) {
+            hintTv.setVisibility(VISIBLE);
             hintTv.setText("请填写邮箱~");
+        }
     }
 
     @OnFocusChange(R.id.edit_password)
     void showPasswordHint(View v, boolean hasFocus){
-        if(hasFocus)
-            hintTv.setText("密码只能由英文、数字以及下划线组成哦~");
+        if(hasFocus){
+            hintTv.setVisibility(VISIBLE);
+            hintTv.setText("密码为6~20位，只能由英文、数字以及下划线组成哦~");
+        }
     }
 
     @OnFocusChange(R.id.edit_username)
     void showUsernameHint(View v, boolean hasFocus){
-        if(hasFocus)
-            hintTv.setText("用户名只能由中英文、数字以及下划线组成哦~");
+        if(hasFocus){
+            hintTv.setVisibility(VISIBLE);
+            hintTv.setText("用户名为2~10位，只能由中英文、数字以及下划线组成哦~");
+        }
     }
 
 }

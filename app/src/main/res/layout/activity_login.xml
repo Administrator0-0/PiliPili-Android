@@ -11,14 +11,15 @@
         android:id="@+id/top_login"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/qmui_config_color_blue">
+        android:layout_height="52dp"
+        android:background="@color/colorPrimary">
         <TextView
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="密码登录"
+            tools:text="密码登录"
             android:textStyle="bold"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:layout_centerInParent="true"
             android:textColor="@color/qmui_config_color_75_white"/>
     </RelativeLayout>
@@ -29,6 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="80dp">
         <ImageView
+            android:id="@+id/left_img"
             android:src="@drawable/left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,6 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"/>
         <ImageView
+            android:id="@+id/right_img"
             android:src="@drawable/right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

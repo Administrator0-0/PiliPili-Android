@@ -13,6 +13,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.pilipili_android.bean.LoginReturn;
 import com.example.pilipili_android.bean.LoginSend;
 import com.example.pilipili_android.bean.NetRequestResult;
+import com.example.pilipili_android.bean.UserDetailReturn;
 import com.example.pilipili_android.constant.SPConstant;
 import com.example.pilipili_android.inteface.OnNetRequestListener;
 import com.example.pilipili_android.model.UserDataSource;
@@ -30,6 +31,12 @@ public class UserViewModel extends AndroidViewModel {
     private MutableLiveData<Boolean> isValid = new MutableLiveData<>();
     private MutableLiveData<Boolean> isSuccessLogin = new MutableLiveData<>();
     private MutableLiveData<LoginSend> loginInfo = new MutableLiveData<>();
+    private MutableLiveData<Integer> coin = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isSuccessBuyCoin = new MutableLiveData<>();
+
+    public MutableLiveData<Integer> getCoin() {
+        return coin;
+    }
 
     public MutableLiveData<LoginSend> getLoginInfo() {
         return loginInfo;
@@ -87,7 +94,7 @@ public class UserViewModel extends AndroidViewModel {
 
     public void login(String email, String password) {
         if(email.trim().equals("")){
-            Toast.makeText(context, "请输入用户名", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "请输入邮箱", Toast.LENGTH_SHORT).show();
         } else if (password.trim().equals("")) {
             Toast.makeText(context, "请输入密码", Toast.LENGTH_SHORT).show();
         } else {
@@ -159,5 +166,55 @@ public class UserViewModel extends AndroidViewModel {
         }
     }
 
+    public void getCoinCount() {
+        userDataSource.getUserDetail(getToken(), new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+                coin.setValue(((UserDetailReturn)netRequestResult.getData()).getData().getCoins());
+            }
 
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+
+            }
+        });
+    }
+
+    public void buyCoin(int howMany) {
+        userDataSource.buyCoin(getToken(), howMany, new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+
+            }
+
+            @Override
+            public void onSuccess() {
+                isSuccessBuyCoin.setValue(true);
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public MutableLiveData<Boolean> getIsSuccessBuyCoin() {
+        return isSuccessBuyCoin;
+    }
 }

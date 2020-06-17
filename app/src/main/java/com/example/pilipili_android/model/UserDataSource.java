@@ -134,15 +134,17 @@ public class UserDataSource {
         call.enqueue(new Callback<UserDetailReturn>() {
             @Override
             public void onResponse(Call<UserDetailReturn> call, Response<UserDetailReturn> response) {
-                UserDetailReturn userDetailReturn = response.body();
-                if(userDetailReturn == null) {
-                    onNetRequestListener.onFail("获取用户信息错误");
-                    return;
-                }
-                if(userDetailReturn.getCode() == 200) {
-                    onNetRequestListener.onSuccess(new NetRequestResult<>(userDetailReturn));
-                } else {
-                    onNetRequestListener.onFail(Objects.requireNonNull(userDetailReturn).getMessage());
+                try {
+                    ResponseBody responseBody = response.errorBody();
+                    UserDetailReturn userDetailReturn = response.body();
+                    if(responseBody == null && userDetailReturn != null) {
+                        onNetRequestListener.onSuccess(new NetRequestResult<>(userDetailReturn));
+                    } else {
+                        assert responseBody != null;
+                        onNetRequestListener.onFail((new Gson()).fromJson(responseBody.string(), UserDetailReturn.class).getMessage());
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
 
@@ -182,6 +184,7 @@ public class UserDataSource {
         commonSend.setData(howMany);
         Gson gson = new Gson();
         String commonSendJson = gson.toJson(commonSend);
+        commonSendJson = commonSendJson.replace("data", "coins");
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), commonSendJson);
         String ciphertext = EncryptUtil.getVerificationToken(token);
         Call<BuyCoinReturn> call = retrofitService.buyCoin(ciphertext, body);
@@ -189,15 +192,17 @@ public class UserDataSource {
         call.enqueue(new Callback<BuyCoinReturn>() {
             @Override
             public void onResponse(Call<BuyCoinReturn> call, Response<BuyCoinReturn> response) {
-                BuyCoinReturn buyCoinReturn = response.body();
-                if(buyCoinReturn == null) {
-                    onNetRequestListener.onFail("买币错误");
-                    return;
-                }
-                if(buyCoinReturn.getCode() == 200) {
-                    onNetRequestListener.onSuccess(new NetRequestResult<>(buyCoinReturn));
-                } else {
-                    onNetRequestListener.onFail(Objects.requireNonNull(buyCoinReturn).getMessage());
+                try {
+                    ResponseBody responseBody = response.errorBody();
+                    BuyCoinReturn buyCoinReturn = response.body();
+                    if(responseBody == null && buyCoinReturn != null) {
+                        onNetRequestListener.onSuccess();
+                    } else {
+                        assert responseBody != null;
+                        onNetRequestListener.onFail((new Gson()).fromJson(responseBody.string(), BuyCoinReturn.class).getMessage());
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
 

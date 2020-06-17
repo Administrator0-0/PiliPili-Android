@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
@@ -21,16 +22,22 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.pilipili_android.R;
 import com.example.pilipili_android.activity.LoginActivity;
 import com.example.pilipili_android.activity.MainActivity;
+import com.example.pilipili_android.activity.PayActivity;
 import com.example.pilipili_android.databinding.FragmentLoginBinding;
 import com.example.pilipili_android.view_model.UserViewModel;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnFocusChange;
 import butterknife.Unbinder;
+
+import static android.view.View.VISIBLE;
 
 
 public class LoginFragment extends Fragment {
@@ -70,18 +77,20 @@ public class LoginFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentLoginBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false);
         userViewModel = new ViewModelProvider(LoginFragment.this).get(UserViewModel.class);
         fragmentLoginBinding.setUserViewModel(userViewModel);
         View view = fragmentLoginBinding.getRoot();
         bind = ButterKnife.bind(this, view);
+        EventBus.getDefault().post(FragmentMsg.getInstance("login", "show"));
 
         userViewModel.getIsSuccessLogin().observe(getViewLifecycleOwner(), isSuccessLogin -> {
             if (isSuccessLogin) {
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
+                Objects.requireNonNull(getActivity()).finish();
             }
         });
 
@@ -113,6 +122,7 @@ public class LoginFragment extends Fragment {
             registerFragment.clearEditText();
             Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().hide(this)
                     .show(registerFragment).commit();
+            EventBus.getDefault().post(FragmentMsg.getInstance("register", "show"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -131,5 +141,26 @@ public class LoginFragment extends Fragment {
     void clearEditText() {
         editAccount.setText("");
         editPassword.setText("");
+    }
+
+    void autoSetFromRegister(String email, String password) {
+        editAccount.setText(email);
+        editPassword.setText(password);
+        editAccount.setSelection(editAccount.getText().length());
+        editPassword.setSelection(editPassword.getText().length());
+    }
+
+    @OnFocusChange(R.id.edit_account)
+    void showAccountHint(View v, boolean hasFocus){
+        if(hasFocus) {
+            EventBus.getDefault().post(FragmentMsg.getInstance("login", "open_eyes"));
+        }
+    }
+
+    @OnFocusChange(R.id.edit_password)
+    void showPasswordHint(View v, boolean hasFocus){
+        if(hasFocus){
+            EventBus.getDefault().post(FragmentMsg.getInstance("login", "close_eyes"));
+        }
     }
 }

@@ -42,7 +42,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{loginInfo.email}"
-                    android:hint="  请输入邮箱" />
+                    android:hint="  请输入邮箱"
+                    android:maxLines="1"
+                    android:inputType="text"/>
             </LinearLayout>
 
             <ImageView
@@ -82,7 +84,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{loginInfo.password}"
-                    android:hint="  请输入密码" />
+                    android:hint="  请输入密码"
+                    android:maxLines="1"
+                    android:inputType="textPassword"/>
             </LinearLayout>
 
             <TextView
@@ -94,7 +98,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="10dp"
-                android:textColor="@color/qmui_config_color_blue" />
+                android:textColor="@color/colorPrimary" />
 
             <ImageView
                 android:id="@+id/clear_image_password"
@@ -120,18 +124,18 @@
                 android:layout_weight="1"
                 android:layout_height="40dp"
                 android:layout_marginStart="10dp"
-                app:qmui_borderColor="@color/qmui_btn_blue_border"
+                app:qmui_borderColor="@color/colorPrimary"
                 app:qmui_backgroundColor="@color/qmui_config_color_white"
                 app:qmui_isRadiusAdjustBounds="true"
                 app:qmui_radius="10dp"
                 android:text="注册"
-                android:textColor="@color/qmui_btn_blue_text"
+                android:textColor="@color/colorPrimary"
                 android:textSize="18sp" />
 
             <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
                 android:id="@+id/button_login"
                 app:qmui_borderColor="@color/qmui_config_color_15_white"
-                app:qmui_backgroundColor="@color/qmui_config_color_blue"
+                app:qmui_backgroundColor="@color/colorPrimary"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="40dp"

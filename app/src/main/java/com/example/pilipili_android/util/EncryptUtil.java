@@ -26,9 +26,9 @@ public class EncryptUtil {
         }
     }
 
-    // 检查用户名合法 (6~20位，汉字字母数字下划线)
+    // 检查用户名合法 (2~10位，汉字字母数字下划线)
     public static boolean isUsernameValid(String username) {
-        if(username != null){
+        if(username != null && username.length() <= 10 && username.length() >= 2){
             String reg = "[\\u4e00-\\u9fa5]*|\\w*|\\d*|_*";
             return username.matches(reg);
         } else {

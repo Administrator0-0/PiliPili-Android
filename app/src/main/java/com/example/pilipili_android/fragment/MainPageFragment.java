@@ -12,10 +12,10 @@ import com.example.pilipili_android.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link fragment_mainpage#newInstance} factory method to
+ * Use the {@link MainPageFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class fragment_mainpage extends Fragment {
+public class MainPageFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class fragment_mainpage extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public fragment_mainpage() {
+    public MainPageFragment() {
         // Required empty public constructor
     }
 
@@ -39,8 +39,8 @@ public class fragment_mainpage extends Fragment {
      * @return A new instance of fragment fragment_mainpage.
      */
     // TODO: Rename and change types and number of parameters
-    public static fragment_mainpage newInstance(String param1, String param2) {
-        fragment_mainpage fragment = new fragment_mainpage();
+    public static MainPageFragment newInstance(String param1, String param2) {
+        MainPageFragment fragment = new MainPageFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

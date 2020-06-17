@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.PayActivity">
+
+
+    <RelativeLayout
+        android:id="@+id/relativelayout_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/button_back"
+            android:src="@drawable/bwc" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="P币充值"
+            android:layout_centerInParent="true"
+            android:textSize="22sp"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/usage"
+            android:text="使用说明"
+            android:textColor="@color/white"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:textSize="17sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativelayout_mid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativelayout_top"
+        android:background="@android:color/background_light"
+        android:elevation="25dp">
+
+
+
+        <TextView
+            android:id="@+id/keyongyue_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="可用余额"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:textSize="19sp" />
+
+        <TextView
+            android:id="@+id/p_coin_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/keyongyue_tv"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="15dp"
+            android:textColor="@color/colorPrimary" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view"
+        android:layout_below="@+id/relativelayout_mid"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/white" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/view"
+        android:background="@color/white">
+
+        <ImageView
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:src="@drawable/byi_b"
+            android:layout_below="@+id/other"
+            android:layout_marginTop="50dp"
+            android:layout_centerHorizontal="true"
+            android:alpha="0.45"/>
+
+        <LinearLayout
+            android:id="@+id/linear_top"
+            android:layout_width="match_parent"
+            android:baselineAligned="false"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentTop="true">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="15dp"
+                android:id="@+id/buy1"
+                android:background="@drawable/pay_button_selected">
+
+                <TextView
+                    android:id="@+id/buy1_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:text="6 P币"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="12dp" />
+
+                <TextView
+                    android:id="@+id/buy1_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:textColor="@color/white"
+                    android:text="¥6.00"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="12dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:id="@+id/buy2"
+                android:background="@drawable/pay_button_unselected">
+
+                <TextView
+                    android:id="@+id/buy2_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:text="18 P币"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="12dp" />
+
+                <TextView
+                    android:id="@+id/buy2_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:textColor="@color/black"
+                    android:text="¥18.00"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="12dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="15dp"
+                android:id="@+id/buy3"
+                android:background="@drawable/pay_button_unselected">
+
+                <TextView
+                    android:id="@+id/buy3_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:text="30 P币"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="12dp" />
+
+                <TextView
+                    android:id="@+id/buy3_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:textColor="@color/black"
+                    android:text="¥30.00"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="12dp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_top2"
+            android:layout_below="@+id/linear_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="false"
+            android:layout_marginTop="11dp">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="15dp"
+                android:id="@+id/buy4"
+                android:background="@drawable/pay_button_unselected">
+
+                <TextView
+                    android:id="@+id/buy4_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:text="68 P币"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="12dp" />
+
+                <TextView
+                    android:id="@+id/buy4_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:textColor="@color/black"
+                    android:text="¥68.00"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="12dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:id="@+id/buy5"
+                android:background="@drawable/pay_button_unselected">
+
+                <TextView
+                    android:id="@+id/buy5_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:text="108 P币"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="12dp" />
+
+                <TextView
+                    android:id="@+id/buy5_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:textColor="@color/black"
+                    android:text="¥108.00"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="12dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:id="@+id/buy6"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/pay_button_unselected">
+
+                <TextView
+                    android:id="@+id/buy6_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:text="158 P币"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="12dp" />
+
+                <TextView
+                    android:id="@+id/buy6_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:textColor="@color/black"
+                    android:text="¥158.00"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="12dp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            android:id="@+id/other"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linear_top2"
+            app:qmui_isRadiusAdjustBounds="true"
+            app:qmui_radius="6dp"
+            app:qmui_borderColor="@color/qmui_config_color_15_white"
+            app:qmui_backgroundColor="@color/colorPrimary"
+            android:text="其他金额"
+            android:textSize="19sp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:textColor="@color/white"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp" />
+
+        <TextView
+            android:id="@+id/help_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="P币充值兑换比例为：1P币=1.00元人民币\n苹果设备上充值的B币不能在其他平台的设备上进行使用\n若扣款成功但B币（安卓端）未到账，点击查看帮助"
+            android:textColor="@color/qmui_config_color_gray_5"
+            android:layout_below="@+id/other"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="15dp"
+            android:lineSpacingExtra="4dp" />
+
+        <TextView
+            android:id="@+id/policy_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="支付即同意P币用户协议"
+            android:textColor="@color/qmui_config_color_gray_5"
+            android:layout_above="@+id/pay"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="12dp"
+            android:lineSpacingExtra="4dp" />
+
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            android:id="@+id/pay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="12dp"
+            app:qmui_isRadiusAdjustBounds="true"
+            app:qmui_radius="6dp"
+            app:qmui_borderColor="@color/qmui_config_color_15_white"
+            app:qmui_backgroundColor="@color/colorPrimary"
+            android:text="确认支付"
+            android:textSize="19sp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:textColor="@color/white"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
