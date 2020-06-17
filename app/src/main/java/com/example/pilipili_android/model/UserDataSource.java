@@ -21,16 +21,18 @@ import com.example.pilipili_android.util.EncryptUtil;
 import com.example.pilipili_android.util.RetrofitUtil;
 import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.Objects;
 
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UserDataSource {
 
-    RetrofitService retrofitService;
+    private RetrofitService retrofitService;
 
     public UserDataSource (){
         retrofitService = RetrofitUtil.getInstance();
@@ -50,15 +52,17 @@ public class UserDataSource {
         call.enqueue(new Callback<CommonReturn>() {
             @Override
             public void onResponse(Call<CommonReturn> call, Response<CommonReturn> response) {
-                CommonReturn commonReturn = response.body();
-                if(commonReturn == null) {
-                    onNetRequestListener.onFail("注册错误");
-                    return;
-                }
-                if(commonReturn.getCode() == 200) {
-                    onNetRequestListener.onSuccess();
-                } else {
-                    onNetRequestListener.onFail(commonReturn.getMessage());
+                try {
+                    ResponseBody responseBody = response.errorBody();
+                    if(responseBody == null && response.body() != null) {
+                        onNetRequestListener.onSuccess();
+                    } else {
+                        assert responseBody != null;
+                        CommonReturn commonReturn = gson.fromJson(responseBody.string(), CommonReturn.class);
+                        onNetRequestListener.onFail(commonReturn.getMessage());
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
 
@@ -75,15 +79,10 @@ public class UserDataSource {
         call.enqueue(new Callback<CommonReturn>() {
             @Override
             public void onResponse(Call<CommonReturn> call, Response<CommonReturn> response) {
-                CommonReturn commonReturn = response.body();
-                if(commonReturn == null) {
-                    onNetRequestListener.onFail();
-                    return;
-                }
-                if(commonReturn.getCode() == 200) {
+                ResponseBody responseBody = response.errorBody();
+                if(responseBody == null && response.body() != null) {
                     onNetRequestListener.onSuccess();
                 } else {
-
                     onNetRequestListener.onFail();
                 }
             }
@@ -108,15 +107,17 @@ public class UserDataSource {
         call.enqueue(new Callback<LoginReturn>() {
             @Override
             public void onResponse(Call<LoginReturn> call, Response<LoginReturn> response) {
-                LoginReturn loginReturn = response.body();
-                if(loginReturn == null) {
-                    onNetRequestListener.onFail("登录错误");
-                    return;
-                }
-                if(loginReturn.getCode() == 200) {
-                    onNetRequestListener.onSuccess(new NetRequestResult<>(loginReturn));
-                } else {
-                    onNetRequestListener.onFail(Objects.requireNonNull(loginReturn).getMessage());
+                try {
+                    ResponseBody responseBody = response.errorBody();
+                    LoginReturn loginReturn = response.body();
+                    if(responseBody == null && loginReturn != null) {
+                        onNetRequestListener.onSuccess(new NetRequestResult<>(loginReturn));
+                    } else {
+                        assert responseBody != null;
+                        onNetRequestListener.onFail(gson.fromJson(responseBody.string(), LoginReturn.class).getMessage());
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
 

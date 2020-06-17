@@ -81,8 +81,6 @@ public class RegisterFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
         bind = ButterKnife.bind(this, view);
         userViewModel = new ViewModelProvider(RegisterFragment.this).get(UserViewModel.class);
-        //editUsername.requestFocus();
-        editUsername.performClick();
         userViewModel.getLoginInfo().observe(getViewLifecycleOwner(), loginSend ->{
             hintTv.setText("");
             Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
