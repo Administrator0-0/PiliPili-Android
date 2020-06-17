@@ -22,14 +22,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/scancode"
-                android:layout_marginEnd="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/qmui_config_color_75_white"/>
             <ImageButton
                 android:id="@+id/button_theme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
+                android:layout_marginStart="35dp"
                 android:layout_marginTop="8dp"
                 android:src="@drawable/theme"
                 android:background="@color/qmui_config_color_75_white"/>
@@ -37,8 +36,9 @@
                 android:id="@+id/button_daytonight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="20dp"
                 android:background="@color/qmui_config_color_75_white"
                 android:src="@drawable/day_night"/>
         </LinearLayout>
@@ -46,6 +46,8 @@
         <RelativeLayout
             android:id="@+id/relativelayout_picture"
             android:layout_below="@+id/linearlayout_topbar"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageButton
@@ -63,7 +65,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="10dp"
                 android:text="空间 >"
-                android:textSize="20sp"/>
+                android:textSize="21sp"/>
             <LinearLayout
                 android:layout_toEndOf="@+id/button_picture"
                 android:layout_toStartOf="@+id/text_topace"
@@ -93,6 +95,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:layout_below="@+id/relativelayout_picture"
             android:orientation="horizontal">
             <RelativeLayout
@@ -113,7 +116,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="动态"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:layout_marginStart="60dp"
                     android:textSize="20sp"
                     android:textColor="@color/qmui_config_color_gray_5"/>
@@ -136,7 +139,7 @@
                     android:layout_below="@+id/text_numberoffans"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:text="粉丝"
                     android:textSize="20sp"
                     android:textColor="@color/qmui_config_color_gray_5"/>
@@ -161,7 +164,7 @@
                     android:layout_height="wrap_content"
                     android:text="关注"
                     android:layout_below="@+id/text_numberoffocus"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:textSize="20sp"
                     android:textColor="@color/qmui_config_color_gray_5"/>
             </RelativeLayout>
@@ -185,7 +188,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/button_offlinecaching"
                     android:layout_marginTop="5dp"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="25dp"
                     android:background="@color/qmui_config_color_75_white"
                     android:src="@drawable/offlinecaching"/>
                 <ImageButton
@@ -203,12 +206,13 @@
                     android:layout_marginTop="5dp"
                     android:background="@color/qmui_config_color_75_white"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="21dp"
+                    android:layout_marginEnd="25dp"
                     android:src="@drawable/collection"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/button_offlinecaching"
+                    android:layout_marginTop="15dp"
                     android:text="离线缓存"
                     android:textSize="20sp"
                     android:layout_alignParentStart="true"
@@ -218,6 +222,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/button_history"
+                    android:layout_marginTop="15dp"
                     android:text="历史记录"
                     android:layout_centerHorizontal="true"
                     android:textSize="20sp"
@@ -226,6 +231,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/button_collection"
+                    android:layout_marginTop="15dp"
                     android:text="我的收藏"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="15dp"
@@ -235,7 +241,7 @@
             <RelativeLayout
                 android:id="@+id/aboutme_scrollview_2"
                 android:layout_width="match_parent"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_height="wrap_content">
                 <TextView
                     android:layout_width="wrap_content"
@@ -263,7 +269,7 @@
                     android:layout_below="@+id/button_publish"
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="80dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="15dp"
                     android:background="@color/qmui_config_color_75_white"
                     android:src="@drawable/publish_mainpage"/>
                 <ImageButton
@@ -272,7 +278,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:src="@drawable/publish_history"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="15dp"
                     android:layout_marginEnd="80dp"
                     android:layout_below="@+id/button_publish"
                     android:background="@color/qmui_config_color_75_white"/>
@@ -281,6 +287,7 @@
                     android:layout_height="wrap_content"
                     android:text="创作首页"
                     android:textSize="25sp"
+                    android:layout_marginTop="10dp"
                     android:layout_below="@+id/button_publish_mainpage"
                     android:layout_marginStart="54dp"
                     android:textColor="@color/qmui_config_color_gray_2"/>
@@ -289,6 +296,7 @@
                     android:layout_height="wrap_content"
                     android:text="创作历史"
                     android:textSize="25sp"
+                    android:layout_marginTop="10dp"
                     android:layout_below="@+id/button_publish_history"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="54dp"
@@ -299,14 +307,14 @@
                 android:layout_height="wrap_content"
                 android:text="更多服务"
                 android:textSize="20sp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginStart="10dp"/>
             <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/button_callserver"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="15dp"
                 android:layout_gravity="center_horizontal"
                 android:text="联系客服"
@@ -319,14 +327,14 @@
                 android:layout_gravity="center_horizontal"
                 android:textSize="25sp"
                 android:layout_marginTop="15dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"/>
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"/>
             <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/button_getcoin"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="15dp"
                 android:text="硬币充值"
                 android:textSize="25sp"
@@ -336,8 +344,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button_settings"
                 android:layout_marginTop="15dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginStart="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
                 android:text="设置"
                 android:textSize="25sp"/>
         </LinearLayout>
