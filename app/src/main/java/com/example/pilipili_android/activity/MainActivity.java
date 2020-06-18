@@ -18,5 +18,9 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, PayActivity.class);
             startActivity(intent);
         });
+        (findViewById(R.id.video)).setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, VideoActivity.class);
+            startActivity(intent);
+        });
     }
 }
