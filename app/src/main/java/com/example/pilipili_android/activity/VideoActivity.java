@@ -19,6 +19,7 @@ import com.example.pilipili_android.R;
 import com.example.pilipili_android.fragment.VideoCommentFragment;
 import com.example.pilipili_android.fragment.VideoInfoFragment;
 import com.example.pilipili_android.util.AppBarStateChangeListener;
+import com.example.pilipili_android.util.SystemBarHelper;
 import com.example.pilipili_android.widget.PiliPiliPlayer;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class VideoActivity extends AppCompatActivity {
 
@@ -107,7 +109,8 @@ public class VideoActivity extends AppCompatActivity {
         mCollapsingToolbarLayout.setExpandedTitleColor(Color.TRANSPARENT);
         //设置收缩后Toolbar上字体的颜色
         mCollapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
-
+        SystemBarHelper.immersiveStatusBar(this);
+        SystemBarHelper.setHeightAndPadding(this, mToolbar);
         mAvText.setText("pv" + pv);
     }
 
@@ -264,6 +267,12 @@ public class VideoActivity extends AppCompatActivity {
         }
         return player;
     }
+
+    @OnClick(R.id.tv_player)
+    void play() {
+       mAppBarLayout.setExpanded(true);
+    }
+
 
     public static class VideoDetailsPagerAdapter extends FragmentStatePagerAdapter {
         private List<Fragment> fragments;
