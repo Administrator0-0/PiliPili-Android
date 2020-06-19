@@ -62,6 +62,8 @@ public class VideoActivity extends AppCompatActivity {
     private boolean isPlay;
     private boolean isPause;
     private boolean isSamll;
+    private AppBarLayout.LayoutParams mAppBarParams;
+    private View mAppBarChildAt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,13 +82,16 @@ public class VideoActivity extends AppCompatActivity {
                 //展开状态
                 mTvPlayer.setVisibility(View.GONE);
                 mAvText.setVisibility(View.GONE);
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             } else if (state == State.COLLAPSED) {
                 //折叠状态
                 mTvPlayer.setVisibility(View.VISIBLE);
                 mAvText.setVisibility(View.GONE);
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             } else {
                 mTvPlayer.setVisibility(View.GONE);
                 mAvText.setVisibility(View.GONE);
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             }
         }
     };
@@ -95,7 +100,6 @@ public class VideoActivity extends AppCompatActivity {
     private void initView() {
         mAppBarLayout.addOnOffsetChangedListener(appBarStateChangeListener);
         initPlayer();
-        setSupportActionBar(mToolbar);
     }
 
     public void initToolBar() {
@@ -103,7 +107,7 @@ public class VideoActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
-            supportActionBar.setDisplayHomeAsUpEnabled(true);
+            supportActionBar.setDisplayHomeAsUpEnabled(false);
         }
         //设置还没收缩时状态下字体颜色
         mCollapsingToolbarLayout.setExpandedTitleColor(Color.TRANSPARENT);
@@ -199,10 +203,29 @@ public class VideoActivity extends AppCompatActivity {
         player.getFullscreenButton().setOnClickListener(v -> {
             //直接横屏
             orientationUtils.resolveByClick();
-
             //第一个true是否需要隐藏actionbar，第二个true是否需要隐藏statusbar
             player.startWindowFullscreen(VideoActivity.this, true, true);
         });
+
+        player.setListener(new OnVideoListener() {
+            @Override
+            public void onPause() {
+                if (mAppBarParams != null && mAppBarChildAt != null) {
+                    mAppBarParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
+                            | AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED
+                            | AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP);
+                    mAppBarChildAt.setLayoutParams(mAppBarParams);
+                }
+            }
+
+            @Override
+            public void onStart() {
+                mAppBarChildAt = mAppBarLayout.getChildAt(0);
+                mAppBarParams = (AppBarLayout.LayoutParams)mAppBarChildAt.getLayoutParams();
+                mAppBarParams.setScrollFlags(0);
+            }
+        });
+
         resolveNormalVideoUI();
         player.setLinkScroll(true);
         player.startPlayLogic();
@@ -271,6 +294,7 @@ public class VideoActivity extends AppCompatActivity {
     @OnClick(R.id.tv_player)
     void play() {
        mAppBarLayout.setExpanded(true);
+       player.onVideoResume();
     }
 
 
@@ -299,4 +323,9 @@ public class VideoActivity extends AppCompatActivity {
             return titles.get(position);
         }
     }
+
+     public interface OnVideoListener {
+        void onPause();
+        void onStart();
+     }
 }

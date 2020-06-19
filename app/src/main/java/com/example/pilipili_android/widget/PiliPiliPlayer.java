@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.example.pilipili_android.R;
+import com.example.pilipili_android.activity.VideoActivity;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.shuyu.gsyvideoplayer.video.base.GSYBaseVideoPlayer;
 import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer;
@@ -20,6 +21,7 @@ public class PiliPiliPlayer extends StandardGSYVideoPlayer {
     private boolean isLinkScroll = false;
     private File mDumakuFile;
     private boolean isPaused;
+    private VideoActivity.OnVideoListener mListener;
 
     public PiliPiliPlayer(Context context, Boolean fullFlag) {
         super(context, fullFlag);
@@ -65,6 +67,10 @@ public class PiliPiliPlayer extends StandardGSYVideoPlayer {
         });
     }
 
+    public void setListener(VideoActivity.OnVideoListener mListener) {
+        this.mListener = mListener;
+    }
+
     //这个必须配置最上面的构造才能生效
     @Override
     public int getLayoutId() {
@@ -75,18 +81,21 @@ public class PiliPiliPlayer extends StandardGSYVideoPlayer {
     public void onPrepared() {
         super.onPrepared();
         isPaused = false;
+        mListener.onStart();
     }
 
     @Override
     public void onVideoPause() {
         super.onVideoPause();
         isPaused = true;
+        mListener.onPause();
     }
 
     @Override
     public void onVideoResume(boolean isResume) {
         super.onVideoResume(isResume);
         isPaused = false;
+        mListener.onStart();
     }
 
     @Override
@@ -94,8 +103,10 @@ public class PiliPiliPlayer extends StandardGSYVideoPlayer {
         super.clickStartIcon();
         if (mCurrentState == CURRENT_STATE_PLAYING) {
             isPaused = false;
+            mListener.onStart();
         } else if (mCurrentState == CURRENT_STATE_PAUSE) {
             isPaused = true;
+            mListener.onPause();
         }
     }
 
