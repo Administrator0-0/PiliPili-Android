@@ -21,5 +21,9 @@ public class MainActivity extends AppCompatActivity {
         mineFragment = new MineFragment();
         fragmentManager.beginTransaction().add(R.id.box, mineFragment).commit();
 
+        (findViewById(R.id.video)).setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, VideoActivity.class);
+            startActivity(intent);
+        });
     }
 }

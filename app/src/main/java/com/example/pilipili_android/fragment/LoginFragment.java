@@ -20,7 +20,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.pilipili_android.R;
-import com.example.pilipili_android.activity.LoginActivity;
 import com.example.pilipili_android.activity.MainActivity;
 import com.example.pilipili_android.activity.PayActivity;
 import com.example.pilipili_android.databinding.FragmentLoginBinding;
