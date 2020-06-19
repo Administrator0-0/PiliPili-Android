@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="50dp"
+    android:layout_marginBottom="6dp"
+    android:clickable="true"
+    android:foreground="?attr/selectableItemBackground"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:focusable="true">
+
+    <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+        android:id="@+id/user_avatar"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_margin="4dp"
+        android:src="@drawable/bil"/>
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="55dp"
+        android:layout_marginEnd="4dp"
+        android:minWidth="72dp"
+        android:textSize="15sp"
+        android:text="刘薪王"/>
+
+    <TextView
+        android:id="@+id/fans"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="55dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginTop="20dp"
+        android:minWidth="72dp"
+        android:textSize="10sp"
+        android:textColor="@color/gray"
+        android:text="199999万粉丝"/>
+
+</RelativeLayout>
+

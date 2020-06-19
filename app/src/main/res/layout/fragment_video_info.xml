@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:overScrollMode="never">
+    android:overScrollMode="never"
+    android:scrollbars="vertical">
 
 
     <LinearLayout
@@ -14,22 +15,38 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:orientation="vertical"
-        android:paddingTop="26dp"
+        android:paddingTop="10dp"
         android:visibility="visible">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <include layout="@layout/layout_tag_user"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:background="@drawable/btn_pin_bg"
+                android:gravity="center"
+                android:text="关注"
+                android:textColor="@color/focus_text_color" />
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="10dp"
             android:lineSpacingExtra="2dp"
             android:textColor="#555555"
-            android:textSize="16dp" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="8dp" />
+            android:textSize="16dp"
+            android:text="刘薪王太强了"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,12 +54,13 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingEnd="10dp"
+            android:layout_marginTop="10dp"
             android:paddingStart="10dp">
 
 
             <ImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/ic_info_views"
                 android:tint="@color/black_alpha_45" />
 
@@ -52,15 +70,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:textColor="@color/black_alpha_45"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:text="12222222"/>
 
             <Space
                 android:layout_width="16dp"
                 android:layout_height="match_parent" />
 
             <ImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/ic_info_danmakus"
                 android:tint="@color/black_alpha_45" />
 
@@ -70,7 +89,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:textColor="@color/black_alpha_45"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:text="6666666666"/>
+
+            <Space
+                android:layout_width="16dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tv_upload_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:textColor="@color/black_alpha_45"
+                android:textSize="12sp"
+                android:text="2-31"/>
         </LinearLayout>
 
 
@@ -85,7 +118,8 @@
             android:paddingEnd="10dp"
             android:paddingStart="10dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textColor="@color/black_alpha_45" />
+            android:textColor="@color/black_alpha_45"
+            android:text="这是刘薪王的意志"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -94,7 +128,7 @@
             android:paddingBottom="10dp"
             android:paddingEnd="3dp"
             android:paddingStart="3dp"
-            android:paddingTop="10dp">
+            android:paddingTop="15dp">
 
             <LinearLayout
                 android:id="@+id/btn_share"
@@ -104,25 +138,17 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/share_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/green_300" />
-
                 <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/daily_video_action_bg"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:clickable="false"
-                    android:src="@drawable/ic_share_green" />
+                    android:background="@drawable/ba0" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="分享"
+                    android:text="6666666"
                     android:textColor="@color/font_normal"
                     android:textSize="12sp" />
 
@@ -138,27 +164,18 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/coin_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/orange_500" />
-
                 <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/daily_video_action_bg"
-                    android:src="@drawable/ic_coin" />
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/c1w" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="投硬币"
+                    android:text="77777777"
                     android:textColor="@color/font_normal"
                     android:textSize="12sp" />
-
 
             </LinearLayout>
 
@@ -171,24 +188,17 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/fav_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/pink_text_color" />
 
                 <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/daily_video_action_bg"
-                    android:src="@drawable/ic_collect" />
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/ba2" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="收藏"
+                    android:text="88888888"
                     android:textColor="@color/font_normal"
                     android:textSize="12sp" />
 
@@ -203,17 +213,10 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/colorPrimary" />
-
                 <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/daily_video_action_bg"
-                    android:src="@drawable/ic_download" />
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/c4b" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -222,7 +225,6 @@
                     android:text="缓存"
                     android:textColor="@color/font_normal"
                     android:textSize="12sp" />
-
 
             </LinearLayout>
 
@@ -233,99 +235,13 @@
             android:layout_height="1dp"
             android:background="@color/gray_light" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp">
-
-<!--            <com.hotbitmapgg.bilibili.widget.UserTagView-->
-<!--                android:id="@+id/author_tag"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_alignParentStart="true"-->
-<!--                android:layout_centerInParent="true" />-->
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerInParent="true"
-                android:background="@drawable/btn_pin_bg"
-                android:gravity="center"
-                android:text="关注"
-                android:textColor="@color/focus_text_color" />
-
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gray_light" />
-
-<!--        <include layout="@layout/layout_user_chase_bangumi_head" />-->
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gray_light" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="标签相关"
-                android:textColor="@color/font_normal"
-                android:textSize="14sp" />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:padding="10dp"
-                android:text="编辑"
-                android:textColor="@color/black_alpha_45"
-                android:textSize="12sp" />
-
-
-        </RelativeLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gray_light" />
-
-        <RelativeLayout
-            android:id="@+id/layout_video_related"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="视频相关"
-                android:textColor="@color/font_normal"
-                android:textSize="14sp" />
-
-        </RelativeLayout>
-
-
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycle"
+            android:id="@+id/video_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:clipToPadding="false"
-            android:overScrollMode="never"
-            android:scrollbars="none" />
+            android:overScrollMode="never" />
 
 
     </LinearLayout>
