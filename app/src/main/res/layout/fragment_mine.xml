@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="coin"
+            type="String" />
+        <variable
+            name="follower"
+            type="String" />
+        <variable
+            name="following"
+            type="String" />
+        <variable
+            name="username"
+            type="String" />
+        <variable
+            name="userViewModel"
+            type="com.example.pilipili_android.view_model.UserViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".fragment.MineFragment">
+
+        <LinearLayout
+            android:id="@+id/linearlayout_topbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/button_scancode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:scaleX="0.76"
+                android:scaleY="0.76"
+                android:src="@drawable/scancode" />
+
+            <ImageView
+                android:id="@+id/button_theme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="10dp"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
+                android:src="@drawable/theme" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativelayout_picture"
+            android:layout_below="@+id/linearlayout_topbar"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+                app:qmui_corner_radius="5dp"
+                android:id="@+id/button_picture"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="14dp"
+                android:layout_centerVertical="true"
+                android:background="@color/qmui_config_color_75_white"
+                android:src="@drawable/picture" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/image_right"
+                android:layout_centerVertical="true"
+                android:text="空间"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/image_right"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/bwo"
+                android:layout_marginEnd="15dp"
+                android:layout_alignParentEnd="true" />
+
+            <LinearLayout
+                android:layout_toEndOf="@+id/button_picture"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:id="@+id/text_nameonaboutme"
+                    android:text="@{username}"
+                    android:textSize="19sp" />
+
+                <TextView
+                    android:id="@+id/text_numberofcoin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="12dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/qmui_config_color_gray_4"
+                    android:text="@{coin}" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativelayout_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="19dp"
+            android:layout_marginBottom="15dp"
+            android:layout_below="@+id/relativelayout_picture"
+            android:elevation="25dp">
+
+            <RelativeLayout
+                android:id="@+id/relativelayout_numberoftrends"
+                android:layout_alignParentStart="true"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="60dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/text_numberoftrends"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:text="null"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:layout_below="@+id/text_numberoftrends"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="动态"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/qmui_config_color_gray_5" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativelayout_numberoffans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="60dp"
+                android:layout_marginEnd="60dp"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text_numberoffans"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:text="@{follower}"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:layout_below="@+id/text_numberoffans"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:text="粉丝"
+                    android:textSize="15sp"
+                    android:textColor="@color/qmui_config_color_gray_5" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="60dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text_numberoffocus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="@{following}"
+                    android:textSize="22sp"
+                    android:layout_marginTop="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="关注"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/text_numberoffocus"
+                    android:layout_marginTop="8dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/qmui_config_color_gray_5" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_below="@+id/relativelayout_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignParentTop="true"
+                android:id="@+id/aboutme_scrollview_1"
+                android:layout_marginTop="5dp">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:id="@+id/button_offlinecaching"
+                        android:layout_centerHorizontal="true"
+                        android:background="@color/qmui_config_color_75_white"
+                        android:src="@drawable/offlinecaching" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/button_offlinecaching"
+                        android:layout_marginTop="4dp"
+                        android:layout_centerHorizontal="true"
+                        android:text="离线缓存"
+                        android:gravity="center"
+                        android:textSize="14sp"
+                        android:textColor="@color/qmui_config_color_gray_2" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:id="@+id/button_history"
+                        android:src="@drawable/history"
+                        android:layout_centerHorizontal="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/button_history"
+                        android:layout_marginTop="4dp"
+                        android:text="历史记录"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="14sp"
+                        android:gravity="center"
+                        android:textColor="@color/qmui_config_color_gray_2" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:id="@+id/button_collection"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/collection" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/button_collection"
+                        android:layout_marginTop="4dp"
+                        android:text="我的收藏"
+                        android:gravity="center"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="14sp"
+                        android:textColor="@color/qmui_config_color_gray_2" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="25dp">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/button_later"
+                        android:src="@drawable/ckg" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/button_later"
+                        android:layout_marginTop="4dp"
+                        android:text="稍后再看"
+                        android:gravity="center"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="14sp"
+                        android:textColor="@color/qmui_config_color_gray_2" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/aboutme_scrollview_2"
+                android:layout_below="@+id/aboutme_scrollview_1"
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/create_center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="创作中心"
+                    android:textSize="16sp"
+                    android:layout_marginStart="10dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true" />
+
+                <LinearLayout
+                    android:layout_below="@+id/create_center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:id="@+id/aboutme_scrollview_3"
+                    android:layout_marginTop="15dp">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="25dp">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:id="@+id/button_mainpage"
+                            android:layout_centerHorizontal="true"
+                            android:background="@color/qmui_config_color_75_white"
+                            android:src="@drawable/publish_mainpage" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/button_mainpage"
+                            android:layout_marginTop="4dp"
+                            android:layout_centerHorizontal="true"
+                            android:text="创作首页"
+                            android:gravity="center"
+                            android:textSize="14sp"
+                            android:textColor="@color/qmui_config_color_gray_2" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="40dp">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:id="@+id/button_manage"
+                            android:src="@drawable/publish_history"
+                            android:layout_centerHorizontal="true" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/button_manage"
+                            android:layout_marginTop="4dp"
+                            android:text="稿件管理"
+                            android:layout_centerHorizontal="true"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            android:textColor="@color/qmui_config_color_gray_2" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="40dp">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:id="@+id/button_money"
+                            android:layout_centerHorizontal="true"
+                            android:src="@drawable/money" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/button_money"
+                            android:layout_marginTop="4dp"
+                            android:text="创作激励"
+                            android:gravity="center"
+                            android:layout_centerHorizontal="true"
+                            android:textSize="14sp"
+                            android:textColor="@color/qmui_config_color_gray_2" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginEnd="25dp">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_centerHorizontal="true"
+                            android:id="@+id/button_activity"
+                            android:src="@drawable/flag" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/button_activity"
+                            android:layout_marginTop="4dp"
+                            android:text="热门活动"
+                            android:gravity="center"
+                            android:layout_centerHorizontal="true"
+                            android:textSize="14sp"
+                            android:textColor="@color/qmui_config_color_gray_2" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                android:id="@+id/button_publish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:qmui_backgroundColor="@color/qmui_config_color_blue"
+                android:layout_gravity="end"
+                android:layout_marginEnd="20dp"
+                android:text="发布"
+                android:layout_alignTop="@+id/aboutme_scrollview_2"
+                android:layout_marginTop="-5dp"
+                android:layout_alignParentEnd="true"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:paddingStart="25dp"
+                android:paddingEnd="25dp"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:textColor="@color/qmui_config_color_75_white" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/aboutme_scrollview_2">
+
+                <TextView
+                    android:id="@+id/more_service_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="更多服务"
+                    android:textSize="16sp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="10dp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/more_service_tv"
+                    android:id="@+id/button_callserver"
+                    android:layout_marginTop="12dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginTop="28dp"
+                        android:layout_centerVertical="true"
+                        android:text="联系客服"
+                        android:layout_toEndOf="@+id/image_callserver"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:id="@+id/image_callserver"
+                        android:layout_width="30dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ck3"
+                        android:layout_marginStart="15dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true" />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/bwo"
+                        android:layout_marginEnd="10dp"
+                        android:layout_alignParentEnd="true" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/button_callserver"
+                    android:id="@+id/button_young">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginTop="28dp"
+                        android:layout_centerVertical="true"
+                        android:text="青少年模式"
+                        android:layout_toEndOf="@+id/image_young"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:id="@+id/image_young"
+                        android:layout_width="30dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/cvf"
+                        android:layout_marginStart="15dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true" />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/bwo"
+                        android:layout_marginEnd="10dp"
+                        android:layout_alignParentEnd="true" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/button_young"
+                    android:id="@+id/button_coin">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginTop="28dp"
+                        android:layout_centerVertical="true"
+                        android:text="P 币充值"
+                        android:layout_toEndOf="@+id/image_coin"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:id="@+id/image_coin"
+                        android:layout_width="30dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/cl5"
+                        android:layout_marginStart="15dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true" />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/bwo"
+                        android:layout_marginEnd="10dp"
+                        android:layout_alignParentEnd="true" />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/button_coin"
+                    android:id="@+id/button_setting">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginTop="28dp"
+                        android:layout_centerVertical="true"
+                        android:text="设置"
+                        android:layout_toEndOf="@+id/image_setting"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:id="@+id/image_setting"
+                        android:layout_width="30dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ckd"
+                        android:layout_marginStart="15dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true" />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/bwo"
+                        android:layout_marginEnd="10dp"
+                        android:layout_alignParentEnd="true" />
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

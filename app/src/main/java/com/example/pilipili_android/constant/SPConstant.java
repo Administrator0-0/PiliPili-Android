@@ -6,5 +6,11 @@ public interface SPConstant {
 
     String USERNAME = "username";
 
+    String COIN = "coin";
+
     String UID = "id";
+
+    String FOLLOWER = "follower";
+
+    String FOLLOWING = "following";
 }

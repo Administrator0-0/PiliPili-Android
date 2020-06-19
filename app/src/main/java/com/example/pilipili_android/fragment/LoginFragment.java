@@ -106,6 +106,10 @@ public class LoginFragment extends Fragment {
         userViewModel.login(editAccount.getText().toString(), editPassword.getText().toString());
     }
 
+    public void autoLogin(String email, String password) {
+        userViewModel.login(email, password);
+    }
+
     @OnClick(R.id.clear_image_account)
     void clearAccount(View view) {
         editAccount.setText("");
@@ -141,13 +145,6 @@ public class LoginFragment extends Fragment {
     void clearEditText() {
         editAccount.setText("");
         editPassword.setText("");
-    }
-
-    void autoSetFromRegister(String email, String password) {
-        editAccount.setText(email);
-        editPassword.setText(password);
-        editAccount.setSelection(editAccount.getText().length());
-        editPassword.setSelection(editPassword.getText().length());
     }
 
     @OnFocusChange(R.id.edit_account)

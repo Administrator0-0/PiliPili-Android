@@ -5,8 +5,9 @@
     android:background="@color/transparent">
 
     <RelativeLayout
-        android:paddingEnd="12dp"
-        android:paddingStart="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
@@ -243,7 +244,7 @@
         android:id="@+id/cancel_pay_other"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginEnd="29dp"
         android:src="@drawable/bms"
         android:layout_alignParentEnd="true" />
 

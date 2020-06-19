@@ -81,7 +81,6 @@ public class LoginActivity extends AppCompatActivity {
                 leftImg.setImageResource(R.drawable.left_hide);
                 rightImg.setImageResource(R.drawable.right_hide);
             }
-
         }
     }
 

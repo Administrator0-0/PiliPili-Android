@@ -164,6 +164,7 @@
         android:textSize="18sp"
         android:layout_below="@+id/linear_bottom"
         android:layout_centerHorizontal="true"
+        android:gravity="center"
         android:layout_marginTop="16dp"/>
 
 </RelativeLayout>

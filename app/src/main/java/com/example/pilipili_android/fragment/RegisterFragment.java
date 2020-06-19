@@ -85,11 +85,7 @@ public class RegisterFragment extends Fragment {
         bind = ButterKnife.bind(this, view);
         userViewModel = new ViewModelProvider(RegisterFragment.this).get(UserViewModel.class);
         userViewModel.getLoginInfo().observe(getViewLifecycleOwner(), loginSend ->{
-            hintTv.setText("");
-            loginFragment.autoSetFromRegister(loginSend.getEmail(), loginSend.getPassword());
-            Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
-                    .hide(RegisterFragment.this).show(loginFragment).commit();
-            EventBus.getDefault().post(FragmentMsg.getInstance("login", "show"));
+            loginFragment.autoLogin(loginSend.getEmail(), loginSend.getPassword());
         });
         hintTv.setVisibility(View.GONE);
         return view;

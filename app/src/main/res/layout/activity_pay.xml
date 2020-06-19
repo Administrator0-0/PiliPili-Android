@@ -52,8 +52,6 @@
         android:background="@android:color/background_light"
         android:elevation="25dp">
 
-
-
         <TextView
             android:id="@+id/keyongyue_tv"
             android:layout_width="wrap_content"
@@ -327,7 +325,7 @@
             android:id="@+id/help_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="P币充值兑换比例为：1P币=1.00元人民币\n苹果设备上充值的B币不能在其他平台的设备上进行使用\n若扣款成功但B币（安卓端）未到账，点击查看帮助"
+            android:text="P币充值兑换比例为：1P币=1.00元人民币\n苹果设备上充值的P币不能在其他平台的设备上进行使用\n若扣款成功但P币（安卓端）未到账，点击查看帮助"
             android:textColor="@color/qmui_config_color_gray_5"
             android:layout_below="@+id/other"
             android:layout_marginStart="17dp"

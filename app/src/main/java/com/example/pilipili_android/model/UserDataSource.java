@@ -110,10 +110,14 @@ public class UserDataSource {
                 try {
                     ResponseBody responseBody = response.errorBody();
                     LoginReturn loginReturn = response.body();
-                    if(responseBody == null && loginReturn != null) {
-                        onNetRequestListener.onSuccess(new NetRequestResult<>(loginReturn));
-                    } else {
-                        assert responseBody != null;
+                    if(loginReturn != null) {
+                        if(loginReturn.getCode() == 200) {
+                            String token = loginReturn.getData().getToken();
+                            onNetRequestListener.onSuccess(new NetRequestResult<>(token));
+                        } else {
+                            onNetRequestListener.onFail(loginReturn.getMessage());
+                        }
+                    } else if (responseBody != null) {
                         onNetRequestListener.onFail(gson.fromJson(responseBody.string(), LoginReturn.class).getMessage());
                     }
                 } catch (IOException e) {
@@ -196,7 +200,7 @@ public class UserDataSource {
                     ResponseBody responseBody = response.errorBody();
                     BuyCoinReturn buyCoinReturn = response.body();
                     if(responseBody == null && buyCoinReturn != null) {
-                        onNetRequestListener.onSuccess();
+                        onNetRequestListener.onSuccess(new NetRequestResult<>(buyCoinReturn));
                     } else {
                         assert responseBody != null;
                         onNetRequestListener.onFail((new Gson()).fromJson(responseBody.string(), BuyCoinReturn.class).getMessage());

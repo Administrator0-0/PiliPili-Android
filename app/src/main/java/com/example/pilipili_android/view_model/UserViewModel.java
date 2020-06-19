@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.pilipili_android.bean.BuyCoinReturn;
 import com.example.pilipili_android.bean.LoginReturn;
 import com.example.pilipili_android.bean.LoginSend;
 import com.example.pilipili_android.bean.NetRequestResult;
@@ -31,17 +32,12 @@ public class UserViewModel extends AndroidViewModel {
     private MutableLiveData<Boolean> isValid = new MutableLiveData<>();
     private MutableLiveData<Boolean> isSuccessLogin = new MutableLiveData<>();
     private MutableLiveData<LoginSend> loginInfo = new MutableLiveData<>();
-    private MutableLiveData<Integer> coin = new MutableLiveData<>();
+    private MutableLiveData<UserDetailReturn> userDetail = new MutableLiveData<>();
     private MutableLiveData<Boolean> isSuccessBuyCoin = new MutableLiveData<>();
-
-    public MutableLiveData<Integer> getCoin() {
-        return coin;
-    }
 
     public MutableLiveData<LoginSend> getLoginInfo() {
         return loginInfo;
     }
-
 
     public UserViewModel(@NonNull Application application) {
         super(application);
@@ -58,7 +54,7 @@ public class UserViewModel extends AndroidViewModel {
     }
 
     public boolean verifyLocalToken(){
-        String localToken = getToken();
+        String localToken = UserBaseDetail.getToken(context);
         if(localToken == null || localToken.equals("")){
             isValid.postValue(false);
             return false;
@@ -88,9 +84,6 @@ public class UserViewModel extends AndroidViewModel {
         }
     }
 
-    private String getToken() {
-        return (String) SPUtil.get(context, SPConstant.TOKEN, "");
-    }
 
     public void login(String email, String password) {
         if(email.trim().equals("")){
@@ -101,9 +94,34 @@ public class UserViewModel extends AndroidViewModel {
             userDataSource.login(email, password, new OnNetRequestListener() {
                 @Override
                 public void onSuccess(NetRequestResult netRequestResult) {
-                    SPUtil.put(context, SPConstant.TOKEN, ((LoginReturn)netRequestResult.getData()).getData().getToken());
-                    SPUtil.put(context, SPConstant.USERNAME, ((LoginReturn)netRequestResult.getData()).getData().getUsername());
-                    isSuccessLogin.setValue(true);
+                    putToken((String)netRequestResult.getData());
+                    userDataSource.getUserDetail(UserBaseDetail.getToken(context), new OnNetRequestListener() {
+                        @Override
+                        public void onSuccess(NetRequestResult netRequestResult) {
+                            UserDetailReturn userDetailReturn = (UserDetailReturn)netRequestResult.getData();
+                            putCoin(userDetailReturn.getData().getCoins());
+                            putUID(userDetailReturn.getData().getId());
+                            putUsername(userDetailReturn.getData().getUsername());
+                            putFollowerCount(userDetailReturn.getData().getFans_count());
+                            putFollowingCount(userDetailReturn.getData().getFollowings_count());
+                            isSuccessLogin.setValue(true);
+                        }
+
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onFail() {
+
+                        }
+
+                        @Override
+                        public void onFail(String errorMessage) {
+                        }
+                    });
+
                 }
                 @Override
                 public void onSuccess() {
@@ -166,11 +184,13 @@ public class UserViewModel extends AndroidViewModel {
         }
     }
 
-    public void getCoinCount() {
-        userDataSource.getUserDetail(getToken(), new OnNetRequestListener() {
+    //不对外提供详细信息，全部由SP从本地获取
+    public void getUserDetailInfo() {
+        userDataSource.getUserDetail(UserBaseDetail.getToken(context), new OnNetRequestListener() {
             @Override
             public void onSuccess(NetRequestResult netRequestResult) {
-                coin.setValue(((UserDetailReturn)netRequestResult.getData()).getData().getCoins());
+                UserDetailReturn userDetailReturn = (UserDetailReturn)netRequestResult.getData();
+                userDetail.setValue(userDetailReturn);
             }
 
             @Override
@@ -191,15 +211,15 @@ public class UserViewModel extends AndroidViewModel {
     }
 
     public void buyCoin(int howMany) {
-        userDataSource.buyCoin(getToken(), howMany, new OnNetRequestListener() {
+        userDataSource.buyCoin(UserBaseDetail.getToken(context), howMany, new OnNetRequestListener() {
             @Override
             public void onSuccess(NetRequestResult netRequestResult) {
-
+                putCoin(((BuyCoinReturn)netRequestResult.getData()).getData().getCoins());
+                isSuccessBuyCoin.setValue(true);
             }
 
             @Override
             public void onSuccess() {
-                isSuccessBuyCoin.setValue(true);
             }
 
             @Override
@@ -216,5 +236,38 @@ public class UserViewModel extends AndroidViewModel {
 
     public MutableLiveData<Boolean> getIsSuccessBuyCoin() {
         return isSuccessBuyCoin;
+    }
+
+    public MutableLiveData<UserDetailReturn> getUserDetail() {
+        return userDetail;
+    }
+
+
+    private void putUsername(String username) {
+        SPUtil.put(context, SPConstant.USERNAME, username);
+    }
+
+    private void putCoin(int coin) {
+        SPUtil.put(context, SPConstant.COIN, coin);
+    }
+
+    private void putUID(int uid) {
+        SPUtil.put(context, SPConstant.UID, uid);
+    }
+
+    private void putToken(String token) {
+        SPUtil.put(context, SPConstant.TOKEN, token);
+    }
+
+    private void putFollowerCount(int followerCount) {
+        SPUtil.put(context, SPConstant.FOLLOWER, followerCount);
+    }
+
+    private void putFollowingCount(int followerCount) {
+        SPUtil.put(context, SPConstant.FOLLOWING, followerCount);
+    }
+
+    public Context getContext() {
+        return context;
     }
 }
