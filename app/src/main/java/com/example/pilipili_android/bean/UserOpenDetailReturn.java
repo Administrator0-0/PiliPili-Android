@@ -1,10 +1,10 @@
 package com.example.pilipili_android.bean;
 
-public class UserFollowDetailReturn {
+public class UserOpenDetailReturn {
 
     /**
      * code : 200
-     * data : {"fans_count":0,"followings_count":0,"id":1,"username":"大屁股裂了"}
+     * data : {"fans_count":0,"followings_count":0,"gender":false,"id":1,"username":"中屁股裂了"}
      * message : 获取用户信息成功
      */
 
@@ -40,12 +40,14 @@ public class UserFollowDetailReturn {
         /**
          * fans_count : 0
          * followings_count : 0
+         * gender : false
          * id : 1
-         * username : 大屁股裂了
+         * username : 中屁股裂了
          */
 
         private int fans_count;
         private int followings_count;
+        private boolean gender;
         private int id;
         private String username;
 
@@ -63,6 +65,14 @@ public class UserFollowDetailReturn {
 
         public void setFollowings_count(int followings_count) {
             this.followings_count = followings_count;
+        }
+
+        public boolean isGender() {
+            return gender;
+        }
+
+        public void setGender(boolean gender) {
+            this.gender = gender;
         }
 
         public int getId() {

@@ -17,16 +17,17 @@
 
         <ImageView
             android:layout_width="40dp"
-            android:layout_height="30dp"
+            android:layout_height="25dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_centerVertical="true"
             android:id="@+id/button_back"
-            android:src="@drawable/bwc" />
+            android:src="@drawable/bwd"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
             android:text="P币充值"
             android:layout_centerInParent="true"
             android:textSize="22sp"

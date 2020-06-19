@@ -13,6 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="design_width_in_dp"
+            android:value="567"/>
+        <meta-data
+            android:name="design_height_in_dp"
+            android:value="1008"/>
         <activity android:name=".activity.VideoActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:screenOrientation="fullSensor"
@@ -26,7 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.MainActivity" android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.BaseActivity" />
     </application>

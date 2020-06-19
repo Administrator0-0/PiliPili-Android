@@ -2,7 +2,6 @@ package com.example.pilipili_android.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +17,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.pilipili_android.R;
 import com.example.pilipili_android.activity.PayActivity;
-import com.example.pilipili_android.constant.SPConstant;
+import com.example.pilipili_android.activity.SpaceActivity;
 import com.example.pilipili_android.databinding.FragmentMineBinding;
-import com.example.pilipili_android.util.SPUtil;
 import com.example.pilipili_android.view_model.UserBaseDetail;
 import com.example.pilipili_android.view_model.UserViewModel;
 import com.qmuiteam.qmui.widget.QMUIRadiusImageView;
@@ -43,11 +41,11 @@ public class MineFragment extends Fragment {
     QMUIRadiusImageView buttonPicture;
     @BindView(R.id.image_right)
     ImageView imageRight;
-    @BindView(R.id.text_nameonaboutme)
+    @BindView(R.id.username_tv)
     TextView textNameonaboutme;
     @BindView(R.id.text_numberofcoin)
     TextView textNumberofcoin;
-    @BindView(R.id.relativelayout_picture)
+    @BindView(R.id.space_btn)
     RelativeLayout relativelayoutPicture;
     @BindView(R.id.text_numberoftrends)
     TextView textNumberoftrends;
@@ -105,6 +103,8 @@ public class MineFragment extends Fragment {
     ImageView imageSetting;
     @BindView(R.id.button_setting)
     RelativeLayout buttonSetting;
+    @BindView(R.id.gender_img)
+    ImageView genderImg;
 
     private Unbinder unbinder;
     private FragmentMineBinding fragmentMineBinding;
@@ -127,35 +127,31 @@ public class MineFragment extends Fragment {
         fragmentMineBinding.setUserViewModel(new ViewModelProvider(MineFragment.this).get(UserViewModel.class));
         unbinder = ButterKnife.bind(this, view);
 
-        initView();
-
-        fragmentMineBinding.getUserViewModel().getUserDetail().observe(getViewLifecycleOwner(), userDetailReturn -> {
-
-        });
-
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        fragmentMineBinding.setCoin("P币：" +  UserBaseDetail.getCoin(fragmentMineBinding.getUserViewModel().getContext()));
+        refreshView();
+    }
+
+    private void refreshView() {
+        fragmentMineBinding.setUsername(UserBaseDetail.getUsername(fragmentMineBinding.getUserViewModel().getContext()));
+        fragmentMineBinding.setCoin("P币：" + UserBaseDetail.getCoin(fragmentMineBinding.getUserViewModel().getContext()));
         fragmentMineBinding.setFollower(UserBaseDetail.getFollowerCount(fragmentMineBinding.getUserViewModel().getContext()) + "");
         fragmentMineBinding.setFollowing(UserBaseDetail.getFollowingCount(fragmentMineBinding.getUserViewModel().getContext()) + "");
+        fragmentMineBinding.setGender(UserBaseDetail.getGender(fragmentMineBinding.getUserViewModel().getContext()));
     }
 
-    private void initView() {
-        fragmentMineBinding.setUsername(UserBaseDetail.getUsername(fragmentMineBinding.getUserViewModel().getContext()));
-    }
-
-    @OnClick(R.id.relativelayout_picture)
-    public void onMySpaceClicked() {
-
-
+    @OnClick(R.id.space_btn)
+    void onMySpaceClicked() {
+        Intent intent = new Intent(getActivity(), SpaceActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.button_coin)
-    public void onBuyCoinClicked() {
+    void onBuyCoinClicked() {
         Intent intent = new Intent(getActivity(), PayActivity.class);
         startActivity(intent);
     }

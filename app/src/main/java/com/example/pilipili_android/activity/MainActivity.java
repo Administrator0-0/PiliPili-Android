@@ -49,10 +49,7 @@ public class MainActivity extends AppCompatActivity {
         postFragment = new PostFragment();
         channelFragment = new ChannelFragment();
         mineFragment = new MineFragment();
-        fragmentManager.beginTransaction().add(R.id.box, mineFragment).hide(mineFragment)
-                .add(R.id.box, channelFragment).hide(channelFragment)
-                .add(R.id.box, postFragment).hide(postFragment)
-                .add(R.id.box, mainFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.box, mainFragment).commit();
     }
 
 

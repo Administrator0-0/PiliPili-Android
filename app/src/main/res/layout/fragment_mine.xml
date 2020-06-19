@@ -17,6 +17,9 @@
             name="username"
             type="String" />
         <variable
+            name="gender"
+            type="android.graphics.drawable.Drawable" />
+        <variable
             name="userViewModel"
             type="com.example.pilipili_android.view_model.UserViewModel" />
     </data>
@@ -56,21 +59,22 @@
         </LinearLayout>
 
         <RelativeLayout
-            android:id="@+id/relativelayout_picture"
+            android:id="@+id/space_btn"
             android:layout_below="@+id/linearlayout_topbar"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.qmuiteam.qmui.widget.QMUIRadiusImageView
-                app:qmui_corner_radius="5dp"
+                app:qmui_border_color="@color/white"
+                app:qmui_border_width="2dp"
                 android:id="@+id/button_picture"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="14dp"
                 android:layout_centerVertical="true"
                 android:background="@color/qmui_config_color_75_white"
-                android:src="@drawable/picture" />
+                android:src="@drawable/buo" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -89,40 +93,56 @@
                 android:layout_marginEnd="15dp"
                 android:layout_alignParentEnd="true" />
 
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/relativelayout_5"
                 android:layout_toEndOf="@+id/button_picture"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:id="@+id/text_nameonaboutme"
+                    android:id="@+id/username_tv"
+                    tools:text="用户名/UserDetail获取"
                     android:text="@{username}"
-                    android:textSize="19sp" />
+                    android:textSize="19sp"
+                    android:layout_centerVertical="true"/>
 
-                <TextView
-                    android:id="@+id/text_numberofcoin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="12dp"
-                    android:textSize="15sp"
-                    android:textColor="@color/qmui_config_color_gray_4"
-                    android:text="@{coin}" />
-            </LinearLayout>
+                <ImageView
+                    android:id="@+id/gender_img"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:src="@{gender}"
+                    android:layout_toEndOf="@+id/username_tv"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/text_numberofcoin"
+                android:layout_below="@+id/relativelayout_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="12dp"
+                android:textSize="15sp"
+                android:textColor="@color/qmui_config_color_gray_4"
+                tools:text="P币/UserDetail获取"
+                android:text="@{coin}"
+                android:layout_toEndOf="@+id/button_picture"/>
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/relativelayout_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="19dp"
+            android:layout_marginTop="28dp"
             android:layout_marginBottom="15dp"
-            android:layout_below="@+id/relativelayout_picture"
-            android:elevation="25dp">
+            android:layout_below="@+id/space_btn"
+            android:elevation="30dp">
 
             <RelativeLayout
                 android:id="@+id/relativelayout_numberoftrends"

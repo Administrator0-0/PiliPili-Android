@@ -3,10 +3,13 @@ package com.example.pilipili_android.inteface;
 import com.example.pilipili_android.bean.BuyCoinReturn;
 import com.example.pilipili_android.bean.CommonReturn;
 import com.example.pilipili_android.bean.FollowUnFollowReturn;
+import com.example.pilipili_android.bean.GetSpaceDataReturn;
 import com.example.pilipili_android.bean.LoginReturn;
 import com.example.pilipili_android.bean.RenameReturn;
+import com.example.pilipili_android.bean.SetGenderReturn;
+import com.example.pilipili_android.bean.UploadSignReturn;
 import com.example.pilipili_android.bean.UserDetailReturn;
-import com.example.pilipili_android.bean.UserFollowDetailReturn;
+import com.example.pilipili_android.bean.UserOpenDetailReturn;
 import com.example.pilipili_android.constant.UrlConstant;
 
 import okhttp3.RequestBody;
@@ -52,8 +55,8 @@ public interface RetrofitService {
      * 获取用户关注信息
      *
      */
-    @GET(UrlConstant.FOLLOW_DETAIL_HEAD + "{id}" + UrlConstant.FOLLOW_DETAIL_TAIL)
-    Call<UserFollowDetailReturn> getUserFollowDetail(@Path("id") String id);
+    @GET(UrlConstant.OPEN_DETAIL_HEAD + "{id}" + UrlConstant.OPEN_DETAIL_TAIL)
+    Call<UserOpenDetailReturn> getUserFollowDetail(@Path("id") String id);
 
     /**
      * 用户买币
@@ -82,4 +85,25 @@ public interface RetrofitService {
      */
     @PUT(UrlConstant.UNFOLLOW)
     Call<FollowUnFollowReturn> unFollow(@Header("Authorization") String token, @Body RequestBody jsonObject);
+
+    /**
+     * 上传签名
+     *
+     */
+    @POST(UrlConstant.UPLOAD_SIGN)
+    Call<UploadSignReturn> uploadSign(@Header("Authorization") String token, @Body RequestBody jsonObject);
+
+    /**
+     * 修改性别
+     *
+     */
+    @PUT(UrlConstant.SET_GENDER)
+    Call<SetGenderReturn> setGender(@Header("Authorization") String token, @Body RequestBody jsonObject);
+
+    /**
+     * 获取用户空间信息
+     *
+     */
+    @GET(UrlConstant.GET_SPACE_DATA)
+    Call<GetSpaceDataReturn> getSpaceData(@Header("Authorization") String token);
 }

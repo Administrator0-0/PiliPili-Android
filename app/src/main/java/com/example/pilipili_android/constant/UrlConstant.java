@@ -19,9 +19,9 @@ public interface UrlConstant {
 
     String DETAIL = "user/details";
 
-    String FOLLOW_DETAIL_HEAD = "user/";
+    String OPEN_DETAIL_HEAD = "user/";
 
-    String FOLLOW_DETAIL_TAIL = "/details";
+    String OPEN_DETAIL_TAIL = "/details";
 
     String BUY_COIN = "user/put-coin";
 
@@ -30,4 +30,10 @@ public interface UrlConstant {
     String FOLLOW = "user/fan";
 
     String UNFOLLOW = "user/un-fan";
+
+    String UPLOAD_SIGN = "user/upload-sign";
+
+    String SET_GENDER = "user/put-gender";
+
+    String GET_SPACE_DATA = "user/get-space";
 }

@@ -1,12 +1,22 @@
 package com.example.pilipili_android.activity;
 
 import android.os.Bundle;
-import android.widget.ImageButton;
+import android.util.Log;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.pilipili_android.R;
+import com.example.pilipili_android.bean.SpaceActivityBean;
+import com.example.pilipili_android.databinding.ActivitySpaceBinding;
+import com.example.pilipili_android.view_model.UserViewModel;
+import com.flyco.tablayout.SlidingTabLayout;
 import com.qmuiteam.qmui.widget.QMUIViewPager;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 
@@ -15,43 +25,26 @@ import butterknife.ButterKnife;
 
 public class SpaceActivity extends AppCompatActivity {
 
-    @BindView(R.id.button_return_inspace)
-    ImageButton buttonReturnInspace;
-    @BindView(R.id.button_search_inspace)
-    ImageButton buttonSearchInspace;
-    @BindView(R.id.button_share_inspace)
-    ImageButton buttonShareInspace;
-    @BindView(R.id.text_numberoffans_inspace)
-    TextView textNumberoffansInspace;
-    @BindView(R.id.text_numberoffocus_inspace)
-    TextView textNumberoffocusInspace;
-    @BindView(R.id.text_numberofpraise_inspace)
-    TextView textNumberofpraiseInspace;
-    @BindView(R.id.button_editmessage_inspace)
-    QMUIRoundButton buttonEditmessageInspace;
-    @BindView(R.id.text_name_inspace)
-    TextView textNameInspace;
-    @BindView(R.id.button_tomedal)
-    QMUIRoundButton buttonTomedal;
-    @BindView(R.id.button_details_inspace)
-    QMUIRoundButton buttonDetailsInspace;
-    @BindView(R.id.text_sign_inspace)
-    TextView textSignInspace;
-    @BindView(R.id.text_mainpage_inspace)
-    TextView textMainpageInspace;
-    @BindView(R.id.text_trends_inspace)
-    TextView textTrendsInspace;
-    @BindView(R.id.text_publish_inspace)
-    TextView textPublishInspace;
-    @BindView(R.id.text_collection_inspace)
-    TextView textCollectionInspace;
-    @BindView(R.id.viewpager_inspace)
-    QMUIViewPager viewpagerInspace;
+    ActivitySpaceBinding activitySpaceBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_space);
+        initBind();
+        initView();
+
+        activitySpaceBinding.getUserViewModel().getSpaceActivityBean().observe(this, spaceActivityBean -> {
+            activitySpaceBinding.setSpaceActivityBean(spaceActivityBean);
+        });
+    }
+
+    private void initBind() {
+        activitySpaceBinding = DataBindingUtil.setContentView(this, R.layout.activity_space);
+        activitySpaceBinding.setUserViewModel(new ViewModelProvider(this).get(UserViewModel.class));
         ButterKnife.bind(this);
+    }
+
+    private void initView(){
+        activitySpaceBinding.getUserViewModel().getUserSpaceData();
     }
 }

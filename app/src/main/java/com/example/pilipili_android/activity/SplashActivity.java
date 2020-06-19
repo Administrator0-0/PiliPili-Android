@@ -1,5 +1,6 @@
 package com.example.pilipili_android.activity;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
@@ -15,6 +16,8 @@ public class SplashActivity extends BaseActivity {
 
     private boolean isLoginActivity = true;
 
+    private UserViewModel userViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +25,7 @@ public class SplashActivity extends BaseActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
-        UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         Handler handler = new Handler();
         handler.postDelayed(runnable, 2000);
@@ -33,6 +36,12 @@ public class SplashActivity extends BaseActivity {
                 isLoginActivity = !isNetValid;
             });
         }
+
+        userViewModel.getIsSuccessLogin().observe(this, isSuccessLogin -> {
+            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
     }
 
     private Runnable runnable = () -> {
@@ -41,9 +50,8 @@ public class SplashActivity extends BaseActivity {
             startActivity(intent);
             finish();
         } else {
-            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            userViewModel.getUserDetailInfo();
+
         }
 
     };
