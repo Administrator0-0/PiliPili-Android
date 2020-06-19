@@ -12,10 +12,10 @@ import com.example.pilipili_android.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link CollectionInSpaceFragment#newInstance} factory method to
+ * Use the {@link StarInSpaceFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CollectionInSpaceFragment extends Fragment {
+public class StarInSpaceFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class CollectionInSpaceFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public CollectionInSpaceFragment() {
+    public StarInSpaceFragment() {
         // Required empty public constructor
     }
 
@@ -39,8 +39,8 @@ public class CollectionInSpaceFragment extends Fragment {
      * @return A new instance of fragment CollectionInSpaceFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CollectionInSpaceFragment newInstance(String param1, String param2) {
-        CollectionInSpaceFragment fragment = new CollectionInSpaceFragment();
+    public static StarInSpaceFragment newInstance(String param1, String param2) {
+        StarInSpaceFragment fragment = new StarInSpaceFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class CollectionInSpaceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_collection_in_space, container, false);
+        return inflater.inflate(R.layout.fragment_star_in_space, container, false);
     }
 }

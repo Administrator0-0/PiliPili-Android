@@ -3,9 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.MainPageFragment">
+    tools:context=".fragment.MainFragment">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:text="看视频"
+        android:id="@+id/video"
+        android:layout_marginTop="160dp"
+        android:textSize="100sp"/>
 
     <RelativeLayout
+        android:layout_below="@+id/video"
         android:id="@+id/bar_mainpage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

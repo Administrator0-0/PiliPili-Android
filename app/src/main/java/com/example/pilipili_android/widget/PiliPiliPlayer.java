@@ -14,8 +14,6 @@ import com.shuyu.gsyvideoplayer.video.base.GSYBaseVideoPlayer;
 import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer;
 import java.io.File;
 
-
-
 public class PiliPiliPlayer extends StandardGSYVideoPlayer {
 
     private boolean isLinkScroll = false;

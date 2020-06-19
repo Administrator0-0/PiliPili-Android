@@ -14,10 +14,10 @@ import butterknife.BindView;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link TrendsInSpaceFragment#newInstance} factory method to
+ * Use the {@link PostInSpaceFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TrendsInSpaceFragment extends Fragment {
+public class PostInSpaceFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,7 +30,7 @@ public class TrendsInSpaceFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public TrendsInSpaceFragment() {
+    public PostInSpaceFragment() {
         // Required empty public constructor
     }
 
@@ -43,8 +43,8 @@ public class TrendsInSpaceFragment extends Fragment {
      * @return A new instance of fragment TrendsInSpaceFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TrendsInSpaceFragment newInstance(String param1, String param2) {
-        TrendsInSpaceFragment fragment = new TrendsInSpaceFragment();
+    public static PostInSpaceFragment newInstance(String param1, String param2) {
+        PostInSpaceFragment fragment = new PostInSpaceFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -65,6 +65,6 @@ public class TrendsInSpaceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_trends_in_space, container, false);
+        return inflater.inflate(R.layout.fragment_post_in_space, container, false);
     }
 }

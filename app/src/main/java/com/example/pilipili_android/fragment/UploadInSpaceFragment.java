@@ -14,10 +14,10 @@ import butterknife.BindView;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link PublishInSpaceFragment#newInstance} factory method to
+ * Use the {@link UploadInSpaceFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PublishInSpaceFragment extends Fragment {
+public class UploadInSpaceFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,7 +30,7 @@ public class PublishInSpaceFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public PublishInSpaceFragment() {
+    public UploadInSpaceFragment() {
         // Required empty public constructor
     }
 
@@ -43,8 +43,8 @@ public class PublishInSpaceFragment extends Fragment {
      * @return A new instance of fragment PublishInSpaceFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PublishInSpaceFragment newInstance(String param1, String param2) {
-        PublishInSpaceFragment fragment = new PublishInSpaceFragment();
+    public static UploadInSpaceFragment newInstance(String param1, String param2) {
+        UploadInSpaceFragment fragment = new UploadInSpaceFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -65,6 +65,6 @@ public class PublishInSpaceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_publish_in_space, container, false);
+        return inflater.inflate(R.layout.fragment_upload_in_space, container, false);
     }
 }
