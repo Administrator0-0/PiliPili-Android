@@ -11,24 +11,23 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.dueeeke.videoplayer.player.VideoView;
 import com.example.pilipili_android.R;
 import com.example.pilipili_android.fragment.VideoCommentFragment;
 import com.example.pilipili_android.fragment.VideoInfoFragment;
 import com.example.pilipili_android.util.AppBarStateChangeListener;
 import com.example.pilipili_android.util.SystemBarHelper;
+import com.example.pilipili_android.widget.PiliPiliDanmakuView;
 import com.example.pilipili_android.widget.PiliPiliPlayer;
+import com.example.pilipili_android.widget.PiliPiliVideoController;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
-import com.shuyu.gsyvideoplayer.GSYVideoManager;
-import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
-import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
-import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
-import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer;
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
@@ -58,12 +57,12 @@ public class VideoActivity extends AppCompatActivity {
     private String imgUrl;
     private List<String> titles = new ArrayList<>();
     private List<Fragment> fragments = new ArrayList<>();
-    private OrientationUtils orientationUtils;
     private boolean isPlay;
     private boolean isPause;
     private boolean isSamll;
     private AppBarLayout.LayoutParams mAppBarParams;
     private View mAppBarChildAt;
+    private PiliPiliDanmakuView danmakuView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,79 +133,13 @@ public class VideoActivity extends AppCompatActivity {
     }
 
     private void initPlayer() {
-        //外部辅助的旋转，帮助全屏
-        orientationUtils = new OrientationUtils(this, player);
-        //初始化不打开外部的旋转
-        orientationUtils.setEnable(false);
-        String url = "http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4";
-        //增加封面
-        ImageView imageView = new ImageView(this);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        imageView.setImageResource(R.drawable.account);
-
-        GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
-        //.setThumbImageView(imageView)
-        gsyVideoOption
-                .setIsTouchWiget(true)
-                .setRotateViewAuto(false)
-                .setLockLand(false)
-                .setShowFullAnimation(false)
-                .setNeedLockFull(true)
-                .setSeekRatio(1)
-                .setUrl(url)
-                .setCacheWithPlay(false)
-                .setVideoTitle("刘薪王太强了")
-                .setVideoAllCallBack(new GSYSampleCallBack() {
-
-                    @Override
-                    public void onPrepared(String url, Object... objects) {
-                        super.onPrepared(url, objects);
-                        //开始播放了才能旋转和全屏
-                        orientationUtils.setEnable(true);
-                        isPlay = true;
-                    }
-
-                    @Override
-                    public void onEnterFullscreen(String url, Object... objects) {
-                        super.onEnterFullscreen(url, objects);
-                    }
-
-                    @Override
-                    public void onAutoComplete(String url, Object... objects) {
-                        super.onAutoComplete(url, objects);
-                    }
-
-                    @Override
-                    public void onClickStartError(String url, Object... objects) {
-                        super.onClickStartError(url, objects);
-                    }
-
-                    @Override
-                    public void onQuitFullscreen(String url, Object... objects) {
-                        super.onQuitFullscreen(url, objects);
-                        if (orientationUtils != null) {
-                            orientationUtils.backToProtVideo();
-                        }
-                    }
-                })
-                .setLockClickListener((view, lock) -> {
-                    if (orientationUtils != null) {
-                        //配合下方的onConfigurationChanged
-                        orientationUtils.setEnable(!lock);
-                    }
-                })
-                .setGSYVideoProgressListener((progress, secProgress, currentPosition, duration) -> {
-
-                })
-                .build(player);
-
-        player.getFullscreenButton().setOnClickListener(v -> {
-            //直接横屏
-            orientationUtils.resolveByClick();
-            //第一个true是否需要隐藏actionbar，第二个true是否需要隐藏statusbar
-            player.startWindowFullscreen(VideoActivity.this, true, true);
-        });
-
+        danmakuView = new PiliPiliDanmakuView(this);
+        PiliPiliVideoController controller =
+                new PiliPiliVideoController(this);
+        controller.addDefaultControlComponent("刘薪王太强了", false);
+        controller.addControlComponent(danmakuView);
+        player.setVideoController(controller);
+        player.setUrl("http://vfx.mtime.cn/Video/2019/03/14/mp4/190314223540373995.mp4");
         player.setListener(new OnVideoListener() {
             @Override
             public void onPause() {
@@ -223,78 +156,76 @@ public class VideoActivity extends AppCompatActivity {
                 mAppBarChildAt = mAppBarLayout.getChildAt(0);
                 mAppBarParams = (AppBarLayout.LayoutParams)mAppBarChildAt.getLayoutParams();
                 mAppBarParams.setScrollFlags(0);
+                mAppBarLayout.setExpanded(true);
             }
         });
-
-        resolveNormalVideoUI();
-        player.setLinkScroll(true);
-        player.startPlayLogic();
-    }
-
-    private void resolveNormalVideoUI() {
-        player.getTitleTextView().setVisibility(View.GONE);
-        player.getBackButton().setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onBackPressed() {
-
-        if (orientationUtils != null) {
-            orientationUtils.backToProtVideo();
-        }
-
-        if (GSYVideoManager.backFromWindowFull(this)) {
-            return;
-        }
-        super.onBackPressed();
-    }
-
-
-    @Override
-    protected void onPause() {
-        getCurPlay().onVideoPause();
-        super.onPause();
-        isPause = true;
+        player.start();
+        player.addOnStateChangeListener(new VideoView.SimpleOnStateChangeListener() {
+            @Override
+            public void onPlayStateChanged(int playState) {
+                if (playState == VideoView.STATE_PREPARED) {
+                    simulateDanmu();
+                } else if (playState == VideoView.STATE_PLAYBACK_COMPLETED) {
+                    mHandler.removeCallbacksAndMessages(null);
+                }
+            }
+        });
     }
 
     @Override
     protected void onResume() {
-        getCurPlay().onVideoResume();
         mAppBarLayout.addOnOffsetChangedListener(appBarStateChangeListener);
         super.onResume();
-        isPause = false;
+        if (player != null) {
+            player.resume();
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (isPlay) {
-            getCurPlay().release();
+        mHandler.removeCallbacksAndMessages(null);
+        if (player != null) {
+            player.release();
         }
-        if (orientationUtils != null)
-            orientationUtils.releaseListener();
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        //如果旋转了就全屏
-        if (isPlay && !isPause) {
-            player.onConfigurationChanged(this, newConfig, orientationUtils, true, true);
+    protected void onPause() {
+        super.onPause();
+        if (player != null) {
+            player.pause();
         }
     }
 
-    private GSYVideoPlayer getCurPlay() {
-        if (player.getFullWindowPlayer() != null) {
-            return player.getFullWindowPlayer();
+
+    @Override
+    public void onBackPressed() {
+        if (player == null || !player.onBackPressed()) {
+            super.onBackPressed();
         }
-        return player;
     }
 
     @OnClick(R.id.tv_player)
     void play() {
        mAppBarLayout.setExpanded(true);
-       player.onVideoResume();
+       player.resume();
+    }
+
+    public void showDanMu(View view) {
+        danmakuView.show();
+    }
+
+    public void hideDanMu(View view) {
+        danmakuView.hide();
+    }
+
+    public void addDanmakuWithDrawable(View view) {
+        danmakuView.addDanmakuWithDrawable();
+    }
+
+    public void addDanmaku(View view) {
+        danmakuView.addDanmaku("这是来自刘薪王的意念弹幕", true);
     }
 
 
@@ -328,4 +259,19 @@ public class VideoActivity extends AppCompatActivity {
         void onPause();
         void onStart();
      }
+
+    private Handler mHandler = new Handler();
+
+    /**
+     * 模拟弹幕
+     */
+    private void simulateDanmu() {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                danmakuView.addDanmaku("刘薪王太强了", false);
+                mHandler.postDelayed(this, 100);
+            }
+        });
+    }
 }

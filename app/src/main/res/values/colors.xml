@@ -163,6 +163,7 @@
     <color name="black_alpha_60">#4f000000</color>
     <color name="background_dark">#212121</color>
     <color name="media_controller_bg">#99000000</color>
+    <color name="video_background_color">#4D000000</color>
     <color name="font_normal">#555555</color>
     <color name="font_gray">#656565</color>
     <color name="line_bg">#e6e6e6</color>
