@@ -8,6 +8,12 @@ public class EncryptUtil {
         return "JWT " + token;
     }
 
+    public static String getBucketEncryption() {
+
+    }
+
+
+
     // 检查邮箱合法
     public static boolean isEmailValid(String email) {
         if (email == null) {
@@ -35,4 +41,5 @@ public class EncryptUtil {
             return false;
         }
     }
+
 }

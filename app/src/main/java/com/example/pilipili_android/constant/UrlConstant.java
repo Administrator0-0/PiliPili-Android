@@ -6,7 +6,9 @@ public interface UrlConstant {
      */
     String PILIPILI_SERVER = "http://47.93.139.52:8000/";
 
-    String PILIPILI_BUCKET = "https://oss-cn-beijing.aliyuncs.com";
+    String PILIPILI_ENDPOINT = "https://oss-cn-beijing.aliyuncs.com";
+
+    String PILIPILI_BUCKET = "pilipili-bucket";
 
     /**
      * 用户接口
