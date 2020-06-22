@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,6 +24,7 @@ import com.dueeeke.videoplayer.controller.IControlComponent;
 import com.dueeeke.videoplayer.player.VideoView;
 import com.dueeeke.videoplayer.util.PlayerUtils;
 import com.example.pilipili_android.R;
+import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 
 import static com.dueeeke.videoplayer.util.PlayerUtils.stringForTime;
 
@@ -36,6 +38,11 @@ public class PiliPiliControlView extends FrameLayout implements IControlComponen
     private SeekBar mVideoProgress;
     private ProgressBar mBottomProgress;
     private ImageView mPlayButton;
+    private QMUIRoundButton mOpenDanmuku;
+    private LinearLayout mDanmukuBar;
+    private EditText mEdit;
+    private ImageView mBack;
+    private ImageView mSend;
 
     private boolean mIsDragging;
 
@@ -229,10 +236,25 @@ public class PiliPiliControlView extends FrameLayout implements IControlComponen
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.fullscreen) {
-            toggleFullScreen();
-        } else if (id == R.id.iv_play) {
-            mControlWrapper.togglePlay();
+        switch (id) {
+            case R.id.fullscreen:
+                toggleFullScreen();
+                break;
+            case R.id.iv_play:
+                mControlWrapper.togglePlay();
+                break;
+            case R.id.send_danmuku:
+                if (mDanmukuBar != null) {
+                    mDanmukuBar.setVisibility(VISIBLE);
+                }
+                break;
+            case R.id.back:
+                if (mDanmukuBar != null) {
+                    mDanmukuBar.setVisibility(GONE);
+                }
+                break;
+            case R.id.send:
+                break;
         }
     }
 
@@ -242,11 +264,27 @@ public class PiliPiliControlView extends FrameLayout implements IControlComponen
     private void toggleFullScreen() {
         Activity activity = PlayerUtils.scanForActivity(getContext());
         mControlWrapper.toggleFullScreen(activity);
+        changeControlView();
+    }
+
+    public void changeControlView() {
         isFull = !isFull;
+        int progress = mVideoProgress.getSecondaryProgress();
+        String curTime = mCurrTime.getText().toString();
+        String totalTime = mTotalTime.getText().toString();
         removeAllViews();
-        if (isFull)
+        if (isFull) {
             LayoutInflater.from(getContext()).inflate(R.layout.layout_pilipili_control_view, this, true);
-        else
+            mOpenDanmuku = findViewById(R.id.send_danmuku);
+            mDanmukuBar = findViewById(R.id.danmuku_bar);
+            mEdit = findViewById(R.id.input_danmuku);
+            mBack = findViewById(R.id.back);
+            mSend = findViewById(R.id.send);
+            mBack.setOnClickListener(this);
+            mSend.setOnClickListener(this);
+            mOpenDanmuku.setOnClickListener(this);
+            mDanmukuBar.setVisibility(GONE);
+        } else
             LayoutInflater.from(getContext()).inflate(R.layout.layout_pilipili_control_view_small, this, true);
         mFullScreen = findViewById(R.id.fullscreen);
         mFullScreen.setOnClickListener(this);
@@ -258,6 +296,9 @@ public class PiliPiliControlView extends FrameLayout implements IControlComponen
         mPlayButton = findViewById(R.id.iv_play);
         mPlayButton.setOnClickListener(this);
         mBottomProgress = findViewById(R.id.bottom_progress);
+        mBottomProgress.setProgress(progress);
+        mCurrTime.setText(curTime);
+        mTotalTime.setText(totalTime);
     }
 
     @Override
@@ -287,5 +328,9 @@ public class PiliPiliControlView extends FrameLayout implements IControlComponen
         long newPosition = (duration * progress) / mVideoProgress.getMax();
         if (mCurrTime != null)
             mCurrTime.setText(stringForTime((int) newPosition));
+    }
+
+    public interface OnFullChangeListener {
+        void onFullChange();
     }
 }
