@@ -71,7 +71,7 @@ public class PiliPiliVideoController extends GestureVideoController implements V
         if (isLive) {
             addControlComponent(new LiveControlView(getContext()));
         } else {
-            addControlComponent(new VodControlView(getContext()));
+            addControlComponent(new PiliPiliControlView(getContext()));
         }
         addControlComponent(new GestureView(getContext()));
         setCanChangePosition(!isLive);
