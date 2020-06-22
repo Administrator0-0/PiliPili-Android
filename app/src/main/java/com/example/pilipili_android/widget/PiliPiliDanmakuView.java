@@ -150,12 +150,7 @@ public class PiliPiliDanmakuView extends DanmakuView implements IControlComponen
 
     }
 
-    /**
-     * 发送文字弹幕
-     *
-     * @param text   弹幕文字
-     * @param isSelf 是不是自己发的
-     */
+
     public void addDanmaku(String text, boolean isSelf) {
         mContext.setCacheStuffer(new SpannedCacheStuffer(), null);
         BaseDanmaku danmaku = mContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL);

@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -39,7 +40,7 @@ public class PiliPiliControlView extends FrameLayout implements IControlComponen
     private ProgressBar mBottomProgress;
     private ImageView mPlayButton;
     private QMUIRoundButton mOpenDanmuku;
-    private LinearLayout mDanmukuBar;
+    private RelativeLayout mDanmukuBar;
     private EditText mEdit;
     private ImageView mBack;
     private ImageView mSend;
