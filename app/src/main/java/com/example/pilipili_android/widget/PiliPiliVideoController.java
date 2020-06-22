@@ -65,13 +65,15 @@ public class PiliPiliVideoController extends GestureVideoController implements V
         ErrorView errorView = new ErrorView(getContext());
         PrepareView prepareView = new PrepareView(getContext());
         prepareView.setClickStart();
-        TitleView titleView = new TitleView(getContext());
+        PiliPiliControlView controller = new PiliPiliControlView(getContext());
+        PiliPiliTitleView titleView = new PiliPiliTitleView(getContext());
         titleView.setTitle(title);
+        titleView.setListener(controller::changeControlView);
         addControlComponent(completeView, errorView, prepareView, titleView);
         if (isLive) {
             addControlComponent(new LiveControlView(getContext()));
         } else {
-            addControlComponent(new PiliPiliControlView(getContext()));
+            addControlComponent(controller);
         }
         addControlComponent(new GestureView(getContext()));
         setCanChangePosition(!isLive);
