@@ -1,14 +1,11 @@
-package com.example.pilipili_android.bean;
+package com.example.pilipili_android.bean.netbean;
 
-/**
- * 买币的返回数据
- */
-public class BuyCoinReturn {
+public class SetGenderReturn {
 
     /**
      * code : 200
-     * data : {"coins":100}
-     * message : 购买硬币成功
+     * data : {"gender":false}
+     * message : 性别
      */
 
     private int code;
@@ -41,17 +38,17 @@ public class BuyCoinReturn {
 
     public static class DataBean {
         /**
-         * coins : 100
+         * gender : false
          */
 
-        private int coins;
+        private boolean gender;
 
-        public int getCoins() {
-            return coins;
+        public boolean isGender() {
+            return gender;
         }
 
-        public void setCoins(int coins) {
-            this.coins = coins;
+        public void setGender(boolean gender) {
+            this.gender = gender;
         }
     }
 }

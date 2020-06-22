@@ -58,6 +58,10 @@ public class UserBaseDetail {
         }
     }
 
+    public static String getVIPDeadline (Context context) {
+        return (String) SPUtil.get(context, SPConstant.VIP_DDL, "");
+    }
+
     /***********************************************************************************************
      * Special
      */

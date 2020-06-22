@@ -1,11 +1,11 @@
-package com.example.pilipili_android.bean;
+package com.example.pilipili_android.bean.netbean;
 
-public class SetGenderReturn {
+public class FollowUnFollowReturn {
 
     /**
      * code : 200
-     * data : {"gender":false}
-     * message : 性别
+     * data : {"fans_count":1}
+     * message : 已关注
      */
 
     private int code;
@@ -38,17 +38,17 @@ public class SetGenderReturn {
 
     public static class DataBean {
         /**
-         * gender : false
+         * fans_count : 1
          */
 
-        private boolean gender;
+        private int fans_count;
 
-        public boolean isGender() {
-            return gender;
+        public int getFans_count() {
+            return fans_count;
         }
 
-        public void setGender(boolean gender) {
-            this.gender = gender;
+        public void setFans_count(int fans_count) {
+            this.fans_count = fans_count;
         }
     }
 }

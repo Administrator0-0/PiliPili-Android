@@ -3,22 +3,18 @@ package com.example.pilipili_android.view_model;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
-import android.util.Patterns;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.pilipili_android.bean.BuyCoinReturn;
-import com.example.pilipili_android.bean.GetSpaceDataReturn;
-import com.example.pilipili_android.bean.LoginReturn;
-import com.example.pilipili_android.bean.LoginSend;
-import com.example.pilipili_android.bean.NetRequestResult;
-import com.example.pilipili_android.bean.SpaceActivityBean;
-import com.example.pilipili_android.bean.UserDetailReturn;
-import com.example.pilipili_android.constant.DefaultConstant;
+import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
+import com.example.pilipili_android.bean.netbean.GetSpaceDataReturn;
+import com.example.pilipili_android.bean.netbean.LoginSend;
+import com.example.pilipili_android.bean.netbean.NetRequestResult;
+import com.example.pilipili_android.bean.localbean.SpaceActivityBean;
+import com.example.pilipili_android.bean.netbean.UserDetailReturn;
 import com.example.pilipili_android.constant.SPConstant;
 import com.example.pilipili_android.inteface.OnNetRequestListener;
 import com.example.pilipili_android.model.UserDataSource;
@@ -27,7 +23,6 @@ import com.example.pilipili_android.util.SPUtil;
 import com.example.pilipili_android.util.SerializeAndDeserializeUtil;
 
 import java.io.IOException;
-import java.util.Objects;
 
 public class UserViewModel extends AndroidViewModel {
 
@@ -246,7 +241,7 @@ public class UserViewModel extends AndroidViewModel {
                 SpaceActivityBean spaceActivityBean1 = new SpaceActivityBean();
                 spaceActivityBean1.setLike(getSpaceDataReturn.getData().getLikes() + "\n获赞");
                 spaceActivityBean1.setSign(getSpaceDataReturn.getData().getSign());
-                spaceActivityBean1.setBackground(context.getDrawable(DefaultConstant.BACKGROUND_IMAGE_DEFAULT));
+
                 //TODO:获取background
                 spaceActivityBean.setValue(spaceActivityBean1);
             }

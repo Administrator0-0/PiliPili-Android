@@ -7,7 +7,7 @@
         <import type="com.example.pilipili_android.view_model.UserBaseDetail"/>
         <variable
             name="spaceActivityBean"
-            type="com.example.pilipili_android.bean.SpaceActivityBean" />
+            type="com.example.pilipili_android.bean.localbean.SpaceActivityBean" />
 
         <variable
             name="userViewModel"

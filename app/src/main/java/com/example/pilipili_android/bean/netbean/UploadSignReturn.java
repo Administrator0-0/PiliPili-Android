@@ -1,11 +1,11 @@
-package com.example.pilipili_android.bean;
+package com.example.pilipili_android.bean.netbean;
 
-public class GetSpaceDataReturn {
+public class UploadSignReturn {
 
     /**
      * code : 200
-     * data : {"likes":0,"sign":"大屁股裂了，我变成中屁股了"}
-     * message : 空间数据
+     * data : {"sign":"大屁股裂了，我变成中屁股了"}
+     * message : 签名
      */
 
     private int code;
@@ -38,20 +38,10 @@ public class GetSpaceDataReturn {
 
     public static class DataBean {
         /**
-         * likes : 0
          * sign : 大屁股裂了，我变成中屁股了
          */
 
-        private int likes;
         private String sign;
-
-        public int getLikes() {
-            return likes;
-        }
-
-        public void setLikes(int likes) {
-            this.likes = likes;
-        }
 
         public String getSign() {
             return sign;

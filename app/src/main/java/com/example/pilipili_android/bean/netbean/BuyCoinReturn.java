@@ -1,11 +1,14 @@
-package com.example.pilipili_android.bean;
+package com.example.pilipili_android.bean.netbean;
 
-public class FollowUnFollowReturn {
+/**
+ * 买币的返回数据
+ */
+public class BuyCoinReturn {
 
     /**
      * code : 200
-     * data : {"fans_count":1}
-     * message : 已关注
+     * data : {"coins":100}
+     * message : 购买硬币成功
      */
 
     private int code;
@@ -38,17 +41,17 @@ public class FollowUnFollowReturn {
 
     public static class DataBean {
         /**
-         * fans_count : 1
+         * coins : 100
          */
 
-        private int fans_count;
+        private int coins;
 
-        public int getFans_count() {
-            return fans_count;
+        public int getCoins() {
+            return coins;
         }
 
-        public void setFans_count(int fans_count) {
-            this.fans_count = fans_count;
+        public void setCoins(int coins) {
+            this.coins = coins;
         }
     }
 }

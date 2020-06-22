@@ -1,15 +1,15 @@
 package com.example.pilipili_android.inteface;
 
-import com.example.pilipili_android.bean.BuyCoinReturn;
-import com.example.pilipili_android.bean.CommonReturn;
-import com.example.pilipili_android.bean.FollowUnFollowReturn;
-import com.example.pilipili_android.bean.GetSpaceDataReturn;
-import com.example.pilipili_android.bean.LoginReturn;
-import com.example.pilipili_android.bean.RenameReturn;
-import com.example.pilipili_android.bean.SetGenderReturn;
-import com.example.pilipili_android.bean.UploadSignReturn;
-import com.example.pilipili_android.bean.UserDetailReturn;
-import com.example.pilipili_android.bean.UserOpenDetailReturn;
+import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
+import com.example.pilipili_android.bean.netbean.CommonReturn;
+import com.example.pilipili_android.bean.netbean.FollowUnFollowReturn;
+import com.example.pilipili_android.bean.netbean.GetSpaceDataReturn;
+import com.example.pilipili_android.bean.netbean.LoginReturn;
+import com.example.pilipili_android.bean.netbean.RenameReturn;
+import com.example.pilipili_android.bean.netbean.SetGenderReturn;
+import com.example.pilipili_android.bean.netbean.UploadSignReturn;
+import com.example.pilipili_android.bean.netbean.UserDetailReturn;
+import com.example.pilipili_android.bean.netbean.UserOpenDetailReturn;
 import com.example.pilipili_android.constant.UrlConstant;
 
 import okhttp3.RequestBody;

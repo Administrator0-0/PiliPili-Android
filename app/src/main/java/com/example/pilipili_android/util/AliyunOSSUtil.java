@@ -19,9 +19,7 @@ public class AliyunOSSUtil {
      * @return 图片url
      */
     public static String getImageUrl(Context context, String accessKey, String secretKey, String securityToken, String fileName) {
-        OSS oss = getOSS(context, accessKey, secretKey, securityToken);
-        String imageUrl = oss.presignPublicObjectURL(PILIPILI_BUCKET, fileName);
-        oss.
+        return getOSS(context, accessKey, secretKey, securityToken).presignPublicObjectURL(PILIPILI_BUCKET, fileName);
     }
 
     private static OSS getOSS(Context context, String accessKey, String SecretKey, String SecurityToken) {

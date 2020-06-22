@@ -17,4 +17,6 @@ public interface SPConstant {
     String AVATAR = "avatar";
 
     String GENDER = "gender";
+
+    String VIP_DDL = "vip_ddl";
 }

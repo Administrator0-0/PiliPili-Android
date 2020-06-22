@@ -1,26 +1,15 @@
 package com.example.pilipili_android.activity;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.pilipili_android.R;
-import com.example.pilipili_android.bean.SpaceActivityBean;
 import com.example.pilipili_android.databinding.ActivitySpaceBinding;
 import com.example.pilipili_android.view_model.UserViewModel;
-import com.flyco.tablayout.SlidingTabLayout;
-import com.qmuiteam.qmui.widget.QMUIViewPager;
-import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SpaceActivity extends AppCompatActivity {

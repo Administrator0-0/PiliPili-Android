@@ -38,4 +38,20 @@ public interface UrlConstant {
     String SET_GENDER = "user/put-gender";
 
     String GET_SPACE_DATA = "user/get-space";
+
+    String UPLOAD_AVATAR = "user/upload-avatar";
+
+    String UPLOAD_BACKGROUND = "user/upload-background";
+
+    String GET_AVATAR_HEAD = "user/uid";
+
+    String GET_AVATAR_TAIL = "/get-avatar";
+
+    String GET_BACKGROUND_HEAD = "user/uid";
+
+    String GET_BACKGROUND_TAIL = "/get-background";
+
+    String BUY_VIP = "user/put-vip";
+
+
 }

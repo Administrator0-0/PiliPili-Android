@@ -8,10 +8,6 @@ public class EncryptUtil {
         return "JWT " + token;
     }
 
-    public static String getBucketEncryption() {
-
-    }
-
 
 
     // 检查邮箱合法

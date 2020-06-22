@@ -1,4 +1,4 @@
-package com.example.pilipili_android.bean;
+package com.example.pilipili_android.bean.netbean;
 
 public class RenameReturn {
 

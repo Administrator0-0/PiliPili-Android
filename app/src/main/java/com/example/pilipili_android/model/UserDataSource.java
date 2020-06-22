@@ -1,33 +1,29 @@
 package com.example.pilipili_android.model;
 
-import android.util.Log;
-
-import com.example.pilipili_android.bean.BuyCoinReturn;
-import com.example.pilipili_android.bean.CommonReturn;
-import com.example.pilipili_android.bean.CommonSend;
-import com.example.pilipili_android.bean.FollowUnFollowReturn;
-import com.example.pilipili_android.bean.GetSpaceDataReturn;
-import com.example.pilipili_android.bean.LoginReturn;
-import com.example.pilipili_android.bean.LoginSend;
-import com.example.pilipili_android.bean.NetRequestResult;
-import com.example.pilipili_android.bean.RegisterSend;
-import com.example.pilipili_android.bean.RenameReturn;
-import com.example.pilipili_android.bean.RenameSend;
-import com.example.pilipili_android.bean.SetGenderReturn;
-import com.example.pilipili_android.bean.UploadSignReturn;
-import com.example.pilipili_android.bean.UserDetailReturn;
-import com.example.pilipili_android.bean.UserOpenDetailReturn;
+import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
+import com.example.pilipili_android.bean.netbean.CommonReturn;
+import com.example.pilipili_android.bean.netbean.CommonSend;
+import com.example.pilipili_android.bean.netbean.FollowUnFollowReturn;
+import com.example.pilipili_android.bean.netbean.GetSpaceDataReturn;
+import com.example.pilipili_android.bean.netbean.LoginReturn;
+import com.example.pilipili_android.bean.netbean.LoginSend;
+import com.example.pilipili_android.bean.netbean.NetRequestResult;
+import com.example.pilipili_android.bean.netbean.RegisterSend;
+import com.example.pilipili_android.bean.netbean.RenameReturn;
+import com.example.pilipili_android.bean.netbean.RenameSend;
+import com.example.pilipili_android.bean.netbean.SetGenderReturn;
+import com.example.pilipili_android.bean.netbean.UploadSignReturn;
+import com.example.pilipili_android.bean.netbean.UserDetailReturn;
+import com.example.pilipili_android.bean.netbean.UserOpenDetailReturn;
 import com.example.pilipili_android.inteface.OnNetRequestListener;
 import com.example.pilipili_android.inteface.RetrofitService;
 import com.example.pilipili_android.util.EncryptUtil;
 import com.example.pilipili_android.util.RetrofitUtil;
 import com.google.gson.Gson;
 
-import java.io.IOException;
 import java.util.Objects;
 
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
