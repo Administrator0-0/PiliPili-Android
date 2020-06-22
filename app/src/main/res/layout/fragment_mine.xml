@@ -4,21 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="com.example.pilipili_android.view_model.UserBaseDetail"/>
         <variable
-            name="coin"
+            name="VIPShow"
             type="String" />
         <variable
-            name="follower"
+            name="VIPDeadline"
             type="String" />
-        <variable
-            name="following"
-            type="String" />
-        <variable
-            name="username"
-            type="String" />
-        <variable
-            name="gender"
-            type="android.graphics.drawable.Drawable" />
         <variable
             name="userViewModel"
             type="com.example.pilipili_android.view_model.UserViewModel" />
@@ -74,7 +66,7 @@
                 android:layout_marginStart="14dp"
                 android:layout_centerVertical="true"
                 android:background="@color/qmui_config_color_75_white"
-                android:src="@drawable/buo" />
+                android:src="@{UserBaseDetail.getAvatar(userViewModel.context)}" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -105,7 +97,7 @@
                     android:layout_marginStart="10dp"
                     android:id="@+id/username_tv"
                     tools:text="用户名/UserDetail获取"
-                    android:text="@{username}"
+                    android:text="@{UserBaseDetail.getUsername(userViewModel.context)}"
                     android:textSize="19sp"
                     android:layout_centerVertical="true"/>
 
@@ -113,7 +105,7 @@
                     android:id="@+id/gender_img"
                     android:layout_width="13dp"
                     android:layout_height="13dp"
-                    android:src="@{gender}"
+                    android:src="@{UserBaseDetail.getGender(userViewModel.context)}"
                     android:layout_toEndOf="@+id/username_tv"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="2dp"
@@ -131,7 +123,7 @@
                 android:textSize="15sp"
                 android:textColor="@color/qmui_config_color_gray_4"
                 tools:text="P币/UserDetail获取"
-                android:text="@{coin}"
+                android:text="@{UserBaseDetail.getCoinInMineFragment(userViewModel.context)}"
                 android:layout_toEndOf="@+id/button_picture"/>
         </RelativeLayout>
 
@@ -186,7 +178,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
-                    android:text="@{follower}"
+                    android:text="@{UserBaseDetail.getFollowerInMineFragment(userViewModel.context)}"
                     android:textSize="22sp" />
 
                 <TextView
@@ -212,7 +204,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="@{following}"
+                    android:text="@{UserBaseDetail.getFollowingInMineFragment(userViewModel.context)}"
                     android:textSize="22sp"
                     android:layout_marginTop="10dp" />
 
@@ -228,6 +220,8 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/big_vip"
+                android:background="@drawable/big_vip_shape"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/relativelayout_numberoftrends"
@@ -237,7 +231,36 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=""
+                    tools:text="成为大会员"
+                    android:text="@{VIPShow}"
+                    android:layout_marginStart="15dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="17dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@+id/image_right_2"
+                    tools:text="2030-02-31到期"
+                    android:gravity="center_vertical"
+                    android:text="@{VIPDeadline}"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="13sp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_centerVertical="true"
+                    android:textStyle="bold"/>
+
+                <ImageView
+                    android:id="@+id/image_right_2"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/bwob"
+                    android:layout_marginEnd="15dp"
+                    android:layout_alignParentEnd="true" />
 
             </RelativeLayout>
 

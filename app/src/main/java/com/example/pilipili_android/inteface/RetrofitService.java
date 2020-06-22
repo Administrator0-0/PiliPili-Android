@@ -4,6 +4,7 @@ import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
 import com.example.pilipili_android.bean.netbean.CommonReturn;
 import com.example.pilipili_android.bean.netbean.FollowUnFollowReturn;
 import com.example.pilipili_android.bean.netbean.GetSpaceDataReturn;
+import com.example.pilipili_android.bean.netbean.GetUserBackgroundReturn;
 import com.example.pilipili_android.bean.netbean.LoginReturn;
 import com.example.pilipili_android.bean.netbean.RenameReturn;
 import com.example.pilipili_android.bean.netbean.SetGenderReturn;
@@ -106,4 +107,11 @@ public interface RetrofitService {
      */
     @GET(UrlConstant.GET_SPACE_DATA)
     Call<GetSpaceDataReturn> getSpaceData(@Header("Authorization") String token);
+
+    /**
+     * 获取用户头图
+     *
+     */
+    @GET(UrlConstant.GET_BACKGROUND_HEAD + "{id}" + UrlConstant.GET_BACKGROUND_TAIL)
+    Call<GetUserBackgroundReturn> getUserBackground(@Path("id") String id);
 }

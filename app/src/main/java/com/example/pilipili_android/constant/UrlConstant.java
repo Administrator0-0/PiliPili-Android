@@ -53,5 +53,4 @@ public interface UrlConstant {
 
     String BUY_VIP = "user/put-vip";
 
-
 }

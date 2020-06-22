@@ -3,21 +3,26 @@ package com.example.pilipili_android.view_model;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.bumptech.glide.Glide;
 import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
 import com.example.pilipili_android.bean.netbean.GetSpaceDataReturn;
+import com.example.pilipili_android.bean.netbean.GetUserBackgroundReturn;
 import com.example.pilipili_android.bean.netbean.LoginSend;
 import com.example.pilipili_android.bean.netbean.NetRequestResult;
 import com.example.pilipili_android.bean.localbean.SpaceActivityBean;
 import com.example.pilipili_android.bean.netbean.UserDetailReturn;
+import com.example.pilipili_android.constant.DefaultConstant;
 import com.example.pilipili_android.constant.SPConstant;
 import com.example.pilipili_android.inteface.OnNetRequestListener;
 import com.example.pilipili_android.model.UserDataSource;
+import com.example.pilipili_android.util.AliyunOSSUtil;
 import com.example.pilipili_android.util.EncryptUtil;
 import com.example.pilipili_android.util.SPUtil;
 import com.example.pilipili_android.util.SerializeAndDeserializeUtil;
@@ -36,10 +41,8 @@ public class UserViewModel extends AndroidViewModel {
     private MutableLiveData<UserDetailReturn> userDetail = new MutableLiveData<>();
     private MutableLiveData<Boolean> isSuccessBuyCoin = new MutableLiveData<>();
     private MutableLiveData<SpaceActivityBean> spaceActivityBean = new MutableLiveData<>();
+    private MutableLiveData<Integer> spaceBackground = new MutableLiveData<>();
 
-    public MutableLiveData<LoginSend> getLoginInfo() {
-        return loginInfo;
-    }
 
     public UserViewModel(@NonNull Application application) {
         super(application);
@@ -98,6 +101,7 @@ public class UserViewModel extends AndroidViewModel {
                             putFollowerCount(userDetailReturn.getData().getFans_count());
                             putFollowingCount(userDetailReturn.getData().getFollowings_count());
                             putGender(userDetailReturn.getData().isGender());
+                            putVIPDeadline(userDetailReturn.getData().getVip());
                             isSuccessLogin.setValue(true);
                         }
 
@@ -189,6 +193,7 @@ public class UserViewModel extends AndroidViewModel {
                 putFollowerCount(userDetailReturn.getData().getFans_count());
                 putFollowingCount(userDetailReturn.getData().getFollowings_count());
                 putGender(userDetailReturn.getData().isGender());
+                putVIPDeadline(userDetailReturn.getData().getVip());
                 isSuccessLogin.setValue(true);
             }
 
@@ -241,9 +246,38 @@ public class UserViewModel extends AndroidViewModel {
                 SpaceActivityBean spaceActivityBean1 = new SpaceActivityBean();
                 spaceActivityBean1.setLike(getSpaceDataReturn.getData().getLikes() + "\n获赞");
                 spaceActivityBean1.setSign(getSpaceDataReturn.getData().getSign());
-
-                //TODO:获取background
                 spaceActivityBean.setValue(spaceActivityBean1);
+                userDataSource.getUserBackground(UserBaseDetail.getUID(context), new OnNetRequestListener() {
+                    @Override
+                    public void onSuccess(NetRequestResult netRequestResult) {
+                        GetUserBackgroundReturn getUserBackgroundReturn = (GetUserBackgroundReturn) netRequestResult.getData();
+                        if(getUserBackgroundReturn.getData().getBackground() == null) {
+                            spaceBackground.setValue(DefaultConstant.BACKGROUND_IMAGE_DEFAULT);
+                            return;
+                        }
+                        String a = AliyunOSSUtil.getImageUrl(context, getUserBackgroundReturn.getData().getGuest_Key(),
+                                getUserBackgroundReturn.getData().getGuest_Secret(),
+                                getUserBackgroundReturn.getData().getSecurity_token(),
+                                getUserBackgroundReturn.getData().getBackground());
+                        Glide.
+                        Log.d("aaa", a);
+                    }
+
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onFail() {
+
+                    }
+
+                    @Override
+                    public void onFail(String errorMessage) {
+                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override
@@ -302,6 +336,10 @@ public class UserViewModel extends AndroidViewModel {
         SPUtil.put(context, SPConstant.GENDER, genderBoolean);
     }
 
+    private void putVIPDeadline(String ddl){
+        SPUtil.put(context, SPConstant.VIP_DDL, ddl);
+    }
+
     public Context getContext() {
         return context;
     }
@@ -324,5 +362,13 @@ public class UserViewModel extends AndroidViewModel {
 
     public MutableLiveData<Boolean> getIsSuccessLogin() {
         return isSuccessLogin;
+    }
+
+    public MutableLiveData<LoginSend> getLoginInfo() {
+        return loginInfo;
+    }
+
+    public MutableLiveData<Integer> getSpaceBackground() {
+        return spaceBackground;
     }
 }

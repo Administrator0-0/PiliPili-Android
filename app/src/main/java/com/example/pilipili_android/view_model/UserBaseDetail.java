@@ -74,5 +74,15 @@ public class UserBaseDetail {
         return (int) SPUtil.get(context, SPConstant.FOLLOWING, -1) + "\n关注";
     }
 
+    public static String getCoinInMineFragment(Context context){
+        return "P币：" + (int) SPUtil.get(context, SPConstant.COIN, -1);
+    }
 
+    public static String getFollowerInMineFragment(Context context) {
+        return (int) SPUtil.get(context, SPConstant.FOLLOWER, -1) + "";
+    }
+
+    public static String getFollowingInMineFragment(Context context) {
+        return (int) SPUtil.get(context, SPConstant.FOLLOWING, -1) + "";
+    }
 }

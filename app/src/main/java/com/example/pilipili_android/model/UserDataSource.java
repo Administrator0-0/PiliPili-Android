@@ -5,6 +5,7 @@ import com.example.pilipili_android.bean.netbean.CommonReturn;
 import com.example.pilipili_android.bean.netbean.CommonSend;
 import com.example.pilipili_android.bean.netbean.FollowUnFollowReturn;
 import com.example.pilipili_android.bean.netbean.GetSpaceDataReturn;
+import com.example.pilipili_android.bean.netbean.GetUserBackgroundReturn;
 import com.example.pilipili_android.bean.netbean.LoginReturn;
 import com.example.pilipili_android.bean.netbean.LoginSend;
 import com.example.pilipili_android.bean.netbean.NetRequestResult;
@@ -147,8 +148,8 @@ public class UserDataSource {
         });
     }
 
-    public void getUserFollowDetail(String UID, OnNetRequestListener onNetRequestListener) {
-        Call<UserOpenDetailReturn> call = retrofitService.getUserFollowDetail(UID);
+    public void getUserOpenDetail(int UID, OnNetRequestListener onNetRequestListener) {
+        Call<UserOpenDetailReturn> call = retrofitService.getUserFollowDetail(UID + "");
         call.enqueue(new Callback<UserOpenDetailReturn>() {
             @Override
             public void onResponse(Call<UserOpenDetailReturn> call, Response<UserOpenDetailReturn> response) {
@@ -383,6 +384,30 @@ public class UserDataSource {
 
             @Override
             public void onFailure(Call<GetSpaceDataReturn> call, Throwable t) {
+                onNetRequestListener.onFail("网络不稳定，请检查网络");
+            }
+        });
+    }
+
+    public void getUserBackground (int UID, OnNetRequestListener onNetRequestListener) {
+        Call<GetUserBackgroundReturn> call = retrofitService.getUserBackground(UID + "");
+        call.enqueue(new Callback<GetUserBackgroundReturn>() {
+            @Override
+            public void onResponse(Call<GetUserBackgroundReturn> call, Response<GetUserBackgroundReturn> response) {
+                GetUserBackgroundReturn getUserBackgroundReturn = response.body();
+                if(getUserBackgroundReturn == null) {
+                    onNetRequestListener.onFail("获取头图不能");
+                    return;
+                }
+                if(getUserBackgroundReturn.getCode() == 200) {
+                    onNetRequestListener.onSuccess(new NetRequestResult<>(getUserBackgroundReturn));
+                } else {
+                    onNetRequestListener.onFail(Objects.requireNonNull(getUserBackgroundReturn).getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetUserBackgroundReturn> call, Throwable t) {
                 onNetRequestListener.onFail("网络不稳定，请检查网络");
             }
         });

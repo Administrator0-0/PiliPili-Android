@@ -58,15 +58,14 @@ public class MineFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        refreshView();
-    }
-
-    private void refreshView() {
-        fragmentMineBinding.setUsername(UserBaseDetail.getUsername(fragmentMineBinding.getUserViewModel().getContext()));
-        fragmentMineBinding.setCoin("P币：" + UserBaseDetail.getCoin(fragmentMineBinding.getUserViewModel().getContext()));
-        fragmentMineBinding.setFollower(UserBaseDetail.getFollowerCount(fragmentMineBinding.getUserViewModel().getContext()) + "");
-        fragmentMineBinding.setFollowing(UserBaseDetail.getFollowingCount(fragmentMineBinding.getUserViewModel().getContext()) + "");
-        fragmentMineBinding.setGender(UserBaseDetail.getGender(fragmentMineBinding.getUserViewModel().getContext()));
+        String ddl = UserBaseDetail.getVIPDeadline(getContext());
+        if(ddl == null) {
+            fragmentMineBinding.setVIPDeadline("");
+            fragmentMineBinding.setVIPShow("成为大会员");
+        } else {
+            fragmentMineBinding.setVIPDeadline(ddl + "到期");
+            fragmentMineBinding.setVIPShow("PiliPili大会员");
+        }
     }
 
     @OnClick(R.id.space_btn)
