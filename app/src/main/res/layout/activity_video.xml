@@ -88,12 +88,25 @@
                     app:tabIndicatorColor="@color/colorPrimary"
                     app:tabSelectedTextColor="@color/colorPrimary" />
 
-                <Button
-                    android:layout_width="100dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/lightgray"
-                    android:hint="输入弹幕"/>
+
+                <com.example.pilipili_android.widget.ExpandMenuView
+                    android:id="@+id/expand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_danmuku_shape_gray">
+
+                    <Button
+                        android:id="@+id/send_danmuku_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:hint="点我输入弹幕"
+                        android:background="@null"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"/>
+
+                </com.example.pilipili_android.widget.ExpandMenuView>
+
 
             </LinearLayout>
 

@@ -8,11 +8,18 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.app.Dialog;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +29,7 @@ import com.example.pilipili_android.fragment.VideoCommentFragment;
 import com.example.pilipili_android.fragment.VideoInfoFragment;
 import com.example.pilipili_android.util.AppBarStateChangeListener;
 import com.example.pilipili_android.util.SystemBarHelper;
+import com.example.pilipili_android.widget.ExpandMenuView;
 import com.example.pilipili_android.widget.PiliPiliDanmakuView;
 import com.example.pilipili_android.widget.PiliPiliPlayer;
 import com.example.pilipili_android.widget.PiliPiliVideoController;
@@ -34,7 +42,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class VideoActivity extends AppCompatActivity {
+public class VideoActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.app_bar_layout)
     AppBarLayout mAppBarLayout;
@@ -52,6 +60,10 @@ public class VideoActivity extends AppCompatActivity {
     TabLayout mTabLayout;
     @BindView(R.id.player)
     PiliPiliPlayer player;
+    @BindView(R.id.send_danmuku_vertical)
+    Button send_danmuku;
+    @BindView(R.id.expand)
+    ExpandMenuView expandMenuView;
 
     private int pv;
     private String imgUrl;
@@ -99,6 +111,14 @@ public class VideoActivity extends AppCompatActivity {
     private void initView() {
         mAppBarLayout.addOnOffsetChangedListener(appBarStateChangeListener);
         initPlayer();
+        send_danmuku.setOnClickListener(this);
+        expandMenuView.setOnDanmukuCloseListener(isExpand -> {
+            if (isExpand) {
+                danmakuView.show();
+            } else {
+                danmakuView.hide();
+            }
+        });
     }
 
     public void initToolBar() {
@@ -136,7 +156,7 @@ public class VideoActivity extends AppCompatActivity {
         danmakuView = new PiliPiliDanmakuView(this);
         PiliPiliVideoController controller =
                 new PiliPiliVideoController(this);
-        controller.addDefaultControlComponent("刘薪王太强了", false);
+        controller.addDefaultControlComponent("刘薪王太强了", () -> danmakuView.addDanmaku("xxxxx", true));
         controller.addControlComponent(danmakuView);
         player.setVideoController(controller);
         player.setUrl("http://vfx.mtime.cn/Video/2019/03/14/mp4/190314223540373995.mp4");
@@ -228,6 +248,33 @@ public class VideoActivity extends AppCompatActivity {
         danmakuView.addDanmaku("这是来自刘薪王的意念弹幕", true);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.send_danmuku_vertical:
+                showBottomDialog();
+                break;
+            case R.id.send:
+                danmakuView.addDanmaku("ssss", true);
+                break;
+        }
+    }
+
+    private void showBottomDialog() {
+        final Dialog dialog = new Dialog(this, R.style.DialogTheme);
+        View view = View.inflate(this, R.layout.danmuku_dialog_layout, null);
+        dialog.setContentView(view);
+        Window window = dialog.getWindow();
+        if (window != null) {
+            window.setGravity(Gravity.BOTTOM);
+            window.setWindowAnimations(R.style.main_menu_animStyle);
+            window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
+        ImageView send = view.findViewById(R.id.send);
+        send.setOnClickListener(this);
+        dialog.show();
+    }
+
 
     public static class VideoDetailsPagerAdapter extends FragmentStatePagerAdapter {
         private List<Fragment> fragments;
@@ -260,7 +307,15 @@ public class VideoActivity extends AppCompatActivity {
         void onStart();
      }
 
-    private Handler mHandler = new Handler();
+    public interface OnDanmukuListener {
+        void onSend();
+    }
+
+    public interface OnDanmukuCloseListener {
+        void onClose(boolean isExpand);
+    }
+
+     private Handler mHandler = new Handler();
 
     /**
      * 模拟弹幕
