@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -24,6 +25,7 @@ import com.dueeeke.videoplayer.controller.IControlComponent;
 import com.dueeeke.videoplayer.player.VideoView;
 import com.dueeeke.videoplayer.util.PlayerUtils;
 import com.example.pilipili_android.R;
+import com.example.pilipili_android.activity.VideoActivity;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 
 import static com.dueeeke.videoplayer.util.PlayerUtils.stringForTime;
@@ -39,7 +41,7 @@ public class PiliPiliControlView extends FrameLayout implements IControlComponen
     private ProgressBar mBottomProgress;
     private ImageView mPlayButton;
     private QMUIRoundButton mOpenDanmuku;
-    private LinearLayout mDanmukuBar;
+    private RelativeLayout mDanmukuBar;
     private EditText mEdit;
     private ImageView mBack;
     private ImageView mSend;
@@ -49,6 +51,8 @@ public class PiliPiliControlView extends FrameLayout implements IControlComponen
     private boolean mIsShowBottomProgress = true;
 
     private boolean isFull;
+
+    private VideoActivity.OnDanmukuListener mDanmukuListener;
 
 
     public PiliPiliControlView(@NonNull Context context) {
@@ -246,6 +250,9 @@ public class PiliPiliControlView extends FrameLayout implements IControlComponen
             case R.id.send_danmuku:
                 if (mDanmukuBar != null) {
                     mDanmukuBar.setVisibility(VISIBLE);
+                    AlphaAnimation animation = new AlphaAnimation(0f, 1f);
+                    animation.setDuration(300);
+                    mDanmukuBar.startAnimation(animation);
                 }
                 break;
             case R.id.back:
@@ -254,6 +261,7 @@ public class PiliPiliControlView extends FrameLayout implements IControlComponen
                 }
                 break;
             case R.id.send:
+                mDanmukuListener.onSend();
                 break;
         }
     }
@@ -328,6 +336,10 @@ public class PiliPiliControlView extends FrameLayout implements IControlComponen
         long newPosition = (duration * progress) / mVideoProgress.getMax();
         if (mCurrTime != null)
             mCurrTime.setText(stringForTime((int) newPosition));
+    }
+
+    public void setDanmukuListener(VideoActivity.OnDanmukuListener mDanmukuListener) {
+        this.mDanmukuListener = mDanmukuListener;
     }
 
     public interface OnFullChangeListener {

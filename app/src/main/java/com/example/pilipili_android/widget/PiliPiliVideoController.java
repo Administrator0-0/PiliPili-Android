@@ -24,6 +24,7 @@ import com.dueeeke.videoplayer.controller.GestureVideoController;
 import com.dueeeke.videoplayer.player.VideoView;
 import com.dueeeke.videoplayer.util.PlayerUtils;
 import com.example.pilipili_android.R;
+import com.example.pilipili_android.activity.VideoActivity;
 
 public class PiliPiliVideoController extends GestureVideoController implements View.OnClickListener {
 
@@ -55,28 +56,21 @@ public class PiliPiliVideoController extends GestureVideoController implements V
         mLoadingProgress = findViewById(R.id.loading);
     }
 
-    /**
-     * 快速添加各个组件
-     * @param title  标题
-     * @param isLive 是否为直播
-     */
-    public void addDefaultControlComponent(String title, boolean isLive) {
+
+    public void addDefaultControlComponent(String title, VideoActivity.OnDanmukuListener listener) {
         CompleteView completeView = new CompleteView(getContext());
         ErrorView errorView = new ErrorView(getContext());
         PrepareView prepareView = new PrepareView(getContext());
         prepareView.setClickStart();
         PiliPiliControlView controller = new PiliPiliControlView(getContext());
+        controller.setDanmukuListener(listener);
         PiliPiliTitleView titleView = new PiliPiliTitleView(getContext());
         titleView.setTitle(title);
         titleView.setListener(controller::changeControlView);
         addControlComponent(completeView, errorView, prepareView, titleView);
-        if (isLive) {
-            addControlComponent(new LiveControlView(getContext()));
-        } else {
-            addControlComponent(controller);
-        }
+        addControlComponent(controller);
         addControlComponent(new GestureView(getContext()));
-        setCanChangePosition(!isLive);
+        setCanChangePosition(true);
     }
 
 

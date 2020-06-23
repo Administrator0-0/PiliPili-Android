@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/danmuku_bar"
+    android:layout_width="match_parent"
+    android:layout_height="270dp"
+    android:layout_gravity="bottom"
+    android:background="@color/white"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="@dimen/dkplayer_controller_height"
+            android:layout_height="@dimen/dkplayer_controller_height"
+            android:layout_gravity="center"
+            android:padding="@dimen/dkplayer_controller_icon_padding"
+            android:src="@drawable/c4b" />
+
+        <EditText
+            android:id="@+id/input_danmuku"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dkplayer_controller_height"
+            android:layout_weight="1"
+            android:hint="发个友善的弹幕见证当下"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/edit_danmuku_shape_gray"
+            android:maxLines="1"/>
+
+        <ImageView
+            android:id="@+id/send"
+            android:layout_width="@dimen/dkplayer_controller_height"
+            android:layout_height="@dimen/dkplayer_controller_height"
+            android:layout_gravity="center"
+            android:padding="@dimen/dkplayer_controller_icon_padding"
+            android:src="@drawable/share_inspace" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="85dp"
+        android:textColor="@color/gray"
+        android:text="弹幕字号"/>
+
+    <Button
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginStart="80dp"
+        android:background="@drawable/de2"/>
+
+    <Button
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginStart="140dp"
+        android:background="@drawable/de2"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="130dp"
+        android:textColor="@color/gray"
+        android:text="弹幕位置"/>
+
+    <Button
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="125dp"
+        android:layout_marginStart="80dp"
+        android:background="@drawable/de2"/>
+
+    <Button
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="125dp"
+        android:layout_marginStart="140dp"
+        android:background="@drawable/de2"/>
+
+    <Button
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="125dp"
+        android:layout_marginStart="200dp"
+        android:background="@drawable/de2"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="170dp"
+        android:textColor="@color/gray"
+        android:text="弹幕颜色"/>
+
+
+    <Button
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="165dp"
+        android:layout_marginStart="80dp"
+        android:background="@drawable/de2"/>
+
+    <Button
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="165dp"
+        android:layout_marginStart="140dp"
+        android:background="@drawable/de2"/>
+
+    <Button
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="165dp"
+        android:layout_marginStart="200dp"
+        android:background="@drawable/de2"/>
+
+    <Button
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="165dp"
+        android:layout_marginStart="260dp"
+        android:background="@drawable/de2"/>
+
+
+</RelativeLayout>
