@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.bumptech.glide.Glide;
 import com.example.pilipili_android.R;
 import com.example.pilipili_android.view_model.UserViewModel;
 
@@ -29,6 +30,10 @@ public class SplashActivity extends BaseActivity {
 
         Handler handler = new Handler();
         handler.postDelayed(runnable, 2000);
+
+//        new Thread(() -> Glide.get(this).clearDiskCache()).start();
+//        Glide.get(this).clearMemory();
+
         if(!userViewModel.verifyLocalToken()) {
             isLoginActivity = true;
         } else {
@@ -51,7 +56,6 @@ public class SplashActivity extends BaseActivity {
             finish();
         } else {
             userViewModel.getUserDetailInfo();
-
         }
 
     };

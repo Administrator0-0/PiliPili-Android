@@ -8,7 +8,6 @@ import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.pilipili_android.R;
-import com.example.pilipili_android.util.UnitConvertUtil;
 import com.example.pilipili_android.view_model.UserBaseDetail;
 import com.example.pilipili_android.view_model.UserViewModel;
 import com.example.pilipili_android.widget.CommonDialog;
@@ -31,6 +29,7 @@ import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.jessyan.autosize.utils.AutoSizeUtils;
 
 public class PayActivity extends AppCompatActivity {
 
@@ -136,9 +135,9 @@ public class PayActivity extends AppCompatActivity {
     private void showCoin() {
         String text = UserBaseDetail.getCoin(userViewModel.getContext()) + "  P币";
         SpannableString spannableString = new SpannableString(text);
-        spannableString.setSpan(new AbsoluteSizeSpan(UnitConvertUtil.sp2px(this, 48)), 0, text.indexOf("P") - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new AbsoluteSizeSpan(AutoSizeUtils.sp2px(this, 48)), 0, text.indexOf("P") - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, text.indexOf("P") - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new AbsoluteSizeSpan(UnitConvertUtil.sp2px(this, 22)), text.indexOf("P") - 2, text.indexOf("P") + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new AbsoluteSizeSpan(AutoSizeUtils.sp2px(this, 22)), text.indexOf("P") - 2, text.indexOf("P") + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         pCoinCount.setText(spannableString);
     }
 
@@ -170,8 +169,8 @@ public class PayActivity extends AppCompatActivity {
     private void setBuyTextViewSpan(TextView textView) {
         SpannableString spannableString = new SpannableString(textView.getText());
         int end = textView.getText().toString().indexOf("P");
-        spannableString.setSpan(new AbsoluteSizeSpan(UnitConvertUtil.sp2px(this, 22)), 0, end - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new AbsoluteSizeSpan(UnitConvertUtil.sp2px(this, 17)), end - 1, end + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new AbsoluteSizeSpan(AutoSizeUtils.sp2px(this, 22)), 0, end - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new AbsoluteSizeSpan(AutoSizeUtils.sp2px(this, 17)), end - 1, end + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         textView.setText(spannableString);
     }
 

@@ -2,17 +2,24 @@ package com.example.pilipili_android.view_model;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
+import androidx.lifecycle.MutableLiveData;
+
+import com.bumptech.glide.Glide;
 import com.example.pilipili_android.R;
-import com.example.pilipili_android.activity.SpaceActivity;
 import com.example.pilipili_android.constant.DefaultConstant;
 import com.example.pilipili_android.constant.SPConstant;
+import com.example.pilipili_android.constant.UrlConstant;
+import com.example.pilipili_android.util.EncryptUtil;
 import com.example.pilipili_android.util.SPUtil;
-import com.example.pilipili_android.util.SerializeAndDeserializeUtil;
 
-import java.io.IOException;
+import java.io.File;
+import java.util.Objects;
 
 public class UserBaseDetail {
+
+    private MutableLiveData<Drawable> avatar = new MutableLiveData<>();
 
     /***********************************************************************************************
      * Basic
@@ -41,13 +48,20 @@ public class UserBaseDetail {
         return (int) SPUtil.get(context, SPConstant.FOLLOWING, -1);
     }
 
-    public static Drawable getAvatar(Context context) {
-        try {
-            return SerializeAndDeserializeUtil.deserializeImage((String) SPUtil.get(context, SPConstant.AVATAR, ""));
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return context.getDrawable(DefaultConstant.AVATAR_IMAGE_DEFAULT);
+    public static String getAvatarPath(Context context) {
+        return UrlConstant.GLIDE_CACHE + File.separator + SPUtil.get(context, SPConstant.AVATAR, "");
+    }
+
+    public static boolean isAvatarDefault(Context context) {
+        return Objects.requireNonNull(SPUtil.get(context, SPConstant.AVATAR, "")).equals("");
+    }
+
+    public static String getBackgroundPath(Context context) {
+        return UrlConstant.GLIDE_CACHE + File.separator + SPUtil.get(context, SPConstant.BACKGROUND, "");
+    }
+
+    public static boolean isBackgroundDefault(Context context) {
+        return Objects.requireNonNull(SPUtil.get(context, SPConstant.BACKGROUND, "")).equals("");
     }
 
     public static Drawable getGender (Context context) {

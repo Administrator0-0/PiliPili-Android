@@ -1,5 +1,7 @@
 package com.example.pilipili_android.constant;
 
+import android.annotation.SuppressLint;
+
 public interface UrlConstant {
     /**
      * PiliPili主服务器
@@ -9,6 +11,15 @@ public interface UrlConstant {
     String PILIPILI_ENDPOINT = "https://oss-cn-beijing.aliyuncs.com";
 
     String PILIPILI_BUCKET = "pilipili-bucket";
+
+    /**
+     * 本地路径
+     */
+    @SuppressLint("SdCardPath")
+    String GLIDE_CACHE = "/data/data/com.example.pilipili_android/cache/image_manager_disk_cache";
+
+    @SuppressLint("SdCardPath")
+    String CROP_CACHE = "/data/data/com.example.pilipili_android/cache/image_cache_crop";
 
     /**
      * 用户接口

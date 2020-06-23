@@ -19,4 +19,6 @@ public interface SPConstant {
     String GENDER = "gender";
 
     String VIP_DDL = "vip_ddl";
+
+    String BACKGROUND = "background";
 }

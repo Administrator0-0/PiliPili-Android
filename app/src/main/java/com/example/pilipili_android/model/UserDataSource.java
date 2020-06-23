@@ -1,11 +1,15 @@
 package com.example.pilipili_android.model;
 
+import android.database.Observable;
+
+import androidx.annotation.NonNull;
+
 import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
 import com.example.pilipili_android.bean.netbean.CommonReturn;
 import com.example.pilipili_android.bean.netbean.CommonSend;
 import com.example.pilipili_android.bean.netbean.FollowUnFollowReturn;
 import com.example.pilipili_android.bean.netbean.GetSpaceDataReturn;
-import com.example.pilipili_android.bean.netbean.GetUserBackgroundReturn;
+import com.example.pilipili_android.bean.netbean.GetUserBackgroundOrAvatarReturn;
 import com.example.pilipili_android.bean.netbean.LoginReturn;
 import com.example.pilipili_android.bean.netbean.LoginSend;
 import com.example.pilipili_android.bean.netbean.NetRequestResult;
@@ -14,6 +18,7 @@ import com.example.pilipili_android.bean.netbean.RenameReturn;
 import com.example.pilipili_android.bean.netbean.RenameSend;
 import com.example.pilipili_android.bean.netbean.SetGenderReturn;
 import com.example.pilipili_android.bean.netbean.UploadSignReturn;
+import com.example.pilipili_android.bean.netbean.UploadUserBackgroundReturn;
 import com.example.pilipili_android.bean.netbean.UserDetailReturn;
 import com.example.pilipili_android.bean.netbean.UserOpenDetailReturn;
 import com.example.pilipili_android.inteface.OnNetRequestListener;
@@ -22,8 +27,12 @@ import com.example.pilipili_android.util.EncryptUtil;
 import com.example.pilipili_android.util.RetrofitUtil;
 import com.google.gson.Gson;
 
+import java.io.File;
 import java.util.Objects;
+import java.util.Observer;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -390,27 +399,111 @@ public class UserDataSource {
     }
 
     public void getUserBackground (int UID, OnNetRequestListener onNetRequestListener) {
-        Call<GetUserBackgroundReturn> call = retrofitService.getUserBackground(UID + "");
-        call.enqueue(new Callback<GetUserBackgroundReturn>() {
+        Call<GetUserBackgroundOrAvatarReturn> call = retrofitService.getUserBackground(UID + "");
+        call.enqueue(new Callback<GetUserBackgroundOrAvatarReturn>() {
             @Override
-            public void onResponse(Call<GetUserBackgroundReturn> call, Response<GetUserBackgroundReturn> response) {
-                GetUserBackgroundReturn getUserBackgroundReturn = response.body();
-                if(getUserBackgroundReturn == null) {
+            public void onResponse(Call<GetUserBackgroundOrAvatarReturn> call, Response<GetUserBackgroundOrAvatarReturn> response) {
+                GetUserBackgroundOrAvatarReturn getUserBackgroundOrAvatarReturn = response.body();
+                if(getUserBackgroundOrAvatarReturn == null) {
                     onNetRequestListener.onFail("获取头图不能");
                     return;
                 }
-                if(getUserBackgroundReturn.getCode() == 200) {
-                    onNetRequestListener.onSuccess(new NetRequestResult<>(getUserBackgroundReturn));
+                if(getUserBackgroundOrAvatarReturn.getCode() == 200) {
+                    onNetRequestListener.onSuccess(new NetRequestResult<>(getUserBackgroundOrAvatarReturn));
                 } else {
-                    onNetRequestListener.onFail(Objects.requireNonNull(getUserBackgroundReturn).getMessage());
+                    onNetRequestListener.onFail(Objects.requireNonNull(getUserBackgroundOrAvatarReturn).getMessage());
                 }
             }
 
             @Override
-            public void onFailure(Call<GetUserBackgroundReturn> call, Throwable t) {
+            public void onFailure(Call<GetUserBackgroundOrAvatarReturn> call, Throwable t) {
                 onNetRequestListener.onFail("网络不稳定，请检查网络");
             }
         });
+    }
+
+    public void getUserAvatar (int UID, OnNetRequestListener onNetRequestListener) {
+        Call<GetUserBackgroundOrAvatarReturn> call = retrofitService.getUserAvatar(UID + "");
+        call.enqueue(new Callback<GetUserBackgroundOrAvatarReturn>() {
+            @Override
+            public void onResponse(Call<GetUserBackgroundOrAvatarReturn> call, Response<GetUserBackgroundOrAvatarReturn> response) {
+                GetUserBackgroundOrAvatarReturn getUserBackgroundOrAvatarReturn = response.body();
+                if(getUserBackgroundOrAvatarReturn == null) {
+                    onNetRequestListener.onFail("获取头像不能");
+                    return;
+                }
+                if(getUserBackgroundOrAvatarReturn.getCode() == 200) {
+                    onNetRequestListener.onSuccess(new NetRequestResult<>(getUserBackgroundOrAvatarReturn));
+                } else {
+                    onNetRequestListener.onFail(Objects.requireNonNull(getUserBackgroundOrAvatarReturn).getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetUserBackgroundOrAvatarReturn> call, Throwable t) {
+                onNetRequestListener.onFail("网络不稳定，请检查网络");
+            }
+        });
+    }
+
+    public void uploadUserBackground(String token, File background, OnNetRequestListener onNetRequestListener) {
+        String ciphertext = EncryptUtil.getVerificationToken(token);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), background);
+        //创建MultipartBody.Part，用于封装文件数据
+        MultipartBody.Part requestImgPart =
+                MultipartBody.Part.createFormData("content", background.getName(), requestBody);
+        Call<UploadUserBackgroundReturn> call = retrofitService.uploadUserBackground(ciphertext, requestImgPart);
+        call.enqueue(new Callback<UploadUserBackgroundReturn>() {
+            @Override
+            public void onResponse(@NonNull Call<UploadUserBackgroundReturn> call, @NonNull Response<UploadUserBackgroundReturn> response) {
+                UploadUserBackgroundReturn uploadUserBackgroundReturn = response.body();
+                if(uploadUserBackgroundReturn == null) {
+                    onNetRequestListener.onFail("头图上传错误");
+                    return;
+                }
+                if(uploadUserBackgroundReturn.getCode() == 200) {
+                    onNetRequestListener.onSuccess();
+                } else {
+                    onNetRequestListener.onFail(Objects.requireNonNull(uploadUserBackgroundReturn).getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<UploadUserBackgroundReturn> call, @NonNull Throwable t) {
+                onNetRequestListener.onFail("网络不稳定，请检查网络");
+            }
+        });
+
+    }
+
+    public void uploadUserAvatar(String token, File avatar, OnNetRequestListener onNetRequestListener) {
+        String ciphertext = EncryptUtil.getVerificationToken(token);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), avatar);
+        //创建MultipartBody.Part，用于封装文件数据
+        MultipartBody.Part requestImgPart =
+                MultipartBody.Part.createFormData("content", avatar.getName(), requestBody);
+        Call<UploadUserBackgroundReturn> call = retrofitService.uploadUserAvatar(ciphertext, requestImgPart);
+        call.enqueue(new Callback<UploadUserBackgroundReturn>() {
+            @Override
+            public void onResponse(@NonNull Call<UploadUserBackgroundReturn> call, @NonNull Response<UploadUserBackgroundReturn> response) {
+                UploadUserBackgroundReturn uploadUserBackgroundReturn = response.body();
+                if(uploadUserBackgroundReturn == null) {
+                    onNetRequestListener.onFail("头像上传错误");
+                    return;
+                }
+                if(uploadUserBackgroundReturn.getCode() == 200) {
+                    onNetRequestListener.onSuccess();
+                } else {
+                    onNetRequestListener.onFail(Objects.requireNonNull(uploadUserBackgroundReturn).getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<UploadUserBackgroundReturn> call, @NonNull Throwable t) {
+                onNetRequestListener.onFail("网络不稳定，请检查网络");
+            }
+        });
+
     }
 
 }

@@ -7,27 +7,28 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
 import com.example.pilipili_android.bean.netbean.GetSpaceDataReturn;
-import com.example.pilipili_android.bean.netbean.GetUserBackgroundReturn;
+import com.example.pilipili_android.bean.netbean.GetUserBackgroundOrAvatarReturn;
 import com.example.pilipili_android.bean.netbean.LoginSend;
 import com.example.pilipili_android.bean.netbean.NetRequestResult;
 import com.example.pilipili_android.bean.localbean.SpaceActivityBean;
 import com.example.pilipili_android.bean.netbean.UserDetailReturn;
-import com.example.pilipili_android.constant.DefaultConstant;
 import com.example.pilipili_android.constant.SPConstant;
 import com.example.pilipili_android.inteface.OnNetRequestListener;
 import com.example.pilipili_android.model.UserDataSource;
 import com.example.pilipili_android.util.AliyunOSSUtil;
 import com.example.pilipili_android.util.EncryptUtil;
 import com.example.pilipili_android.util.SPUtil;
-import com.example.pilipili_android.util.SerializeAndDeserializeUtil;
 
-import java.io.IOException;
+import java.io.File;
 
 public class UserViewModel extends AndroidViewModel {
 
@@ -41,8 +42,7 @@ public class UserViewModel extends AndroidViewModel {
     private MutableLiveData<UserDetailReturn> userDetail = new MutableLiveData<>();
     private MutableLiveData<Boolean> isSuccessBuyCoin = new MutableLiveData<>();
     private MutableLiveData<SpaceActivityBean> spaceActivityBean = new MutableLiveData<>();
-    private MutableLiveData<Integer> spaceBackground = new MutableLiveData<>();
-
+    private MutableLiveData<String> spaceBackgroundUrl = new MutableLiveData<>();
 
     public UserViewModel(@NonNull Application application) {
         super(application);
@@ -102,7 +102,50 @@ public class UserViewModel extends AndroidViewModel {
                             putFollowingCount(userDetailReturn.getData().getFollowings_count());
                             putGender(userDetailReturn.getData().isGender());
                             putVIPDeadline(userDetailReturn.getData().getVip());
-                            isSuccessLogin.setValue(true);
+                            userDataSource.getUserAvatar(UserBaseDetail.getUID(context), new OnNetRequestListener() {
+                                @Override
+                                public void onSuccess(NetRequestResult netRequestResult) {
+                                    GetUserBackgroundOrAvatarReturn getUserBackgroundOrAvatarReturn = (GetUserBackgroundOrAvatarReturn) netRequestResult.getData();
+                                    if(getUserBackgroundOrAvatarReturn.getData().getFile() == null) {
+                                        isSuccessLogin.setValue(true);
+                                        return;
+                                    }
+                                    String url = AliyunOSSUtil.getImageUrl(context, getUserBackgroundOrAvatarReturn.getData().getGuest_key(),
+                                            getUserBackgroundOrAvatarReturn.getData().getGuest_secret(),
+                                            getUserBackgroundOrAvatarReturn.getData().getSecurity_token(),
+                                            getUserBackgroundOrAvatarReturn.getData().getFile());
+                                    CustomTarget<Drawable> customTarget = new CustomTarget<Drawable>() {
+                                        @Override
+                                        public void onResourceReady(@NonNull Drawable resource, Transition<? super Drawable> transition) {
+                                            putAvatar(url);
+                                            isSuccessLogin.setValue(true);
+                                        }
+
+                                        @Override
+                                        public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                                        }
+                                    };
+
+                                    Glide.with(context).load(url).into(customTarget);
+                                }
+
+                                @Override
+                                public void onSuccess() {
+
+                                }
+
+                                @Override
+                                public void onFail() {
+
+                                }
+
+                                @Override
+                                public void onFail(String errorMessage) {
+                                    isSuccessLogin.setValue(false);
+                                    Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
 
                         @Override
@@ -117,6 +160,8 @@ public class UserViewModel extends AndroidViewModel {
 
                         @Override
                         public void onFail(String errorMessage) {
+                            isSuccessLogin.setValue(false);
+                            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -194,7 +239,50 @@ public class UserViewModel extends AndroidViewModel {
                 putFollowingCount(userDetailReturn.getData().getFollowings_count());
                 putGender(userDetailReturn.getData().isGender());
                 putVIPDeadline(userDetailReturn.getData().getVip());
-                isSuccessLogin.setValue(true);
+                userDataSource.getUserAvatar(UserBaseDetail.getUID(context), new OnNetRequestListener() {
+                    @Override
+                    public void onSuccess(NetRequestResult netRequestResult) {
+                        GetUserBackgroundOrAvatarReturn getUserBackgroundOrAvatarReturn = (GetUserBackgroundOrAvatarReturn) netRequestResult.getData();
+                        if(getUserBackgroundOrAvatarReturn.getData().getFile() == null) {
+                            isSuccessLogin.setValue(true);
+                            return;
+                        }
+                        String url = AliyunOSSUtil.getImageUrl(context, getUserBackgroundOrAvatarReturn.getData().getGuest_key(),
+                                getUserBackgroundOrAvatarReturn.getData().getGuest_secret(),
+                                getUserBackgroundOrAvatarReturn.getData().getSecurity_token(),
+                                getUserBackgroundOrAvatarReturn.getData().getFile());
+                        CustomTarget<Drawable> customTarget = new CustomTarget<Drawable>() {
+                            @Override
+                            public void onResourceReady(@NonNull Drawable resource, Transition<? super Drawable> transition) {
+                                putAvatar(url);
+                                isSuccessLogin.setValue(true);
+                            }
+
+                            @Override
+                            public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                            }
+                        };
+
+                        Glide.with(context).load(url).into(customTarget);
+                    }
+
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onFail() {
+
+                    }
+
+                    @Override
+                    public void onFail(String errorMessage) {
+                        isSuccessLogin.setValue(false);
+                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override
@@ -209,7 +297,8 @@ public class UserViewModel extends AndroidViewModel {
 
             @Override
             public void onFail(String errorMessage) {
-
+                isSuccessLogin.setValue(false);
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -250,17 +339,17 @@ public class UserViewModel extends AndroidViewModel {
                 userDataSource.getUserBackground(UserBaseDetail.getUID(context), new OnNetRequestListener() {
                     @Override
                     public void onSuccess(NetRequestResult netRequestResult) {
-                        GetUserBackgroundReturn getUserBackgroundReturn = (GetUserBackgroundReturn) netRequestResult.getData();
-                        if(getUserBackgroundReturn.getData().getBackground() == null) {
-                            spaceBackground.setValue(DefaultConstant.BACKGROUND_IMAGE_DEFAULT);
+                        GetUserBackgroundOrAvatarReturn getUserBackgroundOrAvatarReturn = (GetUserBackgroundOrAvatarReturn) netRequestResult.getData();
+                        if(getUserBackgroundOrAvatarReturn.getData().getFile() == null) {
+                            spaceBackgroundUrl.setValue("null");
                             return;
                         }
-                        String a = AliyunOSSUtil.getImageUrl(context, getUserBackgroundReturn.getData().getGuest_Key(),
-                                getUserBackgroundReturn.getData().getGuest_Secret(),
-                                getUserBackgroundReturn.getData().getSecurity_token(),
-                                getUserBackgroundReturn.getData().getBackground());
-                        Glide.
-                        Log.d("aaa", a);
+                        String url = AliyunOSSUtil.getImageUrl(context, getUserBackgroundOrAvatarReturn.getData().getGuest_key(),
+                                getUserBackgroundOrAvatarReturn.getData().getGuest_secret(),
+                                getUserBackgroundOrAvatarReturn.getData().getSecurity_token(),
+                                getUserBackgroundOrAvatarReturn.getData().getFile());
+                        Log.d("aaa", url);
+                        spaceBackgroundUrl.setValue(url);
                     }
 
                     @Override
@@ -297,7 +386,55 @@ public class UserViewModel extends AndroidViewModel {
         });
     }
 
+    public void uploadUserBackground(String path) {
+        File file = new File(path);
+        userDataSource.uploadUserBackground(UserBaseDetail.getToken(context), file, new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
 
+            }
+
+            @Override
+            public void onSuccess() {
+                spaceBackgroundUrl.setValue(path);
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void uploadUserAvatar(String path) {
+        File file = new File(path);
+        userDataSource.uploadUserAvatar(UserBaseDetail.getToken(context), file, new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     private void putUsername(String username) {
         SPUtil.put(context, SPConstant.USERNAME, username);
@@ -323,21 +460,22 @@ public class UserViewModel extends AndroidViewModel {
         SPUtil.put(context, SPConstant.FOLLOWING, followerCount);
     }
 
-    private void putAvatar(Drawable drawable) {
-        try {
-            SPUtil.put(context, SPConstant.AVATAR, SerializeAndDeserializeUtil.serializeImage(drawable));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     //男：false 女：true
     private void putGender(Boolean genderBoolean) {
         SPUtil.put(context, SPConstant.GENDER, genderBoolean);
     }
 
     private void putVIPDeadline(String ddl){
-        SPUtil.put(context, SPConstant.VIP_DDL, ddl);
+        if(ddl == null) {
+            SPUtil.put(context, SPConstant.VIP_DDL, "");
+        } else {
+            SPUtil.put(context, SPConstant.VIP_DDL, ddl);
+        }
+    }
+
+    private void putAvatar(String url) {
+        String filename = EncryptUtil.getGlide4_SafeKey(url);
+        SPUtil.put(context, SPConstant.AVATAR, filename);
     }
 
     public Context getContext() {
@@ -368,7 +506,7 @@ public class UserViewModel extends AndroidViewModel {
         return loginInfo;
     }
 
-    public MutableLiveData<Integer> getSpaceBackground() {
-        return spaceBackground;
+    public MutableLiveData<String> getSpaceBackgroundUrl() {
+        return spaceBackgroundUrl;
     }
 }

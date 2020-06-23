@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="头图装扮"
+            android:layout_marginStart="12dp"
+            android:layout_centerVertical="true"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="默认头图"
+            android:layout_marginEnd="9dp"
+            android:textColor="@color/qmui_config_color_gray_5"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:textSize="15sp"
+            android:id="@+id/default_bg"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/qmui_config_color_gray_9"/>
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="自定义头图"
+        android:id="@+id/self_def"
+        app:qmui_radius="5dp"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="15dp"
+        app:qmui_borderColor="@color/colorPrimary"
+        android:textColor="@color/colorPrimary"
+        app:qmui_borderWidth="1dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/qmui_config_color_gray_9"/>
+
+    <TextView
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="取消"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"/>
+</LinearLayout>

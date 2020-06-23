@@ -1,25 +1,32 @@
 package com.example.pilipili_android.inteface;
 
+import android.database.Observable;
+
 import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
 import com.example.pilipili_android.bean.netbean.CommonReturn;
 import com.example.pilipili_android.bean.netbean.FollowUnFollowReturn;
 import com.example.pilipili_android.bean.netbean.GetSpaceDataReturn;
-import com.example.pilipili_android.bean.netbean.GetUserBackgroundReturn;
+import com.example.pilipili_android.bean.netbean.GetUserBackgroundOrAvatarReturn;
 import com.example.pilipili_android.bean.netbean.LoginReturn;
 import com.example.pilipili_android.bean.netbean.RenameReturn;
 import com.example.pilipili_android.bean.netbean.SetGenderReturn;
 import com.example.pilipili_android.bean.netbean.UploadSignReturn;
+import com.example.pilipili_android.bean.netbean.UploadUserBackgroundReturn;
 import com.example.pilipili_android.bean.netbean.UserDetailReturn;
 import com.example.pilipili_android.bean.netbean.UserOpenDetailReturn;
 import com.example.pilipili_android.constant.UrlConstant;
 
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface RetrofitService {
@@ -113,5 +120,29 @@ public interface RetrofitService {
      *
      */
     @GET(UrlConstant.GET_BACKGROUND_HEAD + "{id}" + UrlConstant.GET_BACKGROUND_TAIL)
-    Call<GetUserBackgroundReturn> getUserBackground(@Path("id") String id);
+    Call<GetUserBackgroundOrAvatarReturn> getUserBackground(@Path("id") String id);
+
+    /**
+     * 获取用户头像
+     *
+     */
+    @GET(UrlConstant.GET_AVATAR_HEAD + "{id}" + UrlConstant.GET_AVATAR_TAIL)
+    Call<GetUserBackgroundOrAvatarReturn> getUserAvatar(@Path("id") String id);
+
+    /**
+     * 上传用户头图
+     *
+     */
+    @Multipart
+    @POST(UrlConstant.UPLOAD_BACKGROUND)
+    Call<UploadUserBackgroundReturn> uploadUserBackground(@Header("Authorization") String token, @Part MultipartBody.Part background);
+
+    /**
+     * 上传用户头像
+     *
+     */
+    @Multipart
+    @POST(UrlConstant.UPLOAD_AVATAR)
+    Call<UploadUserBackgroundReturn> uploadUserAvatar(@Header("Authorization") String token, @Part MultipartBody.Part avatar);
+
 }
