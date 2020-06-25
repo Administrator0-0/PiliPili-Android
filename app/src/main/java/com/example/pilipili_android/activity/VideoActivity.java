@@ -89,6 +89,8 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     ImageView replayBack;
     @BindView(R.id.root_layout)
     RelativeLayout root;
+    @BindView(R.id.comment_bar)
+    LinearLayout commentBar;
 
     private int pv;
     private String imgUrl;
@@ -188,6 +190,26 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         titles.add("简介");
         titles.add("评论" + "(" + num + ")");
         mAdapter = new VideoDetailsPagerAdapter(getSupportFragmentManager(), fragments, titles);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 0) {
+                    commentBar.setVisibility(View.GONE);
+                } else {
+                    commentBar.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(2);
         mTabLayout.setupWithViewPager(mViewPager);
@@ -198,7 +220,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         PiliPiliVideoController controller =
                 new PiliPiliVideoController(this);
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        layoutParams.setMargins(0, 25, 0, 40);
+        layoutParams.setMargins(0, 30, 0, 40);
         danmakuView.setLayoutParams(layoutParams);
         controller.addDefaultControlComponent("刘薪王太强了", () -> danmakuView.addDanmaku("xxxxx", true));
         controller.addControlComponent(danmakuView);
