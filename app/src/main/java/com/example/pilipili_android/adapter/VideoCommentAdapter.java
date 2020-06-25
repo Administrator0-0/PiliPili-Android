@@ -50,7 +50,7 @@ public class VideoCommentAdapter extends RecyclerView.Adapter {
         itemViewHolder.mUsername.setText("刘薪王分身");
         itemViewHolder.mUserAvatar.setImageResource(R.drawable.bxx);
         itemViewHolder.mCommentTime.setText("99999999");
-        itemViewHolder.mLike.setText("88888888");
+        itemViewHolder.mLikeNum.setText("88888888");
         itemViewHolder.mContent.setText("刘薪王的分身很多");
         List<SpannableString> strings = replays.get(position);
         if (strings == null) {
@@ -89,10 +89,11 @@ public class VideoCommentAdapter extends RecyclerView.Adapter {
     public class ItemViewHolder extends RecyclerView.ViewHolder {
 
         ImageView mUserAvatar;
+        ImageView mLike;
         TextView mUsername;
         TextView mCommentTime;
         TextView mContent;
-        TextView mLike;
+        TextView mLikeNum;
         TextView[]replays = new TextView[4];
 
         public ItemViewHolder(View itemView) {
@@ -101,6 +102,7 @@ public class VideoCommentAdapter extends RecyclerView.Adapter {
             mUsername = itemView.findViewById(R.id.item_user_name);
             mCommentTime = itemView.findViewById(R.id.item_comment_time);
             mContent = itemView.findViewById(R.id.item_comment_content);
+            mLikeNum = itemView.findViewById(R.id.item_comment_like_num);
             mLike = itemView.findViewById(R.id.item_comment_like);
             replays[0] = itemView.findViewById(R.id.replay_one);
             replays[1] = itemView.findViewById(R.id.replay_two);

@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -26,6 +28,7 @@ import com.dueeeke.videoplayer.player.VideoView;
 import com.dueeeke.videoplayer.util.PlayerUtils;
 import com.example.pilipili_android.R;
 import com.example.pilipili_android.activity.VideoActivity;
+import com.example.pilipili_android.util.DanmukuSelectUtil;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 
 import static com.dueeeke.videoplayer.util.PlayerUtils.stringForTime;
@@ -45,6 +48,7 @@ public class PiliPiliControlView extends FrameLayout implements IControlComponen
     private EditText mEdit;
     private ImageView mBack;
     private ImageView mSend;
+    private CheckBox[] checkBoxes;
 
     private boolean mIsDragging;
 
@@ -81,7 +85,7 @@ public class PiliPiliControlView extends FrameLayout implements IControlComponen
         mPlayButton = findViewById(R.id.iv_play);
         mPlayButton.setOnClickListener(this);
         mBottomProgress = findViewById(R.id.bottom_progress);
-
+        checkBoxes = new CheckBox[9];
     }
 
     protected int getLayoutId() {
@@ -288,25 +292,49 @@ public class PiliPiliControlView extends FrameLayout implements IControlComponen
             mEdit = findViewById(R.id.input_danmuku);
             mBack = findViewById(R.id.back);
             mSend = findViewById(R.id.send);
+            checkBoxes[0] = findViewById(R.id.white_checkbox);
+            checkBoxes[1] = findViewById(R.id.blue_green_checkbox);
+            checkBoxes[2] = findViewById(R.id.brown_checkbox);
+            checkBoxes[3] = findViewById(R.id.green_checkbox);
+            checkBoxes[4] = findViewById(R.id.yellow_checkbox);
+            checkBoxes[5] = findViewById(R.id.red_checkbox);
+            checkBoxes[6] = findViewById(R.id.pink_checkbox);
+            checkBoxes[7] = findViewById(R.id.blue_checkbox);
+            checkBoxes[8] = findViewById(R.id.purple_checkbox);
+            checkBoxes[0].setChecked(true);
             mBack.setOnClickListener(this);
             mSend.setOnClickListener(this);
             mOpenDanmuku.setOnClickListener(this);
+            for (CheckBox checkBox : checkBoxes) {
+                checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    if (isChecked) {
+                        for (CheckBox checkBoxOther : checkBoxes) {
+                            if (checkBoxOther != checkBox) {
+                                checkBoxOther.setChecked(false);
+                            }
+                        }
+                        String color = DanmukuSelectUtil.getColor(checkBox.getId());
+                    }
+                });
+            }
             mDanmukuBar.setVisibility(GONE);
-        } else
+        } else {
             LayoutInflater.from(getContext()).inflate(R.layout.layout_pilipili_control_view_small, this, true);
-        mFullScreen = findViewById(R.id.fullscreen);
-        mFullScreen.setOnClickListener(this);
-        mBottomContainer = findViewById(R.id.bottom_container);
-        mVideoProgress = findViewById(R.id.seekBar);
-        mVideoProgress.setOnSeekBarChangeListener(this);
-        mTotalTime = findViewById(R.id.total_time);
-        mCurrTime = findViewById(R.id.curr_time);
-        mPlayButton = findViewById(R.id.iv_play);
-        mPlayButton.setOnClickListener(this);
-        mBottomProgress = findViewById(R.id.bottom_progress);
-        mBottomProgress.setProgress(progress);
-        mCurrTime.setText(curTime);
-        mTotalTime.setText(totalTime);
+            mFullScreen = findViewById(R.id.fullscreen);
+            mFullScreen.setOnClickListener(this);
+            mBottomContainer = findViewById(R.id.bottom_container);
+            mVideoProgress = findViewById(R.id.seekBar);
+            mVideoProgress.setOnSeekBarChangeListener(this);
+            mTotalTime = findViewById(R.id.total_time);
+            mCurrTime = findViewById(R.id.curr_time);
+            mPlayButton = findViewById(R.id.iv_play);
+            mPlayButton.setOnClickListener(this);
+            mBottomProgress = findViewById(R.id.bottom_progress);
+            mBottomProgress.setProgress(progress);
+            mCurrTime.setText(curTime);
+            mTotalTime.setText(totalTime);
+
+        }
     }
 
     @Override
