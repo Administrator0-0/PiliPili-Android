@@ -1,14 +1,11 @@
-package com.example.pilipili_android.bean;
+package com.example.pilipili_android.bean.netbean;
 
-/**
- * 买币的返回数据
- */
-public class BuyCoinReturn {
+public class GetSpaceDataReturn {
 
     /**
      * code : 200
-     * data : {"coins":100}
-     * message : 购买硬币成功
+     * data : {"likes":0,"sign":"大屁股裂了，我变成中屁股了"}
+     * message : 空间数据
      */
 
     private int code;
@@ -41,17 +38,27 @@ public class BuyCoinReturn {
 
     public static class DataBean {
         /**
-         * coins : 100
+         * likes : 0
+         * sign : 大屁股裂了，我变成中屁股了
          */
 
-        private int coins;
+        private int likes;
+        private String sign;
 
-        public int getCoins() {
-            return coins;
+        public int getLikes() {
+            return likes;
         }
 
-        public void setCoins(int coins) {
-            this.coins = coins;
+        public void setLikes(int likes) {
+            this.likes = likes;
+        }
+
+        public String getSign() {
+            return sign;
+        }
+
+        public void setSign(String sign) {
+            this.sign = sign;
         }
     }
 }

@@ -2,26 +2,33 @@ package com.example.pilipili_android.view_model;
 
 import android.app.Application;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
-import android.util.Patterns;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.pilipili_android.bean.BuyCoinReturn;
-import com.example.pilipili_android.bean.LoginReturn;
-import com.example.pilipili_android.bean.LoginSend;
-import com.example.pilipili_android.bean.NetRequestResult;
-import com.example.pilipili_android.bean.UserDetailReturn;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
+import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
+import com.example.pilipili_android.bean.netbean.GetSpaceDataReturn;
+import com.example.pilipili_android.bean.netbean.GetUserBackgroundOrAvatarReturn;
+import com.example.pilipili_android.bean.netbean.LoginSend;
+import com.example.pilipili_android.bean.netbean.NetRequestResult;
+import com.example.pilipili_android.bean.localbean.SpaceActivityBean;
+import com.example.pilipili_android.bean.netbean.UserDetailReturn;
 import com.example.pilipili_android.constant.SPConstant;
 import com.example.pilipili_android.inteface.OnNetRequestListener;
 import com.example.pilipili_android.model.UserDataSource;
+import com.example.pilipili_android.util.AliyunOSSUtil;
 import com.example.pilipili_android.util.EncryptUtil;
 import com.example.pilipili_android.util.SPUtil;
 
-import java.util.Objects;
+import java.io.File;
 
 public class UserViewModel extends AndroidViewModel {
 
@@ -34,23 +41,13 @@ public class UserViewModel extends AndroidViewModel {
     private MutableLiveData<LoginSend> loginInfo = new MutableLiveData<>();
     private MutableLiveData<UserDetailReturn> userDetail = new MutableLiveData<>();
     private MutableLiveData<Boolean> isSuccessBuyCoin = new MutableLiveData<>();
-
-    public MutableLiveData<LoginSend> getLoginInfo() {
-        return loginInfo;
-    }
+    private MutableLiveData<SpaceActivityBean> spaceActivityBean = new MutableLiveData<>();
+    private MutableLiveData<String> spaceBackgroundUrl = new MutableLiveData<>();
 
     public UserViewModel(@NonNull Application application) {
         super(application);
         this.context = application.getApplicationContext();
         userDataSource = new UserDataSource();
-    }
-
-    public MutableLiveData<Boolean> getIsValid() {
-        return isValid;
-    }
-
-    public MutableLiveData<Boolean> getIsSuccessLogin() {
-        return isSuccessLogin;
     }
 
     public boolean verifyLocalToken(){
@@ -84,7 +81,6 @@ public class UserViewModel extends AndroidViewModel {
         }
     }
 
-
     public void login(String email, String password) {
         if(email.trim().equals("")){
             Toast.makeText(context, "请输入邮箱", Toast.LENGTH_SHORT).show();
@@ -104,7 +100,52 @@ public class UserViewModel extends AndroidViewModel {
                             putUsername(userDetailReturn.getData().getUsername());
                             putFollowerCount(userDetailReturn.getData().getFans_count());
                             putFollowingCount(userDetailReturn.getData().getFollowings_count());
-                            isSuccessLogin.setValue(true);
+                            putGender(userDetailReturn.getData().isGender());
+                            putVIPDeadline(userDetailReturn.getData().getVip());
+                            userDataSource.getUserAvatar(UserBaseDetail.getUID(context), new OnNetRequestListener() {
+                                @Override
+                                public void onSuccess(NetRequestResult netRequestResult) {
+                                    GetUserBackgroundOrAvatarReturn getUserBackgroundOrAvatarReturn = (GetUserBackgroundOrAvatarReturn) netRequestResult.getData();
+                                    if(getUserBackgroundOrAvatarReturn.getData().getFile() == null) {
+                                        isSuccessLogin.setValue(true);
+                                        return;
+                                    }
+                                    String url = AliyunOSSUtil.getImageUrl(context, getUserBackgroundOrAvatarReturn.getData().getGuest_key(),
+                                            getUserBackgroundOrAvatarReturn.getData().getGuest_secret(),
+                                            getUserBackgroundOrAvatarReturn.getData().getSecurity_token(),
+                                            getUserBackgroundOrAvatarReturn.getData().getFile());
+                                    CustomTarget<Drawable> customTarget = new CustomTarget<Drawable>() {
+                                        @Override
+                                        public void onResourceReady(@NonNull Drawable resource, Transition<? super Drawable> transition) {
+                                            putAvatar(url);
+                                            isSuccessLogin.setValue(true);
+                                        }
+
+                                        @Override
+                                        public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                                        }
+                                    };
+
+                                    Glide.with(context).load(url).into(customTarget);
+                                }
+
+                                @Override
+                                public void onSuccess() {
+
+                                }
+
+                                @Override
+                                public void onFail() {
+
+                                }
+
+                                @Override
+                                public void onFail(String errorMessage) {
+                                    isSuccessLogin.setValue(false);
+                                    Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
 
                         @Override
@@ -119,6 +160,8 @@ public class UserViewModel extends AndroidViewModel {
 
                         @Override
                         public void onFail(String errorMessage) {
+                            isSuccessLogin.setValue(false);
+                            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -184,13 +227,62 @@ public class UserViewModel extends AndroidViewModel {
         }
     }
 
-    //不对外提供详细信息，全部由SP从本地获取
     public void getUserDetailInfo() {
         userDataSource.getUserDetail(UserBaseDetail.getToken(context), new OnNetRequestListener() {
             @Override
             public void onSuccess(NetRequestResult netRequestResult) {
                 UserDetailReturn userDetailReturn = (UserDetailReturn)netRequestResult.getData();
-                userDetail.setValue(userDetailReturn);
+                putCoin(userDetailReturn.getData().getCoins());
+                putUID(userDetailReturn.getData().getId());
+                putUsername(userDetailReturn.getData().getUsername());
+                putFollowerCount(userDetailReturn.getData().getFans_count());
+                putFollowingCount(userDetailReturn.getData().getFollowings_count());
+                putGender(userDetailReturn.getData().isGender());
+                putVIPDeadline(userDetailReturn.getData().getVip());
+                userDataSource.getUserAvatar(UserBaseDetail.getUID(context), new OnNetRequestListener() {
+                    @Override
+                    public void onSuccess(NetRequestResult netRequestResult) {
+                        GetUserBackgroundOrAvatarReturn getUserBackgroundOrAvatarReturn = (GetUserBackgroundOrAvatarReturn) netRequestResult.getData();
+                        if(getUserBackgroundOrAvatarReturn.getData().getFile() == null) {
+                            isSuccessLogin.setValue(true);
+                            return;
+                        }
+                        String url = AliyunOSSUtil.getImageUrl(context, getUserBackgroundOrAvatarReturn.getData().getGuest_key(),
+                                getUserBackgroundOrAvatarReturn.getData().getGuest_secret(),
+                                getUserBackgroundOrAvatarReturn.getData().getSecurity_token(),
+                                getUserBackgroundOrAvatarReturn.getData().getFile());
+                        CustomTarget<Drawable> customTarget = new CustomTarget<Drawable>() {
+                            @Override
+                            public void onResourceReady(@NonNull Drawable resource, Transition<? super Drawable> transition) {
+                                putAvatar(url);
+                                isSuccessLogin.setValue(true);
+                            }
+
+                            @Override
+                            public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                            }
+                        };
+
+                        Glide.with(context).load(url).into(customTarget);
+                    }
+
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onFail() {
+
+                    }
+
+                    @Override
+                    public void onFail(String errorMessage) {
+                        isSuccessLogin.setValue(false);
+                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override
@@ -205,7 +297,8 @@ public class UserViewModel extends AndroidViewModel {
 
             @Override
             public void onFail(String errorMessage) {
-
+                isSuccessLogin.setValue(false);
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -234,14 +327,114 @@ public class UserViewModel extends AndroidViewModel {
         });
     }
 
-    public MutableLiveData<Boolean> getIsSuccessBuyCoin() {
-        return isSuccessBuyCoin;
+    public void getUserSpaceData(){
+        userDataSource.getSpaceData(UserBaseDetail.getToken(context), new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+                GetSpaceDataReturn getSpaceDataReturn = (GetSpaceDataReturn) netRequestResult.getData();
+                SpaceActivityBean spaceActivityBean1 = new SpaceActivityBean();
+                spaceActivityBean1.setLike(getSpaceDataReturn.getData().getLikes() + "\n获赞");
+                spaceActivityBean1.setSign(getSpaceDataReturn.getData().getSign());
+                spaceActivityBean.setValue(spaceActivityBean1);
+                userDataSource.getUserBackground(UserBaseDetail.getUID(context), new OnNetRequestListener() {
+                    @Override
+                    public void onSuccess(NetRequestResult netRequestResult) {
+                        GetUserBackgroundOrAvatarReturn getUserBackgroundOrAvatarReturn = (GetUserBackgroundOrAvatarReturn) netRequestResult.getData();
+                        if(getUserBackgroundOrAvatarReturn.getData().getFile() == null) {
+                            spaceBackgroundUrl.setValue("null");
+                            return;
+                        }
+                        String url = AliyunOSSUtil.getImageUrl(context, getUserBackgroundOrAvatarReturn.getData().getGuest_key(),
+                                getUserBackgroundOrAvatarReturn.getData().getGuest_secret(),
+                                getUserBackgroundOrAvatarReturn.getData().getSecurity_token(),
+                                getUserBackgroundOrAvatarReturn.getData().getFile());
+                        Log.d("aaa", url);
+                        spaceBackgroundUrl.setValue(url);
+                    }
+
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onFail() {
+
+                    }
+
+                    @Override
+                    public void onFail(String errorMessage) {
+                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    public MutableLiveData<UserDetailReturn> getUserDetail() {
-        return userDetail;
+    public void uploadUserBackground(String path) {
+        File file = new File(path);
+        userDataSource.uploadUserBackground(UserBaseDetail.getToken(context), file, new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+
+            }
+
+            @Override
+            public void onSuccess() {
+                spaceBackgroundUrl.setValue(path);
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
+    public void uploadUserAvatar(String path) {
+        File file = new File(path);
+        userDataSource.uploadUserAvatar(UserBaseDetail.getToken(context), file, new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     private void putUsername(String username) {
         SPUtil.put(context, SPConstant.USERNAME, username);
@@ -267,7 +460,53 @@ public class UserViewModel extends AndroidViewModel {
         SPUtil.put(context, SPConstant.FOLLOWING, followerCount);
     }
 
+    //男：false 女：true
+    private void putGender(Boolean genderBoolean) {
+        SPUtil.put(context, SPConstant.GENDER, genderBoolean);
+    }
+
+    private void putVIPDeadline(String ddl){
+        if(ddl == null) {
+            SPUtil.put(context, SPConstant.VIP_DDL, "");
+        } else {
+            SPUtil.put(context, SPConstant.VIP_DDL, ddl);
+        }
+    }
+
+    private void putAvatar(String url) {
+        String filename = EncryptUtil.getGlide4_SafeKey(url);
+        SPUtil.put(context, SPConstant.AVATAR, filename);
+    }
+
     public Context getContext() {
         return context;
+    }
+
+    public MutableLiveData<SpaceActivityBean> getSpaceActivityBean() {
+        return spaceActivityBean;
+    }
+
+    public MutableLiveData<Boolean> getIsSuccessBuyCoin() {
+        return isSuccessBuyCoin;
+    }
+
+    public MutableLiveData<UserDetailReturn> getUserDetail() {
+        return userDetail;
+    }
+
+    public MutableLiveData<Boolean> getIsValid() {
+        return isValid;
+    }
+
+    public MutableLiveData<Boolean> getIsSuccessLogin() {
+        return isSuccessLogin;
+    }
+
+    public MutableLiveData<LoginSend> getLoginInfo() {
+        return loginInfo;
+    }
+
+    public MutableLiveData<String> getSpaceBackgroundUrl() {
+        return spaceBackgroundUrl;
     }
 }

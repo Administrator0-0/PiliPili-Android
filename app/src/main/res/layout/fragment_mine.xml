@@ -4,17 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="com.example.pilipili_android.view_model.UserBaseDetail"/>
         <variable
-            name="coin"
+            name="VIPShow"
             type="String" />
         <variable
-            name="follower"
-            type="String" />
-        <variable
-            name="following"
-            type="String" />
-        <variable
-            name="username"
+            name="VIPDeadline"
             type="String" />
         <variable
             name="userViewModel"
@@ -56,21 +51,21 @@
         </LinearLayout>
 
         <RelativeLayout
-            android:id="@+id/relativelayout_picture"
+            android:id="@+id/space_btn"
             android:layout_below="@+id/linearlayout_topbar"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.qmuiteam.qmui.widget.QMUIRadiusImageView
-                app:qmui_corner_radius="5dp"
-                android:id="@+id/button_picture"
+                app:qmui_border_color="@color/white"
+                app:qmui_border_width="2dp"
+                android:id="@+id/avatar"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="14dp"
                 android:layout_centerVertical="true"
-                android:background="@color/qmui_config_color_75_white"
-                android:src="@drawable/picture" />
+                android:background="@color/qmui_config_color_75_white" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -89,40 +84,56 @@
                 android:layout_marginEnd="15dp"
                 android:layout_alignParentEnd="true" />
 
-            <LinearLayout
-                android:layout_toEndOf="@+id/button_picture"
-                android:orientation="vertical"
+            <RelativeLayout
+                android:id="@+id/relativelayout_5"
+                android:layout_toEndOf="@+id/avatar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:id="@+id/text_nameonaboutme"
-                    android:text="@{username}"
-                    android:textSize="19sp" />
+                    android:id="@+id/username_tv"
+                    tools:text="用户名/UserDetail获取"
+                    android:text="@{UserBaseDetail.getUsername(userViewModel.context)}"
+                    android:textSize="19sp"
+                    android:layout_centerVertical="true"/>
 
-                <TextView
-                    android:id="@+id/text_numberofcoin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="12dp"
-                    android:textSize="15sp"
-                    android:textColor="@color/qmui_config_color_gray_4"
-                    android:text="@{coin}" />
-            </LinearLayout>
+                <ImageView
+                    android:id="@+id/gender_img"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:src="@{UserBaseDetail.getGender(userViewModel.context)}"
+                    android:layout_toEndOf="@+id/username_tv"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/text_numberofcoin"
+                android:layout_below="@+id/relativelayout_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="12dp"
+                android:textSize="15sp"
+                android:textColor="@color/qmui_config_color_gray_4"
+                tools:text="P币/UserDetail获取"
+                android:text="@{UserBaseDetail.getCoinInMineFragment(userViewModel.context)}"
+                android:layout_toEndOf="@+id/avatar"/>
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/relativelayout_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="19dp"
+            android:layout_marginTop="28dp"
             android:layout_marginBottom="15dp"
-            android:layout_below="@+id/relativelayout_picture"
-            android:elevation="25dp">
+            android:layout_below="@+id/space_btn"
+            android:elevation="30dp">
 
             <RelativeLayout
                 android:id="@+id/relativelayout_numberoftrends"
@@ -153,7 +164,6 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/relativelayout_numberoffans"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="60dp"
@@ -167,7 +177,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
-                    android:text="@{follower}"
+                    android:text="@{UserBaseDetail.getFollowerInMineFragment(userViewModel.context)}"
                     android:textSize="22sp" />
 
                 <TextView
@@ -193,7 +203,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="@{following}"
+                    android:text="@{UserBaseDetail.getFollowingInMineFragment(userViewModel.context)}"
                     android:textSize="22sp"
                     android:layout_marginTop="10dp" />
 
@@ -207,7 +217,57 @@
                     android:textSize="15sp"
                     android:textColor="@color/qmui_config_color_gray_5" />
             </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/big_vip"
+                android:background="@drawable/big_vip_shape"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativelayout_numberoftrends"
+                android:layout_marginStart="14dp"
+                android:layout_marginEnd="14dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="成为大会员"
+                    android:text="@{VIPShow}"
+                    android:layout_marginStart="15dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="17dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@+id/image_right_2"
+                    tools:text="2030-02-31到期"
+                    android:gravity="center_vertical"
+                    android:text="@{VIPDeadline}"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="13sp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_centerVertical="true"
+                    android:textStyle="bold"/>
+
+                <ImageView
+                    android:id="@+id/image_right_2"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/bwob"
+                    android:layout_marginEnd="15dp"
+                    android:layout_alignParentEnd="true" />
+
+            </RelativeLayout>
+
         </RelativeLayout>
+        <ScrollView
+            android:layout_below="@+id/relativelayout_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_below="@+id/relativelayout_2"
@@ -636,5 +696,6 @@
 
             </RelativeLayout>
         </RelativeLayout>
+        </ScrollView>
     </RelativeLayout>
 </layout>

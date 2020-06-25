@@ -18,13 +18,13 @@
         android:id="@+id/bar_mainpage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/qmui_config_color_blue">
+        android:background="@color/colorPrimary">
         <ImageButton
             android:id="@+id/button_oneself"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/head"
-            android:background="@color/qmui_config_color_blue"
+            android:background="@color/colorPrimary"
             android:layout_alignParentStart="true"
             android:layout_marginStart="10dp"/>
         <EditText
@@ -33,6 +33,8 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/button_oneself"
             android:hint="请输入搜索内容"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:gravity="center"/>
     </RelativeLayout>
 

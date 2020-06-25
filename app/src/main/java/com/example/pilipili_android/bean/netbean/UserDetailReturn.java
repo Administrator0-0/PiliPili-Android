@@ -1,11 +1,10 @@
-package com.example.pilipili_android.bean;
+package com.example.pilipili_android.bean.netbean;
 
 public class UserDetailReturn {
 
-
     /**
      * code : 200
-     * data : {"coins":0,"email":"2115914043@qq.com","fans_count":0,"followings_count":0,"id":1,"username":"大屁股裂了"}
+     * data : {"coins":1,"email":"lxw@lxw.com","fans_count":0,"followings_count":0,"gender":false,"id":1,"username":"lxw","vip":"2020-07-22"}
      * message : 获取用户信息成功
      */
 
@@ -39,20 +38,24 @@ public class UserDetailReturn {
 
     public static class DataBean {
         /**
-         * coins : 0
-         * email : 2115914043@qq.com
+         * coins : 1
+         * email : lxw@lxw.com
          * fans_count : 0
          * followings_count : 0
+         * gender : false
          * id : 1
-         * username : 大屁股裂了
+         * username : lxw
+         * vip : 2020-07-22
          */
 
         private int coins;
         private String email;
         private int fans_count;
         private int followings_count;
+        private boolean gender;
         private int id;
         private String username;
+        private String vip;
 
         public int getCoins() {
             return coins;
@@ -86,6 +89,14 @@ public class UserDetailReturn {
             this.followings_count = followings_count;
         }
 
+        public boolean isGender() {
+            return gender;
+        }
+
+        public void setGender(boolean gender) {
+            this.gender = gender;
+        }
+
         public int getId() {
             return id;
         }
@@ -100,6 +111,14 @@ public class UserDetailReturn {
 
         public void setUsername(String username) {
             this.username = username;
+        }
+
+        public String getVip() {
+            return vip;
+        }
+
+        public void setVip(String vip) {
+            this.vip = vip;
         }
     }
 }

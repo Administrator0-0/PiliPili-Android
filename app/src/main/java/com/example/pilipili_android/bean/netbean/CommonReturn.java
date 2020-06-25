@@ -1,4 +1,4 @@
-package com.example.pilipili_android.bean;
+package com.example.pilipili_android.bean.netbean;
 
 /**
  * 一般情况的返回数据格式

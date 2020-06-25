@@ -1,11 +1,11 @@
-package com.example.pilipili_android.bean;
+package com.example.pilipili_android.bean.netbean;
 
-public class FollowUnFollowReturn {
+public class UploadUserBackgroundReturn {
 
     /**
      * code : 200
-     * data : {"fans_count":1}
-     * message : 已关注
+     * data : {"background":"3-background.jpg"}
+     * message : 上传背景成功
      */
 
     private int code;
@@ -38,17 +38,17 @@ public class FollowUnFollowReturn {
 
     public static class DataBean {
         /**
-         * fans_count : 1
+         * background : 3-background.jpg
          */
 
-        private int fans_count;
+        private String background;
 
-        public int getFans_count() {
-            return fans_count;
+        public String getBackground() {
+            return background;
         }
 
-        public void setFans_count(int fans_count) {
-            this.fans_count = fans_count;
+        public void setBackground(String background) {
+            this.background = background;
         }
     }
 }

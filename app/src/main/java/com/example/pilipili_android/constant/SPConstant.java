@@ -13,4 +13,12 @@ public interface SPConstant {
     String FOLLOWER = "follower";
 
     String FOLLOWING = "following";
+
+    String AVATAR = "avatar";
+
+    String GENDER = "gender";
+
+    String VIP_DDL = "vip_ddl";
+
+    String BACKGROUND = "background";
 }

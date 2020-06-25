@@ -6,7 +6,7 @@
     <data>
         <variable
             name="loginInfo"
-            type="com.example.pilipili_android.bean.LoginSend" />
+            type="com.example.pilipili_android.bean.netbean.LoginSend" />
 
         <variable
             name="userViewModel"

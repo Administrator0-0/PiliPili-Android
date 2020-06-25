@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#4ac7ff</color>
     <color name="colorAccent">#4ac7ff</color>
 
+    <color name="transblue1">#3400BFFF</color><!--深天蓝色 -->   
     <color name="transparent">#00000000</color><!--透明色 -->   
     <color name="white">#FFFFFF</color><!--白色 -->   
     <color name="ivory">#FFFFF0</color><!--象牙色 -->   
