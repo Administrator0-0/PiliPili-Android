@@ -57,7 +57,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.example.pilipili_android.util.UnitConvertUtil.dip2px;
+import static me.jessyan.autosize.utils.AutoSizeUtils.dp2px;
+
 
 public class VideoActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -167,7 +168,16 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         fragments.add(new VideoInfoFragment());
         VideoCommentFragment fragment = new VideoCommentFragment();
         fragment.setListener(position -> {
-            showFakeFragment(fragment);
+            fragments.set(1, new CommentDetailsFragment());
+            mAdapter.notifyDataSetChanged();
+            tabBar.setVisibility(View.GONE);
+            replayBar.setVisibility(View.VISIBLE);
+            replayBack.setOnClickListener(v -> {
+                fragments.set(1, fragment);
+                mAdapter.notifyDataSetChanged();
+                tabBar.setVisibility(View.VISIBLE);
+                replayBar.setVisibility(View.GONE);
+            });
         });
         fragments.add(fragment);
         setPagerTitle("1000");
@@ -308,54 +318,6 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         dialog.show();
     }
 
-    private void showFakeFragment(Fragment fragment) {
-        View fake = LayoutInflater.from(VideoActivity.this).inflate(R.layout.fragment_fake_comment_details, null, false);
-        root.addView(fake);
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        layoutParams.setMargins(0, 1000, 0, 0);
-        fake.setLayoutParams(layoutParams);
-        Log.d("aaa", "1: "+dip2px(VideoActivity.this,  mViewPager.getTop()));
-        Log.d("aaa", "2: "+dip2px(VideoActivity.this,  mViewPager.getTop()));
-        Animation translateAnimation;
-        if (mViewPager.getTop() < 1000) {
-            translateAnimation  = new TranslateAnimation(0,0,1000, dip2px(VideoActivity.this,  mViewPager.getTop()) - 1300);
-        } else {
-            translateAnimation = new TranslateAnimation(0,0,1000, dip2px(VideoActivity.this, mViewPager.getTop()) / 2);
-        }
-
-        translateAnimation.setFillEnabled(true);
-        translateAnimation.setFillAfter(true);
-        translateAnimation.setDuration(1000);
-        translateAnimation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                root.removeView(fake);
-                fragments.set(1, new CommentDetailsFragment());
-                mAdapter.notifyDataSetChanged();
-                tabBar.setVisibility(View.GONE);
-                replayBar.setVisibility(View.VISIBLE);
-                replayBack.setOnClickListener(v -> {
-                    fragments.set(1, fragment);
-                    mAdapter.notifyDataSetChanged();
-                    tabBar.setVisibility(View.VISIBLE);
-                    replayBar.setVisibility(View.GONE);
-                });
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        fake.setAnimation(translateAnimation);
-        translateAnimation.start();
-    }
-
 
     public static class VideoDetailsPagerAdapter extends FragmentStatePagerAdapter {
         private List<Fragment> fragments;
@@ -387,7 +349,6 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             if (flags != null && flags[position]) {
-                /**得到缓存的fragment, 拿到tag并替换成新的fragment*/
                 Fragment fragment = (Fragment) super.instantiateItem(container, position);
                 String fragmentTag = fragment.getTag();
                 FragmentTransaction ft = fm.beginTransaction();
@@ -396,13 +357,8 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
                 ft.add(container.getId(), fragment, fragmentTag);
                 ft.attach(fragment);
                 ft.commit();
-                /**替换完成后设为false*/
                 flags[position] = false;
-                if (fragment != null){
-                    return fragment;
-                }else {
-                    return super.instantiateItem(container, position);
-                }
+                return fragment;
             } else {
                 return super.instantiateItem(container, position);
             }

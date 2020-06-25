@@ -19,7 +19,9 @@ import android.widget.RelativeLayout;
 import com.example.pilipili_android.R;
 import com.example.pilipili_android.activity.VideoActivity;
 
-import static com.example.pilipili_android.util.UnitConvertUtil.dip2px;
+import me.jessyan.autosize.utils.AutoSizeUtils;
+
+import static me.jessyan.autosize.utils.AutoSizeUtils.dp2px;
 
 
 public class ExpandMenuView extends RelativeLayout {
@@ -95,16 +97,16 @@ public class ExpandMenuView extends RelativeLayout {
 
     private void init() {
         TypedArray typedArray = mContext.obtainStyledAttributes(mAttrs, R.styleable.HorizontalExpandMenu);
-        defaultWidth = dip2px(mContext, 200);
-        defaultHeight = dip2px(mContext, 40);
+        defaultWidth = dp2px(mContext, 200);
+        defaultHeight = dp2px(mContext, 40);
 
         menuBackColor = typedArray.getColor(R.styleable.HorizontalExpandMenu_back_color, Color.WHITE);
         menuStrokeSize = typedArray.getDimension(R.styleable.HorizontalExpandMenu_stroke_size, 1);
         menuStrokeColor = typedArray.getColor(R.styleable.HorizontalExpandMenu_stroke_color, Color.GRAY);
-        menuCornerRadius = typedArray.getDimension(R.styleable.HorizontalExpandMenu_corner_radius, dip2px(mContext, 20));
+        menuCornerRadius = typedArray.getDimension(R.styleable.HorizontalExpandMenu_corner_radius, dp2px(mContext, 20));
 
         buttonStyle = typedArray.getInteger(R.styleable.HorizontalExpandMenu_button_style, Right);
-        buttonIconSize = typedArray.getDimension(R.styleable.HorizontalExpandMenu_button_icon_size, dip2px(mContext, 8));
+        buttonIconSize = typedArray.getDimension(R.styleable.HorizontalExpandMenu_button_icon_size, dp2px(mContext, 8));
 
         expandAnimTime = typedArray.getInteger(R.styleable.HorizontalExpandMenu_expand_time, 400);
         typedArray.recycle();
@@ -324,8 +326,8 @@ public class ExpandMenuView extends RelativeLayout {
         if (isExpand) {
             bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.danmuku_open);
             buttonIconPaint.setColor(getResources().getColor(R.color.white));
-            canvas.drawRect(rightButtonCenter.x -  3 * buttonIconSize,  dip2px(mContext, -10),  rightButtonCenter.x, dip2px(mContext, 100), buttonIconPaint);
-            canvas.drawCircle(rightButtonCenter.x,  dip2px(mContext, 15),  buttonIconSize * 19 / 10 , buttonIconPaint);
+            canvas.drawRect(rightButtonCenter.x -  3 * buttonIconSize,  dp2px(mContext, -10),  rightButtonCenter.x, dp2px(mContext, 100), buttonIconPaint);
+            canvas.drawCircle(rightButtonCenter.x,  dp2px(mContext, 15),  buttonIconSize * 19 / 10 , buttonIconPaint);
         } else {
             bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.danmuku_close);
 
