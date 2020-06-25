@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.example.pilipili_android.R;
+import com.example.pilipili_android.activity.VideoActivity;
 import com.example.pilipili_android.adapter.VideoCommentAdapter;
 
 import java.util.ArrayList;
@@ -29,11 +30,15 @@ public class VideoCommentFragment extends Fragment {
     private List<String> videoList;
     private VideoCommentAdapter adapter;
     private List<List<SpannableString>> replays;
+    private VideoActivity.OnRelayOpenListener mListener;
 
     public VideoCommentFragment() {
 
     }
 
+    public void setListener(VideoActivity.OnRelayOpenListener mListener) {
+        this.mListener = mListener;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,9 +48,11 @@ public class VideoCommentFragment extends Fragment {
         initView();
         return view;
     }
+
     private void initView() {
         initData();
         adapter = new VideoCommentAdapter(videoList, replays);
+        adapter.setListener(mListener);
         videoListView.setLayoutManager(new LinearLayoutManager(getContext()));
         videoListView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         videoListView.setAdapter(adapter);

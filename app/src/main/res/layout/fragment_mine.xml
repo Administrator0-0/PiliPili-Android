@@ -264,6 +264,10 @@
             </RelativeLayout>
 
         </RelativeLayout>
+        <ScrollView
+            android:layout_below="@+id/relativelayout_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_below="@+id/relativelayout_2"
@@ -692,5 +696,6 @@
 
             </RelativeLayout>
         </RelativeLayout>
+        </ScrollView>
     </RelativeLayout>
 </layout>

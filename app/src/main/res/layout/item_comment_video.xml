@@ -107,31 +107,43 @@
 
     <LinearLayout
         android:layout_below="@id/comment_layout"
-        android:layout_width="300dp"
+        android:layout_width="340dp"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:background="@color/lightgray"
+        android:layout_marginStart="60dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/replay_one"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginStart="20dp"
             android:text="刘薪王： 太强了"/>
         <TextView
             android:id="@+id/replay_two"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginStart="20dp"
             android:text="刘薪王： 太强了"/>
         <TextView
             android:id="@+id/replay_three"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginStart="20dp"
             android:text="刘薪王： 太强了"/>
         <TextView
             android:id="@+id/replay_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginStart="20dp"
             android:text="共10000条评论"/>
     </LinearLayout>
 

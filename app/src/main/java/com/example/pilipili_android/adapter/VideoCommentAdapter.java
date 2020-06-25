@@ -14,11 +14,11 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.pilipili_android.R;
+import com.example.pilipili_android.activity.VideoActivity;
+
 import java.util.List;
 
 
@@ -26,12 +26,16 @@ public class VideoCommentAdapter extends RecyclerView.Adapter {
     private List<List<SpannableString>> replays;
     private List<String> comments;
     private Context mContext;
+    private VideoActivity.OnRelayOpenListener mListener;
 
     public VideoCommentAdapter(List<String> comments, List<List<SpannableString>> replays) {
         this.comments = comments;
         this.replays = replays;
     }
 
+    public void setListener(VideoActivity.OnRelayOpenListener mListener) {
+        this.mListener = mListener;
+    }
 
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -65,7 +69,7 @@ public class VideoCommentAdapter extends RecyclerView.Adapter {
             click.setSpan(new ClickableSpan() {
                 @Override
                 public void onClick(@NonNull View widget) {
-                    Toast.makeText(mContext, "真是太强了", Toast.LENGTH_LONG).show();
+                    if (mListener != null) mListener.onOpen(position);
                 }
             }, 0, click.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             itemViewHolder.replays[3].setMovementMethod(LinkMovementMethod.getInstance());

@@ -19,8 +19,10 @@ import android.widget.RelativeLayout;
 import com.example.pilipili_android.R;
 import com.example.pilipili_android.activity.VideoActivity;
 
-import me.jessyan.autosize.AutoSize;
 import me.jessyan.autosize.utils.AutoSizeUtils;
+
+import static me.jessyan.autosize.utils.AutoSizeUtils.dp2px;
+
 
 public class ExpandMenuView extends RelativeLayout {
 
@@ -95,16 +97,16 @@ public class ExpandMenuView extends RelativeLayout {
 
     private void init() {
         TypedArray typedArray = mContext.obtainStyledAttributes(mAttrs, R.styleable.HorizontalExpandMenu);
-        defaultWidth = AutoSizeUtils.dp2px(mContext, 200);
-        defaultHeight = AutoSizeUtils.dp2px(mContext, 40);
+        defaultWidth = dp2px(mContext, 200);
+        defaultHeight = dp2px(mContext, 40);
 
         menuBackColor = typedArray.getColor(R.styleable.HorizontalExpandMenu_back_color, Color.WHITE);
         menuStrokeSize = typedArray.getDimension(R.styleable.HorizontalExpandMenu_stroke_size, 1);
         menuStrokeColor = typedArray.getColor(R.styleable.HorizontalExpandMenu_stroke_color, Color.GRAY);
-        menuCornerRadius = typedArray.getDimension(R.styleable.HorizontalExpandMenu_corner_radius, AutoSizeUtils.dp2px(mContext, 20));
+        menuCornerRadius = typedArray.getDimension(R.styleable.HorizontalExpandMenu_corner_radius, dp2px(mContext, 20));
 
         buttonStyle = typedArray.getInteger(R.styleable.HorizontalExpandMenu_button_style, Right);
-        buttonIconSize = typedArray.getDimension(R.styleable.HorizontalExpandMenu_button_icon_size, AutoSizeUtils.dp2px(mContext, 8));
+        buttonIconSize = typedArray.getDimension(R.styleable.HorizontalExpandMenu_button_icon_size, dp2px(mContext, 8));
 
         expandAnimTime = typedArray.getInteger(R.styleable.HorizontalExpandMenu_expand_time, 400);
         typedArray.recycle();
@@ -181,7 +183,7 @@ public class ExpandMenuView extends RelativeLayout {
                 childView.setVisibility(GONE);
             }
         }
-        if (getChildCount() > 2) {//限制直接子View的数量
+        if (getChildCount() > 1) {//限制直接子View的数量
             throw new IllegalStateException("HorizontalExpandMenu can host only one direct child");
         }
     }
@@ -323,9 +325,14 @@ public class ExpandMenuView extends RelativeLayout {
         Bitmap bitmap;
         if (isExpand) {
             bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.danmuku_open);
+            buttonIconPaint.setColor(getResources().getColor(R.color.white));
+            canvas.drawRect(rightButtonCenter.x -  3 * buttonIconSize,  dp2px(mContext, -10),  rightButtonCenter.x, dp2px(mContext, 100), buttonIconPaint);
+            canvas.drawCircle(rightButtonCenter.x,  dp2px(mContext, 15),  buttonIconSize * 19 / 10 , buttonIconPaint);
         } else {
             bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.danmuku_close);
+
         }
+
         canvas.drawBitmap(bitmap, rightButtonCenter.x - 7 * buttonIconSize / 4,  rightButtonCenter.y -  buttonIconSize * 3 / 2, buttonIconPaint);
         canvas.save();
     }
