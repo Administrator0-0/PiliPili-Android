@@ -15,12 +15,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
-import com.example.pilipili_android.bean.netbean.GetSpaceDataReturn;
 import com.example.pilipili_android.bean.netbean.GetUserBackgroundOrAvatarReturn;
 import com.example.pilipili_android.bean.netbean.LoginSend;
 import com.example.pilipili_android.bean.netbean.NetRequestResult;
 import com.example.pilipili_android.bean.localbean.SpaceActivityBean;
 import com.example.pilipili_android.bean.netbean.UserDetailReturn;
+import com.example.pilipili_android.bean.netbean.UserOpenDetailReturn;
 import com.example.pilipili_android.constant.SPConstant;
 import com.example.pilipili_android.inteface.OnNetRequestListener;
 import com.example.pilipili_android.model.UserDataSource;
@@ -43,6 +43,7 @@ public class UserViewModel extends AndroidViewModel {
     private MutableLiveData<Boolean> isSuccessBuyCoin = new MutableLiveData<>();
     private MutableLiveData<SpaceActivityBean> spaceActivityBean = new MutableLiveData<>();
     private MutableLiveData<String> spaceBackgroundUrl = new MutableLiveData<>();
+    private MutableLiveData<String> spaceAvatarUrl = new MutableLiveData<>();
 
     public UserViewModel(@NonNull Application application) {
         super(application);
@@ -114,6 +115,7 @@ public class UserViewModel extends AndroidViewModel {
                                             getUserBackgroundOrAvatarReturn.getData().getGuest_secret(),
                                             getUserBackgroundOrAvatarReturn.getData().getSecurity_token(),
                                             getUserBackgroundOrAvatarReturn.getData().getFile());
+
                                     CustomTarget<Drawable> customTarget = new CustomTarget<Drawable>() {
                                         @Override
                                         public void onResourceReady(@NonNull Drawable resource, Transition<? super Drawable> transition) {
@@ -327,46 +329,80 @@ public class UserViewModel extends AndroidViewModel {
         });
     }
 
-    public void getUserSpaceData(){
-        userDataSource.getSpaceData(UserBaseDetail.getToken(context), new OnNetRequestListener() {
+    public void getUserSpaceData(int UID){
+        userDataSource.getUserBackground(UID, new OnNetRequestListener() {
             @Override
             public void onSuccess(NetRequestResult netRequestResult) {
-                GetSpaceDataReturn getSpaceDataReturn = (GetSpaceDataReturn) netRequestResult.getData();
+                GetUserBackgroundOrAvatarReturn getUserBackgroundOrAvatarReturn = (GetUserBackgroundOrAvatarReturn) netRequestResult.getData();
+                if(getUserBackgroundOrAvatarReturn.getData().getFile() == null) {
+                    spaceBackgroundUrl.setValue("");
+                    return;
+                }
+                String url = AliyunOSSUtil.getImageUrl(context, getUserBackgroundOrAvatarReturn.getData().getGuest_key(),
+                        getUserBackgroundOrAvatarReturn.getData().getGuest_secret(),
+                        getUserBackgroundOrAvatarReturn.getData().getSecurity_token(),
+                        getUserBackgroundOrAvatarReturn.getData().getFile());
+                spaceBackgroundUrl.setValue(url);
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+        userDataSource.getUserAvatar(UserBaseDetail.getUID(context), new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+                GetUserBackgroundOrAvatarReturn getUserBackgroundOrAvatarReturn = (GetUserBackgroundOrAvatarReturn) netRequestResult.getData();
+                if(getUserBackgroundOrAvatarReturn.getData().getFile() == null) {
+                    return;
+                }
+                String url = AliyunOSSUtil.getImageUrl(context, getUserBackgroundOrAvatarReturn.getData().getGuest_key(),
+                        getUserBackgroundOrAvatarReturn.getData().getGuest_secret(),
+                        getUserBackgroundOrAvatarReturn.getData().getSecurity_token(),
+                        getUserBackgroundOrAvatarReturn.getData().getFile());
+                spaceAvatarUrl.setValue(url);
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+        userDataSource.getUserOpenDetail(UID, new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+                UserOpenDetailReturn userOpenDetailReturn = (UserOpenDetailReturn) netRequestResult.getData();
                 SpaceActivityBean spaceActivityBean1 = new SpaceActivityBean();
-                spaceActivityBean1.setLike(getSpaceDataReturn.getData().getLikes() + "\n获赞");
-                spaceActivityBean1.setSign(getSpaceDataReturn.getData().getSign());
+                spaceActivityBean1.setLike(userOpenDetailReturn.getData().getLikes() + "\n获赞");
+                spaceActivityBean1.setSign(userOpenDetailReturn.getData().getSign());
+                spaceActivityBean1.setFollower(userOpenDetailReturn.getData().getFans_count() + "\n粉丝");
+                spaceActivityBean1.setFollowing(userOpenDetailReturn.getData().getFollowings_count() + "\n关注");
+                spaceActivityBean1.setUID("uid:" + userOpenDetailReturn.getData().getId());
+                spaceActivityBean1.setUsername(userOpenDetailReturn.getData().getUsername());
+                spaceActivityBean1.setGender(userOpenDetailReturn.getData().isGender());
+                spaceActivityBean1.setVip((userOpenDetailReturn).getData().getVip() != null);
                 spaceActivityBean.setValue(spaceActivityBean1);
-                userDataSource.getUserBackground(UserBaseDetail.getUID(context), new OnNetRequestListener() {
-                    @Override
-                    public void onSuccess(NetRequestResult netRequestResult) {
-                        GetUserBackgroundOrAvatarReturn getUserBackgroundOrAvatarReturn = (GetUserBackgroundOrAvatarReturn) netRequestResult.getData();
-                        if(getUserBackgroundOrAvatarReturn.getData().getFile() == null) {
-                            spaceBackgroundUrl.setValue("null");
-                            return;
-                        }
-                        String url = AliyunOSSUtil.getImageUrl(context, getUserBackgroundOrAvatarReturn.getData().getGuest_key(),
-                                getUserBackgroundOrAvatarReturn.getData().getGuest_secret(),
-                                getUserBackgroundOrAvatarReturn.getData().getSecurity_token(),
-                                getUserBackgroundOrAvatarReturn.getData().getFile());
-                        Log.d("aaa", url);
-                        spaceBackgroundUrl.setValue(url);
-                    }
-
-                    @Override
-                    public void onSuccess() {
-
-                    }
-
-                    @Override
-                    public void onFail() {
-
-                    }
-
-                    @Override
-                    public void onFail(String errorMessage) {
-                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
-                    }
-                });
             }
 
             @Override
@@ -421,7 +457,48 @@ public class UserViewModel extends AndroidViewModel {
 
             @Override
             public void onSuccess() {
+                spaceAvatarUrl.setValue(path);
+                userDataSource.getUserAvatar(UserBaseDetail.getUID(context), new OnNetRequestListener() {
+                    @Override
+                    public void onSuccess(NetRequestResult netRequestResult) {
+                        GetUserBackgroundOrAvatarReturn getUserBackgroundOrAvatarReturn = (GetUserBackgroundOrAvatarReturn) netRequestResult.getData();
+                        if(getUserBackgroundOrAvatarReturn.getData().getFile() == null) {
+                            return;
+                        }
+                        String url = AliyunOSSUtil.getImageUrl(context, getUserBackgroundOrAvatarReturn.getData().getGuest_key(),
+                                getUserBackgroundOrAvatarReturn.getData().getGuest_secret(),
+                                getUserBackgroundOrAvatarReturn.getData().getSecurity_token(),
+                                getUserBackgroundOrAvatarReturn.getData().getFile());
+                        CustomTarget<Drawable> customTarget = new CustomTarget<Drawable>() {
+                            @Override
+                            public void onResourceReady(@NonNull Drawable resource, Transition<? super Drawable> transition) {
+                                putAvatar(url);
+                            }
 
+                            @Override
+                            public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                            }
+                        };
+
+                        Glide.with(context).load(url).into(customTarget);
+                    }
+
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onFail() {
+
+                    }
+
+                    @Override
+                    public void onFail(String errorMessage) {
+                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override
@@ -508,5 +585,9 @@ public class UserViewModel extends AndroidViewModel {
 
     public MutableLiveData<String> getSpaceBackgroundUrl() {
         return spaceBackgroundUrl;
+    }
+
+    public MutableLiveData<String> getSpaceAvatarUrl() {
+        return spaceAvatarUrl;
     }
 }

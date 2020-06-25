@@ -5,7 +5,6 @@ import android.database.Observable;
 import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
 import com.example.pilipili_android.bean.netbean.CommonReturn;
 import com.example.pilipili_android.bean.netbean.FollowUnFollowReturn;
-import com.example.pilipili_android.bean.netbean.GetSpaceDataReturn;
 import com.example.pilipili_android.bean.netbean.GetUserBackgroundOrAvatarReturn;
 import com.example.pilipili_android.bean.netbean.LoginReturn;
 import com.example.pilipili_android.bean.netbean.RenameReturn;
@@ -60,11 +59,11 @@ public interface RetrofitService {
     Call<UserDetailReturn> getUserDetail(@Header("Authorization") String token);
 
     /**
-     * 获取用户关注信息
+     * 获取用户公开信息
      *
      */
-    @GET(UrlConstant.OPEN_DETAIL_HEAD + "{id}" + UrlConstant.OPEN_DETAIL_TAIL)
-    Call<UserOpenDetailReturn> getUserFollowDetail(@Path("id") String id);
+    @GET(UrlConstant.OPEN_DETAIL_HEAD + "{uid}" + UrlConstant.OPEN_DETAIL_TAIL)
+    Call<UserOpenDetailReturn> getUserOpenDetail(@Path("uid") String id);
 
     /**
      * 用户买币
@@ -107,13 +106,6 @@ public interface RetrofitService {
      */
     @PUT(UrlConstant.SET_GENDER)
     Call<SetGenderReturn> setGender(@Header("Authorization") String token, @Body RequestBody jsonObject);
-
-    /**
-     * 获取用户空间信息
-     *
-     */
-    @GET(UrlConstant.GET_SPACE_DATA)
-    Call<GetSpaceDataReturn> getSpaceData(@Header("Authorization") String token);
 
     /**
      * 获取用户头图

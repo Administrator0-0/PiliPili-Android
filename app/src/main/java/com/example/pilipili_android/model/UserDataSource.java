@@ -1,14 +1,11 @@
 package com.example.pilipili_android.model;
 
-import android.database.Observable;
-
 import androidx.annotation.NonNull;
 
 import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
 import com.example.pilipili_android.bean.netbean.CommonReturn;
 import com.example.pilipili_android.bean.netbean.CommonSend;
 import com.example.pilipili_android.bean.netbean.FollowUnFollowReturn;
-import com.example.pilipili_android.bean.netbean.GetSpaceDataReturn;
 import com.example.pilipili_android.bean.netbean.GetUserBackgroundOrAvatarReturn;
 import com.example.pilipili_android.bean.netbean.LoginReturn;
 import com.example.pilipili_android.bean.netbean.LoginSend;
@@ -158,7 +155,7 @@ public class UserDataSource {
     }
 
     public void getUserOpenDetail(int UID, OnNetRequestListener onNetRequestListener) {
-        Call<UserOpenDetailReturn> call = retrofitService.getUserFollowDetail(UID + "");
+        Call<UserOpenDetailReturn> call = retrofitService.getUserOpenDetail(UID + "");
         call.enqueue(new Callback<UserOpenDetailReturn>() {
             @Override
             public void onResponse(Call<UserOpenDetailReturn> call, Response<UserOpenDetailReturn> response) {
@@ -368,31 +365,6 @@ public class UserDataSource {
 
             @Override
             public void onFailure(Call<SetGenderReturn> call, Throwable t) {
-                onNetRequestListener.onFail("网络不稳定，请检查网络");
-            }
-        });
-    }
-
-    public void getSpaceData(String token, OnNetRequestListener onNetRequestListener) {
-        String ciphertext = EncryptUtil.getVerificationToken(token);
-        Call<GetSpaceDataReturn> call = retrofitService.getSpaceData(ciphertext);
-        call.enqueue(new Callback<GetSpaceDataReturn>() {
-            @Override
-            public void onResponse(Call<GetSpaceDataReturn> call, Response<GetSpaceDataReturn> response) {
-                GetSpaceDataReturn getSpaceDataReturn = response.body();
-                if(getSpaceDataReturn != null) {
-                    if(getSpaceDataReturn.getCode() == 200){
-                        onNetRequestListener.onSuccess(new NetRequestResult<>(getSpaceDataReturn));
-                    } else {
-                        onNetRequestListener.onFail(getSpaceDataReturn.getMessage());
-                    }
-                } else {
-                    onNetRequestListener.onFail("获取空间数据失败");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GetSpaceDataReturn> call, Throwable t) {
                 onNetRequestListener.onFail("网络不稳定，请检查网络");
             }
         });

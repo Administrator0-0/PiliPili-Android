@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/bdf"
+        android:layout_marginStart="20dp"
+        android:id="@+id/cancel"/>
+
+    <ImageView
+        android:layout_below="@+id/cancel"
+        android:id="@+id/avatar"
+        android:layout_width="match_parent"
+        android:layout_height="410dp"
+        tools:src="@drawable/ic_avatar6"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:id="@+id/change_avatar"
+        android:layout_below="@+id/avatar"
+        android:textColor="@color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="100dp"
+        android:background="@color/background_dark"
+        android:text="更换头像"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:id="@+id/save_avatar"
+        android:layout_below="@+id/change_avatar"
+        android:textColor="@color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="100dp"
+        android:background="@color/background_dark"
+        android:text="保存头像"/>
+
+</RelativeLayout>

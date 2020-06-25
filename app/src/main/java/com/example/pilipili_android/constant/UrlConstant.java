@@ -32,7 +32,7 @@ public interface UrlConstant {
 
     String DETAIL = "user/details";
 
-    String OPEN_DETAIL_HEAD = "user/";
+    String OPEN_DETAIL_HEAD = "user/uid";
 
     String OPEN_DETAIL_TAIL = "/details";
 
@@ -47,8 +47,6 @@ public interface UrlConstant {
     String UPLOAD_SIGN = "user/upload-sign";
 
     String SET_GENDER = "user/put-gender";
-
-    String GET_SPACE_DATA = "user/get-space";
 
     String UPLOAD_AVATAR = "user/upload-avatar";
 

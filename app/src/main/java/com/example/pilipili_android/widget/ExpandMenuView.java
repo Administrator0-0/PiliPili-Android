@@ -19,8 +19,8 @@ import android.widget.RelativeLayout;
 import com.example.pilipili_android.R;
 import com.example.pilipili_android.activity.VideoActivity;
 
-import static com.example.pilipili_android.util.UnitConvertUtil.dip2px;
-
+import me.jessyan.autosize.AutoSize;
+import me.jessyan.autosize.utils.AutoSizeUtils;
 
 public class ExpandMenuView extends RelativeLayout {
 
@@ -95,16 +95,16 @@ public class ExpandMenuView extends RelativeLayout {
 
     private void init() {
         TypedArray typedArray = mContext.obtainStyledAttributes(mAttrs, R.styleable.HorizontalExpandMenu);
-        defaultWidth = dip2px(mContext, 200);
-        defaultHeight = dip2px(mContext, 40);
+        defaultWidth = AutoSizeUtils.dp2px(mContext, 200);
+        defaultHeight = AutoSizeUtils.dp2px(mContext, 40);
 
         menuBackColor = typedArray.getColor(R.styleable.HorizontalExpandMenu_back_color, Color.WHITE);
         menuStrokeSize = typedArray.getDimension(R.styleable.HorizontalExpandMenu_stroke_size, 1);
         menuStrokeColor = typedArray.getColor(R.styleable.HorizontalExpandMenu_stroke_color, Color.GRAY);
-        menuCornerRadius = typedArray.getDimension(R.styleable.HorizontalExpandMenu_corner_radius, dip2px(mContext, 20));
+        menuCornerRadius = typedArray.getDimension(R.styleable.HorizontalExpandMenu_corner_radius, AutoSizeUtils.dp2px(mContext, 20));
 
         buttonStyle = typedArray.getInteger(R.styleable.HorizontalExpandMenu_button_style, Right);
-        buttonIconSize = typedArray.getDimension(R.styleable.HorizontalExpandMenu_button_icon_size, dip2px(mContext, 8));
+        buttonIconSize = typedArray.getDimension(R.styleable.HorizontalExpandMenu_button_icon_size, AutoSizeUtils.dp2px(mContext, 8));
 
         expandAnimTime = typedArray.getInteger(R.styleable.HorizontalExpandMenu_expand_time, 400);
         typedArray.recycle();

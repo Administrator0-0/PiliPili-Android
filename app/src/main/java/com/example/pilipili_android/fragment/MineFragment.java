@@ -3,6 +3,7 @@ package com.example.pilipili_android.fragment;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +58,6 @@ public class MineFragment extends Fragment {
         View view = fragmentMineBinding.getRoot();
         fragmentMineBinding.setUserViewModel(new ViewModelProvider(MineFragment.this).get(UserViewModel.class));
         unbinder = ButterKnife.bind(this, view);
-        initView();
 
         return view;
     }
@@ -85,6 +85,7 @@ public class MineFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        initView();
         String ddl = UserBaseDetail.getVIPDeadline(getContext());
         if (ddl.equals("")) {
             fragmentMineBinding.setVIPDeadline("");
@@ -98,6 +99,7 @@ public class MineFragment extends Fragment {
     @OnClick(R.id.space_btn)
     void onMySpaceClicked() {
         Intent intent = new Intent(getActivity(), SpaceActivity.class);
+        intent.putExtra("UID", UserBaseDetail.getUID(getContext()));
         startActivity(intent);
     }
 
