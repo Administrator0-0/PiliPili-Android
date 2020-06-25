@@ -365,6 +365,7 @@ public class UserViewModel extends AndroidViewModel {
             public void onSuccess(NetRequestResult netRequestResult) {
                 GetUserBackgroundOrAvatarReturn getUserBackgroundOrAvatarReturn = (GetUserBackgroundOrAvatarReturn) netRequestResult.getData();
                 if(getUserBackgroundOrAvatarReturn.getData().getFile() == null) {
+                    spaceAvatarUrl.setValue("");
                     return;
                 }
                 String url = AliyunOSSUtil.getImageUrl(context, getUserBackgroundOrAvatarReturn.getData().getGuest_key(),

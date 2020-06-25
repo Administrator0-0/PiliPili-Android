@@ -1,9 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".fragment.MainFragment">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:fitsSystemWindows="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|enterAlways">
+            <RelativeLayout
+                android:layout_below="@+id/video"
+                android:id="@+id/bar_mainpage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary">
+                <ImageView
+                    android:id="@+id/button_oneself"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/head"
+                    android:background="@color/colorPrimary"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="10dp"/>
+                <ImageView
+                    android:id="@+id/button_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/message_main"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"/>
+                <EditText
+                    android:id="@+id/edit_search"
+                    android:layout_width="match_parent"
+                    android:layout_toEndOf="@+id/button_oneself"
+                    android:layout_toStartOf="@+id/button_message"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_height="wrap_content"
+                    android:hint="请输入搜索内容"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center"/>
+            </RelativeLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/white">
+            <com.flyco.tablayout.SlidingTabLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:id="@+id/tablayout_mainpage"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/lightgray" />
+    </com.google.android.material.appbar.AppBarLayout>
+    <androidx.viewpager.widget.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:id="@+id/viewpager_mainpage"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <Button
         android:layout_width="match_parent"
@@ -13,35 +86,6 @@
         android:layout_marginTop="160dp"
         android:textSize="100sp"/>
 
-    <RelativeLayout
-        android:layout_below="@+id/video"
-        android:id="@+id/bar_mainpage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary">
-        <ImageButton
-            android:id="@+id/button_oneself"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/head"
-            android:background="@color/colorPrimary"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="10dp"/>
-        <EditText
-            android:id="@+id/edit_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/button_oneself"
-            android:hint="请输入搜索内容"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:gravity="center"/>
-    </RelativeLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_below="@+id/bar_mainpage"
-        android:id="@+id/recyclerview_mainpage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
