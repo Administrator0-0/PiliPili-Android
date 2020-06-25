@@ -25,7 +25,7 @@ public class UCropUtil {
      * @param aspectRatioY 裁剪图片宽高比
      * @return
      */
-    public static void startUCropAvatar(Activity activity, String sourceFilePath,
+    public static void startUCrop(Activity activity, String sourceFilePath,
                               int requestCode, float aspectRatioX, float aspectRatioY) {
         Uri sourceUri = Uri.fromFile(new File(sourceFilePath));
         File outDir = new File(UrlConstant.CROP_CACHE);
@@ -84,4 +84,6 @@ public class UCropUtil {
         }
         return path;
     }
+
+
 }

@@ -21,6 +21,9 @@ public interface UrlConstant {
     @SuppressLint("SdCardPath")
     String CROP_CACHE = "/data/data/com.example.pilipili_android/cache/image_cache_crop";
 
+    @SuppressLint("SdCardPath")
+    String COMPRESS_CACHE = "/data/data/com.example.pilipili_android/cache/image_cache_compress";
+
     /**
      * 用户接口
      */
@@ -32,7 +35,7 @@ public interface UrlConstant {
 
     String DETAIL = "user/details";
 
-    String OPEN_DETAIL_HEAD = "user/";
+    String OPEN_DETAIL_HEAD = "user/uid";
 
     String OPEN_DETAIL_TAIL = "/details";
 
@@ -47,8 +50,6 @@ public interface UrlConstant {
     String UPLOAD_SIGN = "user/upload-sign";
 
     String SET_GENDER = "user/put-gender";
-
-    String GET_SPACE_DATA = "user/get-space";
 
     String UPLOAD_AVATAR = "user/upload-avatar";
 

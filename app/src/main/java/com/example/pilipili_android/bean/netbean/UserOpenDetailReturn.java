@@ -4,7 +4,7 @@ public class UserOpenDetailReturn {
 
     /**
      * code : 200
-     * data : {"fans_count":0,"followings_count":0,"gender":false,"id":1,"username":"lxw","vip":"2021-03-19"}
+     * data : {"fans_count":0,"followings_count":0,"gender":false,"id":5,"likes":0,"sign":"","username":"你妈飞了","vip":null}
      * message : 获取用户信息成功
      */
 
@@ -41,17 +41,21 @@ public class UserOpenDetailReturn {
          * fans_count : 0
          * followings_count : 0
          * gender : false
-         * id : 1
-         * username : lxw
-         * vip : 2021-03-19
+         * id : 5
+         * likes : 0
+         * sign :
+         * username : 你妈飞了
+         * vip : null
          */
 
         private int fans_count;
         private int followings_count;
         private boolean gender;
         private int id;
+        private int likes;
+        private String sign;
         private String username;
-        private String vip;
+        private Object vip;
 
         public int getFans_count() {
             return fans_count;
@@ -85,6 +89,22 @@ public class UserOpenDetailReturn {
             this.id = id;
         }
 
+        public int getLikes() {
+            return likes;
+        }
+
+        public void setLikes(int likes) {
+            this.likes = likes;
+        }
+
+        public String getSign() {
+            return sign;
+        }
+
+        public void setSign(String sign) {
+            this.sign = sign;
+        }
+
         public String getUsername() {
             return username;
         }
@@ -93,11 +113,11 @@ public class UserOpenDetailReturn {
             this.username = username;
         }
 
-        public String getVip() {
+        public Object getVip() {
             return vip;
         }
 
-        public void setVip(String vip) {
+        public void setVip(Object vip) {
             this.vip = vip;
         }
     }

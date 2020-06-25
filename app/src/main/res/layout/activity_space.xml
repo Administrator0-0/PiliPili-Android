@@ -18,6 +18,8 @@
         android:layout_height="match_parent"
         tools:context=".activity.SpaceActivity">
 
+
+
         <RelativeLayout
             android:id="@+id/relativelayout_3"
             android:layout_width="match_parent"
@@ -82,8 +84,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    tools:text="UserDetail\n获取"
-                    android:text="@{UserBaseDetail.getFollowerInSpace(userViewModel.context)}"
+                    tools:text="spaceBean类\n获取"
+                    android:text="@{spaceActivityBean.follower}"
                     android:gravity="center"
                     android:textSize="13sp" />
 
@@ -93,8 +95,8 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="4dp"
-                    tools:text="UserDetail\n获取"
-                    android:text="@{UserBaseDetail.getFollowingInSpace(userViewModel.context)}"
+                    tools:text="spaceBean类\n获取"
+                    android:text="@{spaceActivityBean.following}"
                     android:gravity="center"
                     android:textSize="13sp" />
 
@@ -115,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/relativelayout_2"
                 android:text="编辑资料"
-                android:id="@+id/button_editmessage_inspace"
+                android:id="@+id/edit"
                 android:gravity="center"
                 app:qmui_borderColor="@color/colorPrimary"
                 android:textColor="@color/colorPrimary"
@@ -134,7 +136,7 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:id="@+id/relativelayout_5"
-                android:layout_below="@+id/button_editmessage_inspace"
+                android:layout_below="@+id/edit"
                 android:layout_width="match_parent"
                 android:layout_marginTop="19dp"
                 android:layout_height="wrap_content">
@@ -143,8 +145,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/username_tv"
-                    tools:text="UserDetail获取"
-                    android:text="@{UserBaseDetail.getUsername(userViewModel.context)}"
+                    tools:text="spaceBean类获取"
+                    android:text="@{spaceActivityBean.username}"
                     android:textSize="19.5sp"
                     android:layout_marginStart="10dp" />
 
@@ -152,44 +154,61 @@
                     android:id="@+id/gender_img"
                     android:layout_width="17dp"
                     android:layout_height="15dp"
-                    android:src="@{UserBaseDetail.getGender(userViewModel.context)}"
+                    tools:src="@drawable/cyx"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="8dp" />
 
                 <ImageView
+                    android:id="@+id/big_vip"
                     android:layout_width="45dp"
                     android:layout_height="17dp"
-                    android:src="@drawable/bxrb"
+                    tools:src="@drawable/bxrb"
                     android:layout_marginStart="10dp"
                     android:layout_gravity="center_vertical" />
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/relativelayout_5"
-                android:text="详情"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:textColor="@color/colorPrimary"
-                android:layout_marginBottom="10dp" />
-
-            <TextView
+            <RelativeLayout
+                android:id="@+id/relativelayout_6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/relativelayout_5"
-                android:text="@{spaceActivityBean.sign}"
-                tools:text="spaceBean类获取"
-                android:layout_marginEnd="70dp"
-                android:layout_toStartOf="@+id/detail"
+                android:layout_marginTop="7dp">
+                <TextView
+                    android:id="@+id/detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignBottom="@+id/sign"
+                    tools:text="详情"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/colorPrimary" />
+
+                <TextView
+                    android:id="@+id/sign"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="70dp"
+                    android:layout_toStartOf="@+id/detail"
+                    android:layout_marginStart="10dp"
+                    android:textColor="@color/qmui_config_color_gray_6"
+                    tools:text="sign" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_marginTop="7dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{spaceActivityBean.UID}"
+                tools:text="uid:1"
+                android:layout_below="@+id/relativelayout_6"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:id="@+id/text_sign_inspace"
-                android:textColor="@color/qmui_config_color_gray_6" />
+                android:textSize="12sp"
+                android:id="@+id/uid"
+                android:background="@drawable/space_uid_shape"
+                android:paddingHorizontal="4dp"/>
+
         </RelativeLayout>
 
         <com.qmuiteam.qmui.widget.QMUIRadiusImageView
@@ -212,7 +231,7 @@
             android:paddingBottom="20dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:paddingTop="10dp"
+            android:paddingTop="20dp"
             app:tl_indicator_color="@color/white"
             app:tl_indicator_corner_radius="6dp"
             app:tl_indicator_height="6dp"
@@ -226,5 +245,10 @@
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:id="@+id/space_viewpager" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/save_avatar_box"/>
     </RelativeLayout>
 </layout>
