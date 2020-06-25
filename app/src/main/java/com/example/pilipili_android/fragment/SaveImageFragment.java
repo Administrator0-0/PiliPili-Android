@@ -3,6 +3,7 @@ package com.example.pilipili_android.fragment;
 import android.Manifest;
 import android.content.ContentUris;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,6 +30,9 @@ import com.example.pilipili_android.util.UCropUtil;
 import com.example.pilipili_android.view_model.UserBaseDetail;
 import com.example.pilipili_android.view_model.UserViewModel;
 import com.yalantis.ucrop.UCrop;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -98,11 +102,39 @@ public class SaveImageFragment extends Fragment {
         }
     }
 
-    //启动相册
     private void openAlbum() {
-        Intent intent = new Intent("android.intent.action.GET_CONTENT");
-        intent.setType("image/*");
-        Objects.requireNonNull(getActivity()).startActivityForResult(intent, REQUEST_CODE_CHOOSE_AVATAR);
+        Matisse.from(getActivity())
+                //选择视频和图片
+//                .choose(MimeType.ofAll())
+                //选择图片
+                .choose(MimeType.ofImage())
+                //选择视频
+//                .choose(MimeType.ofVideo())
+                //自定义选择选择的类型
+//                .choose(MimeType.of(MimeType.JPEG,MimeType.AVI))
+                //是否只显示选择的类型的缩略图，就不会把所有图片视频都放在一起，而是需要什么展示什么
+                .showSingleMediaType(true)
+                //这两行要连用 是否在选择图片中展示照相 和适配安卓7.0 FileProvider
+                .capture(true)
+                .captureStrategy(new CaptureStrategy(true,"com.pilipili.fuckthisshit"))
+                //有序选择图片 123456...
+                .countable(false)
+                //最大选择数量为9
+                .maxSelectable(1)
+                //选择方向
+                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                //界面中缩略图的质量
+                .thumbnailScale(0.8f)
+                //蓝色主题
+//                .theme(R.style.Matisse_Zhihu)
+                //黑色主题
+                .theme(R.style.Matisse_Dracula)
+                //Glide加载方式
+//                .imageEngine(new GlideEngine())
+                //Picasso加载方式
+//                .imageEngine(new PicassoEngine())
+                //请求码
+                .forResult(REQUEST_CODE_CHOOSE_AVATAR);
     }
 
     //获取权限的结果

@@ -21,6 +21,9 @@ public interface UrlConstant {
     @SuppressLint("SdCardPath")
     String CROP_CACHE = "/data/data/com.example.pilipili_android/cache/image_cache_crop";
 
+    @SuppressLint("SdCardPath")
+    String COMPRESS_CACHE = "/data/data/com.example.pilipili_android/cache/image_cache_compress";
+
     /**
      * 用户接口
      */

@@ -7,7 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,10 +28,10 @@ import androidx.lifecycle.ViewModelProvider;
 import com.bumptech.glide.Glide;
 import com.example.pilipili_android.R;
 import com.example.pilipili_android.constant.DefaultConstant;
+import com.example.pilipili_android.constant.UrlConstant;
 import com.example.pilipili_android.databinding.ActivitySpaceBinding;
 import com.example.pilipili_android.fragment.SaveImageFragment;
 import com.example.pilipili_android.util.UCropUtil;
-import com.example.pilipili_android.util.UriUtil;
 import com.example.pilipili_android.view_model.UserBaseDetail;
 import com.example.pilipili_android.view_model.UserViewModel;
 import com.qmuiteam.qmui.widget.QMUIRadiusImageView;
@@ -39,16 +39,16 @@ import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 import com.yalantis.ucrop.UCrop;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
-import com.zhihu.matisse.engine.impl.PicassoEngine;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
+import java.io.File;
 import java.util.List;
-import java.util.function.Consumer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import top.zibin.luban.Luban;
+import top.zibin.luban.OnCompressListener;
 
 public class SpaceActivity extends AppCompatActivity {
 
@@ -226,69 +226,52 @@ public class SpaceActivity extends AppCompatActivity {
 
     //启动相册
     private void openAlbum() {
-//        Intent intent = new Intent("android.intent.action.GET_CONTENT");
-//        intent.setType("image/*");
-//        startActivityForResult(intent, GALLERY_CODE);
-        Matisse.from(this)
-                //选择视频和图片
-//                .choose(MimeType.ofAll())
-                //选择图片
-                .choose(MimeType.ofImage())
-                //选择视频
-//                .choose(MimeType.ofVideo())
-                //自定义选择选择的类型
-//                .choose(MimeType.of(MimeType.JPEG,MimeType.AVI))
-                //是否只显示选择的类型的缩略图，就不会把所有图片视频都放在一起，而是需要什么展示什么
-                .showSingleMediaType(true)
-                //这两行要连用 是否在选择图片中展示照相 和适配安卓7.0 FileProvider
-                .capture(true)
-                .captureStrategy(new CaptureStrategy(true,"com.pilipili.fuckthisshit"))
-                //有序选择图片 123456...
-                .countable(true)
-                //最大选择数量为9
-                .maxSelectable(1)
-                //选择方向
-                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-                //界面中缩略图的质量
-                .thumbnailScale(0.8f)
-                //蓝色主题
-//                .theme(R.style.Matisse_Zhihu)
-                //黑色主题
-                .theme(R.style.Matisse_Dracula)
-                //Glide加载方式
-//                .imageEngine(new GlideEngine())
-                //Picasso加载方式
-//                .imageEngine(new PicassoEngine())
-                //请求码
-                .forResult(REQUEST_CODE_CHOOSE_BG);
+        Matisse.from(this).choose(MimeType.ofImage()).showSingleMediaType(true).maxSelectable(1)
+                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT).thumbnailScale(0.8f)
+                .theme(R.style.Matisse_Dracula).forResult(REQUEST_CODE_CHOOSE_BG);
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == GALLERY_CODE || requestCode == 3) {
-//            String path = null;
-//            Uri uri;
-//            if (data == null) {
-//                return;
-//            }
-//            uri = data.getData();
-//
-//
-//        }
-        if (requestCode == REQUEST_CODE_CHOOSE_BG || requestCode == REQUEST_CODE_CHOOSE_AVATAR) {
+        if ((requestCode == REQUEST_CODE_CHOOSE_BG || requestCode == REQUEST_CODE_CHOOSE_AVATAR) && resultCode == RESULT_OK) {
             //图片路径 同样视频地址也是这个
-            List<Uri> pathList = Matisse.obtainResult(data);
-            String path = UriUtil.getPath(this, pathList.get(0));
-            if (requestCode == REQUEST_CODE_CHOOSE_BG) {
-                int height = background.getHeight();
-                int width = background.getWidth();
-                UCropUtil.startUCrop(this, path, UCROP_CODE_CHOOSE_BG, width, height);
-            } else {
-                int height = background.getWidth();
-                int width = background.getWidth();
-                UCropUtil.startUCrop(this, path, UCROP_CODE_CHOOSE_AVATAR, width, height);
-            }
+            List<String> pathList = Matisse.obtainPathResult(data);
+           // String path = UriUtil.getPath(this, pathList.get(0));
+            File dir = new File(UrlConstant.COMPRESS_CACHE);
+            if(!dir.exists()) dir.mkdir();
+            Luban.with(this)
+                    .load(pathList.get(0))
+                    .ignoreBy(300)
+                    .setTargetDir(UrlConstant.COMPRESS_CACHE)
+                    .filter(path1 -> !(TextUtils.isEmpty(path1) || path1.toLowerCase().endsWith(".gif")))
+                    .setCompressListener(new OnCompressListener() {
+                        @Override
+                        public void onStart() {
+                            // TODO 压缩开始前调用，可以在方法内启动 loading UI
+                        }
+
+                        @Override
+                        public void onSuccess(File file) {
+                            // TODO 压缩成功后调用，返回压缩后的图片文件
+                            if (requestCode == REQUEST_CODE_CHOOSE_BG) {
+                                int height = background.getHeight();
+                                int width = background.getWidth();
+                                UCropUtil.startUCrop(SpaceActivity.this, file.getPath(), UCROP_CODE_CHOOSE_BG, width, height);
+                            } else {
+                                int height = background.getWidth();
+                                int width = background.getWidth();
+                                UCropUtil.startUCrop(SpaceActivity.this, file.getPath(), UCROP_CODE_CHOOSE_AVATAR, width, height);
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            // TODO 当压缩过程出现问题时调用
+                        }
+                    }).launch();
+
         } else if (requestCode == UCROP_CODE_CHOOSE_BG || requestCode == UCROP_CODE_CHOOSE_AVATAR) {
             final Uri croppedUri;
             if (data != null) {
@@ -296,7 +279,6 @@ public class SpaceActivity extends AppCompatActivity {
                 try {
                     if (croppedUri != null) {
                         if (requestCode == UCROP_CODE_CHOOSE_BG) {
-                            //TODO:图片尺寸过大将上传失败
                             activitySpaceBinding.getUserViewModel().uploadUserBackground(croppedUri.getPath());
                         } else {
                             activitySpaceBinding.getUserViewModel().uploadUserAvatar(croppedUri.getPath());
