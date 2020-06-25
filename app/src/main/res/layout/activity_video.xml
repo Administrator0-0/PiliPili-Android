@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar_layout"
@@ -33,7 +38,14 @@
                     <com.example.pilipili_android.widget.PiliPiliPlayer
                         android:id="@+id/player"
                         android:layout_width="match_parent"
-                        android:layout_height="300dp" />
+                        android:layout_height="300dp" >
+
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="CoordinatorLayout" />
+                    </com.example.pilipili_android.widget.PiliPiliPlayer>
 
                 </FrameLayout>
 
@@ -76,6 +88,7 @@
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
             <LinearLayout
+                android:id="@+id/tab_bar"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:orientation="horizontal"
@@ -93,6 +106,7 @@
                     android:id="@+id/expand"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
                     android:background="@drawable/edit_danmuku_shape_gray">
 
                     <Button
@@ -103,9 +117,39 @@
                         android:hint="点我输入弹幕"
                         android:background="@null"
                         android:textColor="@color/white"
-                        android:textSize="18sp"/>
+                        android:textSize="12sp"/>
 
                 </com.example.pilipili_android.widget.ExpandMenuView>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/replay_bar"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:background="@color/white"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/button_back"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/bwc" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="100dp"
+                    android:text="评论详情"
+                    android:textSize="20sp"
+                    android:textColor="@color/gray"/>
+
 
 
             </LinearLayout>
@@ -126,7 +170,10 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+</RelativeLayout>
 
 
 

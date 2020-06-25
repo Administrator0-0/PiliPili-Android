@@ -3,9 +3,12 @@ package com.example.pilipili_android.activity;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.animation.Animator;
@@ -15,16 +18,26 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dueeeke.videoplayer.player.VideoView;
 import com.example.pilipili_android.R;
+import com.example.pilipili_android.fragment.CommentDetailsFragment;
 import com.example.pilipili_android.fragment.VideoCommentFragment;
 import com.example.pilipili_android.fragment.VideoInfoFragment;
 import com.example.pilipili_android.util.AppBarStateChangeListener;
@@ -36,11 +49,15 @@ import com.example.pilipili_android.widget.PiliPiliVideoController;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
+
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.example.pilipili_android.util.UnitConvertUtil.dip2px;
 
 public class VideoActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -64,6 +81,14 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     Button send_danmuku;
     @BindView(R.id.expand)
     ExpandMenuView expandMenuView;
+    @BindView(R.id.replay_bar)
+    LinearLayout replayBar;
+    @BindView(R.id.tab_bar)
+    LinearLayout tabBar;
+    @BindView(R.id.button_back)
+    ImageView replayBack;
+    @BindView(R.id.root_layout)
+    RelativeLayout root;
 
     private int pv;
     private String imgUrl;
@@ -75,6 +100,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     private AppBarLayout.LayoutParams mAppBarParams;
     private View mAppBarChildAt;
     private PiliPiliDanmakuView danmakuView;
+    private VideoDetailsPagerAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,14 +165,18 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
 
     private void initPage() {
         fragments.add(new VideoInfoFragment());
-        fragments.add(new VideoCommentFragment());
+        VideoCommentFragment fragment = new VideoCommentFragment();
+        fragment.setListener(position -> {
+            showFakeFragment(fragment);
+        });
+        fragments.add(fragment);
         setPagerTitle("1000");
     }
 
     private void setPagerTitle(String num) {
         titles.add("简介");
         titles.add("评论" + "(" + num + ")");
-        VideoDetailsPagerAdapter mAdapter = new VideoDetailsPagerAdapter(getSupportFragmentManager(), fragments, titles);
+        mAdapter = new VideoDetailsPagerAdapter(getSupportFragmentManager(), fragments, titles);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(2);
         mTabLayout.setupWithViewPager(mViewPager);
@@ -156,6 +186,9 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         danmakuView = new PiliPiliDanmakuView(this);
         PiliPiliVideoController controller =
                 new PiliPiliVideoController(this);
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        layoutParams.setMargins(0, 25, 0, 40);
+        danmakuView.setLayoutParams(layoutParams);
         controller.addDefaultControlComponent("刘薪王太强了", () -> danmakuView.addDanmaku("xxxxx", true));
         controller.addControlComponent(danmakuView);
         player.setVideoController(controller);
@@ -275,6 +308,54 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         dialog.show();
     }
 
+    private void showFakeFragment(Fragment fragment) {
+        View fake = LayoutInflater.from(VideoActivity.this).inflate(R.layout.fragment_fake_comment_details, null, false);
+        root.addView(fake);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        layoutParams.setMargins(0, 1000, 0, 0);
+        fake.setLayoutParams(layoutParams);
+        Log.d("aaa", "1: "+dip2px(VideoActivity.this,  mViewPager.getTop()));
+        Log.d("aaa", "2: "+dip2px(VideoActivity.this,  mViewPager.getTop()));
+        Animation translateAnimation;
+        if (mViewPager.getTop() < 1000) {
+            translateAnimation  = new TranslateAnimation(0,0,1000, dip2px(VideoActivity.this,  mViewPager.getTop()) - 1300);
+        } else {
+            translateAnimation = new TranslateAnimation(0,0,1000, dip2px(VideoActivity.this, mViewPager.getTop()) / 2);
+        }
+
+        translateAnimation.setFillEnabled(true);
+        translateAnimation.setFillAfter(true);
+        translateAnimation.setDuration(1000);
+        translateAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                root.removeView(fake);
+                fragments.set(1, new CommentDetailsFragment());
+                mAdapter.notifyDataSetChanged();
+                tabBar.setVisibility(View.GONE);
+                replayBar.setVisibility(View.VISIBLE);
+                replayBack.setOnClickListener(v -> {
+                    fragments.set(1, fragment);
+                    mAdapter.notifyDataSetChanged();
+                    tabBar.setVisibility(View.VISIBLE);
+                    replayBar.setVisibility(View.GONE);
+                });
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        fake.setAnimation(translateAnimation);
+        translateAnimation.start();
+    }
+
 
     public static class VideoDetailsPagerAdapter extends FragmentStatePagerAdapter {
         private List<Fragment> fragments;
@@ -300,6 +381,37 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         public CharSequence getPageTitle(int position) {
             return titles.get(position);
         }
+        private FragmentManager fm;
+        private boolean[] flags;//标识,重新设置fragment时全设为true
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            if (flags != null && flags[position]) {
+                /**得到缓存的fragment, 拿到tag并替换成新的fragment*/
+                Fragment fragment = (Fragment) super.instantiateItem(container, position);
+                String fragmentTag = fragment.getTag();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.remove(fragment);
+                fragment = fragments.get(position);
+                ft.add(container.getId(), fragment, fragmentTag);
+                ft.attach(fragment);
+                ft.commit();
+                /**替换完成后设为false*/
+                flags[position] = false;
+                if (fragment != null){
+                    return fragment;
+                }else {
+                    return super.instantiateItem(container, position);
+                }
+            } else {
+                return super.instantiateItem(container, position);
+            }
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
+        }
     }
 
      public interface OnVideoListener {
@@ -313,6 +425,10 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
 
     public interface OnDanmukuCloseListener {
         void onClose(boolean isExpand);
+    }
+
+    public interface OnRelayOpenListener {
+        void onOpen(int position);
     }
 
      private Handler mHandler = new Handler();

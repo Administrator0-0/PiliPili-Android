@@ -181,7 +181,7 @@ public class ExpandMenuView extends RelativeLayout {
                 childView.setVisibility(GONE);
             }
         }
-        if (getChildCount() > 2) {//限制直接子View的数量
+        if (getChildCount() > 1) {//限制直接子View的数量
             throw new IllegalStateException("HorizontalExpandMenu can host only one direct child");
         }
     }
@@ -323,9 +323,14 @@ public class ExpandMenuView extends RelativeLayout {
         Bitmap bitmap;
         if (isExpand) {
             bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.danmuku_open);
+            buttonIconPaint.setColor(getResources().getColor(R.color.white));
+            canvas.drawRect(rightButtonCenter.x -  3 * buttonIconSize,  dip2px(mContext, -10),  rightButtonCenter.x, dip2px(mContext, 100), buttonIconPaint);
+            canvas.drawCircle(rightButtonCenter.x,  dip2px(mContext, 15),  buttonIconSize * 19 / 10 , buttonIconPaint);
         } else {
             bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.danmuku_close);
+
         }
+
         canvas.drawBitmap(bitmap, rightButtonCenter.x - 7 * buttonIconSize / 4,  rightButtonCenter.y -  buttonIconSize * 3 / 2, buttonIconPaint);
         canvas.save();
     }
