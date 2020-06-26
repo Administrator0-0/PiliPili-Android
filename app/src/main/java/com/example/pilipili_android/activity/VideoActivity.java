@@ -28,6 +28,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -41,6 +42,7 @@ import com.example.pilipili_android.fragment.CommentDetailsFragment;
 import com.example.pilipili_android.fragment.VideoCommentFragment;
 import com.example.pilipili_android.fragment.VideoInfoFragment;
 import com.example.pilipili_android.util.AppBarStateChangeListener;
+import com.example.pilipili_android.util.DanmukuSelectUtil;
 import com.example.pilipili_android.util.SystemBarHelper;
 import com.example.pilipili_android.widget.ExpandMenuView;
 import com.example.pilipili_android.widget.PiliPiliDanmakuView;
@@ -50,14 +52,11 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static me.jessyan.autosize.utils.AutoSizeUtils.dp2px;
 
 
 public class VideoActivity extends AppCompatActivity implements View.OnClickListener {
@@ -90,6 +89,8 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     ImageView replayBack;
     @BindView(R.id.root_layout)
     RelativeLayout root;
+    @BindView(R.id.comment_bar)
+    LinearLayout commentBar;
 
     private int pv;
     private String imgUrl;
@@ -102,6 +103,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     private View mAppBarChildAt;
     private PiliPiliDanmakuView danmakuView;
     private VideoDetailsPagerAdapter mAdapter;
+    private CheckBox[] checkBoxes = new CheckBox[9];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +148,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
                 danmakuView.hide();
             }
         });
+
     }
 
     public void initToolBar() {
@@ -187,6 +190,26 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         titles.add("简介");
         titles.add("评论" + "(" + num + ")");
         mAdapter = new VideoDetailsPagerAdapter(getSupportFragmentManager(), fragments, titles);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 0) {
+                    commentBar.setVisibility(View.GONE);
+                } else {
+                    commentBar.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(2);
         mTabLayout.setupWithViewPager(mViewPager);
@@ -197,7 +220,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         PiliPiliVideoController controller =
                 new PiliPiliVideoController(this);
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        layoutParams.setMargins(0, 25, 0, 40);
+        layoutParams.setMargins(0, 30, 0, 40);
         danmakuView.setLayoutParams(layoutParams);
         controller.addDefaultControlComponent("刘薪王太强了", () -> danmakuView.addDanmaku("xxxxx", true));
         controller.addControlComponent(danmakuView);
@@ -306,6 +329,28 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     private void showBottomDialog() {
         final Dialog dialog = new Dialog(this, R.style.DialogTheme);
         View view = View.inflate(this, R.layout.danmuku_dialog_layout, null);
+        checkBoxes[0] = view.findViewById(R.id.white_checkbox);
+        checkBoxes[1] = view.findViewById(R.id.blue_green_checkbox);
+        checkBoxes[2] = view.findViewById(R.id.brown_checkbox);
+        checkBoxes[3] = view.findViewById(R.id.green_checkbox);
+        checkBoxes[4] = view.findViewById(R.id.yellow_checkbox);
+        checkBoxes[5] = view.findViewById(R.id.red_checkbox);
+        checkBoxes[6] = view.findViewById(R.id.pink_checkbox);
+        checkBoxes[7] = view.findViewById(R.id.blue_checkbox);
+        checkBoxes[8] = view.findViewById(R.id.purple_checkbox);
+        checkBoxes[0].setChecked(true);
+        for (CheckBox checkBox : checkBoxes) {
+            checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    for (CheckBox checkBoxOther : checkBoxes) {
+                        if (checkBoxOther != checkBox) {
+                            checkBoxOther.setChecked(false);
+                        }
+                    }
+                    String color = DanmukuSelectUtil.getColor(checkBox.getId());
+                }
+            });
+        }
         dialog.setContentView(view);
         Window window = dialog.getWindow();
         if (window != null) {
