@@ -65,4 +65,22 @@ public interface UrlConstant {
 
     String BUY_VIP = "user/put-vip";
 
+    String GET_VIDEO_PREFIX = "video/pv";
+
+    String POST_VIDEO_COMMENT = "/comment";
+
+    String GET_VIDEO_COMMENT = "/get-comment";
+
+    String GET_COMMENT_PREFIX = "comment/comment";
+
+    String POST_COMMENT_REPLAY = "/replay";
+
+    String GET_COMMENT_REPLAY = "/get-comment";
+
+    String LIKE_COMMENT = "/like";
+
+    String UNLIKE_COMMENT = "/unlike";
+
+    String COMMENT_DETAILS = "/details";
+
 }
