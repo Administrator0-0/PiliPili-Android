@@ -1,6 +1,7 @@
 package com.example.pilipili_android.activity;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -9,6 +10,7 @@ import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -113,6 +115,7 @@ public class PayActivity extends AppCompatActivity {
         userViewModel.getIsSuccessBuyCoin().observe(this, isSuccessBuyCoin -> {
             if (isSuccessBuyCoin) {
                 CommonDialog commonDialog = new CommonDialog(this);
+                commonDialog.setCancelable(false);
                 commonDialog.setTitle("充值成功").setMessage("您已成功充值" + selectHowMuch + "元")
                         .setImageResId(R.drawable.bxx).setPositive("我知道了")
                         .setOnConfirmDialogClickListener(() -> {

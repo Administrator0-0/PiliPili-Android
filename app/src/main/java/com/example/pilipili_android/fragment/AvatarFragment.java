@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +25,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.pilipili_android.R;
 import com.example.pilipili_android.constant.DefaultConstant;
+import com.example.pilipili_android.constant.UrlConstant;
 import com.example.pilipili_android.util.UCropUtil;
 import com.example.pilipili_android.view_model.UserBaseDetail;
 import com.example.pilipili_android.view_model.UserViewModel;
@@ -43,7 +46,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class SaveImageFragment extends Fragment {
+public class AvatarFragment extends Fragment {
 
     @BindView(R.id.cancel)
     ImageView cancel;
@@ -59,10 +62,9 @@ public class SaveImageFragment extends Fragment {
     private static final String[] PERMISSIONS_STORAGE = {Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
     private Unbinder unbinder;
-    private UserViewModel userViewModel;
     private String avatarPath;
 
-    public SaveImageFragment() {
+    public AvatarFragment() {
     }
 
     @Override
@@ -76,10 +78,9 @@ public class SaveImageFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_save_image, container, false);
         unbinder = ButterKnife.bind(this, view);
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
-        if (!avatarPath.equals("")) {
-            Glide.with(this).load(avatarPath).into(avatar);
+        if (!avatarPath.equals("") && !avatarPath.equals(UrlConstant.GLIDE_CACHE + File.separator)) {
+            Glide.with(this).load(avatarPath).diskCacheStrategy(DiskCacheStrategy.NONE).into(avatar);
         } else {
             avatar.setImageResource(DefaultConstant.AVATAR_IMAGE_DEFAULT);
         }
@@ -94,7 +95,11 @@ public class SaveImageFragment extends Fragment {
     @OnClick(R.id.change_avatar)
     void onChangeAvatarClicked() {
         if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getContext()),
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()), PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE);
         } else {
             openAlbum();
@@ -141,11 +146,15 @@ public class SaveImageFragment extends Fragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_EXTERNAL_STORAGE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                openAlbum();
+            if(grantResults.length > 0) {
+                for(int result : grantResults) {
+                    if(result == PackageManager.PERMISSION_DENIED) {
+                        Toast.makeText(getContext(), "啊啦~被残忍拒绝了呢~", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
                 Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().remove(this).commit();
-            } else {
-                Toast.makeText(getContext(), "啊啦~访问相册被拒绝了呢~", Toast.LENGTH_SHORT).show();
+                openAlbum();
             }
         }
     }

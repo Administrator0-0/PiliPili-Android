@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.EditUsernameActivity">
+
+    <RelativeLayout
+        android:id="@+id/relativelayout_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="15dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/button_back"
+            android:src="@drawable/bwd" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="昵称"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"
+            android:textSize="19sp"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="保存"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/white"
+            android:layout_marginEnd="15dp"
+            android:textSize="17sp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativelayout_mid"
+        android:layout_below="@id/relativelayout_top"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content">
+        <EditText
+            android:inputType="text"
+            android:maxLines="1"
+            android:id="@+id/name_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            tools:text="你妈被我炸飞了哈哈哈"
+            android:paddingStart="11dp"
+            android:textSize="19sp"
+            android:paddingVertical="10dp"/>
+
+        <ImageView
+            android:id="@+id/clear"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:src="@drawable/bms"
+            android:layout_marginEnd="8dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv1"
+        android:text="修改昵称需要消耗6个P币"
+        android:layout_marginStart="11dp"
+        android:textSize="14sp"
+        android:textColor="@color/qmui_config_color_gray_6"
+        android:layout_below="@id/relativelayout_mid"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv1"
+        android:text="昵称2~10位，由中英文、数字以及下划线组成哦~"
+        android:layout_marginStart="11dp"
+        android:textColor="@color/qmui_config_color_gray_6"
+        android:layout_marginTop="3dp"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/get_coin_P"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:text="P币充值"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/tv1"
+        android:layout_marginEnd="9dp"/>
+
+
+</RelativeLayout>

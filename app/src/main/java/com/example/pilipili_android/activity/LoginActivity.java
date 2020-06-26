@@ -29,7 +29,6 @@ public class LoginActivity extends AppCompatActivity {
     LoginFragment loginFragment;
     RegisterFragment registerFragment;
 
-
     @BindView(R.id.top_login)
     RelativeLayout topLogin;
     @BindView(R.id.relativelayout_login_image)

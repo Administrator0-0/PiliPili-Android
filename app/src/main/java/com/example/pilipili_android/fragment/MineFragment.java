@@ -63,29 +63,12 @@ public class MineFragment extends Fragment {
     }
 
     private void initView() {
-        CustomTarget<Drawable> customTarget = new CustomTarget<Drawable>() {
-            @Override
-            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                avatar.setImageDrawable(resource);
-            }
-
-            @Override
-            public void onLoadCleared(@Nullable Drawable placeholder) {
-
-            }
-        };
         if(UserBaseDetail.isAvatarDefault(getContext())) {
             avatar.setImageDrawable(Objects.requireNonNull(getContext()).getDrawable(DefaultConstant.AVATAR_IMAGE_DEFAULT));
         } else {
             Glide.with(this).load(UserBaseDetail.getAvatarPath(getContext()))
-                    .diskCacheStrategy(DiskCacheStrategy.NONE).into(customTarget);
+                    .diskCacheStrategy(DiskCacheStrategy.NONE).into(avatar);
         }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        initView();
         String ddl = UserBaseDetail.getVIPDeadline(getContext());
         if (ddl.equals("")) {
             fragmentMineBinding.setVIPDeadline("");
@@ -94,6 +77,17 @@ public class MineFragment extends Fragment {
             fragmentMineBinding.setVIPDeadline(ddl + "到期");
             fragmentMineBinding.setVIPShow("PiliPili大会员");
         }
+        fragmentMineBinding.setUsername(UserBaseDetail.getUsername(getContext()));
+        fragmentMineBinding.setGender(UserBaseDetail.getGender(getContext()));
+        fragmentMineBinding.setCoins(UserBaseDetail.getCoinInMineFragment(getContext()));
+        fragmentMineBinding.setFollower(UserBaseDetail.getFollowerInMineFragment(getContext()));
+        fragmentMineBinding.setFollowing(UserBaseDetail.getFollowingInMineFragment(getContext()));
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        initView();
     }
 
     @OnClick(R.id.space_btn)

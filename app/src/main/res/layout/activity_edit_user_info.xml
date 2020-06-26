@@ -1,9 +1,274 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activity.EditUserInfoActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <data>
+        <variable
+            name="userViewModel"
+            type="com.example.pilipili_android.view_model.UserViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.EditUserInfoActivity">
+
+        <RelativeLayout
+            android:id="@+id/relativelayout_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="@color/colorPrimary">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="15dp"
+                android:layout_centerVertical="true"
+                android:id="@+id/button_back"
+                android:src="@drawable/bwd" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="账号资料"
+                android:textStyle="bold"
+                android:layout_centerInParent="true"
+                android:textSize="17sp"
+                android:textColor="@color/white" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/avatar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_below="@+id/relativelayout_top"
+            android:layout_marginTop="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="头像"
+                android:layout_marginStart="13dp"
+                android:layout_centerVertical="true" />
+
+            <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+                android:id="@+id/avatar_img"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                tools:src="@drawable/buo"
+                android:layout_toStartOf="@+id/enter1"
+                app:qmui_border_width="0dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="8dp" />
+
+            <ImageView
+                android:id="@+id/enter1"
+                android:layout_width="9dp"
+                android:layout_height="19dp"
+                android:src="@drawable/bwo"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="9dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_below="@+id/avatar"
+            android:layout_marginTop="1dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="昵称"
+                android:layout_marginStart="13dp"
+                android:layout_centerVertical="true" />
+
+            <TextView
+                android:id="@+id/username_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="你妈飞了哈哈哈"
+                android:textSize="16sp"
+                android:textColor="@color/qmui_config_color_gray_5"
+                android:layout_toStartOf="@+id/enter2"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="8dp" />
+
+            <ImageView
+                android:id="@+id/enter2"
+                android:layout_width="9dp"
+                android:layout_height="19dp"
+                android:src="@drawable/bwo"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="9dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/gender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_below="@+id/username"
+            android:layout_marginTop="1dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="性别"
+                android:layout_marginStart="13dp"
+                android:layout_centerVertical="true" />
+
+            <TextView
+                android:id="@+id/gender_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="女"
+                android:textSize="16sp"
+                android:textColor="@color/qmui_config_color_gray_5"
+                android:layout_toStartOf="@+id/enter3"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="8dp" />
+
+            <ImageView
+                android:id="@+id/enter3"
+                android:layout_width="9dp"
+                android:layout_height="19dp"
+                android:src="@drawable/bwo"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="9dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/sign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_below="@+id/gender"
+            android:layout_marginTop="1dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="个性签名"
+                android:layout_marginStart="13dp"
+                android:layout_centerVertical="true" />
+
+            <TextView
+                android:id="@+id/sign_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="我放个屁把你妈炸飞了哈哈哈"
+                android:maxLines="1"
+                android:textSize="16sp"
+                android:textColor="@color/qmui_config_color_gray_5"
+                android:layout_toStartOf="@+id/enter4"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="8dp" />
+
+            <ImageView
+                android:id="@+id/enter4"
+                android:layout_width="9dp"
+                android:layout_height="19dp"
+                android:src="@drawable/bwo"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="9dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/uid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_below="@+id/sign"
+            android:layout_marginTop="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="UID"
+                android:layout_marginStart="13dp"
+                android:layout_centerVertical="true" />
+
+            <TextView
+                android:id="@+id/uid_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="114514"
+                android:maxLines="1"
+                android:textSize="16sp"
+                android:textColor="@color/qmui_config_color_gray_5"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="26dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/verify"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_below="@+id/uid"
+            android:layout_marginTop="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:text="啤哩啤哩认证"
+                android:layout_marginStart="13dp"
+                android:layout_centerVertical="true" />
+
+            <ImageView
+                android:layout_width="9dp"
+                android:layout_height="19dp"
+                android:src="@drawable/bwo"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="9dp" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="退出登录移至设置里啦~"
+            android:layout_below="@id/verify"
+            android:layout_marginTop="16dp"
+            android:layout_centerHorizontal="true"
+            android:textSize="13sp"
+            android:textColor="@color/qmui_config_color_gray_5" />
+
+    </RelativeLayout>
+</layout>
