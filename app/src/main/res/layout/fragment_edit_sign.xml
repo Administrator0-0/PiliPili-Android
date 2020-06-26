@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/gray_light_30"
+    android:clickable="true"
+    android:focusable="true"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/relativelayout_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="15dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/button_back"
+            android:src="@drawable/bwd" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="个性签名"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"
+            android:textSize="19sp"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="保存"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/white"
+            android:layout_marginEnd="15dp"
+            android:textSize="17sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativelayout_mid"
+        android:layout_below="@id/relativelayout_top"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:maxLength="70"
+            android:id="@+id/sign_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="30dp"
+            android:background="@color/white"
+            tools:text="pxl我用一坨屎把你妈炸了你妈被我炸飞了你妈被我炸飞了哈哈哈你妈被我炸飞了哈哈哈你妈被我炸飞了哈哈哈你妈被我炸飞了哈哈哈你妈被我炸飞了哈哈哈你妈被我炸飞了哈哈哈"
+            android:gravity="start"
+            android:textColor="@color/qmui_config_color_gray_3"
+            android:paddingHorizontal="10dp"
+            android:textSize="16sp"
+            android:lineSpacingMultiplier="1.1"
+            android:letterSpacing="0.05"
+            android:paddingTop="10dp"/>
+
+        <TextView
+            android:id="@+id/left_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="70"
+            android:layout_alignBottom="@+id/sign_et"
+            android:layout_alignEnd="@+id/sign_et"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="10dp"
+            android:textColor="@color/qmui_config_color_gray_6" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
+

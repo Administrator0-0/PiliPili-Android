@@ -62,7 +62,6 @@ public class UserBaseDetail {
 
     public static Drawable getGender (Context context) {
         if((boolean) SPUtil.get(context, SPConstant.GENDER, false)) {
-            Log.d("aaa", "getGender: ");
             return context.getDrawable(R.drawable.cyx);
         } else {
             return context.getDrawable(R.drawable.cyz);

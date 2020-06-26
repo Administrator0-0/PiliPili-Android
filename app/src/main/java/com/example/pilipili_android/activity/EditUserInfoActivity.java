@@ -28,6 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -37,6 +38,9 @@ import com.example.pilipili_android.R;
 import com.example.pilipili_android.constant.DefaultConstant;
 import com.example.pilipili_android.constant.UrlConstant;
 import com.example.pilipili_android.databinding.ActivityEditUserInfoBinding;
+import com.example.pilipili_android.fragment.EditSignFragment;
+import com.example.pilipili_android.fragment.EditUsernameFragment;
+import com.example.pilipili_android.fragment.FragmentMsg;
 import com.example.pilipili_android.util.UCropUtil;
 import com.example.pilipili_android.view_model.UserBaseDetail;
 import com.example.pilipili_android.view_model.UserViewModel;
@@ -46,9 +50,13 @@ import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
@@ -76,6 +84,9 @@ public class EditUserInfoActivity extends AppCompatActivity {
     RelativeLayout relativelayoutTop;
 
     private ActivityEditUserInfoBinding activityEditUserInfoBinding;
+    private EditSignFragment editSignFragment;
+    private EditUsernameFragment editUsernameFragment;
+    private FragmentManager fragmentManager;
     private String signOrigin;//指sign全文原文
     private String signEdit;//指sign单行显示
     private int UID;
@@ -85,7 +96,6 @@ public class EditUserInfoActivity extends AppCompatActivity {
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static final int REQUEST_CODE_CHOOSE_AVATAR = 666;
     private static final int UCROP_CODE_CHOOSE_AVATAR = 888;
-    private static final int EDIT_USERNAME = 233;
     private static final String[] PERMISSIONS_STORAGE = {Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
 
@@ -98,6 +108,10 @@ public class EditUserInfoActivity extends AppCompatActivity {
         activityEditUserInfoBinding = DataBindingUtil.setContentView(this, R.layout.activity_edit_user_info);
         activityEditUserInfoBinding.setUserViewModel(new ViewModelProvider(this).get(UserViewModel.class));
         ButterKnife.bind(this);
+
+        fragmentManager = getSupportFragmentManager();
+        editSignFragment = new EditSignFragment();
+        editUsernameFragment = new EditUsernameFragment();
 
         Intent intent = getIntent();
         signOrigin = intent.getStringExtra("signOrigin");
@@ -147,13 +161,12 @@ public class EditUserInfoActivity extends AppCompatActivity {
             this.username = username;
         });
 
-        activityEditUserInfoBinding.getUserViewModel().getNewSign().observe(this, sign -> {
-            signOrigin = sign;
+        activityEditUserInfoBinding.getUserViewModel().getNewSign().observe(this, signBean -> {
+            signOrigin = signBean.getSign();
             if(signOrigin.equals("")) {
                 signEdit = "介绍一下自己吧~";
             } else {
-                signTv.setText(signOrigin);
-                signEdit = signTv.getText().toString().substring(0, signTv.getLayout().getLineEnd(0));
+                signEdit = signBean.getSignEdit();
             }
             signTv.setText(signEdit);
         });
@@ -188,9 +201,8 @@ public class EditUserInfoActivity extends AppCompatActivity {
 
     @OnClick(R.id.username)
     public void onUsernameClicked() {
-        Intent intent = new Intent(EditUserInfoActivity.this, EditUsernameActivity.class);
-        intent.putExtra("username", username);
-        startActivity(intent);
+        editUsernameFragment.setUsername(username);
+        fragmentManager.beginTransaction().add(R.id.box, editUsernameFragment).commit();
     }
 
     @OnClick(R.id.gender)
@@ -200,9 +212,8 @@ public class EditUserInfoActivity extends AppCompatActivity {
 
     @OnClick(R.id.sign)
     public void onSignClicked() {
-        Intent intent = new Intent(EditUserInfoActivity.this, EditSignActivity.class);
-        intent.putExtra("sign", signOrigin);
-        startActivity(intent);
+        editSignFragment.setSign(signOrigin);
+        fragmentManager.beginTransaction().add(R.id.box, editSignFragment).commit();
     }
 
     @OnClick(R.id.uid)

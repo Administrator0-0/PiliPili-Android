@@ -56,7 +56,7 @@ public class MineFragment extends Fragment {
                              Bundle savedInstanceState) {
         fragmentMineBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_mine, container, false);
         View view = fragmentMineBinding.getRoot();
-        fragmentMineBinding.setUserViewModel(new ViewModelProvider(MineFragment.this).get(UserViewModel.class));
+        fragmentMineBinding.setUserViewModel(new ViewModelProvider(Objects.requireNonNull(getActivity())).get(UserViewModel.class));
         unbinder = ButterKnife.bind(this, view);
 
         return view;

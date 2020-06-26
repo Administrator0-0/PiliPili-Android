@@ -10,10 +10,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.example.pilipili_android.bean.localbean.SignBean;
 import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
 import com.example.pilipili_android.bean.netbean.GetUserBackgroundOrAvatarReturn;
 import com.example.pilipili_android.bean.netbean.LoginSend;
@@ -28,6 +30,8 @@ import com.example.pilipili_android.model.UserDataSource;
 import com.example.pilipili_android.util.AliyunOSSUtil;
 import com.example.pilipili_android.util.EncryptUtil;
 import com.example.pilipili_android.util.SPUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 
@@ -47,7 +51,7 @@ public class UserViewModel extends AndroidViewModel {
     private MutableLiveData<String> spaceAvatarUrl = new MutableLiveData<>();
     private MutableLiveData<Boolean> isSetGenderSuccess = new MutableLiveData<>();//此变量false为男，true为女，值只要发生改变即代表变性成功
     private MutableLiveData<String> newUsername = new MutableLiveData<>();
-    private MutableLiveData<String> newSign = new MutableLiveData<>();
+    private MutableLiveData<SignBean> newSign = new MutableLiveData<>();
 
     public UserViewModel(@NonNull Application application) {
         super(application);
@@ -550,8 +554,9 @@ public class UserViewModel extends AndroidViewModel {
                 RenameReturn renameReturn = (RenameReturn) netRequestResult.getData();
                 putCoin(renameReturn.getData().getCoins());
                 putUsername(username);
-                newUsername.setValue(username);
                 Log.d("aaa", "onSuccess: ");
+                EventBus.getDefault().post(username);
+                newUsername.setValue(username);
             }
 
             @Override
@@ -571,7 +576,7 @@ public class UserViewModel extends AndroidViewModel {
         });
     }
 
-    public void uploadSign(String sign) {
+    public void uploadSign(String sign, String signEdit) {
         userDataSource.uploadSign(UserBaseDetail.getToken(context), sign, new OnNetRequestListener() {
             @Override
             public void onSuccess(NetRequestResult netRequestResult) {
@@ -580,7 +585,10 @@ public class UserViewModel extends AndroidViewModel {
 
             @Override
             public void onSuccess() {
-                newSign.setValue(sign);
+                SignBean signBean = new SignBean();
+                signBean.setSign(sign);
+                signBean.setSignEdit(signEdit);
+                newSign.setValue(signBean);
             }
 
             @Override
@@ -590,7 +598,7 @@ public class UserViewModel extends AndroidViewModel {
 
             @Override
             public void onFail(String errorMessage) {
-
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -681,7 +689,7 @@ public class UserViewModel extends AndroidViewModel {
         return newUsername;
     }
 
-    public MutableLiveData<String> getNewSign() {
+    public MutableLiveData<SignBean> getNewSign() {
         return newSign;
     }
 }
