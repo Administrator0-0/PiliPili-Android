@@ -10,7 +10,6 @@ import android.widget.Button;
 import androidx.fragment.app.Fragment;
 
 import com.example.pilipili_android.R;
-import com.example.pilipili_android.activity.MainActivity;
 import com.example.pilipili_android.activity.VideoActivity;
 
 public class MainFragment extends Fragment {
