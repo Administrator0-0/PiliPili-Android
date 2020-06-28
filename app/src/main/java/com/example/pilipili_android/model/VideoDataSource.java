@@ -120,9 +120,9 @@ public class VideoDataSource {
                     return;
                 }
                 if(commonReturn.getCode() == 200) {
+                    Log.d("aaa2", "aaaa");
                     onNetRequestListener.onSuccess();
                 } else {
-                    Log.d("aaa2", Objects.requireNonNull(commonReturn).getMessage());
                     onNetRequestListener.onFail(Objects.requireNonNull(commonReturn).getMessage());
                 }
             }

@@ -11,6 +11,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -125,8 +126,9 @@ public class UploadVideoActivity extends AppCompatActivity {
     private boolean isUploadFinish = false;
     private boolean isUploadError = false;
     private boolean isDialogAppear = false;
-    private boolean isUploadVideoCover = false;
+    private boolean isUploadVideoCoverFinish = false;
     private OSSAsyncTask uploadVideoToBucketTask;
+    private OSSAsyncTask uploadVideoCoverToBucketTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,7 +187,7 @@ public class UploadVideoActivity extends AppCompatActivity {
 
         videoViewModel.getUploadVideoCoverKeyInfo().observe(this, uploadVideoOrCoverReturn -> {
             UploadVideoOrCoverReturn.DataBean dataBean = uploadVideoOrCoverReturn.getData();
-            uploadVideoCoverToBucket(getApplicationContext(), dataBean.getGuest_key(),
+            uploadVideoCoverToBucketTask = uploadVideoCoverToBucket(getApplicationContext(), dataBean.getGuest_key(),
                     dataBean.getGuest_secret(), dataBean.getSecurity_token(),
                     dataBean.getFile(), coverPath);
         });
@@ -261,17 +263,17 @@ public class UploadVideoActivity extends AppCompatActivity {
         });
     }
 
-    public void uploadVideoCoverToBucket(Context context, String accessKey, String secretKey, String securityToken, String fileName, String path) {
+    public OSSAsyncTask uploadVideoCoverToBucket(Context context, String accessKey, String secretKey, String securityToken, String fileName, String path) {
         OSS oss = getOSS(context, accessKey, secretKey, securityToken);
         PutObjectRequest put = new PutObjectRequest(PILIPILI_BUCKET, fileName, path);
 
-        oss.asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
+        return oss.asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
             @Override
             public void onSuccess(PutObjectRequest request, PutObjectResult result) {
                 UploadVideoActivity.this.runOnUiThread(() -> {
                     Glide.with(UploadVideoActivity.this).load(coverPath).diskCacheStrategy(DiskCacheStrategy.NONE)
                             .into(frontCoverImg);
-                    isUploadVideoCover = true;
+                    isUploadVideoCoverFinish = true;
                 });
             }
 
@@ -299,7 +301,8 @@ public class UploadVideoActivity extends AppCompatActivity {
                 .setOnCancelDialogClickListener(() -> {
                     commonDialog.dismiss();
                     if(!isUploadFinish) uploadVideoToBucketTask.cancel();
-                    videoViewModel.cancelUploadVideo(isUploadFinish);
+                    if(!isUploadVideoCoverFinish) uploadVideoCoverToBucketTask.cancel();
+                    videoViewModel.cancelUploadVideo(isUploadFinish || isUploadVideoCoverFinish);
                     UploadVideoActivity.this.finish();
                     EventBus.getDefault().post(FragmentMsg.getInstance("UploadVideoActivity", "openAlbum"));
                 })
@@ -315,7 +318,8 @@ public class UploadVideoActivity extends AppCompatActivity {
                     .setOnCancelDialogClickListener(() -> {
                         commonDialog.dismiss();
                         if(!isUploadFinish) uploadVideoToBucketTask.cancel();
-                        videoViewModel.cancelUploadVideo(isUploadFinish);
+                        if(!isUploadVideoCoverFinish) uploadVideoCoverToBucketTask.cancel();
+                        videoViewModel.cancelUploadVideo(isUploadFinish || isUploadVideoCoverFinish);
                         super.onBackPressed();
                         EventBus.getDefault().post(FragmentMsg.getInstance("UploadVideoActivity", "openAlbum"));
                     })
@@ -327,6 +331,8 @@ public class UploadVideoActivity extends AppCompatActivity {
     public void onPublishClicked() {
         if(!isUploadFinish) {
             Toast.makeText(this, "视频还未上传完哦~", Toast.LENGTH_SHORT).show();
+        } else if (!isUploadVideoCoverFinish) {
+            Toast.makeText(this, "封面还未上传完哦~", Toast.LENGTH_SHORT).show();
         } else if(type < 0) {
             Toast.makeText(this, "必须要选择分区哦~", Toast.LENGTH_SHORT).show();
         } else if(editTitle.getText().toString().equals("")) {
@@ -468,7 +474,7 @@ public class UploadVideoActivity extends AppCompatActivity {
                         assert coverPath != null;
                         File file = new File(coverPath);
                         videoViewModel.uploadVideoCover(file.getName());
-                        isUploadVideoCover = false;
+                        isUploadVideoCoverFinish = false;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

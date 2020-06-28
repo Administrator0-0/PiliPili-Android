@@ -3,11 +3,14 @@ package com.example.pilipili_android.inteface;
 import android.database.Observable;
 
 import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
+import com.example.pilipili_android.bean.netbean.CommentDetailsReturn;
+import com.example.pilipili_android.bean.netbean.CommentListReturn;
 import com.example.pilipili_android.bean.netbean.CommonReturn;
 import com.example.pilipili_android.bean.netbean.FollowUnFollowReturn;
 import com.example.pilipili_android.bean.netbean.GetUserBackgroundOrAvatarReturn;
 import com.example.pilipili_android.bean.netbean.LoginReturn;
 import com.example.pilipili_android.bean.netbean.RenameReturn;
+import com.example.pilipili_android.bean.netbean.ReplayListReturn;
 import com.example.pilipili_android.bean.netbean.SetGenderReturn;
 import com.example.pilipili_android.bean.netbean.UploadSignReturn;
 import com.example.pilipili_android.bean.netbean.UploadUserBackgroundReturn;
