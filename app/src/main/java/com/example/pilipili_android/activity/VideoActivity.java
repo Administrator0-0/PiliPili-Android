@@ -9,15 +9,19 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -29,6 +33,7 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,12 +43,14 @@ import android.widget.Toast;
 
 import com.dueeeke.videoplayer.player.VideoView;
 import com.example.pilipili_android.R;
+import com.example.pilipili_android.bean.localbean.CommentItemBean;
 import com.example.pilipili_android.fragment.CommentDetailsFragment;
 import com.example.pilipili_android.fragment.VideoCommentFragment;
 import com.example.pilipili_android.fragment.VideoInfoFragment;
 import com.example.pilipili_android.util.AppBarStateChangeListener;
 import com.example.pilipili_android.util.DanmukuSelectUtil;
 import com.example.pilipili_android.util.SystemBarHelper;
+import com.example.pilipili_android.view_model.CommentViewModel;
 import com.example.pilipili_android.widget.ExpandMenuView;
 import com.example.pilipili_android.widget.PiliPiliDanmakuView;
 import com.example.pilipili_android.widget.PiliPiliPlayer;
@@ -54,6 +61,8 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -91,25 +100,37 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     RelativeLayout root;
     @BindView(R.id.comment_bar)
     LinearLayout commentBar;
+    @BindView(R.id.edit_comment)
+    EditText editComment;
+    @BindView(R.id.send_comment)
+    ImageView sendComment;
 
     private int pv;
     private String imgUrl;
     private List<String> titles = new ArrayList<>();
     private List<Fragment> fragments = new ArrayList<>();
-    private boolean isPlay;
-    private boolean isPause;
-    private boolean isSamll;
     private AppBarLayout.LayoutParams mAppBarParams;
     private View mAppBarChildAt;
     private PiliPiliDanmakuView danmakuView;
     private VideoDetailsPagerAdapter mAdapter;
     private CheckBox[] checkBoxes = new CheckBox[9];
+    private CommentViewModel commentViewModel;
+    private CommentItemBean parent;
+    private CommentItemBean temp1;
+    private CommentItemBean temp2;
+    private CommentItemBean target;
+    private boolean targetIsReplay;
+    private boolean isReplay1;
+    private boolean isReplay2;
+    private boolean isDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
         ButterKnife.bind(this);
+        Intent intent = getIntent();
+        pv = intent.getIntExtra("pv", -1);
         initView();
         initToolBar();
         initPage();
@@ -148,7 +169,38 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
                 danmakuView.hide();
             }
         });
+        sendComment.setOnClickListener(this);
+        editComment.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                isReplay1 = false;
+                isReplay2 = false;
+                editComment.setText("");
+            }
+        });
+        editComment.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (isDetails) {
+                    target = isReplay2 ? temp2 : parent;
+                    targetIsReplay = isReplay2;
+                } else {
+                    target = temp1;
+                    targetIsReplay = isReplay1;
+                }
+                sendComment.setEnabled((s == null || s.toString().isEmpty()));
+            }
+        });
+        commentViewModel = new ViewModelProvider(Objects.requireNonNull(this)).get(CommentViewModel.class);
     }
 
     public void initToolBar() {
@@ -169,9 +221,20 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
 
     private void initPage() {
         fragments.add(new VideoInfoFragment());
-        VideoCommentFragment fragment = new VideoCommentFragment();
-        fragment.setListener(position -> {
-            fragments.set(1, new CommentDetailsFragment());
+        VideoCommentFragment fragment = new VideoCommentFragment(pv);
+        fragment.setListener(itemBean -> {
+            CommentDetailsFragment detailsFragment = new CommentDetailsFragment(itemBean);
+            detailsFragment.setRelayListener((itemBean2, isReplay) -> {
+                if (isReplay) {
+                    temp2 = itemBean2;
+                } else {
+                    parent = itemBean2;
+                }
+                editComment.requestFocus();
+                isReplay2 = isReplay;
+                isDetails = true;
+            });
+            fragments.set(1, detailsFragment);
             mAdapter.notifyDataSetChanged();
             tabBar.setVisibility(View.GONE);
             replayBar.setVisibility(View.VISIBLE);
@@ -181,6 +244,12 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
                 tabBar.setVisibility(View.VISIBLE);
                 replayBar.setVisibility(View.GONE);
             });
+        });
+        fragment.setRelayListener((itemBean, isReplay) -> {
+            temp1 = itemBean;
+            editComment.requestFocus();
+            isReplay1 = isReplay;
+            isDetails = false;
         });
         fragments.add(fragment);
         setPagerTitle("1000");
@@ -323,6 +392,20 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
             case R.id.send:
                 danmakuView.addDanmaku("ssss", true);
                 break;
+            case R.id.send_comment:
+                if (isDetails) {
+                    commentViewModel.replay(target.getComment().getId(), editComment.getText().toString());
+                } else {
+                    if (targetIsReplay) {
+                        commentViewModel.replay(target.getComment().getId(), editComment.getText().toString());
+                    } else {
+                        commentViewModel.comment(pv, editComment.getText().toString());
+                    }
+                }
+                editComment.setText("");
+                editComment.clearFocus();
+                sendComment.setEnabled(false);
+                break;
         }
     }
 
@@ -429,7 +512,11 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public interface OnRelayOpenListener {
-        void onOpen(int position);
+        void onOpen(CommentItemBean itemBean);
+    }
+
+    public interface OnRelayListener {
+        void onRelay(CommentItemBean itemBean, boolean isReplay);
     }
 
      private Handler mHandler = new Handler();

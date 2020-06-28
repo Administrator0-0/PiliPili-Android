@@ -3,6 +3,7 @@ package com.example.pilipili_android.model;
 import com.example.pilipili_android.bean.netbean.CommentDetailsReturn;
 import com.example.pilipili_android.bean.netbean.CommentListReturn;
 import com.example.pilipili_android.bean.netbean.CommentListSend;
+import com.example.pilipili_android.bean.netbean.CommentReturn;
 import com.example.pilipili_android.bean.netbean.CommentSend;
 import com.example.pilipili_android.bean.netbean.CommonReturn;
 import com.example.pilipili_android.bean.netbean.NetRequestResult;
@@ -33,23 +34,23 @@ public class CommentDataSource {
         Gson gson = new Gson();
         String sendJson = gson.toJson(send);
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), sendJson);
-        Call<CommonReturn> call = retrofitService.postComment("" + pv, ciphertext, body);
-        call.enqueue(new Callback<CommonReturn>() {
+        Call<CommentReturn> call = retrofitService.postComment("" + pv, ciphertext, body);
+        call.enqueue(new Callback<CommentReturn>() {
             @Override
-            public void onResponse(Call<CommonReturn> call, Response<CommonReturn> response) {
-                CommonReturn commonReturn = response.body();
-                if(commonReturn != null) {
-                    if(commonReturn.getCode() == 200) {
-                        onNetRequestListener.onSuccess();
+            public void onResponse(Call<CommentReturn> call, Response<CommentReturn> response) {
+                CommentReturn commentReturn = response.body();
+                if(commentReturn != null) {
+                    if(commentReturn.getCode() == 200) {
+                        onNetRequestListener.onSuccess(new NetRequestResult<>(commentReturn));
                     } else {
-                        onNetRequestListener.onFail(commonReturn.getMessage());
+                        onNetRequestListener.onFail(commentReturn.getMessage());
                     }
                 } else {
                     onNetRequestListener.onFail("评论错误");
                 }
             }
             @Override
-            public void onFailure(Call<CommonReturn> call, Throwable t) {
+            public void onFailure(Call<CommentReturn> call, Throwable t) {
                 onNetRequestListener.onFail("网络不稳定，请检查网络");
             }
         });
@@ -90,23 +91,23 @@ public class CommentDataSource {
         Gson gson = new Gson();
         String sendJson = gson.toJson(send);
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), sendJson);
-        Call<CommonReturn> call = retrofitService.postReplay("" + id, ciphertext, body);
-        call.enqueue(new Callback<CommonReturn>() {
+        Call<CommentReturn> call = retrofitService.postReplay("" + id, ciphertext, body);
+        call.enqueue(new Callback<CommentReturn>() {
             @Override
-            public void onResponse(Call<CommonReturn> call, Response<CommonReturn> response) {
-                CommonReturn commonReturn = response.body();
-                if(commonReturn != null) {
-                    if(commonReturn.getCode() == 200) {
-                        onNetRequestListener.onSuccess(new NetRequestResult<>(commonReturn));
+            public void onResponse(Call<CommentReturn> call, Response<CommentReturn> response) {
+                CommentReturn commentReturn = response.body();
+                if(commentReturn != null) {
+                    if(commentReturn.getCode() == 200) {
+                        onNetRequestListener.onSuccess(new NetRequestResult<>(commentReturn));
                     } else {
-                        onNetRequestListener.onFail(commonReturn.getMessage());
+                        onNetRequestListener.onFail(commentReturn.getMessage());
                     }
                 } else {
                     onNetRequestListener.onFail("回复错误");
                 }
             }
             @Override
-            public void onFailure(Call<CommonReturn> call, Throwable t) {
+            public void onFailure(Call<CommentReturn> call, Throwable t) {
                 onNetRequestListener.onFail("网络不稳定，请检查网络");
             }
         });

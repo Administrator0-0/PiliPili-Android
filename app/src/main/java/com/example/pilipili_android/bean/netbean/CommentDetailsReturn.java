@@ -37,16 +37,22 @@ public class CommentDetailsReturn {
 
     public static class DataBean {
         /**
+         * id: 1
          * author : 1
          * content : lxwtql
          * likes : 1
          * time : 2020-06-26-16-31-39
          */
 
+        private int id;
         private int author;
         private String content;
         private int likes;
         private String time;
+
+        public int getId() {
+            return id;
+        }
 
         public int getAuthor() {
             return author;
@@ -78,6 +84,10 @@ public class CommentDetailsReturn {
 
         public void setTime(String time) {
             this.time = time;
+        }
+
+        public void setId(int id) {
+            this.id = id;
         }
     }
 }

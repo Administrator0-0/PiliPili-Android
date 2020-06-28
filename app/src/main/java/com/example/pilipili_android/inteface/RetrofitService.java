@@ -5,6 +5,7 @@ import android.database.Observable;
 import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
 import com.example.pilipili_android.bean.netbean.CommentDetailsReturn;
 import com.example.pilipili_android.bean.netbean.CommentListReturn;
+import com.example.pilipili_android.bean.netbean.CommentReturn;
 import com.example.pilipili_android.bean.netbean.CommonReturn;
 import com.example.pilipili_android.bean.netbean.FollowUnFollowReturn;
 import com.example.pilipili_android.bean.netbean.GetUserBackgroundOrAvatarReturn;
@@ -145,7 +146,7 @@ public interface RetrofitService {
      *
      */
     @POST(UrlConstant.GET_VIDEO_PREFIX + "{id}" + UrlConstant.POST_VIDEO_COMMENT)
-    Call<CommonReturn> postComment(@Path("id") String id, @Header("Authorization") String token, @Body RequestBody jsonObject);
+    Call<CommentReturn> postComment(@Path("id") String id, @Header("Authorization") String token, @Body RequestBody jsonObject);
 
     /**
      * 获取视频评论列表
@@ -159,7 +160,7 @@ public interface RetrofitService {
      *
      */
     @POST(UrlConstant.GET_COMMENT_PREFIX + "{id}" + UrlConstant.POST_COMMENT_REPLAY)
-    Call<CommonReturn> postReplay(@Path("id") String id, @Header("Authorization") String token, @Body RequestBody jsonObject);
+    Call<CommentReturn> postReplay(@Path("id") String id, @Header("Authorization") String token, @Body RequestBody jsonObject);
 
     /**
      * 获取评论回复列表

@@ -1,5 +1,6 @@
 package com.example.pilipili_android.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,21 +10,32 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.pilipili_android.R;
+import com.example.pilipili_android.bean.localbean.CommentItemBean;
+import com.example.pilipili_android.util.AliyunOSSUtil;
 
+import java.util.HashMap;
 import java.util.List;
 
 
 public class CommentReplayAdapter extends RecyclerView.Adapter {
-    private List<String> relates;
+    private List<CommentItemBean> replays;
+    private int id;
+    private Context mContext;
 
-    public CommentReplayAdapter(List<String> relates) {
-        this.relates = relates;
+    public CommentReplayAdapter(int id, HashMap<Integer, List<CommentItemBean>> allReplays) {
+        this.id = id;
+        this.replays = allReplays.get(id);
     }
 
+    public void setReplays(HashMap<Integer, List<CommentItemBean>> allReplays) {
+        this.replays = allReplays.get(id);
+    }
 
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        mContext = parent.getContext();
         return new ItemViewHolder(LayoutInflater.from(parent.getContext()).
                 inflate(R.layout.item_replay, parent, false));
     }
@@ -31,16 +43,19 @@ public class CommentReplayAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
-        itemViewHolder.username.setText("刘薪王分身");
-        itemViewHolder.userAvatar.setImageResource(R.drawable.bxx);
-        itemViewHolder.commentTime.setText("99999999");
-        itemViewHolder.commentLikeNum.setText("88888888");
-        itemViewHolder.commentContent.setText("刘薪王的分身很多");
+        CommentItemBean itemBean = replays.get(position);
+        itemViewHolder.username.setText(itemBean.getUser().getUsername());
+        String url = AliyunOSSUtil.getImageUrl(mContext.getApplicationContext(), itemBean.getAvatar().getGuest_key(),
+                itemBean.getAvatar().getGuest_secret(), itemBean.getAvatar().getSecurity_token(), itemBean.getAvatar().getFile());
+        Glide.with(mContext).load(url).into(itemViewHolder.userAvatar);
+        itemViewHolder.commentTime.setText(itemBean.getComment().getTime());
+        itemViewHolder.commentLikeNum.setText(itemBean.getComment().getLikes());
+        itemViewHolder.commentContent.setText(itemBean.getComment().getContent());
     }
 
     @Override
     public int getItemCount() {
-        return relates.size();
+        return replays.size();
     }
 
 
