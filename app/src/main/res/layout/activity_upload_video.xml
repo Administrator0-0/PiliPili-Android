@@ -58,6 +58,7 @@
     <!--            cm8-->
 
     <ScrollView
+        android:overScrollMode="never"
         android:scrollbars="none"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -141,9 +142,11 @@
                 <EditText
                     android:id="@+id/edit_title"
                     android:layout_width="match_parent"
-                    android:layout_height="90dp"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="40dp"
                     android:layout_toEndOf="@+id/title_title"
                     android:hint="请填写标题"
+                    android:maxLength="80"
                     android:paddingTop="5dp"
                     android:textColorHint="@color/qmui_config_color_gray_6"
                     android:background="@color/white"
@@ -251,7 +254,8 @@
                     android:layout_marginStart="16dp"/>
                 <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="90dp"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="70dp"
                     android:hint="请填写简介"
                     android:background="@color/white"
                     android:paddingTop="5dp"
@@ -260,6 +264,7 @@
                     android:paddingStart="10dp"
                     android:textSize="15sp"
                     android:gravity="top"
+                    android:maxLength="233"
                     android:id="@+id/edit_intro"
                     android:layout_marginStart="40dp"
                     android:layout_marginEnd="10dp"/>

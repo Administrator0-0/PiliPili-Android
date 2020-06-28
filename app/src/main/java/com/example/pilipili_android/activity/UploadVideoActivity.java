@@ -13,9 +13,11 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
@@ -115,6 +117,8 @@ public class UploadVideoActivity extends AppCompatActivity {
     TextView partTitle;
     @BindView(R.id.select_part_tv)
     TextView selectPartTv;
+    @BindView(R.id.publish)
+    QMUIRoundButton publish;
 
     private static final int REQUEST_CODE_CHOOSE_COVER = 10086;
     private static final int UCROP_CODE_CHOOSE_COVER = 23333;
@@ -142,10 +146,42 @@ public class UploadVideoActivity extends AppCompatActivity {
 
         uploadVideo();
 
-        editTitle.clearFocus();
-        editIntro.clearFocus();
         setAsteriskRed(partTitle);
         setAsteriskRed(titleTitle);
+        numberOfTitle.setText("80");
+        numberOfIntro.setText("233");
+        editTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                numberOfTitle.setText(80 - editTitle.getText().toString().length() + "");
+            }
+        });
+        editIntro.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                numberOfIntro.setText(233 - editIntro.getText().toString().length() + "");
+            }
+        });
 
         Glide.with(this)
                 .setDefaultRequestOptions(
@@ -300,8 +336,8 @@ public class UploadVideoActivity extends AppCompatActivity {
         commonDialog.setTitle("取消发布").setNegative("不想发了").setPositive("我再想想").setMessage("真的要取消发布视频吗？")
                 .setOnCancelDialogClickListener(() -> {
                     commonDialog.dismiss();
-                    if(!isUploadFinish) uploadVideoToBucketTask.cancel();
-                    if(!isUploadVideoCoverFinish) uploadVideoCoverToBucketTask.cancel();
+                    if(!isUploadFinish && !isUploadError) uploadVideoToBucketTask.cancel();
+                    if(!isUploadVideoCoverFinish && !isUploadError) uploadVideoCoverToBucketTask.cancel();
                     videoViewModel.cancelUploadVideo(isUploadFinish || isUploadVideoCoverFinish);
                     UploadVideoActivity.this.finish();
                     EventBus.getDefault().post(FragmentMsg.getInstance("UploadVideoActivity", "openAlbum"));
@@ -317,8 +353,8 @@ public class UploadVideoActivity extends AppCompatActivity {
             commonDialog.setTitle("取消发布").setNegative("不想发了").setPositive("我再想想").setMessage("真的要取消发布视频吗？")
                     .setOnCancelDialogClickListener(() -> {
                         commonDialog.dismiss();
-                        if(!isUploadFinish) uploadVideoToBucketTask.cancel();
-                        if(!isUploadVideoCoverFinish) uploadVideoCoverToBucketTask.cancel();
+                        if(!isUploadFinish && !isUploadError) uploadVideoToBucketTask.cancel();
+                        if(!isUploadVideoCoverFinish && !isUploadError) uploadVideoCoverToBucketTask.cancel();
                         videoViewModel.cancelUploadVideo(isUploadFinish || isUploadVideoCoverFinish);
                         super.onBackPressed();
                         EventBus.getDefault().post(FragmentMsg.getInstance("UploadVideoActivity", "openAlbum"));
@@ -338,6 +374,7 @@ public class UploadVideoActivity extends AppCompatActivity {
         } else if(editTitle.getText().toString().equals("")) {
             Toast.makeText(this, "必须要填写标题哦~", Toast.LENGTH_SHORT).show();
         } else {
+            publish.setEnabled(false);
             MediaPlayer mediaPlayer = new MediaPlayer();
             try {
                 mediaPlayer.setDataSource(video.getAbsolutePath());
@@ -422,6 +459,7 @@ public class UploadVideoActivity extends AppCompatActivity {
     }
 
     private void uploadVideo() {
+        publish.setEnabled(true);
         isUploadError = false;
         isUploadFinish = false;
         isUploadingImg.setVisibility(View.VISIBLE);
