@@ -65,6 +65,24 @@ public interface UrlConstant {
 
     String BUY_VIP = "user/put-vip";
 
+    /**
+     * 视频接口
+     */
+
+    String UPLOAD_VIDEO = "video/upload-new";
+
+    String UPLOAD_COVER = "video/cover-new";
+
+    String CONFIRM_UPLOAD = "video/save-new";
+
+    String CANCEL_UPLOAD = "video/cancel-new";
+
+
+
+
+
+
+
     String GET_VIDEO_PREFIX = "video/pv";
 
     String POST_VIDEO_COMMENT = "/comment";

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="15dp"
+        android:layout_marginTop="6dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="综合区"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="正常视频请投往这里~"
+            android:textSize="16sp"
+            android:textColor="@color/qmui_config_color_gray_5"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="0.6dp"
+        android:layout_marginHorizontal="7dp"
+        android:background="@color/qmui_config_color_gray_5"/>
+
+    <LinearLayout
+        android:id="@+id/color"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="颜色区"
+            android:textColor="@color/yellow_50"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="颜色视频请投往这里~"
+            android:textSize="16sp"
+            android:textColor="@color/qmui_config_color_gray_5"/>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/line1"
+        android:layout_marginHorizontal="7dp"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="0.6dp"
+        android:background="@color/qmui_config_color_gray_5"/>
+
+    <com.example.pilipili_android.widget.PiliPiliColorTextView
+        android:id="@+id/cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:text="取消"
+        android:paddingVertical="8dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"/>
+
+</LinearLayout>

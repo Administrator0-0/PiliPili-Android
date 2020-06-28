@@ -25,7 +25,7 @@
 
         <activity
             android:name=".activity.UploadVideoActivity"
-            android:label="@string/title_activity_upload_video"/>
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity android:name=".activity.EditUserInfoActivity" />
 
         <meta-data
