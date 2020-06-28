@@ -3,21 +3,86 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="200dp"
+    android:layout_height="180dp"
     tools:context=".fragment.RecommendFragment"
-    app:cardBackgroundColor="@color/qmui_config_color_75_white"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="12dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="3dp"
     app:cardUseCompatPadding="true"
-    app:contentPadding="8dp">
-
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="测试\n卡片\n效果"
-        android:textSize="32sp" />
-
-
+    app:contentPadding="5dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/cover_image"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:src="@drawable/cover"/>
+        <RelativeLayout
+            android:id="@+id/relativelayout_image_on_cover"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/cover_image"
+            android:layout_marginBottom="5dp">
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginStart="3dp"
+                android:id="@+id/image_display"
+                android:src="@drawable/bbb"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/text_number_display"
+                android:layout_toEndOf="@+id/image_display"
+                android:layout_marginStart="8dp"
+                android:text="3.4万"
+                android:textSize="10sp"
+                android:layout_centerVertical="true"
+                android:textColor="@color/qmui_config_color_gray_5"
+                tools:ignore="SmallSp" />
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/bmb"
+                android:layout_marginStart="15dp"
+                android:layout_toEndOf="@+id/text_number_display"
+                android:id="@+id/image_argues"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/image_argues"
+                android:layout_marginStart="8dp"
+                android:text="1.2万"
+                android:textSize="10sp"
+                android:textColor="@color/qmui_config_color_gray_5"
+                android:layout_centerVertical="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="19:14"
+                android:textColor="@color/qmui_config_color_gray_5"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:textSize="10sp"
+                android:layout_marginEnd="5dp"/>
+        </RelativeLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_below="@+id/relativelayout_image_on_cover"
+            android:id="@+id/text_video_title"
+            android:text="答题领取pilipili大会员，免费获得新人大礼包"
+            android:textSize="10sp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_video_title"
+            android:text="官方"
+            android:paddingStart="15dp"
+            android:textSize="10sp"
+            android:textColor="@color/qmui_config_color_gray_5"
+            android:gravity="center_vertical"/>
+    </RelativeLayout>
 </androidx.cardview.widget.CardView>
