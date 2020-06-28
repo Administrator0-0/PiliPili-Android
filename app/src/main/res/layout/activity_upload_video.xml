@@ -4,76 +4,95 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/qmui_config_color_white"
     android:padding="@dimen/box_inset_layout_padding"
-    android:orientation="vertical"
-    tools:context=".activity.UploadVideoActivity"
-    tools:deviceIds="wear">
+    android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="@color/qmui_config_color_blue"
-        android:layout_height="45dp">
+        android:background="@color/colorPrimary"
+        android:layout_height="50dp">
         <ImageView
             android:layout_centerVertical="true"
-            android:layout_marginStart="20dp"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:id="@+id/button_return_publish"
+            android:layout_marginStart="12dp"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:id="@+id/back"
             android:src="@drawable/bwc_white"/>
         <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
-            android:layout_width="80dp"
-            android:layout_height="35dp"
+            android:layout_width="75dp"
+            android:layout_height="31dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="10dp"
             android:gravity="center"
             android:text="发布"
-            android:id="@+id/button_publish"
+            android:id="@+id/publish"
             android:textColor="@color/qmui_config_color_white"
-            android:textSize="18sp"
-            app:qmui_radius="5dp"
+            android:textSize="17sp"
+            app:qmui_radius="3dp"
             app:qmui_isRadiusAdjustBounds="true"
             app:qmui_borderColor="@color/qmui_config_color_white"
-            app:qmui_borderWidth="2dp"/>
+            app:qmui_borderWidth="1.5dp"/>
     </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/is_uploading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="上传中..."
+            android:layout_centerVertical="true"
+            android:textSize="15sp"
+            android:layout_marginVertical="10dp"
+            android:layout_marginStart="13dp"/>
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:id="@+id/is_uploading_img"
+            tools:src="@drawable/ct6"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+    <!--            cm8-->
+
     <ScrollView
         android:scrollbars="none"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="3dp"
-        android:background="@color/qmui_config_color_gray_9">
+        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="5dp"
                 android:background="@color/white"
                 android:layout_height="wrap_content">
+
                 <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:id="@+id/image_cover"/>
+                    android:id="@+id/image_cover"
+                    android:layout_width="412dp"
+                    android:layout_height="258dp"
+                    android:scaleType="centerCrop"
+                    tools:src="@drawable/master" />
+
                 <TextView
-                    android:layout_width="70dp"
+                    android:layout_width="72dp"
                     android:layout_height="25dp"
                     android:gravity="center"
                     android:text="修改封面"
+                    android:alpha="0.75"
                     android:id="@+id/button_setcover"
                     android:textColor="@color/qmui_config_color_white"
-                    android:background="@color/qmui_config_color_gray_5"
+                    android:background="@color/black"
                     android:layout_alignParentEnd="true"
                     android:layout_alignBottom="@+id/image_cover"
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"/>
             </RelativeLayout>
             <RelativeLayout
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="3dp"
+                android:id="@+id/select_part"
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="35dp">
@@ -84,17 +103,17 @@
                     android:id="@+id/part_title"
                     android:textSize="15sp"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="8dp"/>
+                    android:layout_marginStart="16dp"/>
                 <TextView
+                    android:id="@+id/select_part_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="请选择分区"
-                    android:id="@+id/select_part"
+                    android:hint="请选择分区"
                     android:layout_toEndOf="@+id/part_title"
                     android:layout_centerVertical="true"
                     android:paddingStart="10dp"
                     android:layout_marginStart="30dp"
-                    android:textColor="@color/qmui_config_color_gray_5"
+                    android:textColor="@color/qmui_config_color_gray_6"
                     android:textSize="15sp"/>
                 <ImageView
                     android:layout_width="15dp"
@@ -105,121 +124,122 @@
                     android:layout_marginEnd="15dp"/>
             </RelativeLayout>
             <RelativeLayout
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:layout_marginTop="3dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="10dp"
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:layout_marginStart="16dp"
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"
                     android:id="@+id/title_title"
                     android:text="标题 *"
-                    android:layout_marginStart="8dp"
                     android:gravity="center"
                     android:textSize="15sp"/>
                 <EditText
+                    android:id="@+id/edit_title"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
                     android:layout_toEndOf="@+id/title_title"
                     android:hint="请填写标题"
                     android:paddingTop="5dp"
+                    android:textColorHint="@color/qmui_config_color_gray_6"
                     android:background="@color/white"
                     android:paddingStart="10dp"
                     android:textSize="15sp"
                     android:gravity="top"
                     android:layout_marginStart="30dp"
-                    android:layout_marginEnd="10dp"
-                    android:id="@+id/edit_title"/>
+                    android:layout_marginEnd="10dp" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="25dp"
-                    android:text="0/80"
+                    tools:text="0/80"
                     android:textSize="15sp"
                     android:gravity="center"
-                    android:id="@+id/bumber_of_title"
-                    android:textColor="@color/qmui_config_color_gray_5"
+                    android:id="@+id/number_of_title"
+                    android:textColor="@color/qmui_config_color_gray_6"
                     android:layout_alignParentEnd="true"
                     android:layout_below="@+id/edit_title"
                     android:layout_marginEnd="10dp"/>
             </RelativeLayout>
-            <LinearLayout
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="10dp"
-                android:background="@color/white"
-                android:layout_marginTop="3dp"
-                android:layout_width="match_parent"
-                android:layout_height="35dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="类型 *"
-                    android:textSize="15sp"
-                    android:layout_marginStart="8dp"
-                    android:gravity="center"/>
-                <RadioGroup
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="30dp"
-                    android:orientation="horizontal">
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="自制"
-                        android:textSize="15sp"
-                        android:textColor="@color/qmui_config_color_gray_5"
-                        android:gravity="center_vertical"/>
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="60dp"
-                        android:text="转载"
-                        android:textColor="@color/qmui_config_color_gray_5"
-                        android:textSize="15sp"
-                        android:layout_gravity="center_vertical"/>
-                </RadioGroup>
-            </LinearLayout>
+<!--            <LinearLayout-->
+<!--                android:layout_marginStart="8dp"-->
+<!--                android:layout_marginEnd="10dp"-->
+<!--                android:background="@color/white"-->
+<!--                android:layout_marginTop="3dp"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="35dp">-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:text="类型 *"-->
+<!--                    android:textSize="15sp"-->
+<!--                    android:layout_marginStart="8dp"-->
+<!--                    android:gravity="center"/>-->
+<!--                <RadioGroup-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_marginStart="30dp"-->
+<!--                    android:orientation="horizontal">-->
+<!--                    <RadioButton-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="自制"-->
+<!--                        android:textSize="15sp"-->
+<!--                        android:textColor="@color/qmui_config_color_gray_5"-->
+<!--                        android:gravity="center_vertical"/>-->
+<!--                    <RadioButton-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="60dp"-->
+<!--                        android:text="转载"-->
+<!--                        android:textColor="@color/qmui_config_color_gray_5"-->
+<!--                        android:textSize="15sp"-->
+<!--                        android:layout_gravity="center_vertical"/>-->
+<!--                </RadioGroup>-->
+<!--            </LinearLayout>-->
+<!--            <RelativeLayout-->
+<!--                android:layout_marginStart="8dp"-->
+<!--                android:layout_marginEnd="10dp"-->
+<!--                android:background="@color/white"-->
+<!--                android:layout_marginTop="3dp"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="35dp">-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="35dp"-->
+<!--                    android:text="标签 *"-->
+<!--                    android:id="@+id/title_tag"-->
+<!--                    android:textSize="15sp"-->
+<!--                    android:layout_marginStart="8dp"-->
+<!--                    android:gravity="center"/>-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="35dp"-->
+<!--                    android:layout_toEndOf="@+id/title_tag"-->
+<!--                    android:text="请选择合适的标签"-->
+<!--                    android:layout_marginStart="30dp"-->
+<!--                    android:textSize="15sp"-->
+<!--                    android:gravity="center"-->
+<!--                    android:paddingStart="10dp"-->
+<!--                    android:textColor="@color/qmui_config_color_gray_5"-->
+<!--                    android:id="@+id/select_tag"/>-->
+<!--                <ImageView-->
+<!--                    android:layout_width="15dp"-->
+<!--                    android:layout_height="15dp"-->
+<!--                    android:src="@drawable/bwo"-->
+<!--                    android:layout_alignParentEnd="true"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:layout_marginEnd="15dp"/>-->
+<!--            </RelativeLayout>-->
             <RelativeLayout
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="10dp"
                 android:background="@color/white"
                 android:layout_marginTop="3dp"
                 android:layout_width="match_parent"
-                android:layout_height="35dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:text="标签 *"
-                    android:id="@+id/title_tag"
-                    android:textSize="15sp"
-                    android:layout_marginStart="8dp"
-                    android:gravity="center"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:layout_toEndOf="@+id/title_tag"
-                    android:text="请选择合适的标签"
-                    android:layout_marginStart="30dp"
-                    android:textSize="15sp"
-                    android:gravity="center"
-                    android:paddingStart="10dp"
-                    android:textColor="@color/qmui_config_color_gray_5"
-                    android:id="@+id/select_tag"/>
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:src="@drawable/bwo"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="15dp"/>
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="10dp"
-                android:background="@color/white"
-                android:layout_marginTop="3dp"
-                android:layout_width="match_parent"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:layout_height="wrap_content">
                 <TextView
                     android:layout_width="wrap_content"
@@ -228,13 +248,14 @@
                     android:id="@+id/title_intro"
                     android:textSize="15sp"
                     android:gravity="center_vertical"
-                    android:layout_marginStart="8dp"/>
+                    android:layout_marginStart="16dp"/>
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
                     android:hint="请填写简介"
                     android:background="@color/white"
                     android:paddingTop="5dp"
+                    android:textColorHint="@color/qmui_config_color_gray_6"
                     android:layout_toEndOf="@+id/title_intro"
                     android:paddingStart="10dp"
                     android:textSize="15sp"
@@ -246,68 +267,66 @@
                     android:layout_width="wrap_content"
                     android:layout_height="25dp"
                     android:gravity="center"
-                    android:text="0/250"
+                    tools:text="0/233"
                     android:layout_below="@+id/edit_intro"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="10dp"
                     android:textSize="15sp"
                     android:id="@+id/number_of_intro"
-                    android:textColor="@color/qmui_config_color_gray_5"/>
+                    android:textColor="@color/qmui_config_color_gray_6"/>
             </RelativeLayout>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:text="简介内将展示你使用的BGM信息"
-                android:textSize="13sp"
-                android:textColor="@color/qmui_config_color_gray_4"
-                android:layout_marginStart="16dp"
-                android:gravity="center_vertical"
-                android:layout_marginEnd="10dp"/>
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="35dp"-->
+<!--                android:text="简介内将展示你使用的BGM信息"-->
+<!--                android:textSize="13sp"-->
+<!--                android:textColor="@color/qmui_config_color_gray_4"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:layout_marginEnd="10dp"/>-->
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center_horizontal">
-                <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/c3cb"
+                    android:layout_gravity="center"/>
+                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/c3c"
-                        android:layout_gravity="center"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:text="我已阅读并接受"
-                        android:textSize="12sp"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="《pilipili创作公约》"
-                        android:textColor="@color/pink_30"
-                        android:textSize="12sp"/>
-                </LinearLayout>
-                <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="我已阅读并接受"
+                    android:textSize="13sp"/>
+                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/br1"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="投稿贴士＆问题反馈"
-                        android:textSize="10sp"
-                        android:textColor="@color/qmui_config_color_gray_3"
-                        android:layout_marginStart="5dp"/>
-                </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:text="《PiliPili创作公约》"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="13sp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/br1b"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="投稿贴士＆问题反馈"
+                    android:textSize="12sp"
+                    android:textColor="@color/qmui_config_color_gray_3"
+                    android:layout_marginStart="5dp" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

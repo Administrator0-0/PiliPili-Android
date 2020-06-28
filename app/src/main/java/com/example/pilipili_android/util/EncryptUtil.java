@@ -6,12 +6,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.util.Patterns;
 
+import com.bumptech.glide.disklrucache.DiskLruCache;
+import com.bumptech.glide.load.engine.cache.DiskCache;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.signature.EmptySignature;
 import com.bumptech.glide.util.Util;
+import com.example.pilipili_android.constant.UrlConstant;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,6 +59,7 @@ public class EncryptUtil {
     /**
      * Glide缓存存储路径：/data/data/com.example.pilipili_android/cache/image_manager_disk_cache
      * Glide文件名生成规则函数 : 4.0+ 版本
+     * 此函数有问题！
      * @param url 传入图片url
      */
     public static String getGlide4_SafeKey(String url) {
@@ -69,6 +75,4 @@ public class EncryptUtil {
         }
         return "";
     }
-
-
 }

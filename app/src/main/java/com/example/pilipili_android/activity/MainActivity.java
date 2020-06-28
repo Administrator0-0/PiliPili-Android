@@ -2,23 +2,42 @@ package com.example.pilipili_android.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.pilipili_android.R;
+import com.example.pilipili_android.constant.UrlConstant;
 import com.example.pilipili_android.fragment.ChannelFragment;
+import com.example.pilipili_android.fragment.FragmentMsg;
 import com.example.pilipili_android.fragment.MainFragment;
 import com.example.pilipili_android.fragment.MineFragment;
 import com.example.pilipili_android.fragment.PostFragment;
+import com.hw.videoprocessor.VideoProcessor;
+import com.hw.videoprocessor.util.VideoProgressListener;
+import com.zhihu.matisse.Matisse;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.File;
+import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final int REQUEST_UPLOAD = 12321;
 
     FragmentManager fragmentManager = getSupportFragmentManager();
     MainFragment mainFragment;//首页
@@ -72,4 +91,17 @@ public class MainActivity extends AppCompatActivity {
     public void onMineBtnClicked() {
         fragmentManager.beginTransaction().replace(R.id.box, mineFragment).commit();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_UPLOAD && resultCode == RESULT_OK) {
+            List<String> pathList = Matisse.obtainPathResult(Objects.requireNonNull(data));
+            Intent intent = new Intent(MainActivity.this, UploadVideoActivity.class);
+            intent.putExtra("path", pathList.get(0));
+            startActivity(intent);
+        }
+    }
+
+
 }

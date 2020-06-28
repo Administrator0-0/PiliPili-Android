@@ -264,6 +264,7 @@ public class SpaceActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if ((requestCode == REQUEST_CODE_CHOOSE_BG || requestCode == REQUEST_CODE_CHOOSE_AVATAR) && resultCode == RESULT_OK) {
             //图片路径 同样视频地址也是这个
+            assert data != null;
             List<String> pathList = Matisse.obtainPathResult(data);
            // String path = UriUtil.getPath(this, pathList.get(0));
             File dir = new File(UrlConstant.COMPRESS_CACHE);

@@ -30,6 +30,7 @@ import com.example.pilipili_android.model.UserDataSource;
 import com.example.pilipili_android.util.AliyunOSSUtil;
 import com.example.pilipili_android.util.EncryptUtil;
 import com.example.pilipili_android.util.SPUtil;
+import com.qmuiteam.qmui.QMUILog;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -554,7 +555,6 @@ public class UserViewModel extends AndroidViewModel {
                 RenameReturn renameReturn = (RenameReturn) netRequestResult.getData();
                 putCoin(renameReturn.getData().getCoins());
                 putUsername(username);
-                Log.d("aaa", "onSuccess: ");
                 EventBus.getDefault().post(username);
                 newUsername.setValue(username);
             }

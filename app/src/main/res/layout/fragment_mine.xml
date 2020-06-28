@@ -537,7 +537,7 @@
                 app:qmui_backgroundColor="@color/qmui_config_color_blue"
                 android:layout_gravity="end"
                 android:layout_marginEnd="20dp"
-                android:text="发布"
+                android:text="投稿"
                 android:layout_alignTop="@+id/aboutme_scrollview_2"
                 android:layout_marginTop="-5dp"
                 android:layout_alignParentEnd="true"

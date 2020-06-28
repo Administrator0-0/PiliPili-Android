@@ -8,4 +8,10 @@ public interface DefaultConstant {
 
     int BACKGROUND_IMAGE_DEFAULT = R.drawable.bg_default;
 
+    int TYPE_ALL = 1;
+
+    int TYPE_COLOR = 2;
+
+    int TYPE_ANIME = 3;
+
 }

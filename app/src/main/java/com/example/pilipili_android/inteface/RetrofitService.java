@@ -1,7 +1,5 @@
 package com.example.pilipili_android.inteface;
 
-import android.database.Observable;
-
 import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
 import com.example.pilipili_android.bean.netbean.CommonReturn;
 import com.example.pilipili_android.bean.netbean.FollowUnFollowReturn;
@@ -11,15 +9,16 @@ import com.example.pilipili_android.bean.netbean.RenameReturn;
 import com.example.pilipili_android.bean.netbean.SetGenderReturn;
 import com.example.pilipili_android.bean.netbean.UploadSignReturn;
 import com.example.pilipili_android.bean.netbean.UploadUserBackgroundReturn;
+import com.example.pilipili_android.bean.netbean.UploadVideoOrCoverReturn;
 import com.example.pilipili_android.bean.netbean.UserDetailReturn;
 import com.example.pilipili_android.bean.netbean.UserOpenDetailReturn;
 import com.example.pilipili_android.constant.UrlConstant;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
@@ -137,4 +136,32 @@ public interface RetrofitService {
     @POST(UrlConstant.UPLOAD_AVATAR)
     Call<UploadUserBackgroundReturn> uploadUserAvatar(@Header("Authorization") String token, @Part MultipartBody.Part avatar);
 
+    /**
+     * 上传视频
+     *
+     */
+    @POST(UrlConstant.UPLOAD_VIDEO)
+    Call<UploadVideoOrCoverReturn> uploadVideo(@Header("Authorization") String token, @Body RequestBody jsonObject);
+
+
+    /**
+     * 上传视频封面
+     *
+     */
+    @POST(UrlConstant.UPLOAD_COVER)
+    Call<UploadVideoOrCoverReturn> uploadVideoCover(@Header("Authorization") String token, @Body RequestBody jsonObject);
+
+    /**
+     * 发布
+     *
+     */
+    @POST(UrlConstant.CONFIRM_UPLOAD)
+    Call<CommonReturn> confirmUpload(@Header("Authorization") String token, @Body RequestBody jsonObject);
+
+    /**
+     * 取消发布
+     *
+     */
+    @PUT(UrlConstant.CANCEL_UPLOAD)
+    Call<CommonReturn> cancelUpload(@Header("Authorization") String token, @Body RequestBody jsonObject);
 }
