@@ -1,5 +1,7 @@
 package com.example.pilipili_android.inteface;
 
+import android.database.Observable;
+
 import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
 import com.example.pilipili_android.bean.netbean.CommonReturn;
 import com.example.pilipili_android.bean.netbean.FollowUnFollowReturn;
@@ -18,7 +20,6 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
@@ -164,4 +165,53 @@ public interface RetrofitService {
      */
     @PUT(UrlConstant.CANCEL_UPLOAD)
     Call<CommonReturn> cancelUpload(@Header("Authorization") String token, @Body RequestBody jsonObject);
+    /**
+     * 评论视频
+     *
+     */
+    @POST(UrlConstant.GET_VIDEO_PREFIX + "{id}" + UrlConstant.POST_VIDEO_COMMENT)
+    Call<CommonReturn> postComment(@Path("id") String id, @Header("Authorization") String token, @Body RequestBody jsonObject);
+
+    /**
+     * 获取视频评论列表
+     *
+     */
+    @GET(UrlConstant.GET_VIDEO_PREFIX + "{id}" + UrlConstant.GET_VIDEO_COMMENT)
+    Call<CommentListReturn> getCommentList(@Path("id") String id, @Body RequestBody jsonObject);
+
+    /**
+     * 回复评论
+     *
+     */
+    @POST(UrlConstant.GET_COMMENT_PREFIX + "{id}" + UrlConstant.POST_COMMENT_REPLAY)
+    Call<CommonReturn> postReplay(@Path("id") String id, @Header("Authorization") String token, @Body RequestBody jsonObject);
+
+    /**
+     * 获取评论回复列表
+     *
+     */
+    @GET(UrlConstant.GET_COMMENT_PREFIX + "{id}" + UrlConstant.GET_COMMENT_REPLAY)
+    Call<ReplayListReturn> getReplayList(@Path("id") String id);
+
+    /**
+     * 点赞评论
+     *
+     */
+    @PUT(UrlConstant.GET_COMMENT_PREFIX + "{id}" + UrlConstant.LIKE_COMMENT)
+    Call<CommonReturn> likeComment(@Path("id") String id);
+
+    /**
+     * 取消点赞评论
+     *
+     */
+    @PUT(UrlConstant.GET_COMMENT_PREFIX + "{id}" + UrlConstant.UNLIKE_COMMENT)
+    Call<CommonReturn> unlikeComment(@Path("id") String id);
+
+    /**
+     * 获取评论详细信息
+     *
+     */
+    @GET(UrlConstant.GET_COMMENT_PREFIX + "{id}" + UrlConstant.COMMENT_DETAILS)
+    Call<CommentDetailsReturn> getCommentDetails(@Path("id") String id);
+
 }
