@@ -18,7 +18,7 @@
             android:id="@+id/cover_image"
             android:layout_width="match_parent"
             android:layout_height="110dp"
-            android:src="@drawable/cover"/>
+            tools:src="@drawable/cover"/>
         <RelativeLayout
             android:id="@+id/relativelayout_image_on_cover"
             android:layout_width="match_parent"
@@ -40,13 +40,13 @@
                 tools:text="3.4万"
                 android:textSize="8sp"
                 android:layout_centerVertical="true"
-                android:textColor="@color/qmui_config_color_gray_5"
+                android:textColor="@color/white"
                 tools:ignore="SmallSp" />
             <ImageView
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:src="@drawable/bmb"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="5dp"
                 android:layout_toEndOf="@+id/text_number_display"
                 android:id="@+id/image_argues"/>
             <TextView
@@ -56,14 +56,14 @@
                 android:layout_marginStart="8dp"
                 tools:text="1.2万"
                 android:textSize="8sp"
-                android:textColor="@color/qmui_config_color_gray_5"
+                android:textColor="@color/white"
                 android:layout_centerVertical="true"
                 tools:ignore="SmallSp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="19:14"
-                android:textColor="@color/qmui_config_color_gray_5"
+                android:textColor="@color/white"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:textSize="8sp"
@@ -72,7 +72,7 @@
         </RelativeLayout>
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="27dp"
             android:layout_below="@+id/relativelayout_image_on_cover"
             android:id="@+id/text_video_title"
             tools:text="答题领取pilipili大会员，免费获得新人大礼包"
@@ -81,7 +81,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/text_video_title"
+            android:layout_alignParentBottom="true"
             tools:text="官方"
             android:paddingStart="15dp"
             android:textSize="10sp"
