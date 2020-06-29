@@ -22,6 +22,8 @@ import com.example.pilipili_android.util.AliyunOSSUtil;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.example.pilipili_android.constant.DefaultConstant.AVATAR_IMAGE_DEFAULT;
+
 
 public class CommentReplayAdapter extends RecyclerView.Adapter {
     private List<CommentItemBean> replays;
@@ -56,13 +58,17 @@ public class CommentReplayAdapter extends RecyclerView.Adapter {
         itemViewHolder.mAdd.setOnClickListener(v -> relayListener.onRelay(itemBean, true));
         itemViewHolder.mLike.setOnClickListener(v -> relayListener.onLike(itemBean));
         itemViewHolder.username.setText(itemBean.getUser().getUsername());
-        String url = AliyunOSSUtil.getImageUrl(mContext.getApplicationContext(), itemBean.getAvatar().getGuest_key(),
-                itemBean.getAvatar().getGuest_secret(), itemBean.getAvatar().getSecurity_token(), itemBean.getAvatar().getFile());
-        Glide.with(mContext).load(url).into(itemViewHolder.userAvatar);
+        if (itemBean.getAvatar().getFile() != null) {
+            String url = AliyunOSSUtil.getImageUrl(mContext.getApplicationContext(), itemBean.getAvatar().getGuest_key(),
+                    itemBean.getAvatar().getGuest_secret(), itemBean.getAvatar().getSecurity_token(), itemBean.getAvatar().getFile());
+            Glide.with(mContext).load(url).into(itemViewHolder.userAvatar);
+        } else {
+            itemViewHolder.userAvatar.setImageDrawable(mContext.getDrawable(AVATAR_IMAGE_DEFAULT));
+        }
         itemViewHolder.commentTime.setText(itemBean.getComment().getTime());
         itemViewHolder.commentLikeNum.setText("" + itemBean.getComment().getLikes());
-        if (itemBean.getComment().getReplay_to_author_name() != null) {
-            SpannableString string = new SpannableString("@回复" + itemBean.getComment().getReplay_to_author_name() + " " + itemBean.getComment().getContent());
+        if (itemBean.getComment().getReplay_to_author_name() != null && (itemBean.getComment().getReplay_to_author()) != main.getUser().getId()) {
+            SpannableString string = new SpannableString("回复@" + itemBean.getComment().getReplay_to_author_name() + " " + itemBean.getComment().getContent());
             string.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.colorPrimary)),
                     0, ((String)(itemBean.getComment().getReplay_to_author_name())).length() + 4, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             itemViewHolder.commentContent.setText(string);

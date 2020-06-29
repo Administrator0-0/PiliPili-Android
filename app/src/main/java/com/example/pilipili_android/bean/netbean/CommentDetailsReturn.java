@@ -54,9 +54,9 @@ public class CommentDetailsReturn {
         private int id;
         private boolean is_liked;
         private int likes;
-        private Object replay_id;
-        private Object replay_to_author;
-        private Object replay_to_author_name;
+        private Integer replay_id;
+        private Integer replay_to_author;
+        private String replay_to_author_name;
         private String time;
 
         public int getAuthor() {
@@ -103,15 +103,15 @@ public class CommentDetailsReturn {
             return replay_id;
         }
 
-        public void setReplay_id(Object replay_id) {
+        public void setReplay_id(Integer replay_id) {
             this.replay_id = replay_id;
         }
 
-        public Object getReplay_to_author() {
+        public Integer getReplay_to_author() {
             return replay_to_author;
         }
 
-        public void setReplay_to_author(Object replay_to_author) {
+        public void setReplay_to_author(Integer replay_to_author) {
             this.replay_to_author = replay_to_author;
         }
 
@@ -119,7 +119,7 @@ public class CommentDetailsReturn {
             return replay_to_author_name;
         }
 
-        public void setReplay_to_author_name(Object replay_to_author_name) {
+        public void setReplay_to_author_name(String replay_to_author_name) {
             this.replay_to_author_name = replay_to_author_name;
         }
 

@@ -436,6 +436,10 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
                 editComment.setText("");
                 editComment.clearFocus();
                 sendComment.setEnabled(false);
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                }
                 break;
         }
     }
