@@ -2,7 +2,6 @@ package com.example.pilipili_android.model;
 
 import com.example.pilipili_android.bean.netbean.CommentDetailsReturn;
 import com.example.pilipili_android.bean.netbean.CommentListReturn;
-import com.example.pilipili_android.bean.netbean.CommentListSend;
 import com.example.pilipili_android.bean.netbean.CommentReturn;
 import com.example.pilipili_android.bean.netbean.CommentSend;
 import com.example.pilipili_android.bean.netbean.CommonReturn;
@@ -57,12 +56,7 @@ public class CommentDataSource {
     }
 
     public void getCommentList(int pv, int type, OnNetRequestListener onNetRequestListener) {
-        CommentListSend send = new CommentListSend();
-        send.setType(type);
-        Gson gson = new Gson();
-        String sendJson = gson.toJson(send);
-        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), sendJson);
-        Call<CommentListReturn> call = retrofitService.getCommentList("" + pv, body);
+        Call<CommentListReturn> call = retrofitService.getCommentList("" + pv, "" + type);
         call.enqueue(new Callback<CommentListReturn>() {
             @Override
             public void onResponse(Call<CommentListReturn> call, Response<CommentListReturn> response) {
@@ -136,8 +130,32 @@ public class CommentDataSource {
         });
     }
 
-    public void likeComment(int id, OnNetRequestListener onNetRequestListener) {
-        Call<CommonReturn> call = retrofitService.likeComment("" + id);
+    public void getReplayListDFS(int id, OnNetRequestListener onNetRequestListener) {
+        Call<ReplayListReturn> call = retrofitService.getReplayListDFS("" + id);
+        call.enqueue(new Callback<ReplayListReturn>() {
+            @Override
+            public void onResponse(Call<ReplayListReturn> call, Response<ReplayListReturn> response) {
+                ReplayListReturn replayListReturn = response.body();
+                if(replayListReturn != null) {
+                    if(replayListReturn.getCode() == 200) {
+                        onNetRequestListener.onSuccess(new NetRequestResult<>(replayListReturn));
+                    } else {
+                        onNetRequestListener.onFail(replayListReturn.getMessage());
+                    }
+                } else {
+                    onNetRequestListener.onFail("获取回复错误");
+                }
+            }
+            @Override
+            public void onFailure(Call<ReplayListReturn> call, Throwable t) {
+                onNetRequestListener.onFail("网络不稳定，请检查网络");
+            }
+        });
+    }
+
+    public void likeComment(int id, String token, OnNetRequestListener onNetRequestListener) {
+        String ciphertext = EncryptUtil.getVerificationToken(token);
+        Call<CommonReturn> call = retrofitService.likeComment("" + id, ciphertext);
         call.enqueue(new Callback<CommonReturn>() {
             @Override
             public void onResponse(Call<CommonReturn> call, Response<CommonReturn> response) {
@@ -159,8 +177,9 @@ public class CommentDataSource {
         });
     }
 
-    public void unlikeComment(int id, OnNetRequestListener onNetRequestListener) {
-        Call<CommonReturn> call = retrofitService.unlikeComment("" + id);
+    public void unlikeComment(int id, String token, OnNetRequestListener onNetRequestListener) {
+        String ciphertext = EncryptUtil.getVerificationToken(token);
+        Call<CommonReturn> call = retrofitService.unlikeComment("" + id, ciphertext);
         call.enqueue(new Callback<CommonReturn>() {
             @Override
             public void onResponse(Call<CommonReturn> call, Response<CommonReturn> response) {
@@ -182,8 +201,9 @@ public class CommentDataSource {
         });
     }
 
-    public void getCommentDetails(int id, OnNetRequestListener onNetRequestListener) {
-        Call<CommentDetailsReturn> call = retrofitService.getCommentDetails("" + id);
+    public void getCommentDetails(int id, String token, OnNetRequestListener onNetRequestListener) {
+        String ciphertext = EncryptUtil.getVerificationToken(token);
+        Call<CommentDetailsReturn> call = retrofitService.getCommentDetails("" + id, ciphertext);
         call.enqueue(new Callback<CommentDetailsReturn>() {
             @Override
             public void onResponse(Call<CommentDetailsReturn> call, Response<CommentDetailsReturn> response) {
@@ -195,7 +215,7 @@ public class CommentDataSource {
                         onNetRequestListener.onFail(commentDetailsReturn.getMessage());
                     }
                 } else {
-                    onNetRequestListener.onFail("取消点赞错误");
+                    onNetRequestListener.onFail("获取评论信息错误");
                 }
             }
             @Override

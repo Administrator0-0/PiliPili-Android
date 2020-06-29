@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,8 +46,6 @@ public class CommentDetailsFragment extends Fragment implements View.OnClickList
     ImageView commentLike;
     @BindView(R.id.comment_like_num)
     TextView commentLikeNum;
-    @BindView(R.id.comment_add)
-    ImageView commentAdd;
     @BindView(R.id.replay_list)
     RecyclerView replayListView;
 
@@ -73,13 +73,13 @@ public class CommentDetailsFragment extends Fragment implements View.OnClickList
 
     private void initView() {
         initData();
-        adapter = new CommentReplayAdapter(main.getComment().getId(), Objects.requireNonNull(commentViewModel.getReplayList().getValue()));
+        adapter = new CommentReplayAdapter(main, Objects.requireNonNull(commentViewModel.getReplayList().getValue()));
+        adapter.setRelayListener(relayListener);
         replayListView.setLayoutManager(new LinearLayoutManager(getContext()));
         replayListView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
         replayListView.setAdapter(adapter);
         replayListView.setNestedScrollingEnabled(false);
         commentLike.setOnClickListener(this);
-        commentAdd.setOnClickListener(this);
     }
 
     private void initData() {
@@ -88,21 +88,19 @@ public class CommentDetailsFragment extends Fragment implements View.OnClickList
             adapter.setReplays(dataBeans);
             adapter.notifyDataSetChanged();
         });
-        commentViewModel.getReplayList(main.getComment().getId());
+        commentViewModel.getReplayListDFS(main.getComment().getId());
         String url = AliyunOSSUtil.getImageUrl(getActivity().getApplicationContext(), main.getAvatar().getGuest_key(),
                 main.getAvatar().getGuest_secret(), main.getAvatar().getSecurity_token(), main.getAvatar().getFile());
         Glide.with(getActivity()).load(url).into(user);
         username.setText(main.getUser().getUsername());
         commentTime.setText(main.getUser().getUsername());
         commentContent.setText(main.getComment().getContent());
-        commentLikeNum.setText(main.getComment().getLikes());
+        commentLikeNum.setText("" + main.getComment().getLikes());
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.comment_like) {
-
-        } else if (v.getId() == R.id.comment_add) {
 
         }
     }

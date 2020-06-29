@@ -98,13 +98,13 @@
                 android:background="@drawable/de2" />
 
 
-            <ImageView
-                android:id="@+id/item_comment_more"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="215dp"
-                android:paddingTop="10dp"
-                android:src="@drawable/ic_more_grey" />
+<!--            <ImageView-->
+<!--                android:id="@+id/item_comment_more"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="215dp"-->
+<!--                android:paddingTop="10dp"-->
+<!--                android:src="@drawable/ic_more_grey" />-->
 
         </LinearLayout>
 

@@ -31,6 +31,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -103,7 +104,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     @BindView(R.id.edit_comment)
     EditText editComment;
     @BindView(R.id.send_comment)
-    ImageView sendComment;
+    Button sendComment;
 
     private int pv;
     private String imgUrl;
@@ -131,6 +132,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         ButterKnife.bind(this);
         Intent intent = getIntent();
         pv = intent.getIntExtra("pv", -1);
+        pv = 1;
         initView();
         initToolBar();
         initPage();
@@ -197,7 +199,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
                     target = temp1;
                     targetIsReplay = isReplay1;
                 }
-                sendComment.setEnabled((s == null || s.toString().isEmpty()));
+                sendComment.setEnabled((s != null && !s.toString().isEmpty()));
             }
         });
         commentViewModel = new ViewModelProvider(Objects.requireNonNull(this)).get(CommentViewModel.class);
@@ -224,17 +226,31 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         VideoCommentFragment fragment = new VideoCommentFragment(pv);
         fragment.setListener(itemBean -> {
             CommentDetailsFragment detailsFragment = new CommentDetailsFragment(itemBean);
-            detailsFragment.setRelayListener((itemBean2, isReplay) -> {
-                if (isReplay) {
-                    temp2 = itemBean2;
-                } else {
-                    parent = itemBean2;
+            detailsFragment.setRelayListener((new OnRelayListener() {
+                @Override
+                public void onRelay(CommentItemBean itemBean, boolean isReplay) {
+                    if (isReplay) {
+                        temp2 = itemBean;
+                    }
+                    editComment.requestFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                    Objects.requireNonNull(imm).showSoftInput(editComment, InputMethodManager.SHOW_IMPLICIT);
+                    isReplay2 = isReplay;
+                    isDetails = true;
                 }
-                editComment.requestFocus();
-                isReplay2 = isReplay;
-                isDetails = true;
-            });
+
+                @Override
+                public void onLike(CommentItemBean itemBean) {
+                    if (itemBean.getComment().isIs_liked()) {
+                        commentViewModel.unlikeComment(itemBean, parent.getComment().getId());
+                    } else {
+                        commentViewModel.likeComment(itemBean, parent.getComment().getId());
+                    }
+                }
+            }));
             fragments.set(1, detailsFragment);
+            isDetails = true;
+            parent = itemBean;
             mAdapter.notifyDataSetChanged();
             tabBar.setVisibility(View.GONE);
             replayBar.setVisibility(View.VISIBLE);
@@ -243,13 +259,28 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
                 mAdapter.notifyDataSetChanged();
                 tabBar.setVisibility(View.VISIBLE);
                 replayBar.setVisibility(View.GONE);
+                isDetails = false;
             });
         });
-        fragment.setRelayListener((itemBean, isReplay) -> {
-            temp1 = itemBean;
-            editComment.requestFocus();
-            isReplay1 = isReplay;
-            isDetails = false;
+        fragment.setRelayListener(new OnRelayListener() {
+            @Override
+            public void onRelay(CommentItemBean itemBean, boolean isReplay) {
+                temp1 = itemBean;
+                editComment.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                Objects.requireNonNull(imm).showSoftInput(editComment, InputMethodManager.SHOW_IMPLICIT);
+                isReplay1 = isReplay;
+                isDetails = false;
+            }
+
+            @Override
+            public void onLike(CommentItemBean itemBean) {
+                if (itemBean.getComment().isIs_liked()) {
+                    commentViewModel.unlikeComment(itemBean, -1);
+                } else {
+                    commentViewModel.likeComment(itemBean, -1);
+                }
+            }
         });
         fragments.add(fragment);
         setPagerTitle("1000");
@@ -394,7 +425,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.send_comment:
                 if (isDetails) {
-                    commentViewModel.replay(target.getComment().getId(), editComment.getText().toString());
+                    commentViewModel.detailsReplay(parent.getComment().getId(), target.getComment().getId(), editComment.getText().toString());
                 } else {
                     if (targetIsReplay) {
                         commentViewModel.replay(target.getComment().getId(), editComment.getText().toString());
@@ -517,6 +548,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
 
     public interface OnRelayListener {
         void onRelay(CommentItemBean itemBean, boolean isReplay);
+        void onLike(CommentItemBean itemBean);
     }
 
      private Handler mHandler = new Handler();

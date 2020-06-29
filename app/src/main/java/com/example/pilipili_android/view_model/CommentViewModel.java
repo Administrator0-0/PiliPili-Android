@@ -2,6 +2,7 @@ package com.example.pilipili_android.view_model;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -13,6 +14,7 @@ import com.example.pilipili_android.bean.netbean.CommentListReturn;
 import com.example.pilipili_android.bean.netbean.CommentReturn;
 import com.example.pilipili_android.bean.netbean.GetUserBackgroundOrAvatarReturn;
 import com.example.pilipili_android.bean.netbean.NetRequestResult;
+import com.example.pilipili_android.bean.netbean.ReplayListReturn;
 import com.example.pilipili_android.bean.netbean.UserOpenDetailReturn;
 import com.example.pilipili_android.inteface.OnNetRequestListener;
 import com.example.pilipili_android.model.CommentDataSource;
@@ -51,15 +53,11 @@ public class CommentViewModel extends AndroidViewModel {
             @Override
             public void onSuccess(NetRequestResult netRequestResult) {
                 int id = ((CommentReturn)netRequestResult.getData()).getData().getId();
-                dataSource.getCommentDetails(id, new OnNetRequestListener() {
+                dataSource.getCommentDetails(id, UserBaseDetail.getToken(context), new OnNetRequestListener() {
                     @Override
                     public void onSuccess(NetRequestResult netRequestResult) {
                         CommentDetailsReturn comment = (CommentDetailsReturn) netRequestResult.getData();
-                        List<CommentItemBean> list = new ArrayList<>(Objects.requireNonNull(commentList.getValue()));
-                        CommentItemBean itemBean = new CommentItemBean();
-                        itemBean.setComment(comment.getData());
-                        list.add(0, itemBean);
-                        commentList.postValue(list);
+                        getNewCommentDetails(comment.getData().getId());
                     }
 
                     @Override
@@ -101,7 +99,32 @@ public class CommentViewModel extends AndroidViewModel {
             @Override
             public void onSuccess(NetRequestResult netRequestResult) {
                 int replayId = ((CommentReturn)netRequestResult.getData()).getData().getId();
-                getCommentDetails(replayId, true, id);
+                getCommentDetails(replayId, true, true, id);
+            }
+
+            @Override
+            public void onSuccess() {
+                // ignore
+            }
+
+            @Override
+            public void onFail() {
+                // ignore
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void detailsReplay(int parentId, int id, String comment) {
+        dataSource.replay(id, comment, UserBaseDetail.getToken(context), new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+                int replayId = ((CommentReturn)netRequestResult.getData()).getData().getId();
+                getCommentDetails(replayId, true, true, parentId);
             }
 
             @Override
@@ -157,13 +180,15 @@ public class CommentViewModel extends AndroidViewModel {
         dataSource.getReplayList(id, new OnNetRequestListener() {
             @Override
             public void onSuccess(NetRequestResult netRequestResult) {
-                CommentListReturn listReturn = (CommentListReturn) netRequestResult.getData();
+                ReplayListReturn listReturn = (ReplayListReturn) netRequestResult.getData();
                 List<CommentItemBean> list = Objects.requireNonNull(replayList.getValue()).get(id);
                 if (list != null) {
                     list.clear();
+                } else {
+                    Objects.requireNonNull(replayList.getValue()).put(id, new ArrayList<>());
                 }
-                for (int i = 0 ; i < 3 && i < listReturn.getData().getAll_comments().size(); i++) {
-                    getCommentDetails(i, true, id);
+                for (int i = 0 ; i < 4 && i < listReturn.getData().getAll_replays().size(); i++) {
+                    getCommentDetails(listReturn.getData().getAll_replays().get(i), true, false, id);
                 }
             }
 
@@ -188,13 +213,13 @@ public class CommentViewModel extends AndroidViewModel {
         dataSource.getReplayList(id, new OnNetRequestListener() {
             @Override
             public void onSuccess(NetRequestResult netRequestResult) {
-                CommentListReturn listReturn = (CommentListReturn) netRequestResult.getData();
+                ReplayListReturn listReturn = (ReplayListReturn) netRequestResult.getData();
                 List<CommentItemBean> list = Objects.requireNonNull(replayList.getValue()).get(id);
                 if (list != null) {
                     list.clear();
                 }
-                for (int i : listReturn.getData().getAll_comments()) {
-                    getCommentDetails(i, true, id);
+                for (int i : listReturn.getData().getAll_replays()) {
+                    getCommentDetails(i, true, false, id);
                 }
             }
 
@@ -215,21 +240,54 @@ public class CommentViewModel extends AndroidViewModel {
         });
     }
 
-    public void getCommentDetails(int id) {
-        getCommentDetails(id, false, -1);
+    public void getReplayListDFS(int id) {
+        dataSource.getReplayListDFS(id, new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+                ReplayListReturn listReturn = (ReplayListReturn) netRequestResult.getData();
+                List<CommentItemBean> list = Objects.requireNonNull(replayList.getValue()).get(id);
+                if (list != null) {
+                    list.clear();
+                }
+                for (int i : listReturn.getData().getAll_replays()) {
+                    getCommentDetails(i, true, false, id);
+                }
+            }
+
+            @Override
+            public void onSuccess() {
+                // ignore
+            }
+
+            @Override
+            public void onFail() {
+                // ignore
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    private void getCommentDetails(int id, boolean isReplay, int parentId) {
-        dataSource.getCommentDetails(id, new OnNetRequestListener() {
+    public void getNewCommentDetails(int id) {
+        getCommentDetails(id, false, true, -1);
+    }
+
+    public void getCommentDetails(int id) {
+        getCommentDetails(id, false, false, -1);
+    }
+
+    private void getCommentDetails(int id, boolean isReplay, boolean isNewComment, int parentId) {
+        dataSource.getCommentDetails(id, UserBaseDetail.getToken(context), new OnNetRequestListener() {
             @Override
             public void onSuccess(NetRequestResult netRequestResult) {
                 if (isReplay) {
                     CommentDetailsReturn comment = (CommentDetailsReturn) netRequestResult.getData();
                     List<CommentItemBean> list = Objects.requireNonNull(replayList.getValue()).get(parentId);
-                    if (list == null) list = new ArrayList<>();
                     CommentItemBean itemBean = new CommentItemBean();
                     itemBean.setComment(comment.getData());
-                    List<CommentItemBean> finalList = list;
                     userDataSource.getUserOpenDetail(comment.getData().getAuthor(), new OnNetRequestListener() {
                         @Override
                         public void onSuccess(NetRequestResult netRequestResult) {
@@ -240,9 +298,15 @@ public class CommentViewModel extends AndroidViewModel {
                                 public void onSuccess(NetRequestResult netRequestResult) {
                                     GetUserBackgroundOrAvatarReturn avatarReturn = (GetUserBackgroundOrAvatarReturn) netRequestResult.getData();
                                     itemBean.setAvatar(avatarReturn.getData());
-                                    finalList.add(itemBean);
-                                    HashMap<Integer, List<CommentItemBean>> map = new HashMap<>(Objects.requireNonNull(replayList.getValue()));
-                                    map.put(parentId, finalList);
+                                    if (list == null) Objects.requireNonNull(replayList.getValue()).put(parentId, new ArrayList<>());
+                                    List<CommentItemBean> finallist = Objects.requireNonNull(replayList.getValue()).get(parentId);
+                                    if (isNewComment) {
+                                        finallist.add(0, itemBean);
+                                    } else {
+                                        finallist.add(itemBean);
+                                    }
+                                    HashMap<Integer, List<CommentItemBean>> map = Objects.requireNonNull(replayList.getValue());
+                                    map.put(parentId, finallist);
                                     replayList.postValue(map);
                                 }
 
@@ -281,7 +345,7 @@ public class CommentViewModel extends AndroidViewModel {
 
                 } else {
                     CommentDetailsReturn comment = (CommentDetailsReturn) netRequestResult.getData();
-                    List<CommentItemBean> list = new ArrayList<>(Objects.requireNonNull(commentList.getValue()));
+                    List<CommentItemBean> list = Objects.requireNonNull(commentList.getValue());
                     CommentItemBean itemBean = new CommentItemBean();
                     itemBean.setComment(comment.getData());
                     userDataSource.getUserOpenDetail(comment.getData().getAuthor(), new OnNetRequestListener() {
@@ -294,7 +358,11 @@ public class CommentViewModel extends AndroidViewModel {
                                 public void onSuccess(NetRequestResult netRequestResult) {
                                     GetUserBackgroundOrAvatarReturn avatarReturn = (GetUserBackgroundOrAvatarReturn) netRequestResult.getData();
                                     itemBean.setAvatar(avatarReturn.getData());
-                                    list.add(itemBean);
+                                    if (isNewComment) {
+                                        list.add(0, itemBean);
+                                    } else {
+                                        list.add(itemBean);
+                                    }
                                     commentList.postValue(list);
                                 }
 
@@ -350,8 +418,8 @@ public class CommentViewModel extends AndroidViewModel {
         });
     }
 
-    public void likeComment(int id) {
-        dataSource.likeComment(id, new OnNetRequestListener() {
+    public void likeComment(CommentItemBean itemBean, int parentId) {
+        dataSource.likeComment(itemBean.getComment().getId(), UserBaseDetail.getToken(context), new OnNetRequestListener() {
             @Override
             public void onSuccess(NetRequestResult netRequestResult) {
                 // ignore
@@ -359,6 +427,18 @@ public class CommentViewModel extends AndroidViewModel {
 
             @Override
             public void onSuccess() {
+                itemBean.getComment().setLikes(itemBean.getComment().getLikes() + 1);
+                itemBean.getComment().setIs_liked(true);
+                if (itemBean.getComment().getReplay_to_author() == null) {
+                    List<CommentItemBean> list = Objects.requireNonNull(commentList.getValue());
+                    list.set(list.indexOf(itemBean), itemBean);
+                    commentList.postValue(list);
+                } else {
+                    List<CommentItemBean> finallist = Objects.requireNonNull(replayList.getValue()).get(parentId);
+                    HashMap<Integer, List<CommentItemBean>> map = Objects.requireNonNull(replayList.getValue());
+                    map.put(parentId, finallist);
+                    replayList.postValue(map);
+                }
                 Toast.makeText(context, "点赞成功", Toast.LENGTH_SHORT).show();
             }
 
@@ -374,8 +454,8 @@ public class CommentViewModel extends AndroidViewModel {
         });
     }
 
-    public void unlikeComment(int id) {
-        dataSource.unlikeComment(id, new OnNetRequestListener() {
+    public void unlikeComment(CommentItemBean itemBean, int parentId) {
+        dataSource.unlikeComment(itemBean.getComment().getId(), UserBaseDetail.getToken(context), new OnNetRequestListener() {
             @Override
             public void onSuccess(NetRequestResult netRequestResult) {
                 // ignore
@@ -383,6 +463,18 @@ public class CommentViewModel extends AndroidViewModel {
 
             @Override
             public void onSuccess() {
+                itemBean.getComment().setLikes(itemBean.getComment().getLikes() - 1);
+                itemBean.getComment().setIs_liked(false);
+                if (itemBean.getComment().getReplay_to_author() == null) {
+                    List<CommentItemBean> list = Objects.requireNonNull(commentList.getValue());
+                    list.set(list.indexOf(itemBean), itemBean);
+                    commentList.postValue(list);
+                } else {
+                    List<CommentItemBean> finallist = Objects.requireNonNull(replayList.getValue()).get(parentId);
+                    HashMap<Integer, List<CommentItemBean>> map = Objects.requireNonNull(replayList.getValue());
+                    map.put(parentId, finallist);
+                    replayList.postValue(map);
+                }
                 Toast.makeText(context, "取消点赞成功", Toast.LENGTH_SHORT).show();
             }
 

@@ -98,15 +98,6 @@
                     android:text="666666"/>
 
                 <ImageView
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/comment_add"
-                    android:layout_marginStart="10dp"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:background="@drawable/de2" />
-
-
-                <ImageView
                     android:id="@+id/comment_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -123,14 +114,16 @@
         <View
             android:id="@+id/line"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="5dp"
             android:layout_below="@+id/comment_layout"
-            android:background="@color/line_bg" />
+            android:layout_marginTop="20dp"
+            android:background="@color/colorPrimary" />
 
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/replay_list"
             android:layout_marginTop="40dp"
+            android:layout_marginBottom="50dp"
             android:layout_below="@+id/line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

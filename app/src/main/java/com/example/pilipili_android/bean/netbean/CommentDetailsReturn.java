@@ -1,9 +1,10 @@
 package com.example.pilipili_android.bean.netbean;
 
 public class CommentDetailsReturn {
+
     /**
      * code : 200
-     * data : {"author":1,"content":"lxwtql","likes":1,"time":"2020-06-26-16-31-39"}
+     * data : {"author":1,"content":"111.jpg","id":1,"is_liked":false,"likes":0,"replay_id":null,"replay_to_author":null,"replay_to_author_name":null,"time":"2020-06-29 18:41:37"}
      * message : 获取评论成功
      */
 
@@ -37,22 +38,26 @@ public class CommentDetailsReturn {
 
     public static class DataBean {
         /**
-         * id: 1
          * author : 1
-         * content : lxwtql
-         * likes : 1
-         * time : 2020-06-26-16-31-39
+         * content : 111.jpg
+         * id : 1
+         * is_liked : false
+         * likes : 0
+         * replay_id : null
+         * replay_to_author : null
+         * replay_to_author_name : null
+         * time : 2020-06-29 18:41:37
          */
 
-        private int id;
         private int author;
         private String content;
+        private int id;
+        private boolean is_liked;
         private int likes;
+        private Object replay_id;
+        private Object replay_to_author;
+        private Object replay_to_author_name;
         private String time;
-
-        public int getId() {
-            return id;
-        }
 
         public int getAuthor() {
             return author;
@@ -70,6 +75,22 @@ public class CommentDetailsReturn {
             this.content = content;
         }
 
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public boolean isIs_liked() {
+            return is_liked;
+        }
+
+        public void setIs_liked(boolean is_liked) {
+            this.is_liked = is_liked;
+        }
+
         public int getLikes() {
             return likes;
         }
@@ -78,16 +99,36 @@ public class CommentDetailsReturn {
             this.likes = likes;
         }
 
+        public Object getReplay_id() {
+            return replay_id;
+        }
+
+        public void setReplay_id(Object replay_id) {
+            this.replay_id = replay_id;
+        }
+
+        public Object getReplay_to_author() {
+            return replay_to_author;
+        }
+
+        public void setReplay_to_author(Object replay_to_author) {
+            this.replay_to_author = replay_to_author;
+        }
+
+        public Object getReplay_to_author_name() {
+            return replay_to_author_name;
+        }
+
+        public void setReplay_to_author_name(Object replay_to_author_name) {
+            this.replay_to_author_name = replay_to_author_name;
+        }
+
         public String getTime() {
             return time;
         }
 
         public void setTime(String time) {
             this.time = time;
-        }
-
-        public void setId(int id) {
-            this.id = id;
         }
     }
 }

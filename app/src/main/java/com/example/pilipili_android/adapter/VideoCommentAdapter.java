@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -75,19 +76,21 @@ public class VideoCommentAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
         CommentItemBean itemBean = comments.get(position);
+        itemViewHolder.mAdd.setOnClickListener(v -> relayListener.onRelay(itemBean, true));
+        itemViewHolder.mLike.setOnClickListener(v -> relayListener.onLike(itemBean));
         itemViewHolder.mUsername.setText(itemBean.getUser().getUsername());
         String url = AliyunOSSUtil.getImageUrl(mContext.getApplicationContext(), itemBean.getAvatar().getGuest_key(),
                 itemBean.getAvatar().getGuest_secret(), itemBean.getAvatar().getSecurity_token(), itemBean.getAvatar().getFile());
         Glide.with(mContext).load(url).into(itemViewHolder.mUserAvatar);
         itemViewHolder.mCommentTime.setText(itemBean.getComment().getTime());
-        itemViewHolder.mLikeNum.setText(itemBean.getComment().getLikes());
+        itemViewHolder.mLikeNum.setText("" + itemBean.getComment().getLikes());
         itemViewHolder.mContent.setText(itemBean.getComment().getContent());
         List<CommentItemBean> list = replays.get(itemBean.getComment().getId());
+        itemViewHolder.replays[0].setVisibility(View.GONE);
+        itemViewHolder.replays[1].setVisibility(View.GONE);
+        itemViewHolder.replays[2].setVisibility(View.GONE);
+        itemViewHolder.replays[3].setVisibility(View.GONE);
         if (list == null) {
-            itemViewHolder.replays[0].setVisibility(View.GONE);
-            itemViewHolder.replays[1].setVisibility(View.GONE);
-            itemViewHolder.replays[2].setVisibility(View.GONE);
-            itemViewHolder.replays[3].setVisibility(View.GONE);
             return;
         }
         for (int i = 0; i < list.size() && i < 3; i++) {
@@ -112,14 +115,16 @@ public class VideoCommentAdapter extends RecyclerView.Adapter {
         } else {
             itemViewHolder.replays[3].setVisibility(View.GONE);
         }
-        itemViewHolder.mAdd.setOnClickListener(v -> {
-            relayListener.onRelay(itemBean, true);
-        });
+        if (itemBean.getComment().isIs_liked()) {
+            itemViewHolder.mLike.setBackground(mContext.getResources().getDrawable(R.drawable.b_z));
+        } else {
+            itemViewHolder.mLike.setBackground(mContext.getResources().getDrawable(R.drawable.ba0));
+        }
     }
 
     @Override
     public int getItemCount() {
-        return replays.size();
+        return comments.size();
     }
 
 
