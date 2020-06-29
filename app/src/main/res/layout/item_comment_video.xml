@@ -72,21 +72,27 @@
             android:layout_below="@id/item_comment_content"
             android:orientation="horizontal">
 
-            <TextView
+            <ImageView
                 android:id="@+id/item_comment_like"
+                android:layout_marginTop="10dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ba0"/>
+
+            <TextView
+                android:id="@+id/item_comment_like_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleY="0.4"
-                android:scaleX="0.4"
-                android:drawablePadding="5dp"
-                android:drawableStart="@drawable/ba0"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
                 android:textColor="@color/black_alpha_45"
-                android:textSize="36sp"
+                android:textSize="18sp"
                 android:text="666666"/>
 
             <ImageView
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:id="@+id/item_comment_add"
+                android:layout_marginStart="10dp"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@drawable/de2" />
@@ -96,8 +102,8 @@
                 android:id="@+id/item_comment_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="140dp"
-                android:paddingTop="15dp"
+                android:layout_marginStart="215dp"
+                android:paddingTop="10dp"
                 android:src="@drawable/ic_more_grey" />
 
         </LinearLayout>

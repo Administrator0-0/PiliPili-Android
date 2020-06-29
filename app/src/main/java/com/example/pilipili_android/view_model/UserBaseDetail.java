@@ -56,12 +56,8 @@ public class UserBaseDetail {
         return Objects.requireNonNull(SPUtil.get(context, SPConstant.AVATAR, "")).equals("");
     }
 
-    public static String getBackgroundPath(Context context) {
-        return UrlConstant.GLIDE_CACHE + File.separator + SPUtil.get(context, SPConstant.BACKGROUND, "");
-    }
-
-    public static boolean isBackgroundDefault(Context context) {
-        return Objects.requireNonNull(SPUtil.get(context, SPConstant.BACKGROUND, "")).equals("");
+    public static Boolean getGenderBoolean(Context context) {
+        return (Boolean) SPUtil.get(context, SPConstant.GENDER, false);
     }
 
     public static Drawable getGender (Context context) {

@@ -325,7 +325,7 @@ public class UserDataSource {
                     return;
                 }
                 if(uploadSignReturn.getCode() == 200) {
-                    onNetRequestListener.onSuccess(new NetRequestResult<>(uploadSignReturn));
+                    onNetRequestListener.onSuccess();
                 } else {
                     onNetRequestListener.onFail(Objects.requireNonNull(uploadSignReturn).getMessage());
                 }
@@ -357,7 +357,7 @@ public class UserDataSource {
                     return;
                 }
                 if(setGenderReturn.getCode() == 200) {
-                    onNetRequestListener.onSuccess(new NetRequestResult<>(setGenderReturn));
+                    onNetRequestListener.onSuccess();
                 } else {
                     onNetRequestListener.onFail(Objects.requireNonNull(setGenderReturn).getMessage());
                 }

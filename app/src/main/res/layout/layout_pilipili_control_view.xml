@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/danmuku_bar"
         android:layout_width="match_parent"
-        android:layout_height="270dp"
+        android:layout_height="290dp"
         android:layout_gravity="bottom"
         android:background="@color/black">
 
@@ -103,33 +103,78 @@
             android:text="弹幕颜色"/>
 
 
-        <Button
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+        <CheckBox
+            android:id="@+id/white_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="165dp"
             android:layout_marginStart="80dp"
-            android:background="@drawable/de2"/>
+            android:button="@drawable/white_button" />
 
-        <Button
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+        <CheckBox
+            android:id="@+id/blue_green_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="165dp"
             android:layout_marginStart="140dp"
-            android:background="@drawable/de2"/>
+            android:button="@drawable/blue_green_button"/>
 
-        <Button
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+
+        <CheckBox
+            android:id="@+id/brown_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="165dp"
             android:layout_marginStart="200dp"
-            android:background="@drawable/de2"/>
+            android:button="@drawable/brown_button"/>
 
-        <Button
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+        <CheckBox
+            android:id="@+id/green_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="165dp"
             android:layout_marginStart="260dp"
-            android:background="@drawable/de2"/>
+            android:button="@drawable/green_button"/>
+
+        <CheckBox
+            android:id="@+id/yellow_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="165dp"
+            android:layout_marginStart="320dp"
+            android:button="@drawable/yellow_button"/>
+
+        <CheckBox
+            android:id="@+id/red_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="200dp"
+            android:layout_marginStart="80dp"
+            android:button="@drawable/red_button"/>
+
+        <CheckBox
+            android:id="@+id/pink_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="200dp"
+            android:layout_marginStart="140dp"
+            android:button="@drawable/pink_button"/>
+
+        <CheckBox
+            android:id="@+id/blue_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="200dp"
+            android:layout_marginStart="200dp"
+            android:button="@drawable/blue_button" />
+
+        <CheckBox
+            android:id="@+id/purple_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="200dp"
+            android:layout_marginStart="260dp"
+            android:button="@drawable/purple_button" />
 
 
     </RelativeLayout>
@@ -184,6 +229,13 @@
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/dkplayer_controller_time_text_size"
                 tools:text="00:00" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dkplayer_controller_time_text_size"
+                tools:text="  /  " />
 
 
 

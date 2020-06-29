@@ -10,15 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.example.pilipili_android.bean.localbean.SignBean;
 import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
 import com.example.pilipili_android.bean.netbean.GetUserBackgroundOrAvatarReturn;
 import com.example.pilipili_android.bean.netbean.LoginSend;
 import com.example.pilipili_android.bean.netbean.NetRequestResult;
 import com.example.pilipili_android.bean.localbean.SpaceActivityBean;
+import com.example.pilipili_android.bean.netbean.RenameReturn;
 import com.example.pilipili_android.bean.netbean.UserDetailReturn;
 import com.example.pilipili_android.bean.netbean.UserOpenDetailReturn;
 import com.example.pilipili_android.constant.SPConstant;
@@ -27,6 +30,9 @@ import com.example.pilipili_android.model.UserDataSource;
 import com.example.pilipili_android.util.AliyunOSSUtil;
 import com.example.pilipili_android.util.EncryptUtil;
 import com.example.pilipili_android.util.SPUtil;
+import com.qmuiteam.qmui.QMUILog;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 
@@ -44,6 +50,9 @@ public class UserViewModel extends AndroidViewModel {
     private MutableLiveData<SpaceActivityBean> spaceActivityBean = new MutableLiveData<>();
     private MutableLiveData<String> spaceBackgroundUrl = new MutableLiveData<>();
     private MutableLiveData<String> spaceAvatarUrl = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isSetGenderSuccess = new MutableLiveData<>();//此变量false为男，true为女，值只要发生改变即代表变性成功
+    private MutableLiveData<String> newUsername = new MutableLiveData<>();
+    private MutableLiveData<SignBean> newSign = new MutableLiveData<>();
 
     public UserViewModel(@NonNull Application application) {
         super(application);
@@ -189,17 +198,17 @@ public class UserViewModel extends AndroidViewModel {
 
     public void register(String email, String username, String password) {
         if(username.trim().equals("")){
-            Toast.makeText(context, "用户名不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "昵称不能为空哦~", Toast.LENGTH_SHORT).show();
         } else if(email.trim().equals("")) {
-            Toast.makeText(context, "邮箱不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "邮箱不能为空哦~", Toast.LENGTH_SHORT).show();
         } else if(password.trim().equals("")) {
-            Toast.makeText(context, "密码不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "密码不能为空哦~", Toast.LENGTH_SHORT).show();
         } else if(!EncryptUtil.isUsernameValid(username)) {
-            Toast.makeText(context, "用户名无效", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "昵称无效哦~", Toast.LENGTH_SHORT).show();
         } else if (!EncryptUtil.isEmailValid(email)) {
-            Toast.makeText(context, "邮箱无效", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "邮箱无效哦~", Toast.LENGTH_SHORT).show();
         } else if (!EncryptUtil.isPasswordValid(password)) {
-            Toast.makeText(context, "密码无效", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "密码无效哦~", Toast.LENGTH_SHORT).show();
         } else {
             userDataSource.register(email, username, password, new OnNetRequestListener() {
                 @Override
@@ -514,6 +523,86 @@ public class UserViewModel extends AndroidViewModel {
         });
     }
 
+    public void setGender(boolean gender) {
+        userDataSource.setGender(UserBaseDetail.getToken(context), gender, new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+
+            }
+
+            @Override
+            public void onSuccess() {
+                isSetGenderSuccess.setValue(gender);
+                putGender(gender);
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void rename(String username) {
+        userDataSource.rename(UserBaseDetail.getToken(context), username, new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+                RenameReturn renameReturn = (RenameReturn) netRequestResult.getData();
+                putCoin(renameReturn.getData().getCoins());
+                putUsername(username);
+                EventBus.getDefault().post(username);
+                newUsername.setValue(username);
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+
+            }
+        });
+    }
+
+    public void uploadSign(String sign, String signEdit) {
+        userDataSource.uploadSign(UserBaseDetail.getToken(context), sign, new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+
+            }
+
+            @Override
+            public void onSuccess() {
+                SignBean signBean = new SignBean();
+                signBean.setSign(sign);
+                signBean.setSignEdit(signEdit);
+                newSign.setValue(signBean);
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void putUsername(String username) {
         SPUtil.put(context, SPConstant.USERNAME, username);
     }
@@ -590,5 +679,17 @@ public class UserViewModel extends AndroidViewModel {
 
     public MutableLiveData<String> getSpaceAvatarUrl() {
         return spaceAvatarUrl;
+    }
+
+    public MutableLiveData<Boolean> getIsSetGenderSuccess() {
+        return isSetGenderSuccess;
+    }
+
+    public MutableLiveData<String> getNewUsername() {
+        return newUsername;
+    }
+
+    public MutableLiveData<SignBean> getNewSign() {
+        return newSign;
     }
 }

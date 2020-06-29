@@ -147,7 +147,7 @@ public class RegisterFragment extends Fragment {
     void showPasswordHint(View v, boolean hasFocus){
         if(hasFocus){
             hintTv.setVisibility(VISIBLE);
-            hintTv.setText("密码为6~20位，只能由英文、数字以及下划线组成哦~");
+            hintTv.setText("密码为6~20位，由英文、数字以及下划线组成哦~");
         }
     }
 
@@ -155,7 +155,7 @@ public class RegisterFragment extends Fragment {
     void showUsernameHint(View v, boolean hasFocus){
         if(hasFocus){
             hintTv.setVisibility(VISIBLE);
-            hintTv.setText("用户名为2~10位，只能由中英文、数字以及下划线组成哦~");
+            hintTv.setText("昵称为2~10位，由中英文、数字以及下划线组成哦~");
         }
     }
 

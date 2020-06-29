@@ -2,9 +2,14 @@ package com.example.pilipili_android.activity;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,6 +17,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,11 +32,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.pilipili_android.R;
 import com.example.pilipili_android.constant.DefaultConstant;
 import com.example.pilipili_android.constant.UrlConstant;
 import com.example.pilipili_android.databinding.ActivitySpaceBinding;
-import com.example.pilipili_android.fragment.SaveImageFragment;
+import com.example.pilipili_android.fragment.AvatarFragment;
 import com.example.pilipili_android.util.UCropUtil;
 import com.example.pilipili_android.view_model.UserBaseDetail;
 import com.example.pilipili_android.view_model.UserViewModel;
@@ -39,16 +46,20 @@ import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 import com.yalantis.ucrop.UCrop;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
+
+import static com.example.pilipili_android.constant.UrlConstant.CROP_CACHE;
 
 public class SpaceActivity extends AppCompatActivity {
 
@@ -73,8 +84,9 @@ public class SpaceActivity extends AppCompatActivity {
 
     private int UID;
     private boolean isDetail = false;
-    private String signSingle = "";
-    private String signOrigin = "";
+    private String signSingle = "";//指sign单行显示
+    private boolean hasSign = false;
+    private String signOrigin = "";//指sign展开显示
     private static final int REQUEST_CODE_CHOOSE_BG = 10086;
     private static final int REQUEST_CODE_CHOOSE_AVATAR = 10010;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -82,10 +94,10 @@ public class SpaceActivity extends AppCompatActivity {
             Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
     private static final int UCROP_CODE_CHOOSE_BG = 2333;
     private static final int UCROP_CODE_CHOOSE_AVATAR = 2334;
-    private static final int GALLERY_CODE = 2;
+    private static final int EDIT_USER_INFO = 23333;
     ActivitySpaceBinding activitySpaceBinding;
     FragmentManager fragmentManager;
-    SaveImageFragment saveImageFragment;
+    AvatarFragment avatarFragment;
 
 
     @Override
@@ -114,9 +126,11 @@ public class SpaceActivity extends AppCompatActivity {
             if(signOrigin.equals("")) {
                 signOrigin = "这个人很神秘，什么都没有留下";
                 signSingle = "这个人很神秘，什么都没有留下";
+                hasSign = false;
             } else {
                 signTv.setText(signOrigin);
                 signSingle = signTv.getText().toString().substring(0, signTv.getLayout().getLineEnd(0));
+                hasSign = true;
             }
             signTv.setText(signSingle);
             detail.setText("详情");
@@ -153,12 +167,13 @@ public class SpaceActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         activitySpaceBinding.getUserViewModel().getUserSpaceData(UID);
     }
 
     private void initFragment() {
         fragmentManager = getSupportFragmentManager();
-        saveImageFragment = new SaveImageFragment();
+        avatarFragment = new AvatarFragment();
     }
 
     @OnClick(R.id.change_bg)
@@ -183,7 +198,19 @@ public class SpaceActivity extends AppCompatActivity {
 
         TextView defaultBackground = view.findViewById(R.id.default_bg);
         defaultBackground.setOnClickListener(view1 -> {
-            background.setImageResource(DefaultConstant.BACKGROUND_IMAGE_DEFAULT);
+            Bitmap img = ((BitmapDrawable) Objects.requireNonNull(getDrawable(DefaultConstant.BACKGROUND_IMAGE_DEFAULT))).getBitmap();
+            File file = new File(CROP_CACHE);
+            if(!file.exists()) //noinspection ResultOfMethodCallIgnored
+                file.mkdir();
+            String fileName = CROP_CACHE + System.currentTimeMillis() + ".png";
+            try{
+                OutputStream outputStream = new FileOutputStream(fileName);
+                img.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+                outputStream.close();
+                activitySpaceBinding.getUserViewModel().uploadUserBackground(fileName);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             dialog.dismiss();
         });
 
@@ -237,6 +264,7 @@ public class SpaceActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if ((requestCode == REQUEST_CODE_CHOOSE_BG || requestCode == REQUEST_CODE_CHOOSE_AVATAR) && resultCode == RESULT_OK) {
             //图片路径 同样视频地址也是这个
+            assert data != null;
             List<String> pathList = Matisse.obtainPathResult(data);
            // String path = UriUtil.getPath(this, pathList.get(0));
             File dir = new File(UrlConstant.COMPRESS_CACHE);
@@ -291,13 +319,42 @@ public class SpaceActivity extends AppCompatActivity {
                 openAlbum();
                 overridePendingTransition(0, 0);
             }
+        } else if (requestCode == EDIT_USER_INFO || resultCode == RESULT_OK) {
+            if(data != null) {
+                String avatarUrl = data.getStringExtra("avatarUrl");
+                assert avatarUrl != null;
+                if(!avatarUrl.equals("")){
+                    Glide.with(this).load(avatarUrl).diskCacheStrategy(DiskCacheStrategy.NONE).into(avatar);
+                }
+                usernameTv.setText(data.getStringExtra("username"));
+                if(data.getBooleanExtra("gender", false)) {
+                    genderImg.setImageResource(R.drawable.cyx);
+                } else {
+                    genderImg.setImageResource(R.drawable.cyz);
+                }
+                signOrigin = data.getStringExtra("sign");
+                assert signOrigin != null;
+                if(signOrigin.equals("")) {
+                    signOrigin = "这个人很神秘，什么都没有留下";
+                    signSingle = "这个人很神秘，什么都没有留下";
+                    hasSign = false;
+                } else {
+                    signTv.setText(signOrigin);
+                    signSingle = signTv.getText().toString().substring(0, signTv.getLayout().getLineEnd(0));
+                    hasSign = true;
+                }
+                signTv.setText(signSingle);
+                detail.setText("详情");
+                uid.setVisibility(View.GONE);
+                isDetail = false;
+            }
         }
     }
 
     @OnClick(R.id.avatar)
     public void onAvatarClicked() {
-        saveImageFragment.setAvatarPath(UserBaseDetail.getAvatarPath(this));
-        fragmentManager.beginTransaction().add(R.id.save_avatar_box, saveImageFragment).commit();
+        avatarFragment.setAvatarPath(UserBaseDetail.getAvatarPath(this));
+        fragmentManager.beginTransaction().add(R.id.save_avatar_box, avatarFragment).commit();
     }
 
     @OnClick(R.id.button_return_inspace)
@@ -307,11 +364,15 @@ public class SpaceActivity extends AppCompatActivity {
 
     @OnClick(R.id.edit)
     public void onEditClicked() {
-
+        Intent intent = new Intent(SpaceActivity.this, EditUserInfoActivity.class);
+        intent.putExtra("signOrigin", signOrigin);
+        intent.putExtra("signEdit", signSingle);
+        intent.putExtra("hasSign", hasSign);
+        startActivityForResult(intent, EDIT_USER_INFO);
     }
 
     @OnClick(R.id.relativelayout_6)
-    public void onRelativelayout6Clicked() {
+    public void onDetailClicked() {
         if (!isDetail) {
             signTv.setText(signOrigin);
             uid.setVisibility(View.VISIBLE);
@@ -326,6 +387,14 @@ public class SpaceActivity extends AppCompatActivity {
 
     @OnClick(R.id.uid)
     public void onUidClicked() {
-
+        //获取剪贴板管理器：
+        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        // 创建普通字符型ClipData
+        ClipData mClipData = ClipData.newPlainText("Label", UID + "");
+        // 将ClipData内容放到系统剪贴板里。
+        if (cm != null) {
+            cm.setPrimaryClip(mClipData);
+        }
+        Toast.makeText(this, "UID已复制到剪切板", Toast.LENGTH_SHORT).show();
     }
 }
