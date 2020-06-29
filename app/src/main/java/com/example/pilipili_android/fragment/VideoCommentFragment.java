@@ -2,6 +2,8 @@ package com.example.pilipili_android.fragment;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,9 +17,12 @@ import android.view.ViewGroup;
 import com.example.pilipili_android.R;
 import com.example.pilipili_android.activity.VideoActivity;
 import com.example.pilipili_android.adapter.VideoCommentAdapter;
+import com.example.pilipili_android.bean.netbean.CommentDetailsReturn;
+import com.example.pilipili_android.view_model.CommentViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,17 +32,22 @@ public class VideoCommentFragment extends Fragment {
     @BindView(R.id.comment_list)
     RecyclerView videoListView;
 
-    private List<String> videoList;
+    private int pv;
     private VideoCommentAdapter adapter;
-    private List<List<SpannableString>> replays;
+    private CommentViewModel commentViewModel;
     private VideoActivity.OnRelayOpenListener mListener;
+    private VideoActivity.OnRelayListener relayListener;
 
-    public VideoCommentFragment() {
-
+    public VideoCommentFragment(int pv) {
+        this.pv = pv;
     }
 
     public void setListener(VideoActivity.OnRelayOpenListener mListener) {
         this.mListener = mListener;
+    }
+
+    public void setRelayListener(VideoActivity.OnRelayListener relayListener) {
+        this.relayListener = relayListener;
     }
 
     @Override
@@ -51,27 +61,28 @@ public class VideoCommentFragment extends Fragment {
 
     private void initView() {
         initData();
-        adapter = new VideoCommentAdapter(videoList, replays);
+        adapter = new VideoCommentAdapter(commentViewModel.getCommentList().getValue(), commentViewModel.getReplayList().getValue());
         adapter.setListener(mListener);
+        adapter.setRelayListener(relayListener);
         videoListView.setLayoutManager(new LinearLayoutManager(getContext()));
-        videoListView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        videoListView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
         videoListView.setAdapter(adapter);
         videoListView.requestDisallowInterceptTouchEvent(true);
 
     }
 
     private void initData() {
-        videoList = new ArrayList<>();
-        for (int i = 0; i < 50; i++) videoList.add("sss");
-        replays = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
-            List<SpannableString>list = new ArrayList<>();
-            for (int j = 0; j < 4; j++) {
-                SpannableString string = new SpannableString("刘薪王分身: 没错没错没错没错没错没错没错没错");
-                string.setSpan(new ForegroundColorSpan(getActivity().getColor(R.color.colorPrimary)), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                list.add(string);
-            }
-            replays.add(list);
-        }
+        commentViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(CommentViewModel.class);
+        commentViewModel.getCommentList().observe(getViewLifecycleOwner(), dataBeans -> {
+            adapter.setComments(dataBeans);
+            adapter.notifyDataSetChanged();
+        });
+        commentViewModel.getReplayList().observe(getViewLifecycleOwner(), dataBeans -> {
+            adapter.setReplays(dataBeans);
+            adapter.notifyDataSetChanged();
+        });
+        commentViewModel.getCommentList(pv, 1);
     }
+
+
 }

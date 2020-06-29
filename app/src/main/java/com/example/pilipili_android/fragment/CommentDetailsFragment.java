@@ -3,27 +3,36 @@ package com.example.pilipili_android.fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.pilipili_android.R;
+import com.example.pilipili_android.activity.VideoActivity;
 import com.example.pilipili_android.adapter.CommentReplayAdapter;
 import com.example.pilipili_android.adapter.VideoCommentAdapter;
+import com.example.pilipili_android.bean.localbean.CommentItemBean;
+import com.example.pilipili_android.util.AliyunOSSUtil;
+import com.example.pilipili_android.view_model.CommentViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CommentDetailsFragment extends Fragment {
+public class CommentDetailsFragment extends Fragment implements View.OnClickListener {
 
     @BindView(R.id.user_avatar)
     ImageView user;
@@ -37,18 +46,21 @@ public class CommentDetailsFragment extends Fragment {
     ImageView commentLike;
     @BindView(R.id.comment_like_num)
     TextView commentLikeNum;
-    @BindView(R.id.comment_add)
-    ImageView commentAdd;
     @BindView(R.id.replay_list)
     RecyclerView replayListView;
 
     private CommentReplayAdapter adapter;
-    private List<String> videoList;
+    private CommentViewModel commentViewModel;
+    private CommentItemBean main;
+    private VideoActivity.OnRelayListener relayListener;
 
-    public CommentDetailsFragment() {
-
+    public CommentDetailsFragment(CommentItemBean main) {
+        this.main = main;
     }
 
+    public void setRelayListener(VideoActivity.OnRelayListener relayListener) {
+        this.relayListener = relayListener;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,16 +73,35 @@ public class CommentDetailsFragment extends Fragment {
 
     private void initView() {
         initData();
-        adapter = new CommentReplayAdapter(videoList);
+        adapter = new CommentReplayAdapter(main, Objects.requireNonNull(commentViewModel.getReplayList().getValue()));
+        adapter.setRelayListener(relayListener);
         replayListView.setLayoutManager(new LinearLayoutManager(getContext()));
-        replayListView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        replayListView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
         replayListView.setAdapter(adapter);
         replayListView.setNestedScrollingEnabled(false);
-
+        commentLike.setOnClickListener(this);
     }
 
     private void initData() {
-        videoList = new ArrayList<>();
-        for (int i = 0; i < 50; i++) videoList.add("sss");
+        commentViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(CommentViewModel.class);
+        commentViewModel.getReplayList().observe(getViewLifecycleOwner(), dataBeans -> {
+            adapter.setReplays(dataBeans);
+            adapter.notifyDataSetChanged();
+        });
+        commentViewModel.getReplayListDFS(main.getComment().getId());
+        String url = AliyunOSSUtil.getImageUrl(getActivity().getApplicationContext(), main.getAvatar().getGuest_key(),
+                main.getAvatar().getGuest_secret(), main.getAvatar().getSecurity_token(), main.getAvatar().getFile());
+        Glide.with(getActivity()).load(url).into(user);
+        username.setText(main.getUser().getUsername());
+        commentTime.setText(main.getUser().getUsername());
+        commentContent.setText(main.getComment().getContent());
+        commentLikeNum.setText("" + main.getComment().getLikes());
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.comment_like) {
+
+        }
     }
 }
