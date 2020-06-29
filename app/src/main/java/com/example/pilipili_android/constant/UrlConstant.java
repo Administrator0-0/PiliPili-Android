@@ -97,7 +97,9 @@ public interface UrlConstant {
 
     String POST_COMMENT_REPLAY = "/replay";
 
-    String GET_COMMENT_REPLAY = "/get-comment";
+    String GET_COMMENT_REPLAY = "/get-replay";
+
+    String GET_COMMENT_REPLAY_DFS = "/get-replay-dfs";
 
     String LIKE_COMMENT = "/like";
 
