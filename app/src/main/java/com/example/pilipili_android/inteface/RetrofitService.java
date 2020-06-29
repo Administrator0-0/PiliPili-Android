@@ -7,6 +7,7 @@ import com.example.pilipili_android.bean.netbean.CommentDetailsReturn;
 import com.example.pilipili_android.bean.netbean.CommentListReturn;
 import com.example.pilipili_android.bean.netbean.CommonReturn;
 import com.example.pilipili_android.bean.netbean.FollowUnFollowReturn;
+import com.example.pilipili_android.bean.netbean.GetRecommendVideoListReturn;
 import com.example.pilipili_android.bean.netbean.GetUserBackgroundOrAvatarReturn;
 import com.example.pilipili_android.bean.netbean.LoginReturn;
 import com.example.pilipili_android.bean.netbean.RenameReturn;
@@ -17,6 +18,7 @@ import com.example.pilipili_android.bean.netbean.UploadUserBackgroundReturn;
 import com.example.pilipili_android.bean.netbean.UploadVideoOrCoverReturn;
 import com.example.pilipili_android.bean.netbean.UserDetailReturn;
 import com.example.pilipili_android.bean.netbean.UserOpenDetailReturn;
+import com.example.pilipili_android.bean.netbean.VideoDetailReturn;
 import com.example.pilipili_android.constant.UrlConstant;
 
 import okhttp3.MultipartBody;
@@ -168,6 +170,7 @@ public interface RetrofitService {
      */
     @PUT(UrlConstant.CANCEL_UPLOAD)
     Call<CommonReturn> cancelUpload(@Header("Authorization") String token, @Body RequestBody jsonObject);
+
     /**
      * 评论视频
      *
@@ -217,4 +220,17 @@ public interface RetrofitService {
     @GET(UrlConstant.GET_COMMENT_PREFIX + "{id}" + UrlConstant.COMMENT_DETAILS)
     Call<CommentDetailsReturn> getCommentDetails(@Path("id") String id);
 
+    /**
+     * 获取推荐页视频列表
+     *
+     */
+    @GET(UrlConstant.GET_RECOMMEND_VIDEO)
+    Call<GetRecommendVideoListReturn> getRecommendVideoList();
+
+    /**
+     * 获取视频详细信息（包括封面）
+     *
+     */
+    @GET(UrlConstant.GET_VIDEO_DETAIL_HEAD + "{pv}" + UrlConstant.GET_VIDEO_DETAIL_TAIL)
+    Call<VideoDetailReturn> getVideoDetail(@Header("Authorization") String token, @Path("pv") String pv);
 }

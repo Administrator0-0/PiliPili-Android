@@ -65,19 +65,12 @@ public class MineFragment extends Fragment {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentMineBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_mine, container, false);
         View view = fragmentMineBinding.getRoot();
         fragmentMineBinding.setUserViewModel(new ViewModelProvider(Objects.requireNonNull(getActivity())).get(UserViewModel.class));
         unbinder = ButterKnife.bind(this, view);
-        EventBus.getDefault().register(this);
         return view;
     }
 
@@ -134,15 +127,6 @@ public class MineFragment extends Fragment {
         } else {
             Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().remove(this).commit();
             openAlbum();
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onFragmentChange(FragmentMsg fragmentMsg) {
-        if(fragmentMsg.getWhatFragment().equals("UploadVideoActivity")) {
-            if(fragmentMsg.getMsgString().equals("openAlbum")) {
-                openAlbum();
-            }
         }
     }
 

@@ -131,6 +131,7 @@ public class UploadVideoActivity extends AppCompatActivity {
     private boolean isUploadError = false;
     private boolean isDialogAppear = false;
     private boolean isUploadVideoCoverFinish = false;
+    private boolean isUserBack = false;
     private OSSAsyncTask uploadVideoToBucketTask;
     private OSSAsyncTask uploadVideoCoverToBucketTask;
 
@@ -227,6 +228,14 @@ public class UploadVideoActivity extends AppCompatActivity {
                     dataBean.getGuest_secret(), dataBean.getSecurity_token(),
                     dataBean.getFile(), coverPath);
         });
+
+        videoViewModel.getIsCompletePublish().observe(this, isComplete -> {
+            if(isComplete) {
+                Intent intent = new Intent(UploadVideoActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     public OSSAsyncTask uploadVideoToBucket(Context context, String accessKey, String secretKey, String securityToken, String fileName, String path) {
@@ -255,7 +264,7 @@ public class UploadVideoActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(PutObjectRequest request, ClientException clientExcepion, ServiceException serviceException) {
-                if (clientExcepion != null) {
+                if (clientExcepion != null && !isUserBack) {
                     // 本地异常，如网络异常等。
                     UploadVideoActivity.this.runOnUiThread(() -> {
                         CommonDialog commonDialog = new CommonDialog(UploadVideoActivity.this);
@@ -275,7 +284,7 @@ public class UploadVideoActivity extends AppCompatActivity {
                                 }).setImageResId(R.drawable.bh3).show();
                     });
                 }
-                if (serviceException != null) {
+                if (serviceException != null && !isUserBack) {
                     //服务器异常
                     UploadVideoActivity.this.runOnUiThread(() -> {
                         CommonDialog commonDialog = new CommonDialog(UploadVideoActivity.this);
@@ -335,12 +344,13 @@ public class UploadVideoActivity extends AppCompatActivity {
         commonDialog.setCancelable(false);
         commonDialog.setTitle("取消发布").setNegative("不想发了").setPositive("我再想想").setMessage("真的要取消发布视频吗？")
                 .setOnCancelDialogClickListener(() -> {
+                    isUserBack = true;
                     commonDialog.dismiss();
                     if(!isUploadFinish && !isUploadError) uploadVideoToBucketTask.cancel();
                     if(!isUploadVideoCoverFinish && !isUploadError) uploadVideoCoverToBucketTask.cancel();
                     videoViewModel.cancelUploadVideo(isUploadFinish || isUploadVideoCoverFinish);
+                    EventBus.getDefault().post(FragmentMsg.getInstance("UploadVideoActivity", "showMine"));
                     UploadVideoActivity.this.finish();
-                    EventBus.getDefault().post(FragmentMsg.getInstance("UploadVideoActivity", "openAlbum"));
                 })
                 .setOnConfirmDialogClickListener(commonDialog::dismiss).setImageResId(R.drawable.d36).show();
     }
@@ -352,12 +362,13 @@ public class UploadVideoActivity extends AppCompatActivity {
             commonDialog.setCancelable(false);
             commonDialog.setTitle("取消发布").setNegative("不想发了").setPositive("我再想想").setMessage("真的要取消发布视频吗？")
                     .setOnCancelDialogClickListener(() -> {
+                        isUserBack = true;
                         commonDialog.dismiss();
                         if(!isUploadFinish && !isUploadError) uploadVideoToBucketTask.cancel();
                         if(!isUploadVideoCoverFinish && !isUploadError) uploadVideoCoverToBucketTask.cancel();
                         videoViewModel.cancelUploadVideo(isUploadFinish || isUploadVideoCoverFinish);
+                        EventBus.getDefault().post(FragmentMsg.getInstance("UploadVideoActivity", "showMine"));
                         super.onBackPressed();
-                        EventBus.getDefault().post(FragmentMsg.getInstance("UploadVideoActivity", "openAlbum"));
                     })
                     .setOnConfirmDialogClickListener(commonDialog::dismiss).setImageResId(R.drawable.d36).show();
         }

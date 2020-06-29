@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -60,7 +61,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initFragment();
+        EventBus.getDefault().register(this);
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     private void initFragment(){
@@ -103,5 +110,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onFragmentChange(FragmentMsg fragmentMsg) {
+        if(fragmentMsg.getWhatFragment().equals("UploadVideoActivity")) {
+            if(fragmentMsg.getMsgString().equals("showMine")) {
+                fragmentManager.beginTransaction().replace(R.id.box, mineFragment).commitAllowingStateLoss();
+            }
+        }
+    }
 }

@@ -77,7 +77,11 @@ public interface UrlConstant {
 
     String CANCEL_UPLOAD = "video/cancel-new";
 
+    String GET_RECOMMEND_VIDEO = "video/list-video";
 
+    String GET_VIDEO_DETAIL_HEAD = "video/pv";
+
+    String GET_VIDEO_DETAIL_TAIL = "/details";
 
 
 
