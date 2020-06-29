@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:layout_width="160dp"
+        android:layout_height="100dp"
+        android:id="@+id/image_item_hot"
+        tools:src="@drawable/cover"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="19:25"
+        android:textSize="10sp"
+        android:textColor="@color/white"
+        android:layout_alignEnd="@+id/image_item_hot"
+        android:layout_alignBottom="@+id/image_item_hot"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="5dp"
+        tools:ignore="SmallSp" />
+    <TextView
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@+id/image_item_hot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="万众瞩目的游戏原神，正在进行第三次删档内测"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="5dp"
+        android:textSize="12sp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_toEndOf="@+id/image_item_hot"
+        android:layout_alignBottom="@+id/image_item_hot"
+        android:layout_marginBottom="3dp">
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/bqg"
+            android:id="@+id/image_name_of_up"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:layout_toEndOf="@+id/image_name_of_up"
+            android:id="@+id/text_name_up"
+            tools:text="无死无生"
+            android:textColor="@color/qmui_config_color_gray_7"
+            android:textSize="9sp"
+            android:gravity="center_vertical"
+            android:layout_marginStart="5dp"
+            tools:ignore="SmallSp" />
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="2dp"
+            android:id="@+id/image_number_display"
+            android:src="@drawable/ic_play_circle_outline_black_24dp"
+            android:layout_below="@+id/image_name_of_up"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:layout_marginStart="5dp"
+            tools:text="56.1万观看·2小时前"
+            android:layout_alignTop="@+id/image_number_display"
+            android:layout_toEndOf="@+id/image_number_display"
+            android:gravity="center_vertical"
+            android:textSize="9sp"
+            android:textColor="@color/qmui_config_color_gray_7"
+            tools:ignore="SmallSp" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -20,8 +20,6 @@ import com.example.pilipili_android.fragment.FragmentMsg;
 import com.example.pilipili_android.fragment.MainFragment;
 import com.example.pilipili_android.fragment.MineFragment;
 import com.example.pilipili_android.fragment.PostFragment;
-import com.hw.videoprocessor.VideoProcessor;
-import com.hw.videoprocessor.util.VideoProgressListener;
 import com.zhihu.matisse.Matisse;
 
 import org.greenrobot.eventbus.EventBus;
