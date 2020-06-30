@@ -25,9 +25,6 @@ public class PiliPiliColorTextView extends androidx.appcompat.widget.AppCompatTe
         super(context, attrs);
         mLongPressRunnable = () -> {
             mCounter--;
-            Log.d("aaa", mCounter + "   counter");
-            Log.d("aaa", isMoved + "   isMove");
-            Log.d("aaa", isReleased + "    isRelease");
             // 计数器大于0，说明当前执行的Runnable不是最后一次down产生的。
             if (mCounter > 0 || isReleased || !isMoved)
                 return;

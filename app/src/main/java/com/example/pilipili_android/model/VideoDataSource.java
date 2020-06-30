@@ -193,6 +193,7 @@ public class VideoDataSource {
                     return;
                 }
                 if(videoDetailReturn.getCode() == 200) {
+
                     onNetRequestListener.onSuccess(new NetRequestResult<>(videoDetailReturn.getData()));
                 } else {
                     onNetRequestListener.onFail(Objects.requireNonNull(videoDetailReturn).getMessage());

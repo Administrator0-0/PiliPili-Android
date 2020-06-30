@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_UPLOAD = 12321;
 
+    private boolean isMainFragment = true;
+
     FragmentManager fragmentManager = getSupportFragmentManager();
     MainFragment mainFragment;//首页
     PostFragment postFragment;//动态
@@ -79,21 +81,28 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.mainpage_btn)
     public void onMainpageBtnClicked() {
-        fragmentManager.beginTransaction().replace(R.id.box, mainFragment).commit();
+        if(!isMainFragment){
+            fragmentManager.beginTransaction().replace(R.id.box, mainFragment).commit();
+        } else {
+            EventBus.getDefault().post(FragmentMsg.getInstance("MainActivity", "refresh"));
+        }
     }
 
     @OnClick(R.id.channel_btn)
     public void onChannelBtnClicked() {
+        isMainFragment = false;
         fragmentManager.beginTransaction().replace(R.id.box, channelFragment).commit();
     }
 
     @OnClick(R.id.post_btn)
     public void onPostBtnClicked() {
+        isMainFragment = false;
         fragmentManager.beginTransaction().replace(R.id.box, postFragment).commit();
     }
 
     @OnClick(R.id.mine_btn)
     public void onMineBtnClicked() {
+        isMainFragment = false;
         fragmentManager.beginTransaction().replace(R.id.box, mineFragment).commit();
     }
 
@@ -112,6 +121,10 @@ public class MainActivity extends AppCompatActivity {
     public void onFragmentChange(FragmentMsg fragmentMsg) {
         if(fragmentMsg.getWhatFragment().equals("UploadVideoActivity")) {
             if(fragmentMsg.getMsgString().equals("showMine")) {
+                fragmentManager.beginTransaction().replace(R.id.box, mineFragment).commitAllowingStateLoss();
+            }
+        } else if (fragmentMsg.getWhatFragment().equals("MainFragment")) {
+            if(fragmentMsg.getMsgString().equals("showMineFragment")) {
                 fragmentManager.beginTransaction().replace(R.id.box, mineFragment).commitAllowingStateLoss();
             }
         }

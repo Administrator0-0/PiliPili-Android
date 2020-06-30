@@ -39,7 +39,6 @@ public class AliyunOSSUtil {
      */
     public static String getImageUrl(Context context, String accessKey, String secretKey, String securityToken, String fileName) {
         return getOSS(context, accessKey, secretKey, securityToken).presignPublicObjectURL(PILIPILI_BUCKET, fileName);
-
     }
 
     public static OSSAsyncTask uploadFile(Context context, String accessKey, String secretKey, String securityToken, String fileName, String path) {

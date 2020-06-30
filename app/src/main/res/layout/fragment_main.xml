@@ -8,54 +8,68 @@
     android:fitsSystemWindows="true"
     tools:context=".fragment.MainFragment">
 
-
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true">
+
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:fitsSystemWindows="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|enterAlways">
             <RelativeLayout
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_marginTop="5dp"
                 android:layout_below="@+id/video"
                 android:id="@+id/bar_mainpage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary">
-                <ImageView
-                    android:id="@+id/button_oneself"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+                    app:qmui_borderColor="@color/colorPrimary"
+                    android:id="@+id/avatar"
+                    android:layout_width="41dp"
+                    android:layout_height="41dp"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/head"
+                    tools:src="@drawable/head"
                     android:background="@color/colorPrimary"
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="10dp"/>
                 <ImageView
                     android:id="@+id/button_message"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/message_main"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:src="@drawable/c7z"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="10dp"/>
+                    android:layout_marginEnd="6dp"/>
+
                 <EditText
+                    android:background="@drawable/search_shape"
                     android:id="@+id/edit_search"
                     android:layout_width="match_parent"
-                    android:layout_toEndOf="@+id/button_oneself"
+                    android:layout_toEndOf="@+id/avatar"
                     android:layout_toStartOf="@+id/button_message"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_height="wrap_content"
-                    android:hint="请输入搜索内容"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_height="32dp"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:gravity="center"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/bpe"
+                    android:layout_marginStart="9dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignStart="@+id/edit_search"/>
             </RelativeLayout>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,29 +77,27 @@
             android:background="@color/white">
             <com.flyco.tablayout.SlidingTabLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:id="@+id/tablayout_mainpage"/>
+                android:layout_height="35dp"
+                android:id="@+id/tablayout_main"
+                android:background="@color/colorPrimary"
+
+                app:tl_tab_space_equal="true"
+                app:tl_indicator_color="@color/white"
+                app:tl_indicator_height="3dp"
+                app:tl_indicator_width_equal_title="true"
+                app:tl_textSelectColor="@color/white"
+                app:tl_textUnselectColor="@color/qmui_config_color_75_white"
+                app:tl_textsize="20sp"
+                app:tl_textBold="SELECT"/>
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/lightgray" />
+
     </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:overScrollMode="never"
-        android:id="@+id/viewpager_mainpage"
+        android:id="@+id/viewpager_main"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:text="看视频"
-        android:id="@+id/video"
-        android:layout_marginTop="160dp"
-        android:textSize="100sp"/>
-
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

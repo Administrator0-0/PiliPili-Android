@@ -2,9 +2,10 @@ package com.example.pilipili_android.bean.netbean;
 
 public class VideoDetailReturn {
 
+
     /**
      * code : 200
-     * data : {"author":1,"bucket_cover":{"file":"uid-1-2020-06-28-23-06-26-1593356786818.png","guest_key":"STS.NTYs4vcoYd2dsaRn3nxsreHFe","guest_secret":"4LAc8yErCRajjhuzaweb5jbQo6JLGjmZtC7ma36woyf9","security_token":"CAIS8wF1q6Ft5B2yfSjIr5fsOI7CjrB40/CPcUfjijM7dPxeio3thzz2IHtFe3lhA+oWt/k0lGFV7/YelqN3SoJVRErbZM1/tgiqb+95Jdivgde8yJBZor/HcDHhJnyW9cvWZPqDP7G5U/yxalfCuzZuyL/hD1uLVECkNpv74vwOLK5gPG+CYCFBGc1dKyZ7tcYeLgGxD/u2NQPwiWeiZygB+CgE0DMnuPXvnZPNsUaD1w2rm9V4/dqhfsKWCOB3J4p6XtuP2+h7S7HMyiY46WIRr/Yp3P0eo2ee44rNUgQIs0mcUe7V781uKhBwYKcquAK8CFlRZpYagAGMvBNGoTpvEnlm8FKVpCNHGz9ZQEZrRh371fazBQTBZZ7ey0/+EYqLyOQFk2hJRyvA4Tagk8y6breoSEVbGbSvPdBSxVaoZmzpdN0KBlKGrg6HyuF5hWm7dZr1R2Uiyj/TTZxsBovp4xsBljCzdAdaTEkUCdq352FB3R5tk/niTg=="},"coins":0,"collections":0,"comments":0,"duration":"0:40","is_collected":false,"is_liked":false,"likes":0,"pv":2,"sign":"Ggghh","time":"2020-06-28 23:08:07","title":"Ycyvyyvyv","type":1,"views":0}
+     * data : {"author":1,"bucket_cover":{"file":"uid-1-2020-06-28-23-06-26-1593356786818.png","guest_key":"STS.NTxa7gxNJpWz3Kn24WFQBmXsv","guest_secret":"DQJQeUrFSvUvcXo7aTNThu1mVMdo16swSwF2QVvFgKBV","security_token":"CAIS8wF1q6Ft5B2yfSjIr5fNKo3TlZFrx5WRMW3f1jQCSt5ugp3YlDz2IHtFe3lhA+oWt/k0lGFV7/YelqN3SoJVRErbZM1/tleNOsR5Jdivgde8yJBZor/HcDHhJnyW9cvWZPqDP7G5U/yxalfCuzZuyL/hD1uLVECkNpv74vwOLK5gPG+CYCFBGc1dKyZ7tcYeLgGxD/u2NQPwiWeiZygB+CgE0DMnuPXvnZPNsUaD1w2rm9V4/dqhfsKWCOB3J4p6XtuP2+h7S7HMyiY46WIRr/Yp3P0eo2ee44rNUgQIs0mcUe7V781uKhBwYKcquAK8CFlRZpYagAEzAi59fOe3YkgLBPWGxbb2kzZTyNKFjcoVa3Djr/Dn2DDVXBXMJzcCGD+QBWTHFqJwfBv4BGd1vCot63yfW7WpBt45/iVmPVp9cq25h6QoMZWh8xsMRIwE5zLWuze24nluw4rE7/l7Wd0akXRfENmlpgnciKTzz/PM65MSaK0C3Q=="},"coins":0,"collections":0,"comments":0,"danmuku":0,"duration":"0:40","is_collected":false,"is_liked":false,"likes":0,"pv":2,"sign":"Ggghh","time":"2020-06-28 23:08:07","title":"Ycyvyyvyv","type":1,"views":0}
      * message : 详情
      */
 
@@ -39,10 +40,11 @@ public class VideoDetailReturn {
     public static class DataBean {
         /**
          * author : 1
-         * bucket_cover : {"file":"uid-1-2020-06-28-23-06-26-1593356786818.png","guest_key":"STS.NTYs4vcoYd2dsaRn3nxsreHFe","guest_secret":"4LAc8yErCRajjhuzaweb5jbQo6JLGjmZtC7ma36woyf9","security_token":"CAIS8wF1q6Ft5B2yfSjIr5fsOI7CjrB40/CPcUfjijM7dPxeio3thzz2IHtFe3lhA+oWt/k0lGFV7/YelqN3SoJVRErbZM1/tgiqb+95Jdivgde8yJBZor/HcDHhJnyW9cvWZPqDP7G5U/yxalfCuzZuyL/hD1uLVECkNpv74vwOLK5gPG+CYCFBGc1dKyZ7tcYeLgGxD/u2NQPwiWeiZygB+CgE0DMnuPXvnZPNsUaD1w2rm9V4/dqhfsKWCOB3J4p6XtuP2+h7S7HMyiY46WIRr/Yp3P0eo2ee44rNUgQIs0mcUe7V781uKhBwYKcquAK8CFlRZpYagAGMvBNGoTpvEnlm8FKVpCNHGz9ZQEZrRh371fazBQTBZZ7ey0/+EYqLyOQFk2hJRyvA4Tagk8y6breoSEVbGbSvPdBSxVaoZmzpdN0KBlKGrg6HyuF5hWm7dZr1R2Uiyj/TTZxsBovp4xsBljCzdAdaTEkUCdq352FB3R5tk/niTg=="}
+         * bucket_cover : {"file":"uid-1-2020-06-28-23-06-26-1593356786818.png","guest_key":"STS.NTxa7gxNJpWz3Kn24WFQBmXsv","guest_secret":"DQJQeUrFSvUvcXo7aTNThu1mVMdo16swSwF2QVvFgKBV","security_token":"CAIS8wF1q6Ft5B2yfSjIr5fNKo3TlZFrx5WRMW3f1jQCSt5ugp3YlDz2IHtFe3lhA+oWt/k0lGFV7/YelqN3SoJVRErbZM1/tleNOsR5Jdivgde8yJBZor/HcDHhJnyW9cvWZPqDP7G5U/yxalfCuzZuyL/hD1uLVECkNpv74vwOLK5gPG+CYCFBGc1dKyZ7tcYeLgGxD/u2NQPwiWeiZygB+CgE0DMnuPXvnZPNsUaD1w2rm9V4/dqhfsKWCOB3J4p6XtuP2+h7S7HMyiY46WIRr/Yp3P0eo2ee44rNUgQIs0mcUe7V781uKhBwYKcquAK8CFlRZpYagAEzAi59fOe3YkgLBPWGxbb2kzZTyNKFjcoVa3Djr/Dn2DDVXBXMJzcCGD+QBWTHFqJwfBv4BGd1vCot63yfW7WpBt45/iVmPVp9cq25h6QoMZWh8xsMRIwE5zLWuze24nluw4rE7/l7Wd0akXRfENmlpgnciKTzz/PM65MSaK0C3Q=="}
          * coins : 0
          * collections : 0
          * comments : 0
+         * danmuku : 0
          * duration : 0:40
          * is_collected : false
          * is_liked : false
@@ -60,6 +62,7 @@ public class VideoDetailReturn {
         private int coins;
         private int collections;
         private int comments;
+        private int danmuku;
         private String duration;
         private boolean is_collected;
         private boolean is_liked;
@@ -109,6 +112,14 @@ public class VideoDetailReturn {
 
         public void setComments(int comments) {
             this.comments = comments;
+        }
+
+        public int getDanmuku() {
+            return danmuku;
+        }
+
+        public void setDanmuku(int danmuku) {
+            this.danmuku = danmuku;
         }
 
         public String getDuration() {
@@ -194,9 +205,9 @@ public class VideoDetailReturn {
         public static class BucketCoverBean {
             /**
              * file : uid-1-2020-06-28-23-06-26-1593356786818.png
-             * guest_key : STS.NTYs4vcoYd2dsaRn3nxsreHFe
-             * guest_secret : 4LAc8yErCRajjhuzaweb5jbQo6JLGjmZtC7ma36woyf9
-             * security_token : CAIS8wF1q6Ft5B2yfSjIr5fsOI7CjrB40/CPcUfjijM7dPxeio3thzz2IHtFe3lhA+oWt/k0lGFV7/YelqN3SoJVRErbZM1/tgiqb+95Jdivgde8yJBZor/HcDHhJnyW9cvWZPqDP7G5U/yxalfCuzZuyL/hD1uLVECkNpv74vwOLK5gPG+CYCFBGc1dKyZ7tcYeLgGxD/u2NQPwiWeiZygB+CgE0DMnuPXvnZPNsUaD1w2rm9V4/dqhfsKWCOB3J4p6XtuP2+h7S7HMyiY46WIRr/Yp3P0eo2ee44rNUgQIs0mcUe7V781uKhBwYKcquAK8CFlRZpYagAGMvBNGoTpvEnlm8FKVpCNHGz9ZQEZrRh371fazBQTBZZ7ey0/+EYqLyOQFk2hJRyvA4Tagk8y6breoSEVbGbSvPdBSxVaoZmzpdN0KBlKGrg6HyuF5hWm7dZr1R2Uiyj/TTZxsBovp4xsBljCzdAdaTEkUCdq352FB3R5tk/niTg==
+             * guest_key : STS.NTxa7gxNJpWz3Kn24WFQBmXsv
+             * guest_secret : DQJQeUrFSvUvcXo7aTNThu1mVMdo16swSwF2QVvFgKBV
+             * security_token : CAIS8wF1q6Ft5B2yfSjIr5fNKo3TlZFrx5WRMW3f1jQCSt5ugp3YlDz2IHtFe3lhA+oWt/k0lGFV7/YelqN3SoJVRErbZM1/tleNOsR5Jdivgde8yJBZor/HcDHhJnyW9cvWZPqDP7G5U/yxalfCuzZuyL/hD1uLVECkNpv74vwOLK5gPG+CYCFBGc1dKyZ7tcYeLgGxD/u2NQPwiWeiZygB+CgE0DMnuPXvnZPNsUaD1w2rm9V4/dqhfsKWCOB3J4p6XtuP2+h7S7HMyiY46WIRr/Yp3P0eo2ee44rNUgQIs0mcUe7V781uKhBwYKcquAK8CFlRZpYagAEzAi59fOe3YkgLBPWGxbb2kzZTyNKFjcoVa3Djr/Dn2DDVXBXMJzcCGD+QBWTHFqJwfBv4BGd1vCot63yfW7WpBt45/iVmPVp9cq25h6QoMZWh8xsMRIwE5zLWuze24nluw4rE7/l7Wd0akXRfENmlpgnciKTzz/PM65MSaK0C3Q==
              */
 
             private String file;

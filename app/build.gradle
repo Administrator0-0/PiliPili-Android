@@ -66,5 +66,7 @@ dependencies {
     implementation 'com.zhihu.android:matisse:0.5.3-beta3'
     implementation 'top.zibin:Luban:1.1.8'
     implementation 'com.github.yellowcath:VideoProcessor:2.4.0'
-
+    implementation 'com.makeramen:roundedimageview:2.2.1'
+    implementation  'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-21'
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-21'
 }

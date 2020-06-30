@@ -4,6 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.AnimeFragment">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="这番柰子真大"
+        android:textSize="200sp"/>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

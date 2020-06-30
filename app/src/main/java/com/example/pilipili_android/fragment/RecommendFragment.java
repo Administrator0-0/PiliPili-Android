@@ -6,60 +6,90 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pilipili_android.R;
+import com.example.pilipili_android.adapter.RecommendVideoAdapter;
+import com.example.pilipili_android.view_model.VideoViewModel;
+import com.scwang.smartrefresh.header.StoreHouseHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link RecommendFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.Objects;
+
 public class RecommendFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private RecyclerView recyclerView;
+    private VideoViewModel videoViewModel;
+    private RecommendVideoAdapter recommendVideoAdapter;
+    private RefreshLayout refreshLayout;
+    private StoreHouseHeader refreshHeader;
 
     public RecommendFragment() {
-        // Required empty public constructor
-    }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RecommendFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static RecommendFragment newInstance(String param1, String param2) {
-        RecommendFragment fragment = new RecommendFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recommend, container, false);
+        EventBus.getDefault().register(this);
+        videoViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(VideoViewModel.class);
+        View view = inflater.inflate(R.layout.fragment_recommend, container, false);
+        recyclerView = view.findViewById(R.id.recyclerview);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recommendVideoAdapter = new RecommendVideoAdapter(getContext());
+        recommendVideoAdapter.setDataBeanList(videoViewModel.getDataBeans());
+        recyclerView.setAdapter(recommendVideoAdapter);
+        videoViewModel.getRecommendVideoDetail();
+
+        refreshLayout = view.findViewById(R.id.refreshLayout);
+        refreshHeader = new StoreHouseHeader(Objects.requireNonNull(getContext()));
+        refreshHeader.initWithString("PiliPili");
+        refreshHeader.setLineWidth(3);
+        refreshHeader.setTextColor(getContext().getColor(R.color.white));
+        refreshLayout.setRefreshHeader(refreshHeader);
+
+        refreshLayout.setOnRefreshListener(refreshLayout1 -> {
+            videoViewModel.getRecommendVideoDetail();
+            refreshLayout.autoRefresh();
+        });
+
+        videoViewModel.getIsFinishRefresh().observe(getActivity(), isFinish -> {
+            if(isFinish) {
+                recommendVideoAdapter.notifyDataSetChanged();
+                refreshLayout.finishRefresh();
+            }
+        });
+
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        recommendVideoAdapter.setDataBeanList(videoViewModel.getDataBeans());
+        recommendVideoAdapter.notifyDataSetChanged();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onFragmentChange(FragmentMsg fragmentMsg) {
+        if(fragmentMsg.getWhatFragment().equals("MainActivity")) {
+            if(fragmentMsg.getMsgString().equals("refresh")) {
+                videoViewModel.getRecommendVideoDetail();
+                refreshLayout.autoRefresh();
+            }
+        }
     }
 }
