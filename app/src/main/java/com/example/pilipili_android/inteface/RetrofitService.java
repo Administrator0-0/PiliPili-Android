@@ -7,6 +7,7 @@ import com.example.pilipili_android.bean.netbean.CommentDetailsReturn;
 import com.example.pilipili_android.bean.netbean.CommentListReturn;
 import com.example.pilipili_android.bean.netbean.CommentReturn;
 import com.example.pilipili_android.bean.netbean.CommonReturn;
+import com.example.pilipili_android.bean.netbean.DanmukuListReturn;
 import com.example.pilipili_android.bean.netbean.FollowUnFollowReturn;
 import com.example.pilipili_android.bean.netbean.GetUserBackgroundOrAvatarReturn;
 import com.example.pilipili_android.bean.netbean.LoginReturn;
@@ -224,5 +225,19 @@ public interface RetrofitService {
      */
     @GET(UrlConstant.GET_COMMENT_PREFIX + "{id}" + UrlConstant.COMMENT_DETAILS)
     Call<CommentDetailsReturn> getCommentDetails(@Path("id") String id, @Header("Authorization") String token);
+
+    /**
+     * 发布弹幕
+     *
+     */
+    @POST(UrlConstant.GET_VIDEO_PREFIX + "{id}" + UrlConstant.POST_DANMUKU)
+    Call<CommonReturn> postDanmuku(@Path("id") String id, @Header("Authorization") String token, @Body RequestBody jsonObject);
+
+    /**
+     * 获取弹幕
+     *
+     */
+    @GET(UrlConstant.GET_VIDEO_PREFIX + "{id}" + UrlConstant.GET_DANMUKU)
+    Call<DanmukuListReturn> getDanmuku(@Path("id") String id);
 
 }

@@ -3,6 +3,7 @@ package com.example.pilipili_android.widget;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ import com.dueeeke.videoplayer.player.VideoView;
 import com.dueeeke.videoplayer.util.PlayerUtils;
 import com.example.pilipili_android.R;
 import com.example.pilipili_android.activity.VideoActivity;
+import com.example.pilipili_android.bean.netbean.DanmukuSend;
 import com.example.pilipili_android.util.DanmukuSelectUtil;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 
@@ -49,12 +51,21 @@ public class PiliPiliControlView extends FrameLayout implements IControlComponen
     private ImageView mBack;
     private ImageView mSend;
     private CheckBox[] checkBoxes;
+    private CheckBox smallSize;
+    private CheckBox largeSize;
+    private CheckBox top;
+    private CheckBox scroll;
+    private CheckBox bottom;
 
     private boolean mIsDragging;
 
     private boolean mIsShowBottomProgress = true;
 
     private boolean isFull;
+
+    private String color;
+    private int type;
+    private int size;
 
     private VideoActivity.OnDanmukuListener mDanmukuListener;
 
@@ -86,6 +97,9 @@ public class PiliPiliControlView extends FrameLayout implements IControlComponen
         mPlayButton.setOnClickListener(this);
         mBottomProgress = findViewById(R.id.bottom_progress);
         checkBoxes = new CheckBox[9];
+        color = DanmukuSelectUtil.getColor(Color.WHITE);
+        type = 1;
+        size = 24;
     }
 
     protected int getLayoutId() {
@@ -265,7 +279,13 @@ public class PiliPiliControlView extends FrameLayout implements IControlComponen
                 }
                 break;
             case R.id.send:
-                mDanmukuListener.onSend();
+                DanmukuSend danmuku = new DanmukuSend();
+                danmuku.setType(type);
+                danmuku.setContent(mEdit.getText().toString());
+                danmuku.setColor(color);
+                danmuku.setSize(size);
+                mDanmukuListener.onSend(danmuku);
+                mDanmukuBar.setVisibility(GONE);
                 break;
         }
     }
@@ -281,7 +301,7 @@ public class PiliPiliControlView extends FrameLayout implements IControlComponen
 
     public void changeControlView() {
         isFull = !isFull;
-        int progress = mVideoProgress.getSecondaryProgress();
+        int progress = mVideoProgress.getProgress();
         String curTime = mCurrTime.getText().toString();
         String totalTime = mTotalTime.getText().toString();
         removeAllViews();
@@ -313,10 +333,62 @@ public class PiliPiliControlView extends FrameLayout implements IControlComponen
                                 checkBoxOther.setChecked(false);
                             }
                         }
-                        String color = DanmukuSelectUtil.getColor(checkBox.getId());
+                        color = DanmukuSelectUtil.getColor(checkBox.getId());
                     }
                 });
             }
+            smallSize = findViewById(R.id.small_size);
+            largeSize = findViewById(R.id.large_size);
+            smallSize.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    size = DanmukuSelectUtil.getSize(R.id.small_size);
+                    largeSize.setChecked(false);
+                }
+            });
+            largeSize.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    size = DanmukuSelectUtil.getSize(R.id.large_size);
+                    smallSize.setChecked(false);
+                }
+            });
+            top = findViewById(R.id.top_type);
+            bottom = findViewById(R.id.bottom_type);
+            scroll = findViewById(R.id.scroll_type);
+            top.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    type = 5;
+                    bottom.setChecked(false);
+                    scroll.setChecked(false);
+                }
+            });
+            bottom.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    type = 4;
+                    top.setChecked(false);
+                    scroll.setChecked(false);
+                }
+            });
+            scroll.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    type = 1;
+                    top.setChecked(false);
+                    bottom.setChecked(false);
+                }
+            });
+            mFullScreen = findViewById(R.id.fullscreen);
+            mFullScreen.setOnClickListener(this);
+            mBottomContainer = findViewById(R.id.bottom_container);
+            mVideoProgress = findViewById(R.id.seekBar);
+            mVideoProgress.setOnSeekBarChangeListener(this);
+            mTotalTime = findViewById(R.id.total_time);
+            mCurrTime = findViewById(R.id.curr_time);
+            mPlayButton = findViewById(R.id.iv_play);
+            mPlayButton.setOnClickListener(this);
+            mPlayButton.setSelected(mControlWrapper.isPlaying());
+            mBottomProgress = findViewById(R.id.bottom_progress);
+            mBottomProgress.setProgress(progress);
+            mCurrTime.setText(curTime);
+            mTotalTime.setText(totalTime);
             mDanmukuBar.setVisibility(GONE);
         } else {
             LayoutInflater.from(getContext()).inflate(R.layout.layout_pilipili_control_view_small, this, true);
@@ -329,6 +401,7 @@ public class PiliPiliControlView extends FrameLayout implements IControlComponen
             mCurrTime = findViewById(R.id.curr_time);
             mPlayButton = findViewById(R.id.iv_play);
             mPlayButton.setOnClickListener(this);
+            mPlayButton.setSelected(mControlWrapper.isPlaying());
             mBottomProgress = findViewById(R.id.bottom_progress);
             mBottomProgress.setProgress(progress);
             mCurrTime.setText(curTime);
