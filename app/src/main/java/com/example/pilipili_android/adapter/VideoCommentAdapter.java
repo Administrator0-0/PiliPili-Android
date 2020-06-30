@@ -36,6 +36,8 @@ import com.example.pilipili_android.util.AliyunOSSUtil;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.example.pilipili_android.constant.DefaultConstant.AVATAR_IMAGE_DEFAULT;
+
 
 public class VideoCommentAdapter extends RecyclerView.Adapter {
     private HashMap<Integer, List<CommentItemBean>> replays;
@@ -79,9 +81,13 @@ public class VideoCommentAdapter extends RecyclerView.Adapter {
         itemViewHolder.mAdd.setOnClickListener(v -> relayListener.onRelay(itemBean, true));
         itemViewHolder.mLike.setOnClickListener(v -> relayListener.onLike(itemBean));
         itemViewHolder.mUsername.setText(itemBean.getUser().getUsername());
-        String url = AliyunOSSUtil.getImageUrl(mContext.getApplicationContext(), itemBean.getAvatar().getGuest_key(),
-                itemBean.getAvatar().getGuest_secret(), itemBean.getAvatar().getSecurity_token(), itemBean.getAvatar().getFile());
-        Glide.with(mContext).load(url).into(itemViewHolder.mUserAvatar);
+        if (itemBean.getAvatar().getFile() != null) {
+            String url = AliyunOSSUtil.getImageUrl(mContext.getApplicationContext(), itemBean.getAvatar().getGuest_key(),
+                    itemBean.getAvatar().getGuest_secret(), itemBean.getAvatar().getSecurity_token(), itemBean.getAvatar().getFile());
+            Glide.with(mContext).load(url).into(itemViewHolder.mUserAvatar);
+        } else {
+            itemViewHolder.mUserAvatar.setImageDrawable(mContext.getDrawable(AVATAR_IMAGE_DEFAULT));
+        }
         itemViewHolder.mCommentTime.setText(itemBean.getComment().getTime());
         itemViewHolder.mLikeNum.setText("" + itemBean.getComment().getLikes());
         itemViewHolder.mContent.setText(itemBean.getComment().getContent());

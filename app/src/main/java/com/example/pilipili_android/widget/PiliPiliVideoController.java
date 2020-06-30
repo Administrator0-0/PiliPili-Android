@@ -3,6 +3,7 @@ package com.example.pilipili_android.widget;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -54,13 +55,19 @@ public class PiliPiliVideoController extends GestureVideoController implements V
         mLockButton = findViewById(R.id.lock);
         mLockButton.setOnClickListener(this);
         mLoadingProgress = findViewById(R.id.loading);
+//        setEnableInNormal(true);
     }
 
+//    @Override
+//    public boolean onSingleTapConfirmed(MotionEvent e) {
+//        mControlWrapper.toggleShowState();
+//        return true;
+//    }
 
     public void addDefaultControlComponent(String title, VideoActivity.OnDanmukuListener listener) {
         CompleteView completeView = new CompleteView(getContext());
         ErrorView errorView = new ErrorView(getContext());
-        PrepareView prepareView = new PrepareView(getContext());
+        PiliPiliPrepareView prepareView = new PiliPiliPrepareView(getContext());
         prepareView.setClickStart();
         PiliPiliControlView controller = new PiliPiliControlView(getContext());
         controller.setDanmukuListener(listener);

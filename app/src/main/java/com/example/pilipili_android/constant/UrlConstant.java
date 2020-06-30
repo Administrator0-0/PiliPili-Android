@@ -107,4 +107,8 @@ public interface UrlConstant {
 
     String COMMENT_DETAILS = "/details";
 
+    String POST_DANMUKU = "/danmuku";
+
+    String GET_DANMUKU = "/get-danmuku";
+
 }

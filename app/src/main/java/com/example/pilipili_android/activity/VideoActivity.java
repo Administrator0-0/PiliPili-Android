@@ -3,34 +3,24 @@ package com.example.pilipili_android.activity;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -40,11 +30,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.dueeeke.videoplayer.player.VideoView;
 import com.example.pilipili_android.R;
 import com.example.pilipili_android.bean.localbean.CommentItemBean;
+import com.example.pilipili_android.bean.netbean.DanmukuListReturn;
+import com.example.pilipili_android.bean.netbean.DanmukuSend;
 import com.example.pilipili_android.fragment.CommentDetailsFragment;
 import com.example.pilipili_android.fragment.VideoCommentFragment;
 import com.example.pilipili_android.fragment.VideoInfoFragment;
@@ -52,6 +42,7 @@ import com.example.pilipili_android.util.AppBarStateChangeListener;
 import com.example.pilipili_android.util.DanmukuSelectUtil;
 import com.example.pilipili_android.util.SystemBarHelper;
 import com.example.pilipili_android.view_model.CommentViewModel;
+import com.example.pilipili_android.view_model.DanmukuViewModel;
 import com.example.pilipili_android.widget.ExpandMenuView;
 import com.example.pilipili_android.widget.PiliPiliDanmakuView;
 import com.example.pilipili_android.widget.PiliPiliPlayer;
@@ -124,6 +115,14 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     private boolean isReplay1;
     private boolean isReplay2;
     private boolean isDetails;
+    private String color;
+    private String content;
+    private int type;
+    private int size;
+    private DanmukuSend temp;
+    private DanmukuViewModel danmukuViewModel;
+    private Dialog danmukuDialog;
+    private boolean isLoaded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,6 +132,10 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         Intent intent = getIntent();
         pv = intent.getIntExtra("pv", -1);
         pv = 1;
+        type = 1;
+        color = DanmukuSelectUtil.getColor(Color.WHITE);
+        size = 24;
+        danmukuViewModel = new ViewModelProvider(this).get(DanmukuViewModel.class);
         initView();
         initToolBar();
         initPage();
@@ -322,7 +325,11 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         layoutParams.setMargins(0, 30, 0, 40);
         danmakuView.setLayoutParams(layoutParams);
-        controller.addDefaultControlComponent("刘薪王太强了", () -> danmakuView.addDanmaku("xxxxx", true));
+        controller.addDefaultControlComponent("刘薪王太强了", danmuku -> {
+            danmuku.setTime(danmakuView.getCurrentTime() + 1200);
+            temp = danmuku;
+            danmukuViewModel.postDanmuku(pv, danmuku);
+        });
         controller.addControlComponent(danmakuView);
         player.setVideoController(controller);
         player.setUrl("http://vfx.mtime.cn/Video/2019/03/14/mp4/190314223540373995.mp4");
@@ -339,6 +346,10 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onStart() {
+                if (!isLoaded) {
+                    danmukuViewModel.getDanmuku(pv);
+                    isLoaded = true;
+                }
                 mAppBarChildAt = mAppBarLayout.getChildAt(0);
                 mAppBarParams = (AppBarLayout.LayoutParams)mAppBarChildAt.getLayoutParams();
                 mAppBarParams.setScrollFlags(0);
@@ -346,13 +357,22 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
             }
         });
         player.start();
-        player.addOnStateChangeListener(new VideoView.SimpleOnStateChangeListener() {
-            @Override
-            public void onPlayStateChanged(int playState) {
-                if (playState == VideoView.STATE_PREPARED) {
-                    simulateDanmu();
-                } else if (playState == VideoView.STATE_PLAYBACK_COMPLETED) {
-                    mHandler.removeCallbacksAndMessages(null);
+        danmukuViewModel.getDanmukuList().observe(this, dataBean -> {
+            if (temp != null) {
+                danmakuView.addDanmaku(temp, true);
+                temp = null;
+            } else {
+                if (dataBean.getAll_danmuku() != null) {
+                    for (DanmukuListReturn.DataBean.AllDanmukuBean bean : dataBean.getAll_danmuku()) {
+                        DanmukuSend send = new DanmukuSend();
+                        send.setTime(bean.getTime());
+                        send.setSize(bean.getSize());
+                        send.setContent(bean.getContent());
+                        send.setType(bean.getType());
+                        send.setColor(bean.getColor());
+                        send.setBackground(bean.getBackground());
+                        danmakuView.addDanmaku(send, false);
+                    }
                 }
             }
         });
@@ -370,7 +390,6 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mHandler.removeCallbacksAndMessages(null);
         if (player != null) {
             player.release();
         }
@@ -398,22 +417,6 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
        player.resume();
     }
 
-    public void showDanMu(View view) {
-        danmakuView.show();
-    }
-
-    public void hideDanMu(View view) {
-        danmakuView.hide();
-    }
-
-    public void addDanmakuWithDrawable(View view) {
-        danmakuView.addDanmakuWithDrawable();
-    }
-
-    public void addDanmaku(View view) {
-        danmakuView.addDanmaku("这是来自刘薪王的意念弹幕", true);
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -421,7 +424,15 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
                 showBottomDialog();
                 break;
             case R.id.send:
-                danmakuView.addDanmaku("ssss", true);
+                DanmukuSend danmuku = new DanmukuSend();
+                danmuku.setType(type);
+                danmuku.setContent(content);
+                danmuku.setColor(color);
+                danmuku.setSize(size);
+                danmuku.setTime(danmakuView.getCurrentTime() + 1200);
+                temp = danmuku;
+                danmukuViewModel.postDanmuku(pv, danmuku);
+                danmukuDialog.dismiss();
                 break;
             case R.id.send_comment:
                 if (isDetails) {
@@ -436,12 +447,16 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
                 editComment.setText("");
                 editComment.clearFocus();
                 sendComment.setEnabled(false);
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                }
                 break;
         }
     }
 
     private void showBottomDialog() {
-        final Dialog dialog = new Dialog(this, R.style.DialogTheme);
+        danmukuDialog = new Dialog(this, R.style.DialogTheme);
         View view = View.inflate(this, R.layout.danmuku_dialog_layout, null);
         checkBoxes[0] = view.findViewById(R.id.white_checkbox);
         checkBoxes[1] = view.findViewById(R.id.blue_green_checkbox);
@@ -461,12 +476,74 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
                             checkBoxOther.setChecked(false);
                         }
                     }
-                    String color = DanmukuSelectUtil.getColor(checkBox.getId());
+                    color = DanmukuSelectUtil.getColor(checkBox.getId());
                 }
             });
         }
-        dialog.setContentView(view);
-        Window window = dialog.getWindow();
+        EditText edit = view.findViewById(R.id.input_danmuku);
+        edit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                content = s.toString();
+            }
+        });
+        CheckBox smallSize;
+        CheckBox largeSize;
+        CheckBox top;
+        CheckBox scroll;
+        CheckBox bottom;
+        smallSize = view.findViewById(R.id.small_size);
+        largeSize = view.findViewById(R.id.large_size);
+        smallSize.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                size = DanmukuSelectUtil.getSize(R.id.small_size);
+                largeSize.setChecked(false);
+            }
+        });
+        largeSize.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                size = DanmukuSelectUtil.getSize(R.id.large_size);
+                smallSize.setChecked(false);
+            }
+        });
+        top = view.findViewById(R.id.top_type);
+        bottom = view.findViewById(R.id.bottom_type);
+        scroll = view.findViewById(R.id.scroll_type);
+        top.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                type = 5;
+                bottom.setChecked(false);
+                scroll.setChecked(false);
+            }
+        });
+        bottom.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                type = 4;
+                top.setChecked(false);
+                scroll.setChecked(false);
+            }
+        });
+        scroll.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                type = 1;
+                top.setChecked(false);
+                bottom.setChecked(false);
+            }
+        });
+        ImageView back = view.findViewById(R.id.back);
+        back.setOnClickListener((v) -> danmukuDialog.dismiss());
+        danmukuDialog.setContentView(view);
+        Window window = danmukuDialog.getWindow();
         if (window != null) {
             window.setGravity(Gravity.BOTTOM);
             window.setWindowAnimations(R.style.main_menu_animStyle);
@@ -474,9 +551,8 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         }
         ImageView send = view.findViewById(R.id.send);
         send.setOnClickListener(this);
-        dialog.show();
+        danmukuDialog.show();
     }
-
 
     public static class VideoDetailsPagerAdapter extends FragmentStatePagerAdapter {
         private List<Fragment> fragments;
@@ -535,7 +611,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
      }
 
     public interface OnDanmukuListener {
-        void onSend();
+        void onSend(DanmukuSend danmuku);
     }
 
     public interface OnDanmukuCloseListener {
@@ -551,18 +627,4 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         void onLike(CommentItemBean itemBean);
     }
 
-     private Handler mHandler = new Handler();
-
-    /**
-     * 模拟弹幕
-     */
-    private void simulateDanmu() {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                danmakuView.addDanmaku("刘薪王太强了", false);
-                mHandler.postDelayed(this, 100);
-            }
-        });
-    }
 }

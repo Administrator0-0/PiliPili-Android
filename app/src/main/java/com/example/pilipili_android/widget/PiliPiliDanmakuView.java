@@ -10,6 +10,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 
@@ -23,6 +24,8 @@ import com.dueeeke.videoplayer.controller.IControlComponent;
 import com.dueeeke.videoplayer.player.VideoView;
 import com.dueeeke.videoplayer.util.PlayerUtils;
 import com.example.pilipili_android.R;
+import com.example.pilipili_android.bean.netbean.DanmukuSend;
+import com.example.pilipili_android.util.DanmukuSelectUtil;
 
 import master.flame.danmaku.controller.DrawHandler;
 import master.flame.danmaku.danmaku.model.BaseDanmaku;
@@ -151,19 +154,24 @@ public class PiliPiliDanmakuView extends DanmakuView implements IControlComponen
     }
 
 
-    public void addDanmaku(String text, boolean isSelf) {
+    public void addDanmaku(DanmukuSend danmuku, boolean isSelf) {
         mContext.setCacheStuffer(new SpannedCacheStuffer(), null);
-        BaseDanmaku danmaku = mContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL);
+        // 1:类型(1从右至左滚动弹幕|6从左至右滚动弹幕|5顶端固定弹幕|4底端固定弹幕|7高级弹幕|8脚本弹幕)
+        BaseDanmaku danmaku;
+        if (danmuku.getType() >= 1 && danmuku.getType() <= 8 ) {
+            danmaku = mContext.mDanmakuFactory.createDanmaku(danmuku.getType(), mContext);
+        } else {
+            danmaku = mContext.mDanmakuFactory.createDanmaku(1);
+        }
         if (danmaku == null) {
             return;
         }
-
-        danmaku.text = text;
+        danmaku.text = danmuku.getContent();
         danmaku.priority = 0;
         danmaku.isLive = false;
-        danmaku.setTime(getCurrentTime() + 1200);
-        danmaku.textSize = PlayerUtils.sp2px(getContext(), 12);
-        danmaku.textColor = Color.WHITE;
+        danmaku.setTime(danmuku.getTime());
+        danmaku.textSize = PlayerUtils.sp2px(getContext(), danmuku.getSize());
+        danmaku.textColor = DanmukuSelectUtil.getColor(danmuku.getColor());
         danmaku.textShadowColor = Color.GRAY;
         danmaku.borderColor = isSelf ? Color.GREEN : Color.TRANSPARENT;
         addDanmaku(danmaku);

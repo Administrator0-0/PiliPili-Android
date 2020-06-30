@@ -46,6 +46,11 @@ public class PiliPiliPlayer extends VideoView {
         mListener.onStart();
     }
 
+    @Override
+    protected boolean showNetWarning() {
+        return false;
+    }
+
 
 
 
