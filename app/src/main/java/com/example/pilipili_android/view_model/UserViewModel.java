@@ -15,7 +15,9 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.pilipili_android.bean.localbean.SignBean;
 import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
+import com.example.pilipili_android.bean.netbean.BuyVIPReturn;
 import com.example.pilipili_android.bean.netbean.GetOSSUrlReturn;
+import com.example.pilipili_android.bean.netbean.IsFollowedReturn;
 import com.example.pilipili_android.bean.netbean.LoginSend;
 import com.example.pilipili_android.bean.netbean.NetRequestResult;
 import com.example.pilipili_android.bean.localbean.SpaceActivityBean;
@@ -44,12 +46,14 @@ public class UserViewModel extends AndroidViewModel {
     private MutableLiveData<LoginSend> loginInfo = new MutableLiveData<>();
     private MutableLiveData<UserDetailReturn> userDetail = new MutableLiveData<>();
     private MutableLiveData<Boolean> isSuccessBuyCoin = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isSuccessBuyVip = new MutableLiveData<>();
     private MutableLiveData<SpaceActivityBean> spaceActivityBean = new MutableLiveData<>();
     private MutableLiveData<String> spaceBackgroundUrl = new MutableLiveData<>();
     private MutableLiveData<String> spaceAvatarUrl = new MutableLiveData<>();
     private MutableLiveData<Boolean> isSetGenderSuccess = new MutableLiveData<>();//此变量false为男，true为女，值只要发生改变即代表变性成功
     private MutableLiveData<String> newUsername = new MutableLiveData<>();
     private MutableLiveData<SignBean> newSign = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isFollowed = new MutableLiveData<>();
 
     public UserViewModel(@NonNull Application application) {
         super(application);
@@ -394,6 +398,31 @@ public class UserViewModel extends AndroidViewModel {
         });
     }
 
+    public void buyVip(int vip, int coins) {
+        userDataSource.buyVip(UserBaseDetail.getToken(context), vip, coins, new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+                putCoin(UserBaseDetail.getCoin(context) - coins);
+                putVIPDeadline(((BuyVIPReturn)netRequestResult.getData()).getData().getVip());
+                isSuccessBuyVip.setValue(true);
+            }
+
+            @Override
+            public void onSuccess() {
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     public void getUserSpaceData(int UID){
         userDataSource.getUserBackground(UID, new OnNetRequestListener() {
             @Override
@@ -425,7 +454,7 @@ public class UserViewModel extends AndroidViewModel {
                 Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
-        userDataSource.getUserAvatar(UserBaseDetail.getUID(context), new OnNetRequestListener() {
+        userDataSource.getUserAvatar(UID, new OnNetRequestListener() {
             @Override
             public void onSuccess(NetRequestResult netRequestResult) {
                 GetOSSUrlReturn getOSSUrlReturn = (GetOSSUrlReturn) netRequestResult.getData();
@@ -659,6 +688,79 @@ public class UserViewModel extends AndroidViewModel {
         });
     }
 
+    public void follow(int id) {
+        userDataSource.follow(UserBaseDetail.getToken(context), id, new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+                isFollowed.setValue(true);
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+
+            }
+        });
+    }
+
+    public void unFollow(int id) {
+        userDataSource.unFollow(UserBaseDetail.getToken(context), id, new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+                isFollowed.setValue(false);
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+
+            }
+        });
+    }
+
+    public void isFollowed(int id) {
+        userDataSource.isFollowed(UserBaseDetail.getToken(context), id, new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+                IsFollowedReturn isFollowedReturn = (IsFollowedReturn) netRequestResult.getData();
+                isFollowed.setValue(isFollowedReturn.getData().isIs_followed());
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+
+            }
+        });
+    }
+
     private void putUsername(String username) {
         SPUtil.put(context, SPConstant.USERNAME, username);
     }
@@ -747,5 +849,13 @@ public class UserViewModel extends AndroidViewModel {
 
     public MutableLiveData<SignBean> getNewSign() {
         return newSign;
+    }
+
+    public MutableLiveData<Boolean> getIsSuccessBuyVip() {
+        return isSuccessBuyVip;
+    }
+
+    public MutableLiveData<Boolean> getIsFollowed() {
+        return isFollowed;
     }
 }

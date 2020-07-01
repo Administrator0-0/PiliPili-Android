@@ -65,6 +65,8 @@ public interface UrlConstant {
 
     String BUY_VIP = "user/put-vip";
 
+    String IS_FOLLOWED = "/is-followed";
+
     /**
      * 视频接口
      */

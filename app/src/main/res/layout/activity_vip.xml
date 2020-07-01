@@ -41,7 +41,7 @@
             android:id="@+id/left_days_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="剩余天数"
+            android:text="到期时间"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
             android:textSize="19sp" />
@@ -54,6 +54,7 @@
             android:layout_below="@+id/left_days_title"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="15dp"
+            android:textSize="24sp"
             android:textColor="@color/colorPrimary" />
     </RelativeLayout>
     <View

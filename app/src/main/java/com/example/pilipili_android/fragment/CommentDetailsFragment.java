@@ -92,8 +92,8 @@ public class CommentDetailsFragment extends Fragment implements View.OnClickList
         String url = AliyunOSSUtil.getImageUrl(getActivity().getApplicationContext(), main.getAvatar().getGuest_key(),
                 main.getAvatar().getGuest_secret(), main.getAvatar().getSecurity_token(), main.getAvatar().getFile());
         Glide.with(getActivity()).load(url).into(user);
-        username.setText(main.getUser().getUsername());
-        commentTime.setText(main.getUser().getUsername());
+        username.setText(main.getComment().getAuthor_name());
+        commentTime.setText(main.getComment().getAuthor_name());
         commentContent.setText(main.getComment().getContent());
         commentLikeNum.setText("" + main.getComment().getLikes());
     }

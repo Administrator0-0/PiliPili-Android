@@ -1,6 +1,7 @@
 package com.example.pilipili_android.inteface;
 
 import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
+import com.example.pilipili_android.bean.netbean.BuyVIPReturn;
 import com.example.pilipili_android.bean.netbean.CommentDetailsReturn;
 import com.example.pilipili_android.bean.netbean.CommentListReturn;
 import com.example.pilipili_android.bean.netbean.CommentReturn;
@@ -9,6 +10,7 @@ import com.example.pilipili_android.bean.netbean.DanmukuListReturn;
 import com.example.pilipili_android.bean.netbean.FollowUnFollowReturn;
 import com.example.pilipili_android.bean.netbean.GetRecommendVideoListReturn;
 import com.example.pilipili_android.bean.netbean.GetOSSUrlReturn;
+import com.example.pilipili_android.bean.netbean.IsFollowedReturn;
 import com.example.pilipili_android.bean.netbean.LoginReturn;
 import com.example.pilipili_android.bean.netbean.RenameReturn;
 import com.example.pilipili_android.bean.netbean.ReplayListReturn;
@@ -78,6 +80,13 @@ public interface RetrofitService {
     Call<BuyCoinReturn> buyCoin(@Header("Authorization") String token, @Body RequestBody jsonObject);
 
     /**
+     * 用户买大会员
+     *
+     */
+    @PUT(UrlConstant.BUY_VIP)
+    Call<BuyVIPReturn> buyVip(@Header("Authorization") String token, @Body RequestBody jsonObject);
+
+    /**
      * 用户改名
      *
      */
@@ -97,6 +106,13 @@ public interface RetrofitService {
      */
     @PUT(UrlConstant.UNFOLLOW)
     Call<FollowUnFollowReturn> unFollow(@Header("Authorization") String token, @Body RequestBody jsonObject);
+
+    /**
+     * 是否关注
+     *
+     */
+    @GET(UrlConstant.OPEN_DETAIL_HEAD + "{id}" + UrlConstant.IS_FOLLOWED)
+    Call<IsFollowedReturn> isFollowed(@Header("Authorization") String token, @Path("id") String id);
 
     /**
      * 上传签名
@@ -183,7 +199,7 @@ public interface RetrofitService {
      *
      */
     @GET(UrlConstant.GET_VIDEO_PREFIX + "{id}" + UrlConstant.GET_VIDEO_COMMENT + "/type{type}")
-    Call<CommentListReturn> getCommentList(@Path("id") String id, @Path("type") String type);
+    Call<CommentListReturn> getCommentList(@Path("id") String id, @Path("type") String type, @Header("Authorization") String token);
 
     /**
      * 回复评论
@@ -193,18 +209,18 @@ public interface RetrofitService {
     Call<CommentReturn> postReplay(@Path("id") String id, @Header("Authorization") String token, @Body RequestBody jsonObject);
 
     /**
-     * 获取评论回复列表
+     * 获取评论回复列表 (预览)
      *
      */
     @GET(UrlConstant.GET_COMMENT_PREFIX + "{id}" + UrlConstant.GET_COMMENT_REPLAY)
-    Call<ReplayListReturn> getReplayList(@Path("id") String id);
+    Call<CommentListReturn> getReplayList(@Path("id") String id, @Header("Authorization") String token);
 
     /**
      * 获取评论回复列表 DFS
      *
      */
     @GET(UrlConstant.GET_COMMENT_PREFIX + "{id}" + UrlConstant.GET_COMMENT_REPLAY_DFS)
-    Call<ReplayListReturn> getReplayListDFS(@Path("id") String id);
+    Call<CommentListReturn> getReplayListDFS(@Path("id") String id, @Header("Authorization") String token);
 
     /**
      * 点赞评论

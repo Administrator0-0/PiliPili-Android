@@ -55,8 +55,9 @@ public class CommentDataSource {
         });
     }
 
-    public void getCommentList(int pv, int type, OnNetRequestListener onNetRequestListener) {
-        Call<CommentListReturn> call = retrofitService.getCommentList("" + pv, "" + type);
+    public void getCommentList(int pv, int type, String token, OnNetRequestListener onNetRequestListener) {
+        String ciphertext = EncryptUtil.getVerificationToken(token);
+        Call<CommentListReturn> call = retrofitService.getCommentList("" + pv, "" + type, ciphertext);
         call.enqueue(new Callback<CommentListReturn>() {
             @Override
             public void onResponse(Call<CommentListReturn> call, Response<CommentListReturn> response) {
@@ -107,12 +108,13 @@ public class CommentDataSource {
         });
     }
 
-    public void getReplayList(int id, OnNetRequestListener onNetRequestListener) {
-        Call<ReplayListReturn> call = retrofitService.getReplayList("" + id);
-        call.enqueue(new Callback<ReplayListReturn>() {
+    public void getReplayList(int id, String token, OnNetRequestListener onNetRequestListener) {
+        String ciphertext = EncryptUtil.getVerificationToken(token);
+        Call<CommentListReturn> call = retrofitService.getReplayList("" + id, ciphertext);
+        call.enqueue(new Callback<CommentListReturn>() {
             @Override
-            public void onResponse(Call<ReplayListReturn> call, Response<ReplayListReturn> response) {
-                ReplayListReturn replayListReturn = response.body();
+            public void onResponse(Call<CommentListReturn> call, Response<CommentListReturn> response) {
+                CommentListReturn replayListReturn = response.body();
                 if(replayListReturn != null) {
                     if(replayListReturn.getCode() == 200) {
                         onNetRequestListener.onSuccess(new NetRequestResult<>(replayListReturn));
@@ -124,18 +126,19 @@ public class CommentDataSource {
                 }
             }
             @Override
-            public void onFailure(Call<ReplayListReturn> call, Throwable t) {
+            public void onFailure(Call<CommentListReturn> call, Throwable t) {
                 onNetRequestListener.onFail("网络不稳定，请检查网络");
             }
         });
     }
 
-    public void getReplayListDFS(int id, OnNetRequestListener onNetRequestListener) {
-        Call<ReplayListReturn> call = retrofitService.getReplayListDFS("" + id);
-        call.enqueue(new Callback<ReplayListReturn>() {
+    public void getReplayListDFS(int id, String token, OnNetRequestListener onNetRequestListener) {
+        String ciphertext = EncryptUtil.getVerificationToken(token);
+        Call<CommentListReturn> call = retrofitService.getReplayListDFS("" + id, ciphertext);
+        call.enqueue(new Callback<CommentListReturn>() {
             @Override
-            public void onResponse(Call<ReplayListReturn> call, Response<ReplayListReturn> response) {
-                ReplayListReturn replayListReturn = response.body();
+            public void onResponse(Call<CommentListReturn> call, Response<CommentListReturn> response) {
+                CommentListReturn replayListReturn = response.body();
                 if(replayListReturn != null) {
                     if(replayListReturn.getCode() == 200) {
                         onNetRequestListener.onSuccess(new NetRequestResult<>(replayListReturn));
@@ -147,7 +150,7 @@ public class CommentDataSource {
                 }
             }
             @Override
-            public void onFailure(Call<ReplayListReturn> call, Throwable t) {
+            public void onFailure(Call<CommentListReturn> call, Throwable t) {
                 onNetRequestListener.onFail("网络不稳定，请检查网络");
             }
         });

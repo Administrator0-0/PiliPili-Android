@@ -3,10 +3,13 @@ package com.example.pilipili_android.model;
 import androidx.annotation.NonNull;
 
 import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
+import com.example.pilipili_android.bean.netbean.BuyVIPReturn;
+import com.example.pilipili_android.bean.netbean.BuyVIPSend;
 import com.example.pilipili_android.bean.netbean.CommonReturn;
 import com.example.pilipili_android.bean.netbean.CommonSend;
 import com.example.pilipili_android.bean.netbean.FollowUnFollowReturn;
 import com.example.pilipili_android.bean.netbean.GetOSSUrlReturn;
+import com.example.pilipili_android.bean.netbean.IsFollowedReturn;
 import com.example.pilipili_android.bean.netbean.LoginReturn;
 import com.example.pilipili_android.bean.netbean.LoginSend;
 import com.example.pilipili_android.bean.netbean.NetRequestResult;
@@ -209,6 +212,37 @@ public class UserDataSource {
         });
     }
 
+    public void buyVip(String token, int vip, int coins, OnNetRequestListener onNetRequestListener) {
+        BuyVIPSend vipSend = new BuyVIPSend();
+        vipSend.setVip(vip);
+        vipSend.setCoins(coins);
+        Gson gson = new Gson();
+        String json = gson.toJson(vipSend);
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
+        String ciphertext = EncryptUtil.getVerificationToken(token);
+        Call<BuyVIPReturn> call = retrofitService.buyVip(ciphertext, body);
+        call.enqueue(new Callback<BuyVIPReturn>() {
+            @Override
+            public void onResponse(Call<BuyVIPReturn> call, Response<BuyVIPReturn> response) {
+                BuyVIPReturn buyVIPReturn = response.body();
+                if(buyVIPReturn != null) {
+                    if(buyVIPReturn.getCode() == 200) {
+                        onNetRequestListener.onSuccess(new NetRequestResult<>(buyVIPReturn));
+                    } else {
+                        onNetRequestListener.onFail(buyVIPReturn.getMessage());
+                    }
+                } else {
+                    onNetRequestListener.onFail("购买错误");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BuyVIPReturn> call, Throwable t) {
+                onNetRequestListener.onFail("网络不稳定，请检查网络");
+            }
+        });
+    }
+
     public void rename(String token, String username, OnNetRequestListener onNetRequestListener) {
         RenameSend renameSend = new RenameSend();
         renameSend.setUsername(username);
@@ -300,6 +334,31 @@ public class UserDataSource {
 
             @Override
             public void onFailure(Call<FollowUnFollowReturn> call, Throwable t) {
+                onNetRequestListener.onFail("网络不稳定，请检查网络");
+            }
+        });
+    }
+
+    public void isFollowed(String token, int id, OnNetRequestListener onNetRequestListener){
+        String ciphertext = EncryptUtil.getVerificationToken(token);
+        Call<IsFollowedReturn> call = retrofitService.isFollowed(ciphertext, "" + id);
+        call.enqueue(new Callback<IsFollowedReturn>() {
+            @Override
+            public void onResponse(Call<IsFollowedReturn> call, Response<IsFollowedReturn> response) {
+                IsFollowedReturn isFollowedReturn = response.body();
+                if(isFollowedReturn == null) {
+                    onNetRequestListener.onFail("获取是否关注错误");
+                    return;
+                }
+                if(isFollowedReturn.getCode() == 200) {
+                    onNetRequestListener.onSuccess(new NetRequestResult<>(isFollowedReturn));
+                } else {
+                    onNetRequestListener.onFail(Objects.requireNonNull(isFollowedReturn).getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<IsFollowedReturn> call, Throwable t) {
                 onNetRequestListener.onFail("网络不稳定，请检查网络");
             }
         });

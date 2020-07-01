@@ -79,6 +79,7 @@ public class VIPActivity extends AppCompatActivity {
 
     private int selectWhich = -1;
     private int selectHowMuch = -1;
+    private int vip = -1;
     private RelativeLayout selectWhichRelativeLayout = null;
     private TextView selectWhichTextView = null;
     private TextView selectWhichTextView2 = null;
@@ -91,7 +92,7 @@ public class VIPActivity extends AppCompatActivity {
         initBind();
         initView();
 
-        userViewModel.getIsSuccessBuyCoin().observe(this, isSuccessBuyCoin -> {
+        userViewModel.getIsSuccessBuyVip().observe(this, isSuccessBuyCoin -> {
             if (isSuccessBuyCoin) {
                 CommonDialog commonDialog = new CommonDialog(this);
                 commonDialog.setCancelable(false);
@@ -115,12 +116,18 @@ public class VIPActivity extends AppCompatActivity {
     }
 
     private void showLeftDays() {
-        String text = UserBaseDetail.getVIPDeadline(userViewModel.getContext()) + "  天";
-        SpannableString spannableString = new SpannableString(text);
-        spannableString.setSpan(new AbsoluteSizeSpan(AutoSizeUtils.sp2px(this, 48)), 0, text.indexOf("天") - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, text.indexOf("天") - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new AbsoluteSizeSpan(AutoSizeUtils.sp2px(this, 22)), text.indexOf("天") - 2, text.indexOf("天") + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        numberLeftVip.setText(spannableString);
+//        String text = UserBaseDetail.getVIPDeadline(userViewModel.getContext()) + "  天";
+//        SpannableString spannableString = new SpannableString(text);
+//        spannableString.setSpan(new AbsoluteSizeSpan(AutoSizeUtils.sp2px(this, 48)), 0, text.indexOf("天") - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, text.indexOf("天") - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        spannableString.setSpan(new AbsoluteSizeSpan(AutoSizeUtils.sp2px(this, 22)), text.indexOf("天") - 2, text.indexOf("天") + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        numberLeftVip.setText(spannableString);
+        String ddl = UserBaseDetail.getVIPDeadline(userViewModel.getContext());
+        if (ddl == null || ddl.isEmpty()) {
+            numberLeftVip.setText("还不是大会员哦");
+        } else {
+            numberLeftVip.setText(ddl);
+        }
     }
 
     private void initView() {
@@ -130,7 +137,8 @@ public class VIPActivity extends AppCompatActivity {
         selectWhichTextView = textVip11;
         selectWhichTextView2 = textVip12;
         selectWhich = 1;
-        selectHowMuch = 6;
+        selectHowMuch = 15;
+        vip = 31;
         vipPay.setText("确认支付 15 P币");
 
         SpannableString spannableString1 = new SpannableString(helpVip.getText());
@@ -180,21 +188,27 @@ public class VIPActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.vip_1:
                 selectButton(vip1, 1, 15, textVip11, textVip12);
+                vip = 31;
                 break;
             case R.id.vip_2:
                 selectButton(vip2, 2, 45, textVip21, textVip22);
+                vip = 180;
                 break;
             case R.id.vip_3:
                 selectButton(vip3, 3, 148, textVip31, textVip32);
+                vip = 365;
                 break;
             case R.id.vip_4:
                 selectButton(vip4, 4, 280, textVip41, textVip42);
+                vip = 720;
                 break;
             case R.id.vip_5:
                 selectButton(vip5, 5, 680, textVip51, textVip52);
+                vip = 1825;
                 break;
             case R.id.vip_6:
                 selectButton(vip6, 6, 1200, textVip61, textVip62);
+                vip = 3650;
                 break;
         }
     }
@@ -205,7 +219,7 @@ public class VIPActivity extends AppCompatActivity {
 
     @OnClick(R.id.vip_pay)
     public void onPayClicked() {
-        userViewModel.buyCoin(selectHowMuch);
+        userViewModel.buyVip(vip, selectHowMuch);
     }
 
 }
