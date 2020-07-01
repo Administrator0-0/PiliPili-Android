@@ -4,10 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.pilipili_android.R;
+
+import butterknife.BindView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,6 +23,26 @@ public class ChannelFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    @BindView(R.id.channel_anime)
+    RelativeLayout channelAnime;
+    @BindView(R.id.channel_cartoon)
+    RelativeLayout channelCartoon;
+    @BindView(R.id.channel_music)
+    RelativeLayout channelMusic;
+    @BindView(R.id.channel_games)
+    RelativeLayout channelGames;
+    @BindView(R.id.channel_life)
+    RelativeLayout channelLife;
+    @BindView(R.id.channel_vlog)
+    RelativeLayout channelVlog;
+    @BindView(R.id.channel_guichu)
+    RelativeLayout channelGuichu;
+    @BindView(R.id.channel_fun)
+    RelativeLayout channelFun;
+    @BindView(R.id.channel_film)
+    RelativeLayout channelFilm;
+    @BindView(R.id.channel_dianying)
+    RelativeLayout channelDianying;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
