@@ -1,6 +1,6 @@
 package com.example.pilipili_android.bean.netbean;
 
-public class GetUserBackgroundOrAvatarReturn {
+public class GetOSSUrlReturn {
 
 
     /**

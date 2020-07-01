@@ -2,6 +2,7 @@ package com.example.pilipili_android.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.pilipili_android.R;
 import com.example.pilipili_android.activity.VideoActivity;
 import com.example.pilipili_android.bean.netbean.VideoDetailReturn;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -101,7 +104,10 @@ public class RecommendVideoAdapter extends RecyclerView.Adapter {
             Glide.with(context).load(getOSS(context, bucketCoverBean.getGuest_key(), bucketCoverBean.getGuest_secret(), bucketCoverBean.getSecurity_token()).presignPublicObjectURL(PILIPILI_BUCKET, bucketCoverBean.getFile())).diskCacheStrategy(DiskCacheStrategy.NONE).into(videoViewHolder.coverImage);
         });
         videoViewHolder.itemView.setOnClickListener(view -> {
-
+            Intent intent = new Intent(context, VideoActivity.class);
+            intent.putExtra("pv", dataBean.getPv());
+            context.startActivity(intent);
+            EventBus.getDefault().post(dataBean);
         });
     }
 

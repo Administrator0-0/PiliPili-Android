@@ -6,7 +6,7 @@ import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
 import com.example.pilipili_android.bean.netbean.CommonReturn;
 import com.example.pilipili_android.bean.netbean.CommonSend;
 import com.example.pilipili_android.bean.netbean.FollowUnFollowReturn;
-import com.example.pilipili_android.bean.netbean.GetUserBackgroundOrAvatarReturn;
+import com.example.pilipili_android.bean.netbean.GetOSSUrlReturn;
 import com.example.pilipili_android.bean.netbean.LoginReturn;
 import com.example.pilipili_android.bean.netbean.LoginSend;
 import com.example.pilipili_android.bean.netbean.NetRequestResult;
@@ -26,7 +26,6 @@ import com.google.gson.Gson;
 
 import java.io.File;
 import java.util.Objects;
-import java.util.Observer;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -371,48 +370,48 @@ public class UserDataSource {
     }
 
     public void getUserBackground (int UID, OnNetRequestListener onNetRequestListener) {
-        Call<GetUserBackgroundOrAvatarReturn> call = retrofitService.getUserBackground(UID + "");
-        call.enqueue(new Callback<GetUserBackgroundOrAvatarReturn>() {
+        Call<GetOSSUrlReturn> call = retrofitService.getUserBackground(UID + "");
+        call.enqueue(new Callback<GetOSSUrlReturn>() {
             @Override
-            public void onResponse(Call<GetUserBackgroundOrAvatarReturn> call, Response<GetUserBackgroundOrAvatarReturn> response) {
-                GetUserBackgroundOrAvatarReturn getUserBackgroundOrAvatarReturn = response.body();
-                if(getUserBackgroundOrAvatarReturn == null) {
+            public void onResponse(Call<GetOSSUrlReturn> call, Response<GetOSSUrlReturn> response) {
+                GetOSSUrlReturn getOSSUrlReturn = response.body();
+                if(getOSSUrlReturn == null) {
                     onNetRequestListener.onFail("获取头图不能");
                     return;
                 }
-                if(getUserBackgroundOrAvatarReturn.getCode() == 200) {
-                    onNetRequestListener.onSuccess(new NetRequestResult<>(getUserBackgroundOrAvatarReturn));
+                if(getOSSUrlReturn.getCode() == 200) {
+                    onNetRequestListener.onSuccess(new NetRequestResult<>(getOSSUrlReturn));
                 } else {
-                    onNetRequestListener.onFail(Objects.requireNonNull(getUserBackgroundOrAvatarReturn).getMessage());
+                    onNetRequestListener.onFail(Objects.requireNonNull(getOSSUrlReturn).getMessage());
                 }
             }
 
             @Override
-            public void onFailure(Call<GetUserBackgroundOrAvatarReturn> call, Throwable t) {
+            public void onFailure(Call<GetOSSUrlReturn> call, Throwable t) {
                 onNetRequestListener.onFail("网络不稳定，请检查网络");
             }
         });
     }
 
     public void getUserAvatar (int UID, OnNetRequestListener onNetRequestListener) {
-        Call<GetUserBackgroundOrAvatarReturn> call = retrofitService.getUserAvatar(UID + "");
-        call.enqueue(new Callback<GetUserBackgroundOrAvatarReturn>() {
+        Call<GetOSSUrlReturn> call = retrofitService.getUserAvatar(UID + "");
+        call.enqueue(new Callback<GetOSSUrlReturn>() {
             @Override
-            public void onResponse(Call<GetUserBackgroundOrAvatarReturn> call, Response<GetUserBackgroundOrAvatarReturn> response) {
-                GetUserBackgroundOrAvatarReturn getUserBackgroundOrAvatarReturn = response.body();
-                if(getUserBackgroundOrAvatarReturn == null) {
+            public void onResponse(Call<GetOSSUrlReturn> call, Response<GetOSSUrlReturn> response) {
+                GetOSSUrlReturn getOSSUrlReturn = response.body();
+                if(getOSSUrlReturn == null) {
                     onNetRequestListener.onFail("获取头像不能");
                     return;
                 }
-                if(getUserBackgroundOrAvatarReturn.getCode() == 200) {
-                    onNetRequestListener.onSuccess(new NetRequestResult<>(getUserBackgroundOrAvatarReturn));
+                if(getOSSUrlReturn.getCode() == 200) {
+                    onNetRequestListener.onSuccess(new NetRequestResult<>(getOSSUrlReturn));
                 } else {
-                    onNetRequestListener.onFail(Objects.requireNonNull(getUserBackgroundOrAvatarReturn).getMessage());
+                    onNetRequestListener.onFail(Objects.requireNonNull(getOSSUrlReturn).getMessage());
                 }
             }
 
             @Override
-            public void onFailure(Call<GetUserBackgroundOrAvatarReturn> call, Throwable t) {
+            public void onFailure(Call<GetOSSUrlReturn> call, Throwable t) {
                 onNetRequestListener.onFail("网络不稳定，请检查网络");
             }
         });

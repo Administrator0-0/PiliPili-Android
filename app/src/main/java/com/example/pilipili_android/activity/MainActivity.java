@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.mainpage_btn)
     public void onMainpageBtnClicked() {
         if(!isMainFragment){
+            isMainFragment = true;
             fragmentManager.beginTransaction().replace(R.id.box, mainFragment).commit();
         } else {
             EventBus.getDefault().post(FragmentMsg.getInstance("MainActivity", "refresh"));

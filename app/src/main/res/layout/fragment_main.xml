@@ -58,7 +58,7 @@
                     android:layout_height="32dp"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
-                    android:gravity="center"/>
+                    android:gravity="start"/>
 
                 <ImageView
                     android:layout_width="20dp"
@@ -81,7 +81,6 @@
                 android:id="@+id/tablayout_main"
                 android:background="@color/colorPrimary"
 
-                app:tl_tab_space_equal="true"
                 app:tl_indicator_color="@color/white"
                 app:tl_indicator_height="3dp"
                 app:tl_indicator_width_equal_title="true"

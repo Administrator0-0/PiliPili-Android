@@ -5,6 +5,7 @@ import android.util.Log;
 import com.example.pilipili_android.bean.netbean.CommonReturn;
 import com.example.pilipili_android.bean.netbean.CommonSend;
 import com.example.pilipili_android.bean.netbean.ConfirmUploadSend;
+import com.example.pilipili_android.bean.netbean.GetOSSUrlReturn;
 import com.example.pilipili_android.bean.netbean.GetRecommendVideoListReturn;
 import com.example.pilipili_android.bean.netbean.NetRequestResult;
 import com.example.pilipili_android.bean.netbean.RenameReturn;
@@ -202,6 +203,31 @@ public class VideoDataSource {
 
             @Override
             public void onFailure(Call<VideoDetailReturn> call, Throwable t) {
+                onNetRequestListener.onFail("请确保网络通畅~");
+            }
+        });
+    }
+
+    public void getVideo(String token, int pv, OnNetRequestListener onNetRequestListener) {
+        String ciphertext = EncryptUtil.getVerificationToken(token);
+        Call<GetOSSUrlReturn> call = retrofitService.getVideo(ciphertext, pv + "");
+        call.enqueue(new Callback<GetOSSUrlReturn>() {
+            @Override
+            public void onResponse(Call<GetOSSUrlReturn> call, Response<GetOSSUrlReturn> response) {
+                GetOSSUrlReturn getOSSUrlReturn = response.body();
+                if(getOSSUrlReturn == null) {
+                    Log.d("VideoDataSource", "获取视频错误");
+                    return;
+                }
+                if(getOSSUrlReturn.getCode() == 200) {
+                    onNetRequestListener.onSuccess(new NetRequestResult<>(getOSSUrlReturn.getData()));
+                } else {
+                    onNetRequestListener.onFail(Objects.requireNonNull(getOSSUrlReturn).getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetOSSUrlReturn> call, Throwable t) {
                 onNetRequestListener.onFail("请确保网络通畅~");
             }
         });

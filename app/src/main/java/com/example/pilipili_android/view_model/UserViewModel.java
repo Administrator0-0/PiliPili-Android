@@ -3,21 +3,19 @@ package com.example.pilipili_android.view_model;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.pilipili_android.bean.localbean.SignBean;
 import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
-import com.example.pilipili_android.bean.netbean.GetUserBackgroundOrAvatarReturn;
+import com.example.pilipili_android.bean.netbean.GetOSSUrlReturn;
 import com.example.pilipili_android.bean.netbean.LoginSend;
 import com.example.pilipili_android.bean.netbean.NetRequestResult;
 import com.example.pilipili_android.bean.localbean.SpaceActivityBean;
@@ -30,7 +28,6 @@ import com.example.pilipili_android.model.UserDataSource;
 import com.example.pilipili_android.util.AliyunOSSUtil;
 import com.example.pilipili_android.util.EncryptUtil;
 import com.example.pilipili_android.util.SPUtil;
-import com.qmuiteam.qmui.QMUILog;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -115,15 +112,15 @@ public class UserViewModel extends AndroidViewModel {
                             userDataSource.getUserAvatar(UserBaseDetail.getUID(context), new OnNetRequestListener() {
                                 @Override
                                 public void onSuccess(NetRequestResult netRequestResult) {
-                                    GetUserBackgroundOrAvatarReturn getUserBackgroundOrAvatarReturn = (GetUserBackgroundOrAvatarReturn) netRequestResult.getData();
-                                    if(getUserBackgroundOrAvatarReturn.getData().getFile() == null) {
+                                    GetOSSUrlReturn getOSSUrlReturn = (GetOSSUrlReturn) netRequestResult.getData();
+                                    if(getOSSUrlReturn.getData().getFile() == null) {
                                         isSuccessLogin.setValue(true);
                                         return;
                                     }
-                                    String url = AliyunOSSUtil.getImageUrl(context, getUserBackgroundOrAvatarReturn.getData().getGuest_key(),
-                                            getUserBackgroundOrAvatarReturn.getData().getGuest_secret(),
-                                            getUserBackgroundOrAvatarReturn.getData().getSecurity_token(),
-                                            getUserBackgroundOrAvatarReturn.getData().getFile());
+                                    String url = AliyunOSSUtil.getImageUrl(context, getOSSUrlReturn.getData().getGuest_key(),
+                                            getOSSUrlReturn.getData().getGuest_secret(),
+                                            getOSSUrlReturn.getData().getSecurity_token(),
+                                            getOSSUrlReturn.getData().getFile());
 
                                     CustomTarget<Drawable> customTarget = new CustomTarget<Drawable>() {
                                         @Override
@@ -253,15 +250,15 @@ public class UserViewModel extends AndroidViewModel {
                 userDataSource.getUserAvatar(UserBaseDetail.getUID(context), new OnNetRequestListener() {
                     @Override
                     public void onSuccess(NetRequestResult netRequestResult) {
-                        GetUserBackgroundOrAvatarReturn getUserBackgroundOrAvatarReturn = (GetUserBackgroundOrAvatarReturn) netRequestResult.getData();
-                        if(getUserBackgroundOrAvatarReturn.getData().getFile() == null) {
+                        GetOSSUrlReturn getOSSUrlReturn = (GetOSSUrlReturn) netRequestResult.getData();
+                        if(getOSSUrlReturn.getData().getFile() == null) {
                             isSuccessLogin.setValue(true);
                             return;
                         }
-                        String url = AliyunOSSUtil.getImageUrl(context, getUserBackgroundOrAvatarReturn.getData().getGuest_key(),
-                                getUserBackgroundOrAvatarReturn.getData().getGuest_secret(),
-                                getUserBackgroundOrAvatarReturn.getData().getSecurity_token(),
-                                getUserBackgroundOrAvatarReturn.getData().getFile());
+                        String url = AliyunOSSUtil.getImageUrl(context, getOSSUrlReturn.getData().getGuest_key(),
+                                getOSSUrlReturn.getData().getGuest_secret(),
+                                getOSSUrlReturn.getData().getSecurity_token(),
+                                getOSSUrlReturn.getData().getFile());
                         CustomTarget<Drawable> customTarget = new CustomTarget<Drawable>() {
                             @Override
                             public void onResourceReady(@NonNull Drawable resource, Transition<? super Drawable> transition) {
@@ -342,15 +339,15 @@ public class UserViewModel extends AndroidViewModel {
         userDataSource.getUserBackground(UID, new OnNetRequestListener() {
             @Override
             public void onSuccess(NetRequestResult netRequestResult) {
-                GetUserBackgroundOrAvatarReturn getUserBackgroundOrAvatarReturn = (GetUserBackgroundOrAvatarReturn) netRequestResult.getData();
-                if(getUserBackgroundOrAvatarReturn.getData().getFile() == null) {
+                GetOSSUrlReturn getOSSUrlReturn = (GetOSSUrlReturn) netRequestResult.getData();
+                if(getOSSUrlReturn.getData().getFile() == null) {
                     spaceBackgroundUrl.setValue("");
                     return;
                 }
-                String url = AliyunOSSUtil.getImageUrl(context, getUserBackgroundOrAvatarReturn.getData().getGuest_key(),
-                        getUserBackgroundOrAvatarReturn.getData().getGuest_secret(),
-                        getUserBackgroundOrAvatarReturn.getData().getSecurity_token(),
-                        getUserBackgroundOrAvatarReturn.getData().getFile());
+                String url = AliyunOSSUtil.getImageUrl(context, getOSSUrlReturn.getData().getGuest_key(),
+                        getOSSUrlReturn.getData().getGuest_secret(),
+                        getOSSUrlReturn.getData().getSecurity_token(),
+                        getOSSUrlReturn.getData().getFile());
                 spaceBackgroundUrl.setValue(url);
             }
 
@@ -372,15 +369,15 @@ public class UserViewModel extends AndroidViewModel {
         userDataSource.getUserAvatar(UserBaseDetail.getUID(context), new OnNetRequestListener() {
             @Override
             public void onSuccess(NetRequestResult netRequestResult) {
-                GetUserBackgroundOrAvatarReturn getUserBackgroundOrAvatarReturn = (GetUserBackgroundOrAvatarReturn) netRequestResult.getData();
-                if(getUserBackgroundOrAvatarReturn.getData().getFile() == null) {
+                GetOSSUrlReturn getOSSUrlReturn = (GetOSSUrlReturn) netRequestResult.getData();
+                if(getOSSUrlReturn.getData().getFile() == null) {
                     spaceAvatarUrl.setValue("");
                     return;
                 }
-                String url = AliyunOSSUtil.getImageUrl(context, getUserBackgroundOrAvatarReturn.getData().getGuest_key(),
-                        getUserBackgroundOrAvatarReturn.getData().getGuest_secret(),
-                        getUserBackgroundOrAvatarReturn.getData().getSecurity_token(),
-                        getUserBackgroundOrAvatarReturn.getData().getFile());
+                String url = AliyunOSSUtil.getImageUrl(context, getOSSUrlReturn.getData().getGuest_key(),
+                        getOSSUrlReturn.getData().getGuest_secret(),
+                        getOSSUrlReturn.getData().getSecurity_token(),
+                        getOSSUrlReturn.getData().getFile());
                 spaceAvatarUrl.setValue(url);
             }
 
@@ -471,14 +468,14 @@ public class UserViewModel extends AndroidViewModel {
                 userDataSource.getUserAvatar(UserBaseDetail.getUID(context), new OnNetRequestListener() {
                     @Override
                     public void onSuccess(NetRequestResult netRequestResult) {
-                        GetUserBackgroundOrAvatarReturn getUserBackgroundOrAvatarReturn = (GetUserBackgroundOrAvatarReturn) netRequestResult.getData();
-                        if(getUserBackgroundOrAvatarReturn.getData().getFile() == null) {
+                        GetOSSUrlReturn getOSSUrlReturn = (GetOSSUrlReturn) netRequestResult.getData();
+                        if(getOSSUrlReturn.getData().getFile() == null) {
                             return;
                         }
-                        String url = AliyunOSSUtil.getImageUrl(context, getUserBackgroundOrAvatarReturn.getData().getGuest_key(),
-                                getUserBackgroundOrAvatarReturn.getData().getGuest_secret(),
-                                getUserBackgroundOrAvatarReturn.getData().getSecurity_token(),
-                                getUserBackgroundOrAvatarReturn.getData().getFile());
+                        String url = AliyunOSSUtil.getImageUrl(context, getOSSUrlReturn.getData().getGuest_key(),
+                                getOSSUrlReturn.getData().getGuest_secret(),
+                                getOSSUrlReturn.getData().getSecurity_token(),
+                                getOSSUrlReturn.getData().getFile());
                         CustomTarget<Drawable> customTarget = new CustomTarget<Drawable>() {
                             @Override
                             public void onResourceReady(@NonNull Drawable resource, Transition<? super Drawable> transition) {

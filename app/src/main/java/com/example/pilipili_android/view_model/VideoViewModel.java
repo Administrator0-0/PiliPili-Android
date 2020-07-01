@@ -9,12 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.pilipili_android.bean.netbean.GetOSSUrlReturn;
 import com.example.pilipili_android.bean.netbean.GetRecommendVideoListReturn;
 import com.example.pilipili_android.bean.netbean.NetRequestResult;
 import com.example.pilipili_android.bean.netbean.UploadVideoOrCoverReturn;
 import com.example.pilipili_android.bean.netbean.VideoDetailReturn;
 import com.example.pilipili_android.inteface.OnNetRequestListener;
 import com.example.pilipili_android.model.VideoDataSource;
+import com.example.pilipili_android.util.AliyunOSSUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -23,19 +25,24 @@ import java.util.List;
 public class VideoViewModel extends AndroidViewModel {
 
     private Context context;
-
-    public List<VideoDetailReturn.DataBean> getDataBeans() {
-        return dataBeans;
-    }
+    private VideoDataSource videoDataSource;
 
     private List<VideoDetailReturn.DataBean> dataBeans = new ArrayList<>();
-    private VideoDataSource videoDataSource;
+    public List<VideoDetailReturn.DataBean> getDataBeans() { return dataBeans; }
+
+    private VideoDetailReturn.DataBean dataBean;
+    public void setDataBean(VideoDetailReturn.DataBean dataBean) { this.dataBean = dataBean; }
+    public VideoDetailReturn.DataBean getDataBean() { return dataBean; }
+
+    private boolean isFirstIn = true;
+    public boolean isFirstIn() { return isFirstIn; }
+    public void setFirstIn(boolean firstIn) { isFirstIn = firstIn; }
 
     private MutableLiveData<UploadVideoOrCoverReturn> uploadVideoKeyInfo = new MutableLiveData<>();
     private MutableLiveData<UploadVideoOrCoverReturn> uploadVideoCoverKeyInfo = new MutableLiveData<>();
     private MutableLiveData<Boolean> isCompletePublish = new MutableLiveData<>();
     private MutableLiveData<Boolean> isFinishRefresh = new MutableLiveData<>();
-
+    private MutableLiveData<String> videoUrl = new MutableLiveData<>();
 
     public VideoViewModel(@NonNull Application application) {
         super(application);
@@ -172,6 +179,31 @@ public class VideoViewModel extends AndroidViewModel {
         });
     }
 
+    public void getVideo(int pv){
+        videoDataSource.getVideo(UserBaseDetail.getToken(context), pv, new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+                GetOSSUrlReturn.DataBean dataBean = (GetOSSUrlReturn.DataBean)netRequestResult.getData();
+                videoUrl.setValue(AliyunOSSUtil.getImageUrl(context, dataBean.getGuest_key(), dataBean.getGuest_secret(), dataBean.getSecurity_token(), dataBean.getFile()));
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+
+            }
+        });
+    }
+
 
     public MutableLiveData<UploadVideoOrCoverReturn> getUploadVideoKeyInfo() {
         return uploadVideoKeyInfo;
@@ -187,5 +219,9 @@ public class VideoViewModel extends AndroidViewModel {
 
     public MutableLiveData<Boolean> getIsFinishRefresh() {
         return isFinishRefresh;
+    }
+
+    public MutableLiveData<String> getVideoUrl() {
+        return videoUrl;
     }
 }

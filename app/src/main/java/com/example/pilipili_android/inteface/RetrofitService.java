@@ -1,7 +1,5 @@
 package com.example.pilipili_android.inteface;
 
-import android.database.Observable;
-
 import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
 import com.example.pilipili_android.bean.netbean.CommentDetailsReturn;
 import com.example.pilipili_android.bean.netbean.CommentListReturn;
@@ -10,7 +8,7 @@ import com.example.pilipili_android.bean.netbean.CommonReturn;
 import com.example.pilipili_android.bean.netbean.DanmukuListReturn;
 import com.example.pilipili_android.bean.netbean.FollowUnFollowReturn;
 import com.example.pilipili_android.bean.netbean.GetRecommendVideoListReturn;
-import com.example.pilipili_android.bean.netbean.GetUserBackgroundOrAvatarReturn;
+import com.example.pilipili_android.bean.netbean.GetOSSUrlReturn;
 import com.example.pilipili_android.bean.netbean.LoginReturn;
 import com.example.pilipili_android.bean.netbean.RenameReturn;
 import com.example.pilipili_android.bean.netbean.ReplayListReturn;
@@ -119,14 +117,14 @@ public interface RetrofitService {
      *
      */
     @GET(UrlConstant.GET_BACKGROUND_HEAD + "{id}" + UrlConstant.GET_BACKGROUND_TAIL)
-    Call<GetUserBackgroundOrAvatarReturn> getUserBackground(@Path("id") String id);
+    Call<GetOSSUrlReturn> getUserBackground(@Path("id") String id);
 
     /**
      * 获取用户头像
      *
      */
     @GET(UrlConstant.GET_AVATAR_HEAD + "{id}" + UrlConstant.GET_AVATAR_TAIL)
-    Call<GetUserBackgroundOrAvatarReturn> getUserAvatar(@Path("id") String id);
+    Call<GetOSSUrlReturn> getUserAvatar(@Path("id") String id);
 
     /**
      * 上传用户头图
@@ -242,6 +240,7 @@ public interface RetrofitService {
      */
     @GET(UrlConstant.GET_VIDEO_DETAIL_HEAD + "{pv}" + UrlConstant.GET_VIDEO_DETAIL_TAIL)
     Call<VideoDetailReturn> getVideoDetail(@Header("Authorization") String token, @Path("pv") String pv);
+
     /**
      * 发布弹幕
      *
@@ -256,4 +255,10 @@ public interface RetrofitService {
     @GET(UrlConstant.GET_VIDEO_PREFIX + "{id}" + UrlConstant.GET_DANMUKU)
     Call<DanmukuListReturn> getDanmuku(@Path("id") String id);
 
+    /**
+     * 获取视频
+     *
+     */
+    @GET(UrlConstant.GET_VIDEO_HEAD + "{pv}" + UrlConstant.GET_VIDEO_TAIL)
+    Call<GetOSSUrlReturn> getVideo(@Header("Authorization") String token, @Path("pv") String pv);
 }

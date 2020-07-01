@@ -35,7 +35,9 @@ import com.example.pilipili_android.R;
 import com.example.pilipili_android.bean.localbean.CommentItemBean;
 import com.example.pilipili_android.bean.netbean.DanmukuListReturn;
 import com.example.pilipili_android.bean.netbean.DanmukuSend;
+import com.example.pilipili_android.bean.netbean.VideoDetailReturn;
 import com.example.pilipili_android.fragment.CommentDetailsFragment;
+import com.example.pilipili_android.fragment.FragmentMsg;
 import com.example.pilipili_android.fragment.VideoCommentFragment;
 import com.example.pilipili_android.fragment.VideoInfoFragment;
 import com.example.pilipili_android.util.AppBarStateChangeListener;
@@ -43,6 +45,7 @@ import com.example.pilipili_android.util.DanmukuSelectUtil;
 import com.example.pilipili_android.util.SystemBarHelper;
 import com.example.pilipili_android.view_model.CommentViewModel;
 import com.example.pilipili_android.view_model.DanmukuViewModel;
+import com.example.pilipili_android.view_model.VideoViewModel;
 import com.example.pilipili_android.widget.ExpandMenuView;
 import com.example.pilipili_android.widget.PiliPiliDanmakuView;
 import com.example.pilipili_android.widget.PiliPiliPlayer;
@@ -50,6 +53,10 @@ import com.example.pilipili_android.widget.PiliPiliVideoController;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,24 +128,42 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     private int size;
     private DanmukuSend temp;
     private DanmukuViewModel danmukuViewModel;
+    private VideoViewModel videoViewModel;
     private Dialog danmukuDialog;
     private boolean isLoaded;
+    private boolean isDataBeanNull = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         setContentView(R.layout.activity_video);
         ButterKnife.bind(this);
         Intent intent = getIntent();
         pv = intent.getIntExtra("pv", -1);
-        pv = 1;
+        videoViewModel = new ViewModelProvider(this).get(VideoViewModel.class);
+        videoViewModel.getVideo(pv);
         type = 1;
         color = DanmukuSelectUtil.getColor(Color.WHITE);
         size = 24;
+
+        videoViewModel.getVideoUrl().observe(this, url -> {
+            Log.d("aaa", url);
+            player.setUrl(url);
+            player.start();
+        });
+
         danmukuViewModel = new ViewModelProvider(this).get(DanmukuViewModel.class);
         initView();
         initToolBar();
         initPage();
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onInitView(VideoDetailReturn.DataBean dataBean) {
+        videoViewModel.setDataBean(dataBean);
+        isDataBeanNull = false;
     }
 
     private AppBarStateChangeListener appBarStateChangeListener = new AppBarStateChangeListener() {
@@ -225,9 +250,10 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initPage() {
-        fragments.add(new VideoInfoFragment());
-        VideoCommentFragment fragment = new VideoCommentFragment(pv);
-        fragment.setListener(itemBean -> {
+        VideoInfoFragment videoInfoFragment = new VideoInfoFragment();
+        fragments.add(videoInfoFragment);
+        VideoCommentFragment videoCommentFragment = new VideoCommentFragment(pv);
+        videoCommentFragment.setListener(itemBean -> {
             CommentDetailsFragment detailsFragment = new CommentDetailsFragment(itemBean);
             detailsFragment.setRelayListener((new OnRelayListener() {
                 @Override
@@ -258,14 +284,14 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
             tabBar.setVisibility(View.GONE);
             replayBar.setVisibility(View.VISIBLE);
             replayBack.setOnClickListener(v -> {
-                fragments.set(1, fragment);
+                fragments.set(1, videoCommentFragment);
                 mAdapter.notifyDataSetChanged();
                 tabBar.setVisibility(View.VISIBLE);
                 replayBar.setVisibility(View.GONE);
                 isDetails = false;
             });
         });
-        fragment.setRelayListener(new OnRelayListener() {
+        videoCommentFragment.setRelayListener(new OnRelayListener() {
             @Override
             public void onRelay(CommentItemBean itemBean, boolean isReplay) {
                 temp1 = itemBean;
@@ -285,7 +311,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
                 }
             }
         });
-        fragments.add(fragment);
+        fragments.add(videoCommentFragment);
         setPagerTitle("1000");
     }
 
@@ -332,7 +358,6 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         });
         controller.addControlComponent(danmakuView);
         player.setVideoController(controller);
-        player.setUrl("http://vfx.mtime.cn/Video/2019/03/14/mp4/190314223540373995.mp4");
         player.setListener(new OnVideoListener() {
             @Override
             public void onPause() {
@@ -356,7 +381,6 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
                 mAppBarLayout.setExpanded(true);
             }
         });
-        player.start();
         danmukuViewModel.getDanmukuList().observe(this, dataBean -> {
             if (temp != null) {
                 danmakuView.addDanmaku(temp, true);
@@ -393,6 +417,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         if (player != null) {
             player.release();
         }
+        EventBus.getDefault().unregister(this);
     }
 
     @Override

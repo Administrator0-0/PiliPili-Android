@@ -83,8 +83,9 @@ public interface UrlConstant {
 
     String GET_VIDEO_DETAIL_TAIL = "/details";
 
+    String GET_VIDEO_HEAD = "video/pv";
 
-
+    String GET_VIDEO_TAIL = "/video";
 
 
     String GET_VIDEO_PREFIX = "video/pv";

@@ -1,15 +1,15 @@
 package com.example.pilipili_android.bean.localbean;
 
 import com.example.pilipili_android.bean.netbean.CommentDetailsReturn;
-import com.example.pilipili_android.bean.netbean.GetUserBackgroundOrAvatarReturn;
+import com.example.pilipili_android.bean.netbean.GetOSSUrlReturn;
 import com.example.pilipili_android.bean.netbean.UserOpenDetailReturn;
 
 public class CommentItemBean {
     private CommentDetailsReturn.DataBean comment;
-    private GetUserBackgroundOrAvatarReturn.DataBean avatar;
+    private GetOSSUrlReturn.DataBean avatar;
     private UserOpenDetailReturn.DataBean user;
 
-    public void setAvatar(GetUserBackgroundOrAvatarReturn.DataBean avatar) {
+    public void setAvatar(GetOSSUrlReturn.DataBean avatar) {
         this.avatar = avatar;
     }
 
@@ -21,7 +21,7 @@ public class CommentItemBean {
         this.user = user;
     }
 
-    public GetUserBackgroundOrAvatarReturn.DataBean getAvatar() {
+    public GetOSSUrlReturn.DataBean getAvatar() {
         return avatar;
     }
 

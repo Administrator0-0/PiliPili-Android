@@ -1,6 +1,7 @@
 package com.example.pilipili_android.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,10 @@ public class RecommendFragment extends Fragment {
         recommendVideoAdapter = new RecommendVideoAdapter(getContext());
         recommendVideoAdapter.setDataBeanList(videoViewModel.getDataBeans());
         recyclerView.setAdapter(recommendVideoAdapter);
-        videoViewModel.getRecommendVideoDetail();
+        if(videoViewModel.isFirstIn()){
+            videoViewModel.getRecommendVideoDetail();
+            videoViewModel.setFirstIn(false);
+        }
 
         refreshLayout = view.findViewById(R.id.refreshLayout);
         refreshHeader = new StoreHouseHeader(Objects.requireNonNull(getContext()));

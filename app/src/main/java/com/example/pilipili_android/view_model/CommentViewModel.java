@@ -2,7 +2,6 @@ package com.example.pilipili_android.view_model;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -12,7 +11,7 @@ import com.example.pilipili_android.bean.localbean.CommentItemBean;
 import com.example.pilipili_android.bean.netbean.CommentDetailsReturn;
 import com.example.pilipili_android.bean.netbean.CommentListReturn;
 import com.example.pilipili_android.bean.netbean.CommentReturn;
-import com.example.pilipili_android.bean.netbean.GetUserBackgroundOrAvatarReturn;
+import com.example.pilipili_android.bean.netbean.GetOSSUrlReturn;
 import com.example.pilipili_android.bean.netbean.NetRequestResult;
 import com.example.pilipili_android.bean.netbean.ReplayListReturn;
 import com.example.pilipili_android.bean.netbean.UserOpenDetailReturn;
@@ -296,7 +295,7 @@ public class CommentViewModel extends AndroidViewModel {
                             userDataSource.getUserAvatar(comment.getData().getAuthor(), new OnNetRequestListener() {
                                 @Override
                                 public void onSuccess(NetRequestResult netRequestResult) {
-                                    GetUserBackgroundOrAvatarReturn avatarReturn = (GetUserBackgroundOrAvatarReturn) netRequestResult.getData();
+                                    GetOSSUrlReturn avatarReturn = (GetOSSUrlReturn) netRequestResult.getData();
                                     itemBean.setAvatar(avatarReturn.getData());
                                     if (list == null) Objects.requireNonNull(replayList.getValue()).put(parentId, new ArrayList<>());
                                     List<CommentItemBean> finallist = Objects.requireNonNull(replayList.getValue()).get(parentId);
@@ -356,7 +355,7 @@ public class CommentViewModel extends AndroidViewModel {
                             userDataSource.getUserAvatar(comment.getData().getAuthor(), new OnNetRequestListener() {
                                 @Override
                                 public void onSuccess(NetRequestResult netRequestResult) {
-                                    GetUserBackgroundOrAvatarReturn avatarReturn = (GetUserBackgroundOrAvatarReturn) netRequestResult.getData();
+                                    GetOSSUrlReturn avatarReturn = (GetOSSUrlReturn) netRequestResult.getData();
                                     itemBean.setAvatar(avatarReturn.getData());
                                     if (isNewComment) {
                                         list.add(0, itemBean);

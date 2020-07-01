@@ -1,6 +1,7 @@
 package com.example.pilipili_android.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -61,8 +63,6 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         unbinder = ButterKnife.bind(this, view);
-
-
         initFragment();
 
         return view;
@@ -76,7 +76,6 @@ public class MainFragment extends Fragment {
         } else {
             Glide.with(this).load(UserBaseDetail.getAvatarPath(getContext())).diskCacheStrategy(DiskCacheStrategy.NONE).into(avatar);
         }
-
     }
 
     private void initFragment() {
@@ -100,7 +99,7 @@ public class MainFragment extends Fragment {
                 return fragmentTitle.length;
             }
         });
-        slidingTabLayout.setViewPager(viewPager, fragmentTitle, Objects.requireNonNull(getActivity()), fragmentList);
+        slidingTabLayout.setViewPager(viewPager, fragmentTitle);
     }
 
 
