@@ -68,8 +68,8 @@ public class VideoCommentAdapter extends RecyclerView.Adapter {
         CommentItemBean itemBean = comments.get(position);
         itemViewHolder.mAdd.setOnClickListener(v -> relayListener.onRelay(itemBean, true));
         itemViewHolder.mLike.setOnClickListener(v -> relayListener.onLike(itemBean));
-        itemViewHolder.mUsername.setText(itemBean.getUser().getUsername());
-        if (itemBean.getAvatar().getFile() != null) {
+        itemViewHolder.mUsername.setText(itemBean.getComment().getAuthor_name());
+        if (itemBean.getAvatar() != null && itemBean.getAvatar().getFile() != null) {
             String url = AliyunOSSUtil.getImageUrl(mContext.getApplicationContext(), itemBean.getAvatar().getGuest_key(),
                     itemBean.getAvatar().getGuest_secret(), itemBean.getAvatar().getSecurity_token(), itemBean.getAvatar().getFile());
             Glide.with(mContext).load(url).into(itemViewHolder.mUserAvatar);
@@ -89,10 +89,10 @@ public class VideoCommentAdapter extends RecyclerView.Adapter {
         }
         for (int i = 0; i < list.size() && i < 3; i++) {
             itemViewHolder.replays[i].setVisibility(View.VISIBLE);
-            SpannableString string = new SpannableString(list.get(i).getUser().getUsername()
+            SpannableString string = new SpannableString(list.get(i).getComment().getAuthor_name()
                     + ": " + list.get(i).getComment().getContent());
             string.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.colorPrimary)),
-                    0, list.get(i).getUser().getUsername().length() + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    0, list.get(i).getComment().getAuthor_name().length() + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             itemViewHolder.replays[i].setText(string);
         }
         if (list.size() > 3) {

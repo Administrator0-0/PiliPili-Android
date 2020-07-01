@@ -183,7 +183,7 @@ public interface RetrofitService {
      *
      */
     @GET(UrlConstant.GET_VIDEO_PREFIX + "{id}" + UrlConstant.GET_VIDEO_COMMENT + "/type{type}")
-    Call<CommentListReturn> getCommentList(@Path("id") String id, @Path("type") String type);
+    Call<CommentListReturn> getCommentList(@Path("id") String id, @Path("type") String type, @Header("Authorization") String token);
 
     /**
      * 回复评论
@@ -193,18 +193,18 @@ public interface RetrofitService {
     Call<CommentReturn> postReplay(@Path("id") String id, @Header("Authorization") String token, @Body RequestBody jsonObject);
 
     /**
-     * 获取评论回复列表
+     * 获取评论回复列表 (预览)
      *
      */
     @GET(UrlConstant.GET_COMMENT_PREFIX + "{id}" + UrlConstant.GET_COMMENT_REPLAY)
-    Call<ReplayListReturn> getReplayList(@Path("id") String id);
+    Call<CommentListReturn> getReplayList(@Path("id") String id, @Header("Authorization") String token);
 
     /**
      * 获取评论回复列表 DFS
      *
      */
     @GET(UrlConstant.GET_COMMENT_PREFIX + "{id}" + UrlConstant.GET_COMMENT_REPLAY_DFS)
-    Call<ReplayListReturn> getReplayListDFS(@Path("id") String id);
+    Call<CommentListReturn> getReplayListDFS(@Path("id") String id, @Header("Authorization") String token);
 
     /**
      * 点赞评论

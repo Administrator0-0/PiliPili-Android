@@ -57,8 +57,8 @@ public class CommentReplayAdapter extends RecyclerView.Adapter {
         CommentItemBean itemBean = replays.get(position);
         itemViewHolder.mAdd.setOnClickListener(v -> relayListener.onRelay(itemBean, true));
         itemViewHolder.mLike.setOnClickListener(v -> relayListener.onLike(itemBean));
-        itemViewHolder.username.setText(itemBean.getUser().getUsername());
-        if (itemBean.getAvatar().getFile() != null) {
+        itemViewHolder.username.setText(itemBean.getComment().getAuthor_name());
+        if (itemBean.getAvatar() != null && itemBean.getAvatar().getFile() != null) {
             String url = AliyunOSSUtil.getImageUrl(mContext.getApplicationContext(), itemBean.getAvatar().getGuest_key(),
                     itemBean.getAvatar().getGuest_secret(), itemBean.getAvatar().getSecurity_token(), itemBean.getAvatar().getFile());
             Glide.with(mContext).load(url).into(itemViewHolder.userAvatar);
@@ -67,7 +67,7 @@ public class CommentReplayAdapter extends RecyclerView.Adapter {
         }
         itemViewHolder.commentTime.setText(itemBean.getComment().getTime());
         itemViewHolder.commentLikeNum.setText("" + itemBean.getComment().getLikes());
-        if (itemBean.getComment().getReplay_to_author_name() != null && (itemBean.getComment().getReplay_to_author()) != main.getUser().getId()) {
+        if (itemBean.getComment().getReplay_to_author_name() != null && (itemBean.getComment().getReplay_to_author()) != main.getComment().getAuthor()) {
             SpannableString string = new SpannableString("回复@" + itemBean.getComment().getReplay_to_author_name() + " " + itemBean.getComment().getContent());
             string.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.colorPrimary)),
                     0, ((String)(itemBean.getComment().getReplay_to_author_name())).length() + 4, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
