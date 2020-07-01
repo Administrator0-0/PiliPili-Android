@@ -131,24 +131,22 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     private VideoViewModel videoViewModel;
     private Dialog danmukuDialog;
     private boolean isLoaded;
-    private boolean isDataBeanNull = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
         setContentView(R.layout.activity_video);
         ButterKnife.bind(this);
         Intent intent = getIntent();
-        pv = intent.getIntExtra("pv", -1);
         videoViewModel = new ViewModelProvider(this).get(VideoViewModel.class);
+        videoViewModel.setDataBean((VideoDetailReturn.DataBean)intent.getSerializableExtra("dataBean"));
+        pv = videoViewModel.getDataBean().getPv();
         videoViewModel.getVideo(pv);
         type = 1;
         color = DanmukuSelectUtil.getColor(Color.WHITE);
         size = 24;
 
         videoViewModel.getVideoUrl().observe(this, url -> {
-            Log.d("aaa", url);
             player.setUrl(url);
             player.start();
         });
@@ -157,13 +155,6 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         initView();
         initToolBar();
         initPage();
-
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onInitView(VideoDetailReturn.DataBean dataBean) {
-        videoViewModel.setDataBean(dataBean);
-        isDataBeanNull = false;
     }
 
     private AppBarStateChangeListener appBarStateChangeListener = new AppBarStateChangeListener() {
@@ -312,10 +303,10 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
             }
         });
         fragments.add(videoCommentFragment);
-        setPagerTitle("1000");
+        setPagerTitle(videoViewModel.getDataBean().getComments());
     }
 
-    private void setPagerTitle(String num) {
+    private void setPagerTitle(int num) {
         titles.add("简介");
         titles.add("评论" + "(" + num + ")");
         mAdapter = new VideoDetailsPagerAdapter(getSupportFragmentManager(), fragments, titles);
@@ -417,7 +408,6 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         if (player != null) {
             player.release();
         }
-        EventBus.getDefault().unregister(this);
     }
 
     @Override

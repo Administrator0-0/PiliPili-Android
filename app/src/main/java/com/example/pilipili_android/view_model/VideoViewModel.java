@@ -27,10 +27,10 @@ public class VideoViewModel extends AndroidViewModel {
     private Context context;
     private VideoDataSource videoDataSource;
 
-    private List<VideoDetailReturn.DataBean> dataBeans = new ArrayList<>();
+    private List<VideoDetailReturn.DataBean> dataBeans = new ArrayList<>();//用于MainFragment中推荐刷出视频的保存
     public List<VideoDetailReturn.DataBean> getDataBeans() { return dataBeans; }
 
-    private VideoDetailReturn.DataBean dataBean;
+    private VideoDetailReturn.DataBean dataBean;//用于VideoActivity中传递信息
     public void setDataBean(VideoDetailReturn.DataBean dataBean) { this.dataBean = dataBean; }
     public VideoDetailReturn.DataBean getDataBean() { return dataBean; }
 

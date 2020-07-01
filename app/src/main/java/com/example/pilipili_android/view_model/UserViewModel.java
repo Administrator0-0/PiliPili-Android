@@ -335,6 +335,65 @@ public class UserViewModel extends AndroidViewModel {
         });
     }
 
+    public void getUserOpenDataForVideoActivity(int UID) {
+        userDataSource.getUserOpenDetail(UID, new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+                UserOpenDetailReturn userOpenDetailReturn = (UserOpenDetailReturn) netRequestResult.getData();
+                SpaceActivityBean spaceActivityBean1 = new SpaceActivityBean();
+                spaceActivityBean1.setFollower(userOpenDetailReturn.getData().getFans_count() + "粉丝");
+                spaceActivityBean1.setUsername(userOpenDetailReturn.getData().getUsername());
+                spaceActivityBean.setValue(spaceActivityBean1);
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        userDataSource.getUserAvatar(UserBaseDetail.getUID(context), new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+                GetOSSUrlReturn getOSSUrlReturn = (GetOSSUrlReturn) netRequestResult.getData();
+                if(getOSSUrlReturn.getData().getFile() == null) {
+                    spaceAvatarUrl.setValue("");
+                    return;
+                }
+                String url = AliyunOSSUtil.getImageUrl(context, getOSSUrlReturn.getData().getGuest_key(),
+                        getOSSUrlReturn.getData().getGuest_secret(),
+                        getOSSUrlReturn.getData().getSecurity_token(),
+                        getOSSUrlReturn.getData().getFile());
+                spaceAvatarUrl.setValue(url);
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     public void getUserSpaceData(int UID){
         userDataSource.getUserBackground(UID, new OnNetRequestListener() {
             @Override

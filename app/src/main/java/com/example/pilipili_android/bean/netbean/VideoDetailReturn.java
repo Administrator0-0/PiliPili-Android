@@ -1,5 +1,7 @@
 package com.example.pilipili_android.bean.netbean;
 
+import java.io.Serializable;
+
 public class VideoDetailReturn {
 
 
@@ -37,7 +39,7 @@ public class VideoDetailReturn {
         this.message = message;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable {
         /**
          * author : 1
          * bucket_cover : {"file":"uid-1-2020-06-28-23-06-26-1593356786818.png","guest_key":"STS.NTxa7gxNJpWz3Kn24WFQBmXsv","guest_secret":"DQJQeUrFSvUvcXo7aTNThu1mVMdo16swSwF2QVvFgKBV","security_token":"CAIS8wF1q6Ft5B2yfSjIr5fNKo3TlZFrx5WRMW3f1jQCSt5ugp3YlDz2IHtFe3lhA+oWt/k0lGFV7/YelqN3SoJVRErbZM1/tleNOsR5Jdivgde8yJBZor/HcDHhJnyW9cvWZPqDP7G5U/yxalfCuzZuyL/hD1uLVECkNpv74vwOLK5gPG+CYCFBGc1dKyZ7tcYeLgGxD/u2NQPwiWeiZygB+CgE0DMnuPXvnZPNsUaD1w2rm9V4/dqhfsKWCOB3J4p6XtuP2+h7S7HMyiY46WIRr/Yp3P0eo2ee44rNUgQIs0mcUe7V781uKhBwYKcquAK8CFlRZpYagAEzAi59fOe3YkgLBPWGxbb2kzZTyNKFjcoVa3Djr/Dn2DDVXBXMJzcCGD+QBWTHFqJwfBv4BGd1vCot63yfW7WpBt45/iVmPVp9cq25h6QoMZWh8xsMRIwE5zLWuze24nluw4rE7/l7Wd0akXRfENmlpgnciKTzz/PM65MSaK0C3Q=="}
@@ -202,7 +204,7 @@ public class VideoDetailReturn {
             this.views = views;
         }
 
-        public static class BucketCoverBean {
+        public static class BucketCoverBean implements Serializable {
             /**
              * file : uid-1-2020-06-28-23-06-26-1593356786818.png
              * guest_key : STS.NTxa7gxNJpWz3Kn24WFQBmXsv

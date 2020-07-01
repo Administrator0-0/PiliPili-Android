@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:overScrollMode="never"
     android:scrollbars="vertical">
 
@@ -15,101 +15,181 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:orientation="vertical"
-        android:paddingTop="10dp"
+        android:paddingTop="5dp"
         android:visibility="visible">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:padding="4dp">
 
-            <include layout="@layout/layout_tag_user"/>
+            <RelativeLayout
+                android:id="@+id/to_space_btn"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginBottom="6dp"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:focusable="true">
+
+                <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+                    android:id="@+id/user_avatar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="4dp"
+                    tools:src="@drawable/bil" />
+
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_alignTop="@id/user_avatar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="55dp"
+                    android:layout_marginEnd="4dp"
+                    android:minWidth="72dp"
+                    android:textSize="16sp"
+                    android:text="刘薪王"/>
+
+                <TextView
+                    android:id="@+id/fans"
+                    android:layout_alignBottom="@id/user_avatar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="55dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginTop="20dp"
+                    android:minWidth="72dp"
+                    android:textSize="12sp"
+                    android:textColor="@color/gray"
+                    android:text="199999万粉丝"/>
+
+            </RelativeLayout>
 
             <TextView
+                android:id="@+id/follow"
+                android:layout_marginEnd="2dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingVertical="3dp"
+                android:paddingHorizontal="12dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerInParent="true"
                 android:background="@drawable/btn_pin_bg"
                 android:gravity="center"
-                android:text="关注"
-                android:textColor="@color/focus_text_color" />
+                android:text="+ 关注"
+                android:textSize="14sp"
+                android:textColor="@color/white" />
 
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
-            android:layout_marginStart="10dp"
-            android:lineSpacingExtra="2dp"
-            android:textColor="#555555"
-            android:textSize="16dp"
-            android:text="刘薪王太强了"/>
-
         <LinearLayout
+            android:id="@+id/show_sign"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingEnd="10dp"
-            android:layout_marginTop="10dp"
-            android:paddingStart="10dp">
+            android:layout_height="wrap_content">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="10dp"
+                    android:lineSpacingExtra="2dp"
+                    android:textSize="18sp"
+                    android:layout_centerVertical="true"
+                    android:text="刘薪王太强了"/>
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_info_views"
-                android:tint="@color/black_alpha_45" />
+                <ImageView
+                    android:layout_centerVertical="true"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/b98"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="10dp"/>
 
-            <TextView
-                android:id="@+id/tv_play_time"
-                android:layout_width="wrap_content"
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:textColor="@color/black_alpha_45"
-                android:textSize="12sp"
-                android:text="12222222"/>
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingEnd="10dp"
+                android:layout_marginTop="7dp"
+                android:paddingStart="10dp">
 
-            <Space
-                android:layout_width="16dp"
-                android:layout_height="match_parent" />
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_info_danmakus"
-                android:tint="@color/black_alpha_45" />
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:src="@drawable/ic_info_views"
+                    android:tint="@color/black_alpha_45" />
 
-            <TextView
-                android:id="@+id/tv_review_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:textColor="@color/black_alpha_45"
-                android:textSize="12sp"
-                android:text="6666666666"/>
+                <TextView
+                    android:id="@+id/tv_play_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:textColor="@color/black_alpha_45"
+                    android:textSize="13sp"
+                    tools:text="12222222"/>
 
-            <Space
-                android:layout_width="16dp"
-                android:layout_height="match_parent" />
+                <Space
+                    android:layout_width="13dp"
+                    android:layout_height="match_parent" />
 
-            <TextView
-                android:id="@+id/tv_upload_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:textColor="@color/black_alpha_45"
-                android:textSize="12sp"
-                android:text="2-31"/>
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:src="@drawable/ic_info_danmakus"
+                    android:tint="@color/black_alpha_45" />
+
+                <TextView
+                    android:id="@+id/tv_review_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:textColor="@color/black_alpha_45"
+                    android:textSize="13sp"
+                    tools:text="6666666666"/>
+
+                <Space
+                    android:layout_width="13dp"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:id="@+id/tv_upload_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black_alpha_45"
+                    android:textSize="13sp"
+                    tools:text="02-31"/>
+
+                <Space
+                    android:layout_width="13dp"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:id="@+id/tv_pv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black_alpha_45"
+                    android:textSize="13sp"
+                    tools:text="pv114514"/>
+            </LinearLayout>
         </LinearLayout>
-
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="8dp" />
+            android:layout_height="6dp" />
 
         <TextView
             android:id="@+id/tv_description"
@@ -119,114 +199,119 @@
             android:paddingStart="10dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="@color/black_alpha_45"
-            android:text="这是刘薪王的意志"/>
+            tools:text="这是刘薪王的意志"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="10dp"
+            android:paddingBottom="7dp"
             android:paddingEnd="3dp"
             android:paddingStart="3dp"
-            android:paddingTop="15dp">
+            android:paddingTop="14dp">
 
             <LinearLayout
-                android:id="@+id/btn_share"
-                android:layout_width="wrap_content"
+                android:id="@+id/btn_like"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <ImageButton
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                <ImageView
+                    android:id="@+id/like_img"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:clickable="false"
-                    android:background="@drawable/ba0" />
+                    android:src="@drawable/bss" />
+
+                <TextView
+                    android:id="@+id/tv_likes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    tools:text="6666666"
+                    android:textColor="@color/font_normal"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_dislike"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/dislike_img"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/bsn" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="6666666"
+                    android:padding="3dp"
+                    android:text="不喜欢"
                     android:textColor="@color/font_normal"
                     android:textSize="12sp" />
 
-
             </LinearLayout>
-
 
             <LinearLayout
                 android:id="@+id/btn_coin"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <ImageButton
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/c1w" />
+                <ImageView
+                    android:id="@+id/coin_image"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bsl" />
 
                 <TextView
+                    android:id="@+id/tv_coins"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="77777777"
+                    android:padding="3dp"
+                    tools:text="77777777"
                     android:textColor="@color/font_normal"
                     android:textSize="12sp" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/btn_fav"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-
-                <ImageButton
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/ba2" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="88888888"
-                    android:textColor="@color/font_normal"
-                    android:textSize="12sp" />
-
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/btn_download"
-                android:layout_width="wrap_content"
+                android:id="@+id/btn_fav"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <ImageButton
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/c4b" />
+                <ImageView
+                    android:id="@+id/star_img"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/bsp" />
 
                 <TextView
+                    android:id="@+id/tv_stars"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="缓存"
+                    android:padding="3dp"
+                    tools:text="88888888"
                     android:textColor="@color/font_normal"
                     android:textSize="12sp" />
 
+
             </LinearLayout>
+
 
         </LinearLayout>
 

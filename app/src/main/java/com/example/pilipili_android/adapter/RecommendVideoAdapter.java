@@ -28,6 +28,7 @@ import com.example.pilipili_android.bean.netbean.VideoDetailReturn;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.Serializable;
 import java.util.List;
 
 import butterknife.BindView;
@@ -105,9 +106,8 @@ public class RecommendVideoAdapter extends RecyclerView.Adapter {
         });
         videoViewHolder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(context, VideoActivity.class);
-            intent.putExtra("pv", dataBean.getPv());
+            intent.putExtra("dataBean", dataBean);
             context.startActivity(intent);
-            EventBus.getDefault().post(dataBean);
         });
     }
 
