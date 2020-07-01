@@ -141,7 +141,6 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         ButterKnife.bind(this);
         Intent intent = getIntent();
         pv = intent.getIntExtra("pv", -1);
-        pv = 1;
         videoViewModel = new ViewModelProvider(this).get(VideoViewModel.class);
         videoViewModel.getVideo(pv);
         type = 1;
