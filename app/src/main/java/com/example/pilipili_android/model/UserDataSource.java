@@ -9,6 +9,7 @@ import com.example.pilipili_android.bean.netbean.CommonReturn;
 import com.example.pilipili_android.bean.netbean.CommonSend;
 import com.example.pilipili_android.bean.netbean.FollowUnFollowReturn;
 import com.example.pilipili_android.bean.netbean.GetOSSUrlReturn;
+import com.example.pilipili_android.bean.netbean.IsFollowedReturn;
 import com.example.pilipili_android.bean.netbean.LoginReturn;
 import com.example.pilipili_android.bean.netbean.LoginSend;
 import com.example.pilipili_android.bean.netbean.NetRequestResult;
@@ -333,6 +334,31 @@ public class UserDataSource {
 
             @Override
             public void onFailure(Call<FollowUnFollowReturn> call, Throwable t) {
+                onNetRequestListener.onFail("网络不稳定，请检查网络");
+            }
+        });
+    }
+
+    public void isFollowed(String token, int id, OnNetRequestListener onNetRequestListener){
+        String ciphertext = EncryptUtil.getVerificationToken(token);
+        Call<IsFollowedReturn> call = retrofitService.isFollowed(ciphertext, "" + id);
+        call.enqueue(new Callback<IsFollowedReturn>() {
+            @Override
+            public void onResponse(Call<IsFollowedReturn> call, Response<IsFollowedReturn> response) {
+                IsFollowedReturn isFollowedReturn = response.body();
+                if(isFollowedReturn == null) {
+                    onNetRequestListener.onFail("获取是否关注错误");
+                    return;
+                }
+                if(isFollowedReturn.getCode() == 200) {
+                    onNetRequestListener.onSuccess(new NetRequestResult<>(isFollowedReturn));
+                } else {
+                    onNetRequestListener.onFail(Objects.requireNonNull(isFollowedReturn).getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<IsFollowedReturn> call, Throwable t) {
                 onNetRequestListener.onFail("网络不稳定，请检查网络");
             }
         });
