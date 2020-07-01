@@ -10,6 +10,7 @@ import com.example.pilipili_android.bean.netbean.DanmukuListReturn;
 import com.example.pilipili_android.bean.netbean.FollowUnFollowReturn;
 import com.example.pilipili_android.bean.netbean.GetRecommendVideoListReturn;
 import com.example.pilipili_android.bean.netbean.GetOSSUrlReturn;
+import com.example.pilipili_android.bean.netbean.IsFollowedReturn;
 import com.example.pilipili_android.bean.netbean.LoginReturn;
 import com.example.pilipili_android.bean.netbean.RenameReturn;
 import com.example.pilipili_android.bean.netbean.ReplayListReturn;
@@ -105,6 +106,13 @@ public interface RetrofitService {
      */
     @PUT(UrlConstant.UNFOLLOW)
     Call<FollowUnFollowReturn> unFollow(@Header("Authorization") String token, @Body RequestBody jsonObject);
+
+    /**
+     * 是否关注
+     *
+     */
+    @GET(UrlConstant.OPEN_DETAIL_HEAD + "{id}" + UrlConstant.IS_FOLLOWED)
+    Call<IsFollowedReturn> isFollowed(@Header("Authorization") String token, @Path("id") String id);
 
     /**
      * 上传签名
