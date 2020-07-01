@@ -1,6 +1,7 @@
 package com.example.pilipili_android.inteface;
 
 import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
+import com.example.pilipili_android.bean.netbean.BuyVIPReturn;
 import com.example.pilipili_android.bean.netbean.CommentDetailsReturn;
 import com.example.pilipili_android.bean.netbean.CommentListReturn;
 import com.example.pilipili_android.bean.netbean.CommentReturn;
@@ -76,6 +77,13 @@ public interface RetrofitService {
      */
     @PUT(UrlConstant.BUY_COIN)
     Call<BuyCoinReturn> buyCoin(@Header("Authorization") String token, @Body RequestBody jsonObject);
+
+    /**
+     * 用户买大会员
+     *
+     */
+    @PUT(UrlConstant.BUY_VIP)
+    Call<BuyVIPReturn> buyVip(@Header("Authorization") String token, @Body RequestBody jsonObject);
 
     /**
      * 用户改名

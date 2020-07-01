@@ -15,6 +15,7 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.pilipili_android.bean.localbean.SignBean;
 import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
+import com.example.pilipili_android.bean.netbean.BuyVIPReturn;
 import com.example.pilipili_android.bean.netbean.GetOSSUrlReturn;
 import com.example.pilipili_android.bean.netbean.LoginSend;
 import com.example.pilipili_android.bean.netbean.NetRequestResult;
@@ -44,6 +45,7 @@ public class UserViewModel extends AndroidViewModel {
     private MutableLiveData<LoginSend> loginInfo = new MutableLiveData<>();
     private MutableLiveData<UserDetailReturn> userDetail = new MutableLiveData<>();
     private MutableLiveData<Boolean> isSuccessBuyCoin = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isSuccessBuyVip = new MutableLiveData<>();
     private MutableLiveData<SpaceActivityBean> spaceActivityBean = new MutableLiveData<>();
     private MutableLiveData<String> spaceBackgroundUrl = new MutableLiveData<>();
     private MutableLiveData<String> spaceAvatarUrl = new MutableLiveData<>();
@@ -317,6 +319,31 @@ public class UserViewModel extends AndroidViewModel {
             public void onSuccess(NetRequestResult netRequestResult) {
                 putCoin(((BuyCoinReturn)netRequestResult.getData()).getData().getCoins());
                 isSuccessBuyCoin.setValue(true);
+            }
+
+            @Override
+            public void onSuccess() {
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void buyVip(int vip, int coins) {
+        userDataSource.buyVip(UserBaseDetail.getToken(context), vip, coins, new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+                putCoin(UserBaseDetail.getCoin(context) - coins);
+                putVIPDeadline(((BuyVIPReturn)netRequestResult.getData()).getData().getVip());
+                isSuccessBuyVip.setValue(true);
             }
 
             @Override
@@ -688,5 +715,9 @@ public class UserViewModel extends AndroidViewModel {
 
     public MutableLiveData<SignBean> getNewSign() {
         return newSign;
+    }
+
+    public MutableLiveData<Boolean> getIsSuccessBuyVip() {
+        return isSuccessBuyVip;
     }
 }

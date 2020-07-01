@@ -3,6 +3,8 @@ package com.example.pilipili_android.model;
 import androidx.annotation.NonNull;
 
 import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
+import com.example.pilipili_android.bean.netbean.BuyVIPReturn;
+import com.example.pilipili_android.bean.netbean.BuyVIPSend;
 import com.example.pilipili_android.bean.netbean.CommonReturn;
 import com.example.pilipili_android.bean.netbean.CommonSend;
 import com.example.pilipili_android.bean.netbean.FollowUnFollowReturn;
@@ -204,6 +206,37 @@ public class UserDataSource {
 
             @Override
             public void onFailure(Call<BuyCoinReturn> call, Throwable t) {
+                onNetRequestListener.onFail("网络不稳定，请检查网络");
+            }
+        });
+    }
+
+    public void buyVip(String token, int vip, int coins, OnNetRequestListener onNetRequestListener) {
+        BuyVIPSend vipSend = new BuyVIPSend();
+        vipSend.setVip(vip);
+        vipSend.setCoins(coins);
+        Gson gson = new Gson();
+        String json = gson.toJson(vipSend);
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
+        String ciphertext = EncryptUtil.getVerificationToken(token);
+        Call<BuyVIPReturn> call = retrofitService.buyVip(ciphertext, body);
+        call.enqueue(new Callback<BuyVIPReturn>() {
+            @Override
+            public void onResponse(Call<BuyVIPReturn> call, Response<BuyVIPReturn> response) {
+                BuyVIPReturn buyVIPReturn = response.body();
+                if(buyVIPReturn != null) {
+                    if(buyVIPReturn.getCode() == 200) {
+                        onNetRequestListener.onSuccess(new NetRequestResult<>(buyVIPReturn));
+                    } else {
+                        onNetRequestListener.onFail(buyVIPReturn.getMessage());
+                    }
+                } else {
+                    onNetRequestListener.onFail("购买错误");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BuyVIPReturn> call, Throwable t) {
                 onNetRequestListener.onFail("网络不稳定，请检查网络");
             }
         });
