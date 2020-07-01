@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import com.example.pilipili_android.R;
 import com.example.pilipili_android.activity.PayActivity;
 import com.example.pilipili_android.activity.SpaceActivity;
 import com.example.pilipili_android.activity.UploadVideoActivity;
+import com.example.pilipili_android.activity.VIPActivity;
 import com.example.pilipili_android.constant.DefaultConstant;
 import com.example.pilipili_android.databinding.FragmentMineBinding;
 import com.example.pilipili_android.view_model.UserBaseDetail;
@@ -47,6 +49,8 @@ public class MineFragment extends Fragment {
 
     @BindView(R.id.avatar)
     QMUIRadiusImageView avatar;
+    @BindView(R.id.big_vip)
+    RelativeLayout bigVip;
     private Unbinder unbinder;
     private FragmentMineBinding fragmentMineBinding;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -112,6 +116,12 @@ public class MineFragment extends Fragment {
     @OnClick(R.id.button_coin)
     void onBuyCoinClicked() {
         Intent intent = new Intent(getActivity(), PayActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.big_vip)
+    public void onVIPClicked() {
+        Intent intent = new Intent(getActivity(), VIPActivity.class);
         startActivity(intent);
     }
 
