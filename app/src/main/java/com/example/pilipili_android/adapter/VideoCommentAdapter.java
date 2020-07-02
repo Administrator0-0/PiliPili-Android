@@ -1,6 +1,7 @@
 package com.example.pilipili_android.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -17,9 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.pilipili_android.R;
+import com.example.pilipili_android.activity.OtherSpaceActivity;
+import com.example.pilipili_android.activity.SpaceActivity;
 import com.example.pilipili_android.activity.VideoActivity;
 import com.example.pilipili_android.bean.localbean.CommentItemBean;
 import com.example.pilipili_android.util.AliyunOSSUtil;
+import com.example.pilipili_android.view_model.UserBaseDetail;
 
 import java.util.HashMap;
 import java.util.List;
@@ -68,6 +72,28 @@ public class VideoCommentAdapter extends RecyclerView.Adapter {
         CommentItemBean itemBean = comments.get(position);
         itemViewHolder.mAdd.setOnClickListener(v -> relayListener.onRelay(itemBean, true));
         itemViewHolder.mLike.setOnClickListener(v -> relayListener.onLike(itemBean));
+        itemViewHolder.mUserAvatar.setOnClickListener(v -> {
+            if (itemBean.getComment().getAuthor() == UserBaseDetail.getUID(mContext)) {
+                Intent intent = new Intent(mContext, SpaceActivity.class);
+                intent.putExtra("UID", UserBaseDetail.getUID(mContext));
+                mContext.startActivity(intent);
+            } else {
+                Intent intent = new Intent(mContext, OtherSpaceActivity.class);
+                intent.putExtra("UID", itemBean.getComment().getAuthor());
+                mContext.startActivity(intent);
+            }
+        });
+        itemViewHolder.mUsername.setOnClickListener(v -> {
+            if (itemBean.getComment().getAuthor() == UserBaseDetail.getUID(mContext)) {
+                Intent intent = new Intent(mContext, SpaceActivity.class);
+                intent.putExtra("UID", UserBaseDetail.getUID(mContext));
+                mContext.startActivity(intent);
+            } else {
+                Intent intent = new Intent(mContext, OtherSpaceActivity.class);
+                intent.putExtra("UID", itemBean.getComment().getAuthor());
+                mContext.startActivity(intent);
+            }
+        });
         itemViewHolder.mUsername.setText(itemBean.getComment().getAuthor_name());
         if (itemBean.getAvatar() != null && itemBean.getAvatar().getFile() != null) {
             String url = AliyunOSSUtil.getImageUrl(mContext.getApplicationContext(), itemBean.getAvatar().getGuest_key(),
