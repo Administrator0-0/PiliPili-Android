@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/user_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+        android:id="@+id/user_avatar"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_margin="4dp"
+        android:src="@drawable/bil"/>
+
+    <TextView
+    android:id="@+id/user_name"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="55dp"
+    android:layout_marginEnd="4dp"
+    android:layout_marginTop="5dp"
+    android:minWidth="72dp"
+    android:textSize="15sp"
+    android:text="刘薪王"/>
+
+    <TextView
+        android:id="@+id/sign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="55dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginTop="25dp"
+        android:minWidth="72dp"
+        android:textSize="10sp"
+        android:textColor="@color/gray"
+        android:text="刘薪王太强了"/>
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:text="+ 关注"
+        android:id="@+id/follow"
+        android:gravity="center"
+        app:qmui_borderColor="@color/colorPrimary"
+        android:textColor="@color/colorPrimary"
+        app:qmui_backgroundColor="@color/qmui_config_color_white"
+        app:qmui_isRadiusAdjustBounds="true"
+        app:qmui_borderWidth="1dp"
+        app:qmui_radius="3dp"
+        android:paddingTop="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="5dp"
+        android:textSize="15sp"
+        android:layout_alignParentEnd="true" />
+
+
+</RelativeLayout>

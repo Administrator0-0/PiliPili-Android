@@ -67,6 +67,10 @@ public interface UrlConstant {
 
     String IS_FOLLOWED = "/is-followed";
 
+    String LIST_FAN = "/list-fans";
+
+    String LIST_FOLLOWINGS = "/list-followings";
+
     /**
      * 视频接口
      */

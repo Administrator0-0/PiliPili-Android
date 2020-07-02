@@ -397,4 +397,20 @@ public class SpaceActivity extends AppCompatActivity {
         }
         Toast.makeText(this, "UID已复制到剪切板", Toast.LENGTH_SHORT).show();
     }
+
+    @OnClick(R.id.follower_tv)
+    public void onFanClick() {
+        Intent intent = new Intent(this, FanListActivity.class);
+        intent.putExtra("id", UID);
+        intent.putExtra("isFollow", true);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.following_tv)
+    public void onFollowingClick() {
+        Intent intent = new Intent(this, FanListActivity.class);
+        intent.putExtra("id", UID);
+        intent.putExtra("isFollow", false);
+        startActivity(intent);
+    }
 }
