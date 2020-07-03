@@ -32,7 +32,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dueeeke.videoplayer.ijk.IjkPlayerFactory;
-import com.dueeeke.videoplayer.player.VideoView;
 import com.example.pilipili_android.R;
 import com.example.pilipili_android.bean.localbean.CommentItemBean;
 import com.example.pilipili_android.bean.netbean.DanmukuListReturn;
@@ -261,10 +260,9 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     private void initPage() {
         VideoInfoFragment videoInfoFragment = new VideoInfoFragment();
         fragments.add(videoInfoFragment);
-        int up = videoViewModel.getDataBean().getAuthor();
-        VideoCommentFragment videoCommentFragment = new VideoCommentFragment(pv, up);
+        VideoCommentFragment videoCommentFragment = new VideoCommentFragment(pv);
         videoCommentFragment.setListener(itemBean -> {
-            CommentDetailsFragment detailsFragment = new CommentDetailsFragment(itemBean, up);
+            CommentDetailsFragment detailsFragment = new CommentDetailsFragment(itemBean);
             detailsFragment.setRelayListener((new OnRelayListener() {
                 @Override
                 public void onRelay(CommentItemBean itemBean, boolean isReplay) {

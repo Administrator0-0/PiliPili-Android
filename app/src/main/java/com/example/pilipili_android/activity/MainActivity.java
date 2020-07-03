@@ -115,6 +115,8 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, UploadVideoActivity.class);
             intent.putExtra("path", pathList.get(0));
             startActivity(intent);
+        } else if (requestCode == REQUEST_UPLOAD) {
+            fragmentManager.beginTransaction().replace(R.id.box, mineFragment).commit();
         }
     }
 
@@ -126,7 +128,8 @@ public class MainActivity extends AppCompatActivity {
             }
         } else if (fragmentMsg.getWhatFragment().equals("MainFragment")) {
             if(fragmentMsg.getMsgString().equals("showMineFragment")) {
-                fragmentManager.beginTransaction().replace(R.id.box, mineFragment).commitAllowingStateLoss();
+                isMainFragment = false;
+                fragmentManager.beginTransaction().replace(R.id.box, mineFragment).commit();
             }
         }
     }

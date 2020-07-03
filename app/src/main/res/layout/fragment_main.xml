@@ -34,7 +34,6 @@
                     android:layout_height="41dp"
                     android:layout_centerVertical="true"
                     tools:src="@drawable/head"
-                    android:background="@color/colorPrimary"
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="10dp"/>
                 <ImageView

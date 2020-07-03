@@ -17,7 +17,6 @@ public class PiliPiliPlayer extends VideoView {
         super(context, attrs);
     }
 
-
     public void setListener(VideoActivity.OnVideoListener mListener) {
         this.mListener = mListener;
     }
@@ -54,9 +53,5 @@ public class PiliPiliPlayer extends VideoView {
     protected boolean showNetWarning() {
         return false;
     }
-
-
-
-
 
 }

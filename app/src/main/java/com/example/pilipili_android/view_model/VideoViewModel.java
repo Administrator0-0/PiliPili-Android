@@ -152,7 +152,7 @@ public class VideoViewModel extends AndroidViewModel {
                             dataBeans1.add((VideoDetailReturn.DataBean)netRequestResult.getData());
                             if(dataBeans1.size() == getVideoListReturn.getData().getVideo_list().size()){
                                 recommendVideoBeans.getValue().addAll(0, dataBeans1);
-                                recommendVideoBeans.setValue(hotVideoBeans.getValue());
+                                recommendVideoBeans.setValue(recommendVideoBeans.getValue());
                             }
                         }
 

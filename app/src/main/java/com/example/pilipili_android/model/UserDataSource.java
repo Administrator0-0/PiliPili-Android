@@ -1,5 +1,7 @@
 package com.example.pilipili_android.model;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
@@ -128,7 +130,7 @@ public class UserDataSource {
 
             @Override
             public void onFailure(Call<LoginReturn> call, Throwable t) {
-                onNetRequestListener.onFail("网络不稳定，请检查网络");
+                onNetRequestListener.onFail(t.getMessage());
             }
         });
     }
@@ -153,7 +155,7 @@ public class UserDataSource {
 
             @Override
             public void onFailure(Call<UserDetailReturn> call, Throwable t) {
-                onNetRequestListener.onFail("网络不稳定，请检查网络");
+                onNetRequestListener.onFail(t.getMessage());
             }
         });
     }
@@ -594,7 +596,7 @@ public class UserDataSource {
             public void onResponse(@NonNull Call<UserVideoReturn> call, @NonNull Response<UserVideoReturn> response) {
                 UserVideoReturn userVideoReturn = response.body();
                 if(userVideoReturn == null) {
-                    onNetRequestListener.onFail("获取相关视频错误");
+                    onNetRequestListener.onFail("获取投稿视频错误");
                     return;
                 }
                 if(userVideoReturn.getCode() == 200) {
@@ -610,5 +612,7 @@ public class UserDataSource {
             }
         });
     }
+
+
 
 }
