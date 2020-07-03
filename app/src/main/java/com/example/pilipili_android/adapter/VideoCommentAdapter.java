@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -135,6 +136,7 @@ public class VideoCommentAdapter extends RecyclerView.Adapter {
         itemViewHolder.replays[1].setVisibility(View.GONE);
         itemViewHolder.replays[2].setVisibility(View.GONE);
         itemViewHolder.replays[3].setVisibility(View.GONE);
+        itemViewHolder.commentBar.setOnClickListener(v -> { if (mListener != null) mListener.onOpen(itemBean); });
         if (list == null) {
             return;
         }
@@ -183,6 +185,7 @@ public class VideoCommentAdapter extends RecyclerView.Adapter {
         TextView mLikeNum;
         ImageView mAdd;
         ImageView more;
+        LinearLayout commentBar;
         TextView[]replays = new TextView[4];
 
         public ItemViewHolder(View itemView) {
@@ -199,6 +202,7 @@ public class VideoCommentAdapter extends RecyclerView.Adapter {
             replays[3] = itemView.findViewById(R.id.replay_total);
             mAdd = itemView.findViewById(R.id.item_comment_add);
             more = itemView.findViewById(R.id.item_comment_more);
+            commentBar = itemView.findViewById(R.id.replay_bar);
         }
     }
 

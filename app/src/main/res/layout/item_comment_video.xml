@@ -113,6 +113,7 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/replay_bar"
         android:layout_below="@id/comment_layout"
         android:layout_width="340dp"
         android:layout_height="wrap_content"

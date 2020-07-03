@@ -130,6 +130,16 @@ public class CommentViewModel extends AndroidViewModel {
                 if (isReplay) {
                     if (parentId > 0) {
                         replayList.getValue().get(parentId).remove(itemBean);
+                        List<CommentItemBean> list = replayList.getValue().get(parentId);
+                        List<CommentItemBean> temp = new ArrayList<>();
+                        if (list != null) {
+                            for (CommentItemBean i : list) {
+                                if (i.getComment().getReplay_id() == itemBean.getComment().getId()) {
+                                    temp.add(i);
+                                }
+                            }
+                            list.removeAll(temp);
+                        }
                         replayList.postValue(replayList.getValue());
                     } else {
                         replayList.getValue().put(parentId, new ArrayList<>());

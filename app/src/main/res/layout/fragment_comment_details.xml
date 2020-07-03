@@ -97,13 +97,6 @@
                     android:textSize="18sp"
                     android:text="666666"/>
 
-                <ImageView
-                    android:id="@+id/comment_more"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:paddingTop="10dp"
-                    android:src="@drawable/ic_more_grey" />
 
             </RelativeLayout>
 

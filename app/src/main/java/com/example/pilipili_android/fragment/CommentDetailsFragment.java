@@ -49,8 +49,6 @@ public class CommentDetailsFragment extends Fragment implements View.OnClickList
     TextView commentLikeNum;
     @BindView(R.id.replay_list)
     RecyclerView replayListView;
-    @BindView(R.id.comment_more)
-    ImageView more;
 
     private CommentReplayAdapter adapter;
     private CommentViewModel commentViewModel;
@@ -80,21 +78,12 @@ public class CommentDetailsFragment extends Fragment implements View.OnClickList
         initData();
         adapter = new CommentReplayAdapter(main, Objects.requireNonNull(commentViewModel.getReplayList().getValue()), up);
         adapter.setRelayListener(relayListener);
-        adapter.setOnDeleteListener(itemBean -> {
-            commentViewModel.delete(itemBean.getComment().getId(), main.getComment().getId(), true, itemBean);
-        });
+        adapter.setOnDeleteListener(itemBean -> commentViewModel.delete(itemBean.getComment().getId(), main.getComment().getId(), true, itemBean));
         replayListView.setLayoutManager(new LinearLayoutManager(getContext()));
         replayListView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
         replayListView.setAdapter(adapter);
         replayListView.setNestedScrollingEnabled(false);
         commentLike.setOnClickListener(this);
-        more.setOnClickListener(this);
-        if (main.getComment().getAuthor() == UserBaseDetail.getUID(getActivity())
-                || UserBaseDetail.getUID(getActivity()) == up) {
-            more.setVisibility(View.VISIBLE);
-        } else {
-            more.setVisibility(View.GONE);
-        }
     }
 
     private void initData() {
@@ -133,8 +122,6 @@ public class CommentDetailsFragment extends Fragment implements View.OnClickList
             } else {
                 commentViewModel.likeComment(main, -1);
             }
-        } else if (v.getId() == R.id.comment_more) {
-            commentViewModel.delete(main.getComment().getId(), -1, true, main);
         }
     }
 

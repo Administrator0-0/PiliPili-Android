@@ -260,9 +260,9 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     private void initPage() {
         VideoInfoFragment videoInfoFragment = new VideoInfoFragment();
         fragments.add(videoInfoFragment);
-        VideoCommentFragment videoCommentFragment = new VideoCommentFragment(pv);
+        VideoCommentFragment videoCommentFragment = new VideoCommentFragment(pv, videoViewModel.getDataBean().getAuthor());
         videoCommentFragment.setListener(itemBean -> {
-            CommentDetailsFragment detailsFragment = new CommentDetailsFragment(itemBean);
+            CommentDetailsFragment detailsFragment = new CommentDetailsFragment(itemBean, videoViewModel.getDataBean().getAuthor());
             detailsFragment.setRelayListener((new OnRelayListener() {
                 @Override
                 public void onRelay(CommentItemBean itemBean, boolean isReplay) {
