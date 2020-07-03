@@ -3,6 +3,7 @@ package com.example.pilipili_android.view_model;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,7 @@ import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
 import com.example.pilipili_android.bean.netbean.BuyVIPReturn;
 import com.example.pilipili_android.bean.netbean.GetOSSUrlReturn;
 import com.example.pilipili_android.bean.netbean.IsFollowedReturn;
+import com.example.pilipili_android.bean.netbean.ListFollowReturn;
 import com.example.pilipili_android.bean.netbean.LoginSend;
 import com.example.pilipili_android.bean.netbean.NetRequestResult;
 import com.example.pilipili_android.bean.localbean.SpaceActivityBean;
@@ -34,6 +36,8 @@ import com.example.pilipili_android.util.SPUtil;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserViewModel extends AndroidViewModel {
 
@@ -54,11 +58,15 @@ public class UserViewModel extends AndroidViewModel {
     private MutableLiveData<String> newUsername = new MutableLiveData<>();
     private MutableLiveData<SignBean> newSign = new MutableLiveData<>();
     private MutableLiveData<Boolean> isFollowed = new MutableLiveData<>();
+    private MutableLiveData<List<ListFollowReturn.DataBean.ListBean>> followedList = new MutableLiveData<>();
+    private MutableLiveData<List<ListFollowReturn.DataBean.ListBean>> fanList = new MutableLiveData<>();
 
     public UserViewModel(@NonNull Application application) {
         super(application);
         this.context = application.getApplicationContext();
         userDataSource = new UserDataSource();
+        followedList.setValue(new ArrayList<>());
+        fanList.setValue(new ArrayList<>());
     }
 
     public boolean verifyLocalToken(){
@@ -688,11 +696,66 @@ public class UserViewModel extends AndroidViewModel {
         });
     }
 
+    public void follow(ListFollowReturn.DataBean.ListBean bean) {
+        userDataSource.follow(UserBaseDetail.getToken(context), bean.getId(), new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+                bean.setIs_followed(true);
+                followedList.setValue(followedList.getValue());
+                fanList.setValue(fanList.getValue());
+                putFollowingCount(getFollowingCount() + 1);
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+
+            }
+        });
+    }
+
+    public void unFollow(ListFollowReturn.DataBean.ListBean bean) {
+        userDataSource.unFollow(UserBaseDetail.getToken(context), bean.getId(), new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+                bean.setIs_followed(false);
+                followedList.setValue(followedList.getValue());
+                fanList.setValue(fanList.getValue());
+                putFollowingCount(getFollowingCount() - 1);
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+
+            }
+        });
+    }
+
     public void follow(int id) {
         userDataSource.follow(UserBaseDetail.getToken(context), id, new OnNetRequestListener() {
             @Override
             public void onSuccess(NetRequestResult netRequestResult) {
                 isFollowed.setValue(true);
+                putFollowingCount(getFollowingCount() + 1);
             }
 
             @Override
@@ -717,6 +780,7 @@ public class UserViewModel extends AndroidViewModel {
             @Override
             public void onSuccess(NetRequestResult netRequestResult) {
                 isFollowed.setValue(false);
+                putFollowingCount(getFollowingCount() - 1);
             }
 
             @Override
@@ -785,6 +849,122 @@ public class UserViewModel extends AndroidViewModel {
         });
     }
 
+    public void listFollowings(int id) {
+        userDataSource.listFollowings(UserBaseDetail.getToken(context), id, new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+                ListFollowReturn listFollowReturn = (ListFollowReturn) netRequestResult.getData();
+                ArrayList<ListFollowReturn.DataBean.ListBean> list = new ArrayList<>(listFollowReturn.getData().getList());
+                followedList.postValue(list);
+                for (ListFollowReturn.DataBean.ListBean bean : list) {
+                    userDataSource.getUserAvatar(bean.getId(), new OnNetRequestListener() {
+                        @Override
+                        public void onSuccess(NetRequestResult netRequestResult) {
+                            GetOSSUrlReturn getOSSUrlReturn = (GetOSSUrlReturn) netRequestResult.getData();
+                            if(getOSSUrlReturn.getData().getFile() == null) {
+                                return;
+                            }
+                            String url = AliyunOSSUtil.getImageUrl(context, getOSSUrlReturn.getData().getGuest_key(),
+                                    getOSSUrlReturn.getData().getGuest_secret(),
+                                    getOSSUrlReturn.getData().getSecurity_token(),
+                                    getOSSUrlReturn.getData().getFile());
+                            bean.setAvatar(url);
+                            followedList.postValue(followedList.getValue());
+                        }
+
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onFail() {
+
+                        }
+
+                        @Override
+                        public void onFail(String errorMessage) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+
+            }
+        });
+    }
+
+    public void listFan(int id) {
+        userDataSource.listFan(UserBaseDetail.getToken(context), id, new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+                ListFollowReturn listFollowReturn = (ListFollowReturn) netRequestResult.getData();
+                ArrayList<ListFollowReturn.DataBean.ListBean> list = new ArrayList<>(listFollowReturn.getData().getList());
+                fanList.postValue(list);
+                for (ListFollowReturn.DataBean.ListBean bean : list) {
+                    userDataSource.getUserAvatar(bean.getId(), new OnNetRequestListener() {
+                        @Override
+                        public void onSuccess(NetRequestResult netRequestResult) {
+                            GetOSSUrlReturn getOSSUrlReturn = (GetOSSUrlReturn) netRequestResult.getData();
+                            if(getOSSUrlReturn.getData().getFile() == null) {
+                                return;
+                            }
+                            String url = AliyunOSSUtil.getImageUrl(context, getOSSUrlReturn.getData().getGuest_key(),
+                                    getOSSUrlReturn.getData().getGuest_secret(),
+                                    getOSSUrlReturn.getData().getSecurity_token(),
+                                    getOSSUrlReturn.getData().getFile());
+                            bean.setAvatar(url);
+                            fanList.postValue(fanList.getValue());
+                        }
+
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onFail() {
+
+                        }
+
+                        @Override
+                        public void onFail(String errorMessage) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+
+            }
+        });
+    }
+
     private void putUsername(String username) {
         SPUtil.put(context, SPConstant.USERNAME, username);
     }
@@ -805,8 +985,16 @@ public class UserViewModel extends AndroidViewModel {
         SPUtil.put(context, SPConstant.FOLLOWER, followerCount);
     }
 
+    private int getFollowerCount() {
+        return (int) SPUtil.get(context, SPConstant.FOLLOWER, 0);
+    }
+
     private void putFollowingCount(int followerCount) {
         SPUtil.put(context, SPConstant.FOLLOWING, followerCount);
+    }
+
+    private int getFollowingCount() {
+        return (int) SPUtil.get(context, SPConstant.FOLLOWING, 0);
     }
 
     //男：false 女：true
@@ -881,5 +1069,13 @@ public class UserViewModel extends AndroidViewModel {
 
     public MutableLiveData<Boolean> getIsFollowed() {
         return isFollowed;
+    }
+
+    public MutableLiveData<List<ListFollowReturn.DataBean.ListBean>> getFollowedList() {
+        return followedList;
+    }
+
+    public MutableLiveData<List<ListFollowReturn.DataBean.ListBean>> getFanList() {
+        return fanList;
     }
 }

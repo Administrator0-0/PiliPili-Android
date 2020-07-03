@@ -10,6 +10,7 @@ import com.example.pilipili_android.bean.netbean.CommonSend;
 import com.example.pilipili_android.bean.netbean.FollowUnFollowReturn;
 import com.example.pilipili_android.bean.netbean.GetOSSUrlReturn;
 import com.example.pilipili_android.bean.netbean.IsFollowedReturn;
+import com.example.pilipili_android.bean.netbean.ListFollowReturn;
 import com.example.pilipili_android.bean.netbean.LoginReturn;
 import com.example.pilipili_android.bean.netbean.LoginSend;
 import com.example.pilipili_android.bean.netbean.NetRequestResult;
@@ -360,6 +361,56 @@ public class UserDataSource {
 
             @Override
             public void onFailure(Call<IsFollowedReturn> call, Throwable t) {
+                onNetRequestListener.onFail("网络不稳定，请检查网络");
+            }
+        });
+    }
+
+    public void listFollowings(String token, int id, OnNetRequestListener onNetRequestListener){
+        String ciphertext = EncryptUtil.getVerificationToken(token);
+        Call<ListFollowReturn> call = retrofitService.listFollowings(ciphertext, "" + id);
+        call.enqueue(new Callback<ListFollowReturn>() {
+            @Override
+            public void onResponse(Call<ListFollowReturn> call, Response<ListFollowReturn> response) {
+                ListFollowReturn listFollowReturn = response.body();
+                if(listFollowReturn == null) {
+                    onNetRequestListener.onFail("获取是关注列表错误");
+                    return;
+                }
+                if(listFollowReturn.getCode() == 200) {
+                    onNetRequestListener.onSuccess(new NetRequestResult<>(listFollowReturn));
+                } else {
+                    onNetRequestListener.onFail(Objects.requireNonNull(listFollowReturn).getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ListFollowReturn> call, Throwable t) {
+                onNetRequestListener.onFail("网络不稳定，请检查网络");
+            }
+        });
+    }
+
+    public void listFan(String token, int id, OnNetRequestListener onNetRequestListener){
+        String ciphertext = EncryptUtil.getVerificationToken(token);
+        Call<ListFollowReturn> call = retrofitService.listFan(ciphertext, "" + id);
+        call.enqueue(new Callback<ListFollowReturn>() {
+            @Override
+            public void onResponse(Call<ListFollowReturn> call, Response<ListFollowReturn> response) {
+                ListFollowReturn listFollowReturn = response.body();
+                if(listFollowReturn == null) {
+                    onNetRequestListener.onFail("获取是粉丝列表错误");
+                    return;
+                }
+                if(listFollowReturn.getCode() == 200) {
+                    onNetRequestListener.onSuccess(new NetRequestResult<>(listFollowReturn));
+                } else {
+                    onNetRequestListener.onFail(Objects.requireNonNull(listFollowReturn).getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ListFollowReturn> call, Throwable t) {
                 onNetRequestListener.onFail("网络不稳定，请检查网络");
             }
         });

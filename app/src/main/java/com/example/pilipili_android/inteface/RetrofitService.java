@@ -12,6 +12,7 @@ import com.example.pilipili_android.bean.netbean.GetRelatedVideoReturn;
 import com.example.pilipili_android.bean.netbean.GetVideoListReturn;
 import com.example.pilipili_android.bean.netbean.GetOSSUrlReturn;
 import com.example.pilipili_android.bean.netbean.IsFollowedReturn;
+import com.example.pilipili_android.bean.netbean.ListFollowReturn;
 import com.example.pilipili_android.bean.netbean.LoginReturn;
 import com.example.pilipili_android.bean.netbean.RenameReturn;
 import com.example.pilipili_android.bean.netbean.RewardVideoReturn;
@@ -115,6 +116,20 @@ public interface RetrofitService {
      */
     @GET(UrlConstant.OPEN_DETAIL_HEAD + "{id}" + UrlConstant.IS_FOLLOWED)
     Call<IsFollowedReturn> isFollowed(@Header("Authorization") String token, @Path("id") String id);
+
+    /**
+     * 获取关注列表
+     *
+     */
+    @GET(UrlConstant.OPEN_DETAIL_HEAD + "{id}" + UrlConstant.LIST_FOLLOWINGS)
+    Call<ListFollowReturn> listFollowings(@Header("Authorization") String token, @Path("id") String id);
+
+    /**
+     * 获取粉丝列表
+     *
+     */
+    @GET(UrlConstant.OPEN_DETAIL_HEAD + "{id}" + UrlConstant.LIST_FAN)
+    Call<ListFollowReturn> listFan(@Header("Authorization") String token, @Path("id") String id);
 
     /**
      * 上传签名

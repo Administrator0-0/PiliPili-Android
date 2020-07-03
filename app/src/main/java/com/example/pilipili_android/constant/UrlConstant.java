@@ -71,6 +71,10 @@ public interface UrlConstant {
 
     String GET_USER_VIDEO_TAIL = "/get-video";
 
+    String LIST_FAN = "/list-fans";
+
+    String LIST_FOLLOWINGS = "/list-followings";
+
     /**
      * 视频、评论、弹幕接口
      */
