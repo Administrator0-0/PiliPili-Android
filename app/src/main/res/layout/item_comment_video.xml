@@ -68,7 +68,7 @@
             android:textSize="14sp"
             android:text="刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了"/>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/item_comment_content"
@@ -87,6 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/item_comment_like"
                 android:textColor="@color/black_alpha_45"
                 android:textSize="18sp"
                 android:text="666666"/>
@@ -95,25 +96,27 @@
                 android:layout_marginTop="10dp"
                 android:id="@+id/item_comment_add"
                 android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/item_comment_like_num"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@drawable/de2" />
 
 
-<!--            <ImageView-->
-<!--                android:id="@+id/item_comment_more"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="215dp"-->
-<!--                android:paddingTop="10dp"-->
-<!--                android:src="@drawable/ic_more_grey" />-->
+            <ImageView
+                android:id="@+id/item_comment_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:paddingTop="10dp"
+                android:src="@drawable/ic_more_grey" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
 
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/replay_bar"
         android:layout_below="@id/comment_layout"
         android:layout_width="340dp"
         android:layout_height="wrap_content"

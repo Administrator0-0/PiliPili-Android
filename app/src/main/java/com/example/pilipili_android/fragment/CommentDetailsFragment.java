@@ -24,6 +24,7 @@ import com.example.pilipili_android.adapter.VideoCommentAdapter;
 import com.example.pilipili_android.bean.localbean.CommentItemBean;
 import com.example.pilipili_android.util.AliyunOSSUtil;
 import com.example.pilipili_android.view_model.CommentViewModel;
+import com.example.pilipili_android.view_model.UserBaseDetail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,9 +54,11 @@ public class CommentDetailsFragment extends Fragment implements View.OnClickList
     private CommentViewModel commentViewModel;
     private CommentItemBean main;
     private VideoActivity.OnRelayListener relayListener;
+    private int up;
 
-    public CommentDetailsFragment(CommentItemBean main) {
+    public CommentDetailsFragment(CommentItemBean main, int up) {
         this.main = main;
+        this.up = up;
     }
 
     public void setRelayListener(VideoActivity.OnRelayListener relayListener) {
@@ -73,8 +76,9 @@ public class CommentDetailsFragment extends Fragment implements View.OnClickList
 
     private void initView() {
         initData();
-        adapter = new CommentReplayAdapter(main, Objects.requireNonNull(commentViewModel.getReplayList().getValue()));
+        adapter = new CommentReplayAdapter(main, Objects.requireNonNull(commentViewModel.getReplayList().getValue()), up);
         adapter.setRelayListener(relayListener);
+        adapter.setOnDeleteListener(itemBean -> commentViewModel.delete(itemBean.getComment().getId(), main.getComment().getId(), true, itemBean));
         replayListView.setLayoutManager(new LinearLayoutManager(getContext()));
         replayListView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
         replayListView.setAdapter(adapter);
@@ -87,6 +91,18 @@ public class CommentDetailsFragment extends Fragment implements View.OnClickList
         commentViewModel.getReplayList().observe(getViewLifecycleOwner(), dataBeans -> {
             adapter.setReplays(dataBeans);
             adapter.notifyDataSetChanged();
+            if (main.getComment().isIs_liked()) {
+                commentLike.setBackground(this.getResources().getDrawable(R.drawable.b_z));
+            } else {
+                commentLike.setBackground(this.getResources().getDrawable(R.drawable.ba0));
+            }
+        });
+        commentViewModel.getCommentList().observe(getViewLifecycleOwner(), dataBeans -> {
+            if (main.getComment().isIs_liked()) {
+                commentLike.setBackground(this.getResources().getDrawable(R.drawable.b_z));
+            } else {
+                commentLike.setBackground(this.getResources().getDrawable(R.drawable.ba0));
+            }
         });
         commentViewModel.getReplayListDFS(main.getComment().getId());
         String url = AliyunOSSUtil.getImageUrl(getActivity().getApplicationContext(), main.getAvatar().getGuest_key(),
@@ -101,7 +117,15 @@ public class CommentDetailsFragment extends Fragment implements View.OnClickList
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.comment_like) {
-
+            if (main.getComment().isIs_liked()) {
+                commentViewModel.unlikeComment(main, -1);
+            } else {
+                commentViewModel.likeComment(main, -1);
+            }
         }
+    }
+
+    public interface OnDeleteListener {
+        void onDelete(CommentItemBean itemBean);
     }
 }

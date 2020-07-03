@@ -121,6 +121,8 @@ public interface UrlConstant {
 
     String POST_COMMENT_REPLAY = "/replay";
 
+    String DELETE_COMMENT = "/delete";
+
     String GET_COMMENT_REPLAY = "/get-replay";
 
     String GET_COMMENT_REPLAY_DFS = "/get-replay-dfs";

@@ -30,6 +30,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
@@ -224,6 +225,13 @@ public interface RetrofitService {
      */
     @POST(UrlConstant.GET_COMMENT_PREFIX + "{id}" + UrlConstant.POST_COMMENT_REPLAY)
     Call<CommentReturn> postReplay(@Path("id") String id, @Header("Authorization") String token, @Body RequestBody jsonObject);
+
+    /**
+     * 删除评论
+     *
+     */
+    @DELETE(UrlConstant.GET_COMMENT_PREFIX + "{id}" + UrlConstant.DELETE_COMMENT)
+    Call<CommonReturn> deleteComment(@Path("id") String id, @Header("Authorization") String token);
 
     /**
      * 获取评论回复列表 (预览)
