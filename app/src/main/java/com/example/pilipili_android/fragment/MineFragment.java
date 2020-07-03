@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +72,7 @@ public class MineFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d("aaa", "onCreateView: ");
         fragmentMineBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_mine, container, false);
         View view = fragmentMineBinding.getRoot();
         fragmentMineBinding.setUserViewModel(new ViewModelProvider(Objects.requireNonNull(getActivity())).get(UserViewModel.class));
@@ -119,13 +121,13 @@ public class MineFragment extends Fragment {
     }
 
     @OnClick(R.id.big_vip)
-    public void onVIPClicked() {
+    void onVIPClicked() {
         Intent intent = new Intent(getActivity(), VIPActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.button_publish)
-    public void onPublishClicked() {
+    void onPublishClicked() {
         if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getContext()),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(getContext(),
