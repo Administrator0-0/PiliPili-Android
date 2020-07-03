@@ -118,6 +118,44 @@ public class CommentViewModel extends AndroidViewModel {
         });
     }
 
+    public void delete(int id, int parentId, boolean isReplay, CommentItemBean itemBean) {
+        dataSource.delete(id, UserBaseDetail.getToken(context), new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+                // ignore
+            }
+
+            @Override
+            public void onSuccess() {
+                if (isReplay) {
+                    if (parentId > 0) {
+                        replayList.getValue().get(parentId).remove(itemBean);
+                        replayList.postValue(replayList.getValue());
+                    } else {
+                        replayList.getValue().put(parentId, new ArrayList<>());
+                        replayList.postValue(replayList.getValue());
+                        commentList.getValue().remove(itemBean);
+                        commentList.postValue(commentList.getValue());
+                    }
+                } else {
+                    commentList.getValue().remove(itemBean);
+                    commentList.postValue(commentList.getValue());
+                }
+
+            }
+
+            @Override
+            public void onFail() {
+                // ignore
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     public void detailsReplay(int parentId, int id, String comment) {
         dataSource.replay(id, comment, UserBaseDetail.getToken(context), new OnNetRequestListener() {
             @Override

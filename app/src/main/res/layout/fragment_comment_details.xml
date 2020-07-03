@@ -73,7 +73,7 @@
                 android:textSize="14sp"
                 android:text="刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了"/>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/comment_content"
@@ -92,6 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/comment_like"
                     android:textColor="@color/black_alpha_45"
                     android:textSize="18sp"
                     android:text="666666"/>
@@ -100,11 +101,11 @@
                     android:id="@+id/comment_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="215dp"
+                    android:layout_alignParentEnd="true"
                     android:paddingTop="10dp"
                     android:src="@drawable/ic_more_grey" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
 
         </RelativeLayout>

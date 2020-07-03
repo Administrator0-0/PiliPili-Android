@@ -108,6 +108,30 @@ public class CommentDataSource {
         });
     }
 
+    public void delete(int id, String token, OnNetRequestListener onNetRequestListener) {
+        String ciphertext = EncryptUtil.getVerificationToken(token);
+        Call<CommonReturn> call = retrofitService.deleteComment("" + id, ciphertext);
+        call.enqueue(new Callback<CommonReturn>() {
+            @Override
+            public void onResponse(Call<CommonReturn> call, Response<CommonReturn> response) {
+                CommonReturn commonReturn = response.body();
+                if(commonReturn != null) {
+                    if(commonReturn.getCode() == 200) {
+                        onNetRequestListener.onSuccess();
+                    } else {
+                        onNetRequestListener.onFail(commonReturn.getMessage());
+                    }
+                } else {
+                    onNetRequestListener.onFail("删除错误");
+                }
+            }
+            @Override
+            public void onFailure(Call<CommonReturn> call, Throwable t) {
+                onNetRequestListener.onFail("网络不稳定，请检查网络");
+            }
+        });
+    }
+
     public void getReplayList(int id, String token, OnNetRequestListener onNetRequestListener) {
         String ciphertext = EncryptUtil.getVerificationToken(token);
         Call<CommentListReturn> call = retrofitService.getReplayList("" + id, ciphertext);

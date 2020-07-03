@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import com.example.pilipili_android.R;
 import com.example.pilipili_android.activity.VideoActivity;
 import com.example.pilipili_android.adapter.VideoCommentAdapter;
+import com.example.pilipili_android.bean.localbean.CommentItemBean;
 import com.example.pilipili_android.bean.netbean.CommentDetailsReturn;
 import com.example.pilipili_android.view_model.CommentViewModel;
 
@@ -33,13 +34,15 @@ public class VideoCommentFragment extends Fragment {
     RecyclerView videoListView;
 
     private int pv;
+    private int up;
     private VideoCommentAdapter adapter;
     private CommentViewModel commentViewModel;
     private VideoActivity.OnRelayOpenListener mListener;
     private VideoActivity.OnRelayListener relayListener;
 
-    public VideoCommentFragment(int pv) {
+    public VideoCommentFragment(int pv, int up) {
         this.pv = pv;
+        this.up = up;
     }
 
     public void setListener(VideoActivity.OnRelayOpenListener mListener) {
@@ -61,9 +64,12 @@ public class VideoCommentFragment extends Fragment {
 
     private void initView() {
         initData();
-        adapter = new VideoCommentAdapter(commentViewModel.getCommentList().getValue(), commentViewModel.getReplayList().getValue());
+        adapter = new VideoCommentAdapter(commentViewModel.getCommentList().getValue(), commentViewModel.getReplayList().getValue(), up);
         adapter.setListener(mListener);
         adapter.setRelayListener(relayListener);
+        adapter.setOnDeleteListener(itemBean -> {
+            commentViewModel.delete(itemBean.getComment().getId(), -1, false, itemBean);
+        });
         videoListView.setLayoutManager(new LinearLayoutManager(getContext()));
         videoListView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
         videoListView.setAdapter(adapter);
@@ -84,5 +90,8 @@ public class VideoCommentFragment extends Fragment {
         commentViewModel.getCommentList(pv, 1);
     }
 
+    public interface OnDeleteListener {
+        void onDelete(CommentItemBean itemBean);
+    }
 
 }

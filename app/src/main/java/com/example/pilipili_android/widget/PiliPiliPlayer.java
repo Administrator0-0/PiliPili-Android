@@ -25,25 +25,29 @@ public class PiliPiliPlayer extends VideoView {
     @Override
     public void start() {
         super.start();
-        mListener.onStart();
+        if (mListener != null)
+            mListener.onStart();
     }
 
     @Override
     public void pause() {
         super.pause();
-        mListener.onPause();
+        if (mListener != null)
+            mListener.onPause();
     }
 
     @Override
     public void resume() {
         super.resume();
-        mListener.onStart();
+        if (mListener != null)
+            mListener.onStart();
     }
 
     @Override
     public void onPrepared() {
         super.onPrepared();
-        mListener.onStart();
+        if (mListener != null)
+            mListener.onStart();
     }
 
     @Override

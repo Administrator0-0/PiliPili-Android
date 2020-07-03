@@ -22,8 +22,11 @@ import com.example.pilipili_android.activity.OtherSpaceActivity;
 import com.example.pilipili_android.activity.SpaceActivity;
 import com.example.pilipili_android.activity.VideoActivity;
 import com.example.pilipili_android.bean.localbean.CommentItemBean;
+import com.example.pilipili_android.fragment.VideoCommentFragment;
+import com.example.pilipili_android.inteface.OnDialogClickListener;
 import com.example.pilipili_android.util.AliyunOSSUtil;
 import com.example.pilipili_android.view_model.UserBaseDetail;
+import com.example.pilipili_android.widget.CommonDialog;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,10 +40,13 @@ public class VideoCommentAdapter extends RecyclerView.Adapter {
     private Context mContext;
     private VideoActivity.OnRelayOpenListener mListener;
     private VideoActivity.OnRelayListener relayListener;
+    private VideoCommentFragment.OnDeleteListener onDeleteListener;
+    private int up;
 
-    public VideoCommentAdapter(List<CommentItemBean> comments, HashMap<Integer, List<CommentItemBean>> replays) {
+    public VideoCommentAdapter(List<CommentItemBean> comments, HashMap<Integer, List<CommentItemBean>> replays, int up) {
         this.comments = comments;
         this.replays = replays;
+        this.up = up;
     }
 
     public void setListener(VideoActivity.OnRelayOpenListener mListener) {
@@ -49,6 +55,10 @@ public class VideoCommentAdapter extends RecyclerView.Adapter {
 
     public void setRelayListener(VideoActivity.OnRelayListener relayListener) {
         this.relayListener = relayListener;
+    }
+
+    public void setOnDeleteListener(VideoCommentFragment.OnDeleteListener onDeleteListener) {
+        this.onDeleteListener = onDeleteListener;
     }
 
     public void setComments(List<CommentItemBean> comments) {
@@ -70,6 +80,17 @@ public class VideoCommentAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
         CommentItemBean itemBean = comments.get(position);
+        itemViewHolder.more.setOnClickListener(v -> {
+            CommonDialog commonDialog = new CommonDialog(mContext);
+            commonDialog.setTitle("删除评论").setPositive("删除").setNegative("取消").setImageResId(R.drawable.bh3)
+                    .setOnCancelDialogClickListener(commonDialog::dismiss)
+                    .setOnConfirmDialogClickListener(() -> {
+                        onDeleteListener.onDelete(itemBean);
+                        commonDialog.dismiss();
+                    })
+                    .setMessage("是否删除该评论？");
+            commonDialog.show();
+        });
         itemViewHolder.mAdd.setOnClickListener(v -> relayListener.onRelay(itemBean, true));
         itemViewHolder.mLike.setOnClickListener(v -> relayListener.onLike(itemBean));
         itemViewHolder.mUserAvatar.setOnClickListener(v -> {
@@ -94,6 +115,10 @@ public class VideoCommentAdapter extends RecyclerView.Adapter {
                 mContext.startActivity(intent);
             }
         });
+        if (itemBean.getComment().getAuthor() != UserBaseDetail.getUID(mContext)
+                && UserBaseDetail.getUID(mContext) != up) {
+            itemViewHolder.more.setVisibility(View.GONE);
+        }
         itemViewHolder.mUsername.setText(itemBean.getComment().getAuthor_name());
         if (itemBean.getAvatar() != null && itemBean.getAvatar().getFile() != null) {
             String url = AliyunOSSUtil.getImageUrl(mContext.getApplicationContext(), itemBean.getAvatar().getGuest_key(),
@@ -157,6 +182,7 @@ public class VideoCommentAdapter extends RecyclerView.Adapter {
         TextView mContent;
         TextView mLikeNum;
         ImageView mAdd;
+        ImageView more;
         TextView[]replays = new TextView[4];
 
         public ItemViewHolder(View itemView) {
@@ -172,6 +198,7 @@ public class VideoCommentAdapter extends RecyclerView.Adapter {
             replays[2] = itemView.findViewById(R.id.replay_three);
             replays[3] = itemView.findViewById(R.id.replay_total);
             mAdd = itemView.findViewById(R.id.item_comment_add);
+            more = itemView.findViewById(R.id.item_comment_more);
         }
     }
 
