@@ -7,6 +7,7 @@ import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -144,7 +145,7 @@ public class VideoCommentAdapter extends RecyclerView.Adapter {
             itemViewHolder.replays[i].setVisibility(View.VISIBLE);
             SpannableString string = new SpannableString(list.get(i).getComment().getAuthor_name()
                     + ": " + list.get(i).getComment().getContent());
-            string.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.colorPrimary)),
+            string.setSpan(new ForegroundColorSpan(mContext.getColor(R.color.colorPrimary)),
                     0, list.get(i).getComment().getAuthor_name().length() + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             itemViewHolder.replays[i].setText(string);
         }
@@ -163,9 +164,9 @@ public class VideoCommentAdapter extends RecyclerView.Adapter {
             itemViewHolder.replays[3].setVisibility(View.GONE);
         }
         if (itemBean.getComment().isIs_liked()) {
-            itemViewHolder.mLike.setBackground(mContext.getResources().getDrawable(R.drawable.b_z));
+            itemViewHolder.mLike.setImageResource(R.drawable.mall_ic_liked);
         } else {
-            itemViewHolder.mLike.setBackground(mContext.getResources().getDrawable(R.drawable.ba0));
+            itemViewHolder.mLike.setImageResource(R.drawable.mall_ic_like);
         }
     }
 

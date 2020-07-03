@@ -108,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:hint="请输入密码"
                 android:maxLines="1"
-                android:inputType="text"/>
+                android:inputType="textPassword"/>
         </LinearLayout>
 
         <ImageView
@@ -164,7 +164,7 @@
         android:layout_height="wrap_content"
         tools:text="用户名只能由中英文及_组成哦~"
         android:textColor="@color/palevioletred"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:layout_below="@+id/linear_bottom"
         android:layout_centerHorizontal="true"
         android:gravity="center"

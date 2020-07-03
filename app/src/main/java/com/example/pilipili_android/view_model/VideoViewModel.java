@@ -50,6 +50,9 @@ public class VideoViewModel extends AndroidViewModel {
     private MutableLiveData<List<VideoDetailReturn.DataBean>> hotVideoBeans = new MutableLiveData<>();
     private MutableLiveData<List<VideoDetailReturn.DataBean>> animeVideoBeans = new MutableLiveData<>();
     private MutableLiveData<List<VideoDetailReturn.DataBean>> recommendVideoBeans = new MutableLiveData<>();
+    private MutableLiveData<VideoDetailReturn.DataBean> videoDetailBeanFromRecommend = new MutableLiveData<>();
+    private MutableLiveData<VideoDetailReturn.DataBean> videoDetailBeanFromHot = new MutableLiveData<>();
+    private MutableLiveData<VideoDetailReturn.DataBean> videoDetailBeanFromAnime = new MutableLiveData<>();
     private MutableLiveData<VideoDetailReturn.DataBean> videoDetailBean = new MutableLiveData<>();
 
     public VideoViewModel(@NonNull Application application) {
@@ -450,6 +453,42 @@ public class VideoViewModel extends AndroidViewModel {
         });
     }
 
+    //偷个懒，Recommend是1，Hot是2，Anime是3，相关视频、空间视频由于是独立activity，不用区分。
+    public void getVideoDetail(int pv, int what) {
+        videoDataSource.getVideoDetail(UserBaseDetail.getToken(context), pv, new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+                switch (what) {
+                    case 1:
+                        videoDetailBeanFromRecommend.setValue((VideoDetailReturn.DataBean) netRequestResult.getData());
+                        break;
+                    case 2:
+                        videoDetailBeanFromHot.setValue((VideoDetailReturn.DataBean) netRequestResult.getData());
+                        break;
+                    case 3:
+                        videoDetailBeanFromAnime.setValue((VideoDetailReturn.DataBean) netRequestResult.getData());
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+
+            }
+        });
+    }
+
     public void getVideoDetail(int pv) {
         videoDataSource.getVideoDetail(UserBaseDetail.getToken(context), pv, new OnNetRequestListener() {
             @Override
@@ -473,6 +512,7 @@ public class VideoViewModel extends AndroidViewModel {
             }
         });
     }
+
 
     public void getRelatedVideos(int pv) {
         videoDataSource.getRelatedVideoList(pv, new OnNetRequestListener() {
@@ -552,6 +592,18 @@ public class VideoViewModel extends AndroidViewModel {
 
     public MutableLiveData<List<VideoDetailReturn.DataBean>> getRecommendVideoBeans() {
         return recommendVideoBeans;
+    }
+
+    public MutableLiveData<VideoDetailReturn.DataBean> getVideoDetailBeanFromAnime() {
+        return videoDetailBeanFromAnime;
+    }
+
+    public MutableLiveData<VideoDetailReturn.DataBean> getVideoDetailBeanFromHot() {
+        return videoDetailBeanFromHot;
+    }
+
+    public MutableLiveData<VideoDetailReturn.DataBean> getVideoDetailBeanFromRecommend() {
+        return videoDetailBeanFromRecommend;
     }
 
     public MutableLiveData<VideoDetailReturn.DataBean> getVideoDetailBean() {

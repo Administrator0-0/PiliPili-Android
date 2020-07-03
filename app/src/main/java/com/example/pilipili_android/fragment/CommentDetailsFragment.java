@@ -92,16 +92,16 @@ public class CommentDetailsFragment extends Fragment implements View.OnClickList
             adapter.setReplays(dataBeans);
             adapter.notifyDataSetChanged();
             if (main.getComment().isIs_liked()) {
-                commentLike.setBackground(this.getResources().getDrawable(R.drawable.b_z));
+                commentLike.setImageResource(R.drawable.mall_ic_liked);
             } else {
-                commentLike.setBackground(this.getResources().getDrawable(R.drawable.ba0));
+                commentLike.setImageResource(R.drawable.mall_ic_like);
             }
         });
         commentViewModel.getCommentList().observe(getViewLifecycleOwner(), dataBeans -> {
             if (main.getComment().isIs_liked()) {
-                commentLike.setBackground(this.getResources().getDrawable(R.drawable.b_z));
+                commentLike.setImageResource(R.drawable.mall_ic_liked);
             } else {
-                commentLike.setBackground(this.getResources().getDrawable(R.drawable.ba0));
+                commentLike.setImageResource(R.drawable.mall_ic_like);
             }
         });
         commentViewModel.getReplayListDFS(main.getComment().getId());

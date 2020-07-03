@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="5dp"
     tools:context=".fragment.VideoCommentFragment">
 
@@ -24,8 +24,11 @@
 
             <com.qmuiteam.qmui.widget.QMUIRadiusImageView
                 android:id="@+id/user_avatar"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
+                tools:src="@drawable/ic_avatar4t"
+                android:scaleType="centerCrop"
+                app:qmui_border_color="@color/white"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="10dp"/>
 
         </LinearLayout>
@@ -45,57 +48,57 @@
                 android:id="@+id/user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black_alpha_60"
-                android:textSize="14sp"
-                android:text="刘薪王"/>
-
+                android:textSize="15sp"
+                tools:text="刘薪王"/>
 
             <TextView
                 android:id="@+id/comment_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/user_name"
-                android:layout_marginStart="5dp"
+                android:layout_alignStart="@id/user_name"
                 android:layout_marginTop="3dp"
-                android:textColor="@color/black_alpha_30"
-                android:textSize="12sp"
-                android:text="2-31"/>
+                android:textColor="@color/gray_20"
+                android:textSize="13sp"
+                tools:text="2-31"/>
 
             <TextView
+                android:layout_marginTop="8dp"
                 android:id="@+id/comment_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
                 android:ellipsize="end"
+                android:layout_below="@+id/comment_time"
                 android:maxLines="3"
-                android:paddingTop="5dp"
                 android:textColor="@color/font_normal"
-                android:textSize="14sp"
-                android:text="刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了"/>
+                android:textSize="15sp"
+                android:lineSpacingExtra="8dp"
+                tools:text="刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了刘薪王太强了"/>
 
             <RelativeLayout
+                android:layout_marginVertical="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/comment_content"
-                android:orientation="horizontal">
+                android:layout_below="@id/comment_content">
 
                 <ImageView
                     android:id="@+id/comment_like"
-                    android:layout_marginTop="10dp"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ba0"/>
+                    android:layout_centerVertical="true"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:paddingTop="2dp"
+                    android:src="@drawable/mall_ic_like"/>
 
                 <TextView
+                    android:layout_centerVertical="true"
                     android:id="@+id/comment_like_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_marginStart="10dp"
                     android:layout_toEndOf="@id/comment_like"
                     android:textColor="@color/black_alpha_45"
-                    android:textSize="18sp"
-                    android:text="666666"/>
+                    android:textSize="17sp"
+                    tools:text="666666"/>
 
 
             </RelativeLayout>
@@ -107,16 +110,14 @@
         <View
             android:id="@+id/line"
             android:layout_width="match_parent"
-            android:layout_height="5dp"
+            android:layout_height="6.5dp"
             android:layout_below="@+id/comment_layout"
-            android:layout_marginTop="20dp"
-            android:background="@color/colorPrimary" />
-
+            android:layout_marginTop="5dp"
+            android:background="@color/gray_light_30" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/replay_list"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginTop="13dp"
             android:layout_below="@+id/line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

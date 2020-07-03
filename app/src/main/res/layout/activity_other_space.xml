@@ -26,6 +26,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar_layout"
             android:layout_width="match_parent"
+            android:background="@color/white"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true">
 
@@ -127,7 +128,7 @@
                     android:layout_width="260dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/relativelayout_2"
-                    android:text="+ 关注"
+                    android:text="关注TA"
                     android:id="@+id/fan"
                     android:gravity="center"
                     app:qmui_borderColor="@color/colorPrimary"
@@ -321,6 +322,7 @@
                 android:background="@color/white"
                 android:text="投稿列表"
                 android:gravity="center"
+                android:layout_marginTop="5dp"
                 android:paddingVertical="6dp"
                 android:textSize="16sp"/>
         </com.google.android.material.appbar.AppBarLayout>

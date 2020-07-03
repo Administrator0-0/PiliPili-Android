@@ -1,5 +1,6 @@
 package com.example.pilipili_android.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pilipili_android.R;
+import com.example.pilipili_android.activity.VideoActivity;
 import com.example.pilipili_android.adapter.RecommendVideoAdapter;
 import com.example.pilipili_android.view_model.VideoViewModel;
 import com.scwang.smartrefresh.header.StoreHouseHeader;
@@ -50,7 +52,9 @@ public class RecommendFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerview);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
-        recommendVideoAdapter = new RecommendVideoAdapter(getContext());
+        recommendVideoAdapter = new RecommendVideoAdapter(getContext(), pv -> {
+            videoViewModel.getVideoDetail(pv, 1);
+        });
         recommendVideoAdapter.setDataBeanList(videoViewModel.getRecommendVideoBeans().getValue());
         recyclerView.setAdapter(recommendVideoAdapter);
         if(videoViewModel.getRecommendVideoBeans().getValue().size() == 0){
@@ -73,6 +77,12 @@ public class RecommendFragment extends Fragment {
             recommendVideoAdapter.setDataBeanList(videoViewModel.getRecommendVideoBeans().getValue());
             recommendVideoAdapter.notifyDataSetChanged();
             refreshLayout.finishRefresh();
+        });
+
+        videoViewModel.getVideoDetailBeanFromRecommend().observe(getActivity(), dataBean -> {
+            Intent intent = new Intent(getActivity(), VideoActivity.class);
+            intent.putExtra("dataBean", dataBean);
+            getContext().startActivity(intent);
         });
 
         return view;

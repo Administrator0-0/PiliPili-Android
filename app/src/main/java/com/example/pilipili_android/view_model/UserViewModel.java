@@ -260,7 +260,6 @@ public class UserViewModel extends AndroidViewModel {
     }
 
     public void getUserDetailInfo() {
-        Log.d("aaa1", "getUserDetailInfo: ");
         userDataSource.getUserDetail(UserBaseDetail.getToken(context), new OnNetRequestListener() {
             @Override
             public void onSuccess(NetRequestResult netRequestResult) {
@@ -275,10 +274,8 @@ public class UserViewModel extends AndroidViewModel {
                 userDataSource.getUserAvatar(UserBaseDetail.getUID(context), new OnNetRequestListener() {
                     @Override
                     public void onSuccess(NetRequestResult netRequestResult) {
-                        Log.d("aaa5", "getUserDetailInfo: ");
                         GetOSSUrlReturn getOSSUrlReturn = (GetOSSUrlReturn) netRequestResult.getData();
                         if(getOSSUrlReturn.getData().getFile() == null) {
-                            Log.d("aaa6", "getUserDetailInfo");
                             isSuccessLogin.setValue(true);
                             return;
                         }
@@ -773,6 +770,7 @@ public class UserViewModel extends AndroidViewModel {
             public void onSuccess(NetRequestResult netRequestResult) {
                 isFollowed.setValue(true);
                 putFollowingCount(getFollowingCount() + 1);
+                Toast.makeText(context, "关注成功~喵", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -798,6 +796,7 @@ public class UserViewModel extends AndroidViewModel {
             public void onSuccess(NetRequestResult netRequestResult) {
                 isFollowed.setValue(false);
                 putFollowingCount(getFollowingCount() - 1);
+                Toast.makeText(context, "已取消关注", Toast.LENGTH_SHORT).show();
             }
 
             @Override

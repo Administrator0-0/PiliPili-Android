@@ -52,6 +52,7 @@ import com.example.pilipili_android.widget.ExpandMenuView;
 import com.example.pilipili_android.widget.PiliPiliDanmakuView;
 import com.example.pilipili_android.widget.PiliPiliPlayer;
 import com.example.pilipili_android.widget.PiliPiliVideoController;
+import com.flyco.tablayout.SlidingTabLayout;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
@@ -84,7 +85,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
     @BindView(R.id.tab_layout)
-    TabLayout mTabLayout;
+    SlidingTabLayout mTabLayout;
     @BindView(R.id.player)
     PiliPiliPlayer player;
     @BindView(R.id.send_danmuku_vertical)
@@ -92,7 +93,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     @BindView(R.id.expand)
     ExpandMenuView expandMenuView;
     @BindView(R.id.replay_bar)
-    LinearLayout replayBar;
+    RelativeLayout replayBar;
     @BindView(R.id.tab_bar)
     LinearLayout tabBar;
     @BindView(R.id.button_back)
@@ -325,7 +326,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
 
     private void setPagerTitle(int num) {
         titles.add("简介");
-        titles.add("评论" + "(" + num + ")");
+        titles.add("评论" + " " + num);
         mAdapter = new VideoDetailsPagerAdapter(getSupportFragmentManager(), fragments, titles);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -349,7 +350,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         });
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(2);
-        mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.setViewPager(mViewPager);
     }
 
     private void initPlayer() {

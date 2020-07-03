@@ -97,6 +97,8 @@ public class VideoInfoFragment extends Fragment {
     private boolean isStar = false;
 
     private int coin;
+    private int star;
+    private int like;
 
     @Override
     public void onDestroyView() {
@@ -119,6 +121,8 @@ public class VideoInfoFragment extends Fragment {
         videoViewModel.getRelatedVideos(videoViewModel.getDataBean().getPv());
 
         coin = videoViewModel.getDataBean().getCoins();
+        like = videoViewModel.getDataBean().getLikes();
+        star = videoViewModel.getDataBean().getCollections();
 
         initView();
 
@@ -137,22 +141,26 @@ public class VideoInfoFragment extends Fragment {
 
         videoViewModel.getIsLikeSuccess().observe(getActivity(), isSuccess -> {
             isLike = true;
-            tvLikes.setText((videoViewModel.getDataBean().getLikes() + 1) + "");
+            like += 1;
+            tvLikes.setText(like + "");
             likeImg.setImageResource(R.drawable.bss_selected);
         });
         videoViewModel.getIsCancelLikeSuccess().observe(getActivity(), isSuccess -> {
             isLike = false;
-            tvLikes.setText(videoViewModel.getDataBean().getLikes() + "");
+            like -= 1;
+            tvLikes.setText(like + "");
             likeImg.setImageResource(R.drawable.bss);
         });
         videoViewModel.getIsStarSuccess().observe(getActivity(), isSuccess -> {
             isStar = true;
-            tvStars.setText((videoViewModel.getDataBean().getCollections() + 1) + "");
+            star += 1;
+            tvStars.setText(star + "");
             starImg.setImageResource(R.drawable.bsp_selected);
         });
         videoViewModel.getIsCancelStarSuccess().observe(getActivity(), isSuccess -> {
             isStar = false;
-            tvStars.setText(videoViewModel.getDataBean().getCollections() + "");
+            star -= 1;
+            tvStars.setText(star + "");
             starImg.setImageResource(R.drawable.bsp);
         });
         videoViewModel.getIsRewardSuccess().observe(getActivity(), coins -> {
@@ -170,7 +178,7 @@ public class VideoInfoFragment extends Fragment {
             } else {
                 this.isFollow = false;
                 follow.setTextColor(getContext().getColor(R.color.white));
-                follow.setText("+ 关注");
+                follow.setText("关注TA");
                 follow.setBackground(Objects.requireNonNull(getContext()).getDrawable(R.drawable.btn_pin_bg));
             }
         });

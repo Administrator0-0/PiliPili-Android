@@ -19,6 +19,7 @@ import com.example.pilipili_android.R;
 import com.example.pilipili_android.activity.OtherSpaceActivity;
 import com.example.pilipili_android.activity.SpaceActivity;
 import com.example.pilipili_android.bean.netbean.ListFollowReturn;
+import com.example.pilipili_android.constant.DefaultConstant;
 import com.example.pilipili_android.fragment.FanListFragment;
 import com.example.pilipili_android.view_model.UserBaseDetail;
 
@@ -74,6 +75,13 @@ public class UserFollowAdapter extends RecyclerView.Adapter {
                 Intent intent = new Intent(mContext, OtherSpaceActivity.class);
                 intent.putExtra("UID", bean.getId());
                 mContext.startActivity(intent);
+            }
+        });
+        itemViewHolder.userAvatar.post(() -> {
+            if(bean.getAvatar() != null) {
+                Glide.with(mContext).load(bean.getAvatar()).diskCacheStrategy(DiskCacheStrategy.NONE).into(itemViewHolder.userAvatar);
+            } else {
+                itemViewHolder.userAvatar.setImageResource(DefaultConstant.AVATAR_IMAGE_DEFAULT);
             }
         });
     }

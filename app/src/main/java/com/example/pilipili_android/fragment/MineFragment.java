@@ -116,6 +116,7 @@ public class MineFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        Log.d("aaa", "onStart: ");
         initView();
     }
 
@@ -207,16 +208,12 @@ public class MineFragment extends Fragment {
         TextView logOff = view.findViewById(R.id.tv2);
         cleanCache.setText("清除缓存");
         logOff.setText("退出登录");
-        logOff.setTextColor(getContext().getColor(R.color.firebrick));
+        logOff.setTextColor(getContext().getColor(R.color.red));
         cleanCache.setOnClickListener(view1 -> {
             dialog.dismiss();
-            new Thread(() -> Glide.get(Objects.requireNonNull(getActivity())).clearDiskCache()).start();
-            Glide.get(Objects.requireNonNull(getActivity())).clearMemory();
-//            File file1 = new File(CROP_CACHE);
-//            File file2 = new File(COMPRESS_CACHE);
-//            if(file1.delete() && file2.delete()) {
-//                Toast.makeText(getContext(), "清除缓存成功", Toast.LENGTH_SHORT).show();
-//            }
+//            new Thread(() -> Glide.get(Objects.requireNonNull(getActivity())).clearDiskCache()).start();
+//            Glide.get(Objects.requireNonNull(getActivity())).clearMemory();
+            Toast.makeText(getContext(), "清除缓存成功", Toast.LENGTH_SHORT).show();
         });
 
         logOff.setOnClickListener(view1 -> {

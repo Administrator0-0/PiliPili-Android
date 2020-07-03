@@ -70,14 +70,14 @@
                 android:layout_marginEnd="2dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingVertical="3dp"
-                android:paddingHorizontal="12dp"
+                android:paddingVertical="3.5dp"
+                android:paddingHorizontal="10dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerInParent="true"
                 android:background="@drawable/btn_pin_bg"
                 android:gravity="center"
-                tools:text="+ 关注"
-                android:textSize="14sp"
+                android:text="关注TA"
+                android:textSize="15sp"
                 android:textColor="@color/white" />
 
         </RelativeLayout>

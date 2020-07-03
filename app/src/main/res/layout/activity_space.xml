@@ -25,6 +25,7 @@
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/app_bar_layout"
                 android:layout_width="match_parent"
+                android:background="@color/white"
                 android:layout_height="wrap_content"
                 android:fitsSystemWindows="true">
 
@@ -319,6 +320,7 @@
 <!--                    app:tl_textsize="17sp" />-->
 
                 <TextView
+                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"

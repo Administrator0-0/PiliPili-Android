@@ -1,5 +1,6 @@
 package com.example.pilipili_android.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pilipili_android.R;
+import com.example.pilipili_android.activity.VideoActivity;
 import com.example.pilipili_android.adapter.HotVideoAdapter;
 import com.example.pilipili_android.adapter.RecommendVideoAdapter;
 import com.example.pilipili_android.view_model.VideoViewModel;
@@ -54,7 +56,9 @@ public class HotFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerview);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1);
         recyclerView.setLayoutManager(gridLayoutManager);
-        hotVideoAdapter = new HotVideoAdapter(getContext());
+        hotVideoAdapter = new HotVideoAdapter(getContext(), pv -> {
+            videoViewModel.getVideoDetail(pv, 2);
+        });
         hotVideoAdapter.setDataBeanList(videoViewModel.getHotVideoBeans().getValue());
         recyclerView.setAdapter(hotVideoAdapter);
         if(videoViewModel.getHotVideoBeans().getValue().size() == 0){
@@ -77,6 +81,12 @@ public class HotFragment extends Fragment {
             hotVideoAdapter.setDataBeanList(videoViewModel.getHotVideoBeans().getValue());
             hotVideoAdapter.notifyDataSetChanged();
             refreshLayout.finishRefresh();
+        });
+
+        videoViewModel.getVideoDetailBeanFromHot().observe(getActivity(), dataBean -> {
+            Intent intent = new Intent(getActivity(), VideoActivity.class);
+            intent.putExtra("dataBean", dataBean);
+            getContext().startActivity(intent);
         });
 
         return view;

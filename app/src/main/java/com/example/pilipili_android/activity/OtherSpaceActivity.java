@@ -145,7 +145,7 @@ public class OtherSpaceActivity extends AppCompatActivity {
         });
 
         activitySpaceBinding.getUserViewModel().getIsFollowed().observe(this, aBoolean -> {
-            fan.setText(aBoolean ? "取消关注" : "+ 关注");
+            fan.setText(aBoolean ? "取消关注" : "关注TA");
         });
 
         activitySpaceBinding.getUserViewModel().getUserVideoBeans().observe(this, dataBeans -> {

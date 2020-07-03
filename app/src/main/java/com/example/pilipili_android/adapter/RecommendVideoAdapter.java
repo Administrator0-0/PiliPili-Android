@@ -25,6 +25,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.pilipili_android.R;
 import com.example.pilipili_android.activity.VideoActivity;
 import com.example.pilipili_android.bean.netbean.VideoDetailReturn;
+import com.example.pilipili_android.inteface.OnItemClickListener;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -41,6 +42,7 @@ public class RecommendVideoAdapter extends RecyclerView.Adapter {
 
     private Context context;
     private List<VideoDetailReturn.DataBean> dataBeanList;
+    private OnItemClickListener onItemClickListener;
 
     static class VideoViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.cover_image)
@@ -62,8 +64,9 @@ public class RecommendVideoAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public RecommendVideoAdapter(Context context) {
+    public RecommendVideoAdapter(Context context, OnItemClickListener onItemClickListener) {
         this.context = context;
+        this.onItemClickListener = onItemClickListener;
     }
 
     public void setDataBeanList(List<VideoDetailReturn.DataBean> dataBeanList) {
@@ -105,9 +108,7 @@ public class RecommendVideoAdapter extends RecyclerView.Adapter {
             Glide.with(context).load(getOSS(context, bucketCoverBean.getGuest_key(), bucketCoverBean.getGuest_secret(), bucketCoverBean.getSecurity_token()).presignPublicObjectURL(PILIPILI_BUCKET, bucketCoverBean.getFile())).diskCacheStrategy(DiskCacheStrategy.NONE).into(videoViewHolder.coverImage);
         });
         videoViewHolder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(context, VideoActivity.class);
-            intent.putExtra("dataBean", dataBean);
-            context.startActivity(intent);
+            onItemClickListener.onItemClick(dataBean.getPv());
         });
     }
 
