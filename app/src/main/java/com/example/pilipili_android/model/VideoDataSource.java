@@ -6,11 +6,10 @@ import com.example.pilipili_android.bean.netbean.CommonReturn;
 import com.example.pilipili_android.bean.netbean.CommonSend;
 import com.example.pilipili_android.bean.netbean.ConfirmUploadSend;
 import com.example.pilipili_android.bean.netbean.GetOSSUrlReturn;
-import com.example.pilipili_android.bean.netbean.GetRecommendVideoListReturn;
+import com.example.pilipili_android.bean.netbean.GetRelatedVideoReturn;
+import com.example.pilipili_android.bean.netbean.GetVideoListReturn;
 import com.example.pilipili_android.bean.netbean.NetRequestResult;
-import com.example.pilipili_android.bean.netbean.RenameReturn;
-import com.example.pilipili_android.bean.netbean.RenameSend;
-import com.example.pilipili_android.bean.netbean.UploadUserBackgroundReturn;
+import com.example.pilipili_android.bean.netbean.RewardVideoReturn;
 import com.example.pilipili_android.bean.netbean.UploadVideoOrCoverReturn;
 import com.example.pilipili_android.bean.netbean.VideoDetailReturn;
 import com.example.pilipili_android.inteface.OnNetRequestListener;
@@ -19,11 +18,8 @@ import com.example.pilipili_android.util.EncryptUtil;
 import com.example.pilipili_android.util.RetrofitUtil;
 import com.google.gson.Gson;
 
-import java.io.File;
 import java.util.Objects;
 
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -159,24 +155,72 @@ public class VideoDataSource {
     }
 
     public void getRecommendVideoList(OnNetRequestListener onNetRequestListener) {
-        Call<GetRecommendVideoListReturn> call = retrofitService.getRecommendVideoList();
-        call.enqueue(new Callback<GetRecommendVideoListReturn>() {
+        Call<GetVideoListReturn> call = retrofitService.getRecommendVideoList();
+        call.enqueue(new Callback<GetVideoListReturn>() {
             @Override
-            public void onResponse(Call<GetRecommendVideoListReturn> call, Response<GetRecommendVideoListReturn> response) {
-                GetRecommendVideoListReturn getRecommendVideoListReturn = response.body();
-                if(getRecommendVideoListReturn == null) {
+            public void onResponse(Call<GetVideoListReturn> call, Response<GetVideoListReturn> response) {
+                GetVideoListReturn getVideoListReturn = response.body();
+                if(getVideoListReturn == null) {
                     onNetRequestListener.onFail("拉取视频列表错误");
                     return;
                 }
-                if(getRecommendVideoListReturn.getCode() == 200) {
-                    onNetRequestListener.onSuccess(new NetRequestResult<>(getRecommendVideoListReturn));
+                if(getVideoListReturn.getCode() == 200) {
+                    onNetRequestListener.onSuccess(new NetRequestResult<>(getVideoListReturn));
                 } else {
-                    onNetRequestListener.onFail(Objects.requireNonNull(getRecommendVideoListReturn).getMessage());
+                    onNetRequestListener.onFail(Objects.requireNonNull(getVideoListReturn).getMessage());
                 }
             }
 
             @Override
-            public void onFailure(Call<GetRecommendVideoListReturn> call, Throwable t) {
+            public void onFailure(Call<GetVideoListReturn> call, Throwable t) {
+                onNetRequestListener.onFail("请确保网络通畅~");
+            }
+        });
+    }
+
+    public void getAnimeVideoList(OnNetRequestListener onNetRequestListener) {
+        Call<GetVideoListReturn> call = retrofitService.getAnimeVideoList();
+        call.enqueue(new Callback<GetVideoListReturn>() {
+            @Override
+            public void onResponse(Call<GetVideoListReturn> call, Response<GetVideoListReturn> response) {
+                GetVideoListReturn getVideoListReturn = response.body();
+                if(getVideoListReturn == null) {
+                    onNetRequestListener.onFail("拉取视频列表错误");
+                    return;
+                }
+                if(getVideoListReturn.getCode() == 200) {
+                    onNetRequestListener.onSuccess(new NetRequestResult<>(getVideoListReturn));
+                } else {
+                    onNetRequestListener.onFail(Objects.requireNonNull(getVideoListReturn).getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetVideoListReturn> call, Throwable t) {
+                onNetRequestListener.onFail("请确保网络通畅~");
+            }
+        });
+    }
+
+    public void getRelatedVideoList(int pv, OnNetRequestListener onNetRequestListener) {
+        Call<GetRelatedVideoReturn> call = retrofitService.getRelatedVideoList(pv + "");
+        call.enqueue(new Callback<GetRelatedVideoReturn>() {
+            @Override
+            public void onResponse(Call<GetRelatedVideoReturn> call, Response<GetRelatedVideoReturn> response) {
+                GetRelatedVideoReturn getRelatedVideoReturn = response.body();
+                if(getRelatedVideoReturn == null) {
+                    onNetRequestListener.onFail("拉取视频列表错误");
+                    return;
+                }
+                if(getRelatedVideoReturn.getCode() == 200) {
+                    onNetRequestListener.onSuccess(new NetRequestResult<>(getRelatedVideoReturn.getData().getVideo_list()));
+                } else {
+                    onNetRequestListener.onFail(Objects.requireNonNull(getRelatedVideoReturn).getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetRelatedVideoReturn> call, Throwable t) {
                 onNetRequestListener.onFail("请确保网络通畅~");
             }
         });
@@ -232,4 +276,136 @@ public class VideoDataSource {
             }
         });
     }
+
+    public void likeVideo(String token, int pv, OnNetRequestListener onNetRequestListener) {
+        String ciphertext = EncryptUtil.getVerificationToken(token);
+        Call<CommonReturn> call = retrofitService.likeVideo(ciphertext, pv + "");
+        call.enqueue(new Callback<CommonReturn>() {
+            @Override
+            public void onResponse(Call<CommonReturn> call, Response<CommonReturn> response) {
+                CommonReturn commonReturn = response.body();
+                if(commonReturn == null) {
+                    onNetRequestListener.onFail("点赞错误");
+                    return;
+                }
+                if(commonReturn.getCode() == 200) {
+                    onNetRequestListener.onSuccess();
+                } else {
+                    onNetRequestListener.onFail(Objects.requireNonNull(commonReturn).getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonReturn> call, Throwable t) {
+                onNetRequestListener.onFail("请确保网络通畅~");
+            }
+        });
+    }
+
+    public void cancelLikeVideo(String token, int pv, OnNetRequestListener onNetRequestListener) {
+        String ciphertext = EncryptUtil.getVerificationToken(token);
+        Call<CommonReturn> call = retrofitService.cancelLikeVideo(ciphertext, pv + "");
+        call.enqueue(new Callback<CommonReturn>() {
+            @Override
+            public void onResponse(Call<CommonReturn> call, Response<CommonReturn> response) {
+                CommonReturn commonReturn = response.body();
+                if(commonReturn == null) {
+                    onNetRequestListener.onFail("取消点赞错误");
+                    return;
+                }
+                if(commonReturn.getCode() == 200) {
+                    onNetRequestListener.onSuccess();
+                } else {
+                    onNetRequestListener.onFail(Objects.requireNonNull(commonReturn).getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonReturn> call, Throwable t) {
+                onNetRequestListener.onFail("请确保网络通畅~");
+            }
+        });
+    }
+
+    public void starVideo(String token, int pv, OnNetRequestListener onNetRequestListener) {
+        String ciphertext = EncryptUtil.getVerificationToken(token);
+        Call<CommonReturn> call = retrofitService.starVideo(ciphertext, pv + "");
+        call.enqueue(new Callback<CommonReturn>() {
+            @Override
+            public void onResponse(Call<CommonReturn> call, Response<CommonReturn> response) {
+                CommonReturn commonReturn = response.body();
+                if(commonReturn == null) {
+                    onNetRequestListener.onFail("收藏错误");
+                    return;
+                }
+                if(commonReturn.getCode() == 200) {
+                    onNetRequestListener.onSuccess();
+                } else {
+                    onNetRequestListener.onFail(Objects.requireNonNull(commonReturn).getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonReturn> call, Throwable t) {
+                onNetRequestListener.onFail("请确保网络通畅~");
+            }
+        });
+    }
+
+    public void cancelStarVideo(String token, int pv, OnNetRequestListener onNetRequestListener) {
+        String ciphertext = EncryptUtil.getVerificationToken(token);
+        Call<CommonReturn> call = retrofitService.cancelStarVideo(ciphertext, pv + "");
+        call.enqueue(new Callback<CommonReturn>() {
+            @Override
+            public void onResponse(Call<CommonReturn> call, Response<CommonReturn> response) {
+                CommonReturn commonReturn = response.body();
+                if(commonReturn == null) {
+                    onNetRequestListener.onFail("取消收藏错误");
+                    return;
+                }
+                if(commonReturn.getCode() == 200) {
+                    onNetRequestListener.onSuccess();
+                } else {
+                    onNetRequestListener.onFail(Objects.requireNonNull(commonReturn).getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonReturn> call, Throwable t) {
+                onNetRequestListener.onFail("请确保网络通畅~");
+            }
+        });
+    }
+
+    public void rewardVideo(String token, int coin, int pv, OnNetRequestListener onNetRequestListener) {
+        CommonSend<Integer> commonSend = new CommonSend<>();
+        commonSend.setData(coin);
+        Gson gson = new Gson();
+        String commonSendJson = gson.toJson(commonSend);
+        commonSendJson = commonSendJson.replace("data", "coins");
+        String ciphertext = EncryptUtil.getVerificationToken(token);
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), commonSendJson);
+        Call<RewardVideoReturn> call = retrofitService.rewardVideo(ciphertext, pv + "", body);
+        call.enqueue(new Callback<RewardVideoReturn>() {
+            @Override
+            public void onResponse(Call<RewardVideoReturn> call, Response<RewardVideoReturn> response) {
+                RewardVideoReturn rewardVideoReturn = response.body();
+                if(rewardVideoReturn == null) {
+                    onNetRequestListener.onFail("投币错误");
+                    return;
+                }
+                if(rewardVideoReturn.getCode() == 200) {
+                    onNetRequestListener.onSuccess(new NetRequestResult<>(rewardVideoReturn.getData().getCoins()));
+                } else {
+                    onNetRequestListener.onFail(Objects.requireNonNull(rewardVideoReturn).getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RewardVideoReturn> call, Throwable t) {
+                onNetRequestListener.onFail("请确保网络通畅~");
+            }
+        });
+    }
+
 }

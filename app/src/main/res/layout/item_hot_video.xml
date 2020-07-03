@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_marginBottom="3dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardElevation="3dp"
+    android:layout_margin="4dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            tools:src="@drawable/bg_live_sign_in_banner"
+            android:id="@+id/cover_image"
+            android:layout_width="155dp"
+            android:scaleType="centerCrop"
+            android:layout_height="97dp" />
+
+        <ImageView
+            android:layout_width="155dp"
+            android:scaleType="fitXY"
+            android:layout_height="40dp"
+            android:src="@drawable/background"
+            android:layout_alignBottom="@id/cover_image"/>
+
+        <TextView
+            android:layout_alignEnd="@id/cover_image"
+            android:paddingVertical="1dp"
+            android:paddingHorizontal="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="19:14"
+            android:id="@+id/text_duration"
+            android:textColor="@color/white"
+            android:layout_alignBottom="@+id/cover_image"
+            android:background="@drawable/time_in_cover_shape"
+            android:textSize="13sp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="3dp"/>
+
+        <TextView
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/cover_image"
+            android:id="@+id/text_video_title"
+            android:lineSpacingExtra="1dp"
+            android:maxLines="2"
+            tools:text="答题领取pilipili大会员，免费获得新人大礼包"
+            android:textSize="13.5sp"
+            tools:ignore="SmallSp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="综合"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/text_video_title"
+            android:id="@+id/video_type"
+            android:layout_marginBottom="5dp"
+            android:textSize="12sp"
+            android:textColor="@color/qmui_config_color_gray_5"
+            android:gravity="center_vertical" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="3万播放"
+            android:layout_above="@+id/video_type"
+            android:layout_alignStart="@+id/text_video_title"
+            android:id="@+id/text_number_display"
+            android:layout_marginBottom="5dp"
+            android:textSize="12sp"
+            android:textColor="@color/qmui_config_color_gray_5"
+            android:gravity="center_vertical" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9dp"
+            tools:text="1.2万弹幕"
+            android:layout_toEndOf="@+id/text_number_display"
+            android:layout_above="@+id/video_type"
+            android:id="@+id/text_danmu"
+            android:layout_marginBottom="5dp"
+            android:textSize="12sp"
+            android:textColor="@color/qmui_config_color_gray_5" />
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

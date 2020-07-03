@@ -30,9 +30,9 @@ public class RecommendFragment extends Fragment {
     private RecommendVideoAdapter recommendVideoAdapter;
     private RefreshLayout refreshLayout;
     private StoreHouseHeader refreshHeader;
+    private boolean isThis = true;
 
     public RecommendFragment() {
-
     }
 
     @Override
@@ -51,11 +51,10 @@ public class RecommendFragment extends Fragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
         recommendVideoAdapter = new RecommendVideoAdapter(getContext());
-        recommendVideoAdapter.setDataBeanList(videoViewModel.getDataBeans());
+        recommendVideoAdapter.setDataBeanList(videoViewModel.getRecommendVideoBeans().getValue());
         recyclerView.setAdapter(recommendVideoAdapter);
-        if(videoViewModel.isFirstIn()){
+        if(videoViewModel.getRecommendVideoBeans().getValue().size() == 0){
             videoViewModel.getRecommendVideoDetail();
-            videoViewModel.setFirstIn(false);
         }
 
         refreshLayout = view.findViewById(R.id.refreshLayout);
@@ -70,11 +69,9 @@ public class RecommendFragment extends Fragment {
             refreshLayout.autoRefresh();
         });
 
-        videoViewModel.getIsFinishRefresh().observe(getActivity(), isFinish -> {
-            if(isFinish) {
-                recommendVideoAdapter.notifyDataSetChanged();
-                refreshLayout.finishRefresh();
-            }
+        videoViewModel.getRecommendVideoBeans().observe(getActivity(), isFinish -> {
+            recommendVideoAdapter.notifyDataSetChanged();
+            refreshLayout.finishRefresh();
         });
 
         return view;
@@ -83,16 +80,29 @@ public class RecommendFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        recommendVideoAdapter.setDataBeanList(videoViewModel.getDataBeans());
-        recommendVideoAdapter.notifyDataSetChanged();
+        isThis = true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        isThis = true;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        isThis = false;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onFragmentChange(FragmentMsg fragmentMsg) {
         if(fragmentMsg.getWhatFragment().equals("MainActivity")) {
             if(fragmentMsg.getMsgString().equals("refresh")) {
-                videoViewModel.getRecommendVideoDetail();
-                refreshLayout.autoRefresh();
+                if(isThis) {
+                    videoViewModel.getRecommendVideoDetail();
+                    refreshLayout.autoRefresh();
+                }
             }
         }
     }

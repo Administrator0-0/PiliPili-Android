@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.VIPActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:id="@+id/relativelayout_vip_title"
+        android:layout_alignParentTop="true">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/button_back_vip"
+            android:src="@drawable/bwd"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:text="大会员"
+            android:layout_centerInParent="true"
+            android:textSize="22sp"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/relativelayout_left_vip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativelayout_vip_title"
+        android:background="@android:color/background_light"
+        android:elevation="25dp">
+
+        <TextView
+            android:id="@+id/left_days_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="到期时间"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:textSize="19sp" />
+
+        <TextView
+            android:id="@+id/number_left_vip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/left_days_title"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="15dp"
+            android:textSize="24sp"
+            android:textColor="@color/colorPrimary" />
+    </RelativeLayout>
+    <View
+        android:id="@+id/view_divider"
+        android:layout_below="@+id/relativelayout_left_vip"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/white" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/view_divider"
+        android:background="@color/white">
+        <LinearLayout
+            android:id="@+id/linearlayout_first"
+            android:layout_width="match_parent"
+            android:baselineAligned="false"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentTop="true">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="15dp"
+                android:id="@+id/vip_1"
+                android:background="@drawable/pay_button_selected">
+
+                <TextView
+                    android:id="@+id/text_vip_1_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:text="月度大会员"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="12dp" />
+
+                <TextView
+                    android:id="@+id/text_vip_1_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:textColor="@color/white"
+                    android:text="15 P币"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="12dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:id="@+id/vip_2"
+                android:background="@drawable/pay_button_unselected">
+
+                <TextView
+                    android:id="@+id/text_vip_2_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:text="季度大会员"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="12dp" />
+
+                <TextView
+                    android:id="@+id/text_vip_2_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:textColor="@color/black"
+                    android:text="45 P币"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="12dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="15dp"
+                android:id="@+id/vip_3"
+                android:background="@drawable/pay_button_unselected">
+
+                <TextView
+                    android:id="@+id/text_vip_3_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:text="年度大会员"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="12dp" />
+
+                <TextView
+                    android:id="@+id/text_vip_3_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:textColor="@color/black"
+                    android:text="148 P币"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="12dp"/>
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linearlayout_second"
+            android:layout_below="@+id/linearlayout_first"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="false"
+            android:layout_marginTop="11dp">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="15dp"
+                android:id="@+id/vip_4"
+                android:background="@drawable/pay_button_unselected">
+
+                <TextView
+                    android:id="@+id/text_vip_4_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:text="两年大会员"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="12dp" />
+
+                <TextView
+                    android:id="@+id/text_vip_4_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:textColor="@color/black"
+                    android:text="280 P币"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="12dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:id="@+id/vip_5"
+                android:background="@drawable/pay_button_unselected">
+
+                <TextView
+                    android:id="@+id/text_vip_5_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:text="五年大会员"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="12dp" />
+
+                <TextView
+                    android:id="@+id/text_vip_5_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:textColor="@color/black"
+                    android:text="680 P币"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="12dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:id="@+id/vip_6"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/pay_button_unselected">
+
+                <TextView
+                    android:id="@+id/text_vip_6_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:text="十年大会员"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="12dp" />
+
+                <TextView
+                    android:id="@+id/text_vip_6_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:textColor="@color/black"
+                    android:text="1200 P币"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="12dp" />
+            </RelativeLayout>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/help_vip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="大会员服务开通后不可退款\n大会员服务期限内再次购买，服务期限会自动延长对应的天数\n若交易完成后，剩余天数未增加，请联系客服"
+            android:textColor="@color/qmui_config_color_gray_5"
+            android:layout_below="@+id/linearlayout_second"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="15dp"
+            android:lineSpacingExtra="4dp" />
+        <ImageView
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:src="@drawable/d19"
+            android:layout_below="@+id/linearlayout_second"
+            android:layout_marginTop="65dp"
+            android:layout_centerHorizontal="true"
+            android:alpha="0.6"/>
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            android:id="@+id/vip_pay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="12dp"
+            app:qmui_isRadiusAdjustBounds="true"
+            app:qmui_radius="6dp"
+            app:qmui_borderColor="@color/qmui_config_color_15_white"
+            app:qmui_backgroundColor="@color/colorPrimary"
+            android:text="确认购买"
+            android:textSize="19sp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:textColor="@color/white"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp" />
+        <TextView
+            android:id="@+id/policy_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="支付即同意《大会员用户协议》"
+            android:textColor="@color/qmui_config_color_gray_5"
+            android:layout_above="@+id/vip_pay"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="12dp"
+            android:lineSpacingExtra="4dp" />
+    </RelativeLayout>
+</RelativeLayout>

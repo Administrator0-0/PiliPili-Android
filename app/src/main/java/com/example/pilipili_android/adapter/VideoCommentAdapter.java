@@ -1,6 +1,7 @@
 package com.example.pilipili_android.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -17,9 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.pilipili_android.R;
+import com.example.pilipili_android.activity.OtherSpaceActivity;
+import com.example.pilipili_android.activity.SpaceActivity;
 import com.example.pilipili_android.activity.VideoActivity;
 import com.example.pilipili_android.bean.localbean.CommentItemBean;
 import com.example.pilipili_android.util.AliyunOSSUtil;
+import com.example.pilipili_android.view_model.UserBaseDetail;
 
 import java.util.HashMap;
 import java.util.List;
@@ -68,8 +72,30 @@ public class VideoCommentAdapter extends RecyclerView.Adapter {
         CommentItemBean itemBean = comments.get(position);
         itemViewHolder.mAdd.setOnClickListener(v -> relayListener.onRelay(itemBean, true));
         itemViewHolder.mLike.setOnClickListener(v -> relayListener.onLike(itemBean));
-        itemViewHolder.mUsername.setText(itemBean.getUser().getUsername());
-        if (itemBean.getAvatar().getFile() != null) {
+        itemViewHolder.mUserAvatar.setOnClickListener(v -> {
+            if (itemBean.getComment().getAuthor() == UserBaseDetail.getUID(mContext)) {
+                Intent intent = new Intent(mContext, SpaceActivity.class);
+                intent.putExtra("UID", UserBaseDetail.getUID(mContext));
+                mContext.startActivity(intent);
+            } else {
+                Intent intent = new Intent(mContext, OtherSpaceActivity.class);
+                intent.putExtra("UID", itemBean.getComment().getAuthor());
+                mContext.startActivity(intent);
+            }
+        });
+        itemViewHolder.mUsername.setOnClickListener(v -> {
+            if (itemBean.getComment().getAuthor() == UserBaseDetail.getUID(mContext)) {
+                Intent intent = new Intent(mContext, SpaceActivity.class);
+                intent.putExtra("UID", UserBaseDetail.getUID(mContext));
+                mContext.startActivity(intent);
+            } else {
+                Intent intent = new Intent(mContext, OtherSpaceActivity.class);
+                intent.putExtra("UID", itemBean.getComment().getAuthor());
+                mContext.startActivity(intent);
+            }
+        });
+        itemViewHolder.mUsername.setText(itemBean.getComment().getAuthor_name());
+        if (itemBean.getAvatar() != null && itemBean.getAvatar().getFile() != null) {
             String url = AliyunOSSUtil.getImageUrl(mContext.getApplicationContext(), itemBean.getAvatar().getGuest_key(),
                     itemBean.getAvatar().getGuest_secret(), itemBean.getAvatar().getSecurity_token(), itemBean.getAvatar().getFile());
             Glide.with(mContext).load(url).into(itemViewHolder.mUserAvatar);
@@ -89,10 +115,10 @@ public class VideoCommentAdapter extends RecyclerView.Adapter {
         }
         for (int i = 0; i < list.size() && i < 3; i++) {
             itemViewHolder.replays[i].setVisibility(View.VISIBLE);
-            SpannableString string = new SpannableString(list.get(i).getUser().getUsername()
+            SpannableString string = new SpannableString(list.get(i).getComment().getAuthor_name()
                     + ": " + list.get(i).getComment().getContent());
             string.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.colorPrimary)),
-                    0, list.get(i).getUser().getUsername().length() + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    0, list.get(i).getComment().getAuthor_name().length() + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             itemViewHolder.replays[i].setText(string);
         }
         if (list.size() > 3) {

@@ -3,10 +3,14 @@ package com.example.pilipili_android.model;
 import androidx.annotation.NonNull;
 
 import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
+import com.example.pilipili_android.bean.netbean.BuyVIPReturn;
+import com.example.pilipili_android.bean.netbean.BuyVIPSend;
 import com.example.pilipili_android.bean.netbean.CommonReturn;
 import com.example.pilipili_android.bean.netbean.CommonSend;
 import com.example.pilipili_android.bean.netbean.FollowUnFollowReturn;
 import com.example.pilipili_android.bean.netbean.GetOSSUrlReturn;
+import com.example.pilipili_android.bean.netbean.IsFollowedReturn;
+import com.example.pilipili_android.bean.netbean.ListFollowReturn;
 import com.example.pilipili_android.bean.netbean.LoginReturn;
 import com.example.pilipili_android.bean.netbean.LoginSend;
 import com.example.pilipili_android.bean.netbean.NetRequestResult;
@@ -18,6 +22,7 @@ import com.example.pilipili_android.bean.netbean.UploadSignReturn;
 import com.example.pilipili_android.bean.netbean.UploadUserBackgroundReturn;
 import com.example.pilipili_android.bean.netbean.UserDetailReturn;
 import com.example.pilipili_android.bean.netbean.UserOpenDetailReturn;
+import com.example.pilipili_android.bean.netbean.UserVideoReturn;
 import com.example.pilipili_android.inteface.OnNetRequestListener;
 import com.example.pilipili_android.inteface.RetrofitService;
 import com.example.pilipili_android.util.EncryptUtil;
@@ -209,6 +214,37 @@ public class UserDataSource {
         });
     }
 
+    public void buyVip(String token, int vip, int coins, OnNetRequestListener onNetRequestListener) {
+        BuyVIPSend vipSend = new BuyVIPSend();
+        vipSend.setVip(vip);
+        vipSend.setCoins(coins);
+        Gson gson = new Gson();
+        String json = gson.toJson(vipSend);
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
+        String ciphertext = EncryptUtil.getVerificationToken(token);
+        Call<BuyVIPReturn> call = retrofitService.buyVip(ciphertext, body);
+        call.enqueue(new Callback<BuyVIPReturn>() {
+            @Override
+            public void onResponse(Call<BuyVIPReturn> call, Response<BuyVIPReturn> response) {
+                BuyVIPReturn buyVIPReturn = response.body();
+                if(buyVIPReturn != null) {
+                    if(buyVIPReturn.getCode() == 200) {
+                        onNetRequestListener.onSuccess(new NetRequestResult<>(buyVIPReturn));
+                    } else {
+                        onNetRequestListener.onFail(buyVIPReturn.getMessage());
+                    }
+                } else {
+                    onNetRequestListener.onFail("购买错误");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BuyVIPReturn> call, Throwable t) {
+                onNetRequestListener.onFail("网络不稳定，请检查网络");
+            }
+        });
+    }
+
     public void rename(String token, String username, OnNetRequestListener onNetRequestListener) {
         RenameSend renameSend = new RenameSend();
         renameSend.setUsername(username);
@@ -300,6 +336,81 @@ public class UserDataSource {
 
             @Override
             public void onFailure(Call<FollowUnFollowReturn> call, Throwable t) {
+                onNetRequestListener.onFail("网络不稳定，请检查网络");
+            }
+        });
+    }
+
+    public void isFollowed(String token, int id, OnNetRequestListener onNetRequestListener){
+        String ciphertext = EncryptUtil.getVerificationToken(token);
+        Call<IsFollowedReturn> call = retrofitService.isFollowed(ciphertext, "" + id);
+        call.enqueue(new Callback<IsFollowedReturn>() {
+            @Override
+            public void onResponse(Call<IsFollowedReturn> call, Response<IsFollowedReturn> response) {
+                IsFollowedReturn isFollowedReturn = response.body();
+                if(isFollowedReturn == null) {
+                    onNetRequestListener.onFail("获取是否关注错误");
+                    return;
+                }
+                if(isFollowedReturn.getCode() == 200) {
+                    onNetRequestListener.onSuccess(new NetRequestResult<>(isFollowedReturn));
+                } else {
+                    onNetRequestListener.onFail(Objects.requireNonNull(isFollowedReturn).getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<IsFollowedReturn> call, Throwable t) {
+                onNetRequestListener.onFail("网络不稳定，请检查网络");
+            }
+        });
+    }
+
+    public void listFollowings(String token, int id, OnNetRequestListener onNetRequestListener){
+        String ciphertext = EncryptUtil.getVerificationToken(token);
+        Call<ListFollowReturn> call = retrofitService.listFollowings(ciphertext, "" + id);
+        call.enqueue(new Callback<ListFollowReturn>() {
+            @Override
+            public void onResponse(Call<ListFollowReturn> call, Response<ListFollowReturn> response) {
+                ListFollowReturn listFollowReturn = response.body();
+                if(listFollowReturn == null) {
+                    onNetRequestListener.onFail("获取是关注列表错误");
+                    return;
+                }
+                if(listFollowReturn.getCode() == 200) {
+                    onNetRequestListener.onSuccess(new NetRequestResult<>(listFollowReturn));
+                } else {
+                    onNetRequestListener.onFail(Objects.requireNonNull(listFollowReturn).getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ListFollowReturn> call, Throwable t) {
+                onNetRequestListener.onFail("网络不稳定，请检查网络");
+            }
+        });
+    }
+
+    public void listFan(String token, int id, OnNetRequestListener onNetRequestListener){
+        String ciphertext = EncryptUtil.getVerificationToken(token);
+        Call<ListFollowReturn> call = retrofitService.listFan(ciphertext, "" + id);
+        call.enqueue(new Callback<ListFollowReturn>() {
+            @Override
+            public void onResponse(Call<ListFollowReturn> call, Response<ListFollowReturn> response) {
+                ListFollowReturn listFollowReturn = response.body();
+                if(listFollowReturn == null) {
+                    onNetRequestListener.onFail("获取是粉丝列表错误");
+                    return;
+                }
+                if(listFollowReturn.getCode() == 200) {
+                    onNetRequestListener.onSuccess(new NetRequestResult<>(listFollowReturn));
+                } else {
+                    onNetRequestListener.onFail(Objects.requireNonNull(listFollowReturn).getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ListFollowReturn> call, Throwable t) {
                 onNetRequestListener.onFail("网络不稳定，请检查网络");
             }
         });
@@ -474,7 +585,30 @@ public class UserDataSource {
                 onNetRequestListener.onFail("网络不稳定，请检查网络");
             }
         });
+    }
 
+    public void getUserVideo(int uid, OnNetRequestListener onNetRequestListener) {
+        Call<UserVideoReturn> call = retrofitService.getUserVideoDetail(uid + "");
+        call.enqueue(new Callback<UserVideoReturn>() {
+            @Override
+            public void onResponse(@NonNull Call<UserVideoReturn> call, @NonNull Response<UserVideoReturn> response) {
+                UserVideoReturn userVideoReturn = response.body();
+                if(userVideoReturn == null) {
+                    onNetRequestListener.onFail("获取相关视频错误");
+                    return;
+                }
+                if(userVideoReturn.getCode() == 200) {
+                    onNetRequestListener.onSuccess(new NetRequestResult<>(userVideoReturn.getData().getVideo_list()));
+                } else {
+                    onNetRequestListener.onFail(Objects.requireNonNull(userVideoReturn).getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<UserVideoReturn> call, @NonNull Throwable t) {
+                onNetRequestListener.onFail("网络不稳定，请检查网络");
+            }
+        });
     }
 
 }

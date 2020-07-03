@@ -156,8 +156,7 @@ public class SpaceActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        Intent intent = getIntent();
-        UID = intent.getIntExtra("UID", -1);
+        UID = UserBaseDetail.getUID(this);
     }
 
     private void initBind() {
@@ -396,5 +395,21 @@ public class SpaceActivity extends AppCompatActivity {
             cm.setPrimaryClip(mClipData);
         }
         Toast.makeText(this, "UID已复制到剪切板", Toast.LENGTH_SHORT).show();
+    }
+
+    @OnClick(R.id.follower_tv)
+    public void onFanClick() {
+        Intent intent = new Intent(this, FanListActivity.class);
+        intent.putExtra("id", UID);
+        intent.putExtra("isFollow", true);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.following_tv)
+    public void onFollowingClick() {
+        Intent intent = new Intent(this, FanListActivity.class);
+        intent.putExtra("id", UID);
+        intent.putExtra("isFollow", false);
+        startActivity(intent);
     }
 }

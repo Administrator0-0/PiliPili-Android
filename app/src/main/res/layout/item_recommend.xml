@@ -95,6 +95,7 @@
             android:layout_below="@+id/relativelayout_image_on_cover"
             android:id="@+id/text_video_title"
             android:lineSpacingExtra="1dp"
+            android:maxLines="2"
             tools:text="答题领取pilipili大会员，免费获得新人大礼包"
             android:textSize="13.5sp"
             tools:ignore="SmallSp" />

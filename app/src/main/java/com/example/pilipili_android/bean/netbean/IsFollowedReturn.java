@@ -1,13 +1,10 @@
 package com.example.pilipili_android.bean.netbean;
 
-import java.util.List;
-
-public class GetRecommendVideoListReturn {
-
+public class IsFollowedReturn {
     /**
      * code : 200
-     * data : {"video_list":[3,7,13,6,12,2,9,4]}
-     * message : 获取视频成功
+     * data : {"is_followed":false}
+     * message : 获取成功
      */
 
     private int code;
@@ -39,14 +36,18 @@ public class GetRecommendVideoListReturn {
     }
 
     public static class DataBean {
-        private List<Integer> video_list;
+        /**
+         * is_followed : false
+         */
 
-        public List<Integer> getVideo_list() {
-            return video_list;
+        private boolean is_followed;
+
+        public boolean isIs_followed() {
+            return is_followed;
         }
 
-        public void setVideo_list(List<Integer> video_list) {
-            this.video_list = video_list;
+        public void setIs_followed(boolean is_followed) {
+            this.is_followed = is_followed;
         }
     }
 }

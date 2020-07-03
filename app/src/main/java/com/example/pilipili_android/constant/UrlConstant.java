@@ -65,8 +65,18 @@ public interface UrlConstant {
 
     String BUY_VIP = "user/put-vip";
 
+    String IS_FOLLOWED = "/is-followed";
+
+    String GET_USER_VIDEO_HEAD = "user/uid";
+
+    String GET_USER_VIDEO_TAIL = "/get-video";
+
+    String LIST_FAN = "/list-fans";
+
+    String LIST_FOLLOWINGS = "/list-followings";
+
     /**
-     * 视频接口
+     * 视频、评论、弹幕接口
      */
 
     String UPLOAD_VIDEO = "video/upload-new";
@@ -79,6 +89,10 @@ public interface UrlConstant {
 
     String GET_RECOMMEND_VIDEO = "video/list-video";
 
+    String GET_ANIME_VIDEO = "video/list-video-anime";
+
+    String GET_RELATED_VIDEO_TAIL = "/list-video-related";
+
     String GET_VIDEO_DETAIL_HEAD = "video/pv";
 
     String GET_VIDEO_DETAIL_TAIL = "/details";
@@ -87,6 +101,15 @@ public interface UrlConstant {
 
     String GET_VIDEO_TAIL = "/video";
 
+    String LIKE_VIDEO_TAIL = "/like";
+
+    String CANCEL_LIKE_VIDEO_TAIL = "/unlike";
+
+    String STAR_VIDEO_TAIL = "/collect";
+
+    String CANCEL_STAR_VIDEO_TAIL = "/un-collect";
+
+    String REWARD_VIDEO_TAIL = "/put-coin";
 
     String GET_VIDEO_PREFIX = "video/pv";
 
