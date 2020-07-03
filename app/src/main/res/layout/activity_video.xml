@@ -39,14 +39,7 @@
                     <com.example.pilipili_android.widget.PiliPiliPlayer
                         android:id="@+id/player"
                         android:layout_width="match_parent"
-                        android:layout_height="300dp" >
-
-                        <TextView
-                            android:id="@+id/textView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="CoordinatorLayout" />
-                    </com.example.pilipili_android.widget.PiliPiliPlayer>
+                        android:layout_height="300dp" />
 
                 </FrameLayout>
 

@@ -15,239 +15,339 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".activity.SpaceActivity">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:id="@+id/relativelayout_3"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true">
 
-            <ImageView
-                android:id="@+id/background"
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:background="@color/qmui_config_color_75_white"
-                tools:src="@drawable/bg_default"/>
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:id="@+id/button_return_inspace"
-                android:layout_marginTop="25dp"
-                android:layout_marginStart="12dp"
-                android:src="@drawable/dh8"
-                android:alpha="0.7"/>
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:id="@+id/button_search_inspace"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="10dp"
-                android:layout_alignParentEnd="true"
-                android:src="@drawable/cs5w" />
-
-            <ImageView
-                android:id="@+id/change_bg"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_alignEnd="@+id/background"
-                android:layout_alignBottom="@+id/background"
-                android:layout_marginEnd="6dp"
-                android:layout_marginBottom="-2dp"
-                android:alpha="0.7"
-                android:background="@drawable/clothes_image_corner"
-                android:padding="4dp"
-                android:src="@drawable/topmenu_icn_skin" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/relativelayout_4"
-            android:layout_below="@id/relativelayout_3">
-
-            <RelativeLayout
-                android:id="@+id/relativelayout_2"
-                android:layout_width="250dp"
-                android:layout_marginEnd="15dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true">
-
-                <TextView
-                    android:layout_alignParentStart="true"
-                    android:id="@+id/follower_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    tools:text="spaceBean类\n获取"
-                    android:text="@{spaceActivityBean.follower}"
-                    android:gravity="center"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/following_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="4dp"
-                    tools:text="spaceBean类\n获取"
-                    android:text="@{spaceActivityBean.following}"
-                    android:gravity="center"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/text_numberoftrends"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="4dp"
-                    tools:text="spaceBean类\n获取"
-                    android:text="@{spaceActivityBean.like}"
-                    android:gravity="center"
-                    android:textSize="13sp" />
-            </RelativeLayout>
-
-            <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
-                android:layout_width="260dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/relativelayout_2"
-                android:text="编辑资料"
-                android:id="@+id/edit"
-                android:gravity="center"
-                app:qmui_borderColor="@color/colorPrimary"
-                android:textColor="@color/colorPrimary"
-                app:qmui_backgroundColor="@color/qmui_config_color_white"
-                app:qmui_isRadiusAdjustBounds="true"
-                app:qmui_borderWidth="1dp"
-                app:qmui_radius="3dp"
-                android:paddingTop="5dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="5dp"
-                android:paddingBottom="5dp"
-                android:textSize="15sp"
-                android:layout_alignParentEnd="true" />
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:id="@+id/relativelayout_5"
-                android:layout_below="@+id/edit"
-                android:layout_width="match_parent"
-                android:layout_marginTop="19dp"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/username_tv"
-                    tools:text="spaceBean类获取"
-                    android:text="@{spaceActivityBean.username}"
-                    android:textSize="19.5sp"
-                    android:layout_marginStart="10dp" />
-
-                <ImageView
-                    android:id="@+id/gender_img"
-                    android:layout_width="17dp"
-                    android:layout_height="15dp"
-                    tools:src="@drawable/cyx"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="8dp" />
-
-                <ImageView
-                    android:id="@+id/big_vip"
-                    android:layout_width="45dp"
-                    android:layout_height="17dp"
-                    tools:src="@drawable/bxrb"
-                    android:layout_marginStart="10dp"
-                    android:layout_gravity="center_vertical" />
-
-            </LinearLayout>
-
-            <RelativeLayout
-                android:id="@+id/relativelayout_6"
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/app_bar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/relativelayout_5"
-                android:layout_marginTop="7dp">
-                <TextView
-                    android:id="@+id/detail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignBottom="@+id/sign"
-                    tools:text="详情"
-                    android:layout_marginEnd="10dp"
-                    android:textColor="@color/colorPrimary" />
+                android:fitsSystemWindows="true">
 
-                <TextView
-                    android:id="@+id/sign"
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:id="@+id/toolbar_in_space"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="70dp"
-                    android:layout_toStartOf="@+id/detail"
-                    android:layout_marginStart="10dp"
-                    android:textColor="@color/qmui_config_color_gray_6"
-                    tools:text="sign" />
+                    android:fitsSystemWindows="true"
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                    app:contentScrim="?attr/colorPrimary"
+                    app:expandedTitleTextAppearance="@style/CollapsingToolbarTitleStyle.About"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-            <TextView
-                android:layout_marginTop="7dp"
-                android:layout_width="wrap_content"
+                        <RelativeLayout
+                            android:id="@+id/relativelayout_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/background"
+                                android:layout_width="match_parent"
+                                android:layout_height="180dp"
+                                android:background="@color/qmui_config_color_75_white"
+                                tools:src="@drawable/bg_default"/>
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:id="@+id/button_return_inspace"
+                                android:layout_marginTop="25dp"
+                                android:layout_marginStart="12dp"
+                                android:src="@drawable/dh8"
+                                android:alpha="0.7"/>
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:id="@+id/button_search_inspace"
+                                android:layout_marginTop="25dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_alignParentEnd="true"
+                                android:src="@drawable/cs5_2" />
+
+                            <ImageView
+                                android:id="@+id/change_bg"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:layout_alignEnd="@+id/background"
+                                android:layout_alignBottom="@+id/background"
+                                android:layout_marginEnd="6dp"
+                                android:layout_marginBottom="-2dp"
+                                android:alpha="0.7"
+                                android:background="@drawable/clothes_image_corner"
+                                android:padding="4dp"
+                                android:src="@drawable/topmenu_icn_skin" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:background="@color/white"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/relativelayout_4"
+                            android:layout_below="@id/relativelayout_3">
+
+                            <RelativeLayout
+                                android:id="@+id/relativelayout_2"
+                                android:layout_width="250dp"
+                                android:layout_marginEnd="15dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true">
+
+                                <TextView
+                                    android:layout_alignParentStart="true"
+                                    android:id="@+id/follower_tv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    tools:text="spaceBean类\n获取"
+                                    android:text="@{spaceActivityBean.follower}"
+                                    android:gravity="center"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:id="@+id/following_tv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_marginTop="4dp"
+                                    tools:text="spaceBean类\n获取"
+                                    android:text="@{spaceActivityBean.following}"
+                                    android:gravity="center"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:id="@+id/text_numberoftrends"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_marginTop="4dp"
+                                    tools:text="spaceBean类\n获取"
+                                    android:text="@{spaceActivityBean.like}"
+                                    android:gravity="center"
+                                    android:textSize="13sp" />
+                            </RelativeLayout>
+
+                            <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                                android:layout_width="260dp"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/relativelayout_2"
+                                android:text="编辑资料"
+                                android:id="@+id/edit"
+                                android:gravity="center"
+                                app:qmui_borderColor="@color/colorPrimary"
+                                android:textColor="@color/colorPrimary"
+                                app:qmui_backgroundColor="@color/qmui_config_color_white"
+                                app:qmui_isRadiusAdjustBounds="true"
+                                app:qmui_borderWidth="1dp"
+                                app:qmui_radius="3dp"
+                                android:paddingTop="5dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginTop="5dp"
+                                android:paddingBottom="5dp"
+                                android:textSize="15sp"
+                                android:layout_alignParentEnd="true" />
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:id="@+id/relativelayout_5"
+                                android:layout_below="@+id/edit"
+                                android:layout_width="match_parent"
+                                android:layout_marginTop="19dp"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/username_tv"
+                                    tools:text="spaceBean类获取"
+                                    android:text="@{spaceActivityBean.username}"
+                                    android:textSize="19.5sp"
+                                    android:layout_marginStart="10dp" />
+
+                                <ImageView
+                                    android:id="@+id/gender_img"
+                                    android:layout_width="17dp"
+                                    android:layout_height="15dp"
+                                    tools:src="@drawable/cyx"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="8dp" />
+
+                                <ImageView
+                                    android:id="@+id/big_vip"
+                                    android:layout_width="45dp"
+                                    android:layout_height="17dp"
+                                    tools:src="@drawable/bxrb"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_gravity="center_vertical" />
+
+                            </LinearLayout>
+
+                            <RelativeLayout
+                                android:id="@+id/relativelayout_6"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/relativelayout_5"
+                                android:layout_marginTop="7dp">
+                                <TextView
+                                    android:id="@+id/detail"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_alignBottom="@+id/sign"
+                                    tools:text="详情"
+                                    android:layout_marginEnd="10dp"
+                                    android:textColor="@color/colorPrimary" />
+
+                                <TextView
+                                    android:id="@+id/sign"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="70dp"
+                                    android:layout_toStartOf="@+id/detail"
+                                    android:layout_marginStart="10dp"
+                                    android:textColor="@color/qmui_config_color_gray_6"
+                                    tools:text="sign" />
+
+                            </RelativeLayout>
+
+                            <TextView
+                                android:layout_marginTop="7dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{spaceActivityBean.UID}"
+                                tools:text="uid:1"
+                                android:layout_below="@+id/relativelayout_6"
+                                android:layout_marginStart="10dp"
+                                android:textSize="12sp"
+                                android:id="@+id/uid"
+                                android:background="@drawable/space_uid_shape"
+                                android:paddingHorizontal="4dp"/>
+
+                        </RelativeLayout>
+
+                        <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+                            app:qmui_border_color="@color/white"
+                            app:qmui_border_width="2dp"
+                            android:layout_width="77dp"
+                            android:layout_height="77dp"
+                            android:id="@+id/avatar"
+                            tools:src="@drawable/buo"
+                            android:layout_below="@id/relativelayout_3"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="-7dp" />
+
+                    </RelativeLayout>
+
+                    <androidx.appcompat.widget.Toolbar
+                        android:layout_width="match_parent"
+                        app:contentInsetEnd="0dp"
+                        app:layout_collapseMode="pin"
+                        app:contentInsetStart="0dp"
+                        android:layout_height="50dp">
+
+                        <RelativeLayout
+                            android:background="@color/white"
+                            android:id="@+id/toolbar_layout"
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="12dp"
+                                android:id="@+id/icon_left"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/dh8_2"/>
+
+                            <TextView
+                                android:id="@+id/txt_main_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                tools:text="程序猿太难了"
+                                android:singleLine="true"
+                                android:textColor="@android:color/black"
+                                android:textSize="19sp"/>
+
+                            <ImageView
+                                android:layout_centerVertical="true"
+                                android:id="@+id/icon_right"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginEnd="10dp"
+                                android:src="@drawable/cs5_1"
+                                android:gravity="center"
+                                android:textColor="#ffffff"
+                                android:textSize="16sp"
+                                android:visibility="visible"/>
+
+
+                        </RelativeLayout>
+
+
+                    </androidx.appcompat.widget.Toolbar>
+
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+<!--                <com.flyco.tablayout.SlidingTabLayout-->
+<!--                    android:layout_below="@+id/relativelayout_4"-->
+<!--                    android:id="@+id/space_tablayout"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="@color/white"-->
+<!--                    android:paddingBottom="20dp"-->
+<!--                    android:paddingLeft="20dp"-->
+<!--                    android:paddingRight="20dp"-->
+<!--                    android:paddingTop="20dp"-->
+<!--                    app:tl_indicator_color="@color/white"-->
+<!--                    app:tl_indicator_corner_radius="6dp"-->
+<!--                    app:tl_indicator_height="6dp"-->
+<!--                    app:tl_indicator_width_equal_title="true"-->
+<!--                    app:tl_tab_padding="20dp"-->
+<!--                    app:tl_textSelectColor="@color/white"-->
+<!--                    app:tl_textUnselectColor="@color/white"-->
+<!--                    app:tl_textsize="17sp" />-->
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:text="我的投稿"
+                    android:gravity="center"
+                    android:paddingVertical="6dp"
+                    android:textSize="16sp"/>
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{spaceActivityBean.UID}"
-                tools:text="uid:1"
-                android:layout_below="@+id/relativelayout_6"
-                android:layout_marginStart="10dp"
-                android:textSize="12sp"
-                android:id="@+id/uid"
-                android:background="@drawable/space_uid_shape"
-                android:paddingHorizontal="4dp"/>
+                android:overScrollMode="never"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-        </RelativeLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/recyclerview_space"/>
 
-        <com.qmuiteam.qmui.widget.QMUIRadiusImageView
-            app:qmui_border_color="@color/white"
-            app:qmui_border_width="2dp"
-            android:layout_width="77dp"
-            android:layout_height="77dp"
-            android:id="@+id/avatar"
-            tools:src="@drawable/buo"
-            android:layout_below="@id/relativelayout_3"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="-7dp" />
+            </androidx.core.widget.NestedScrollView>
 
-        <com.flyco.tablayout.SlidingTabLayout
-            android:layout_below="@+id/relativelayout_4"
-            android:id="@+id/space_tablayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:paddingBottom="20dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="20dp"
-            app:tl_indicator_color="@color/white"
-            app:tl_indicator_corner_radius="6dp"
-            app:tl_indicator_height="6dp"
-            app:tl_indicator_width_equal_title="true"
-            app:tl_tab_padding="20dp"
-            app:tl_textSelectColor="@color/white"
-            app:tl_textUnselectColor="@color/white"
-            app:tl_textsize="17sp" />
-
-        <com.qmuiteam.qmui.widget.QMUIViewPager
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:id="@+id/space_viewpager" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/save_avatar_box"/>
+
     </RelativeLayout>
 
 </layout>

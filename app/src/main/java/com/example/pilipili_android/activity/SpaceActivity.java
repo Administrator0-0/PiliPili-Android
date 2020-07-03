@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,17 +31,23 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.pilipili_android.R;
+import com.example.pilipili_android.adapter.UserVideoAdapter;
 import com.example.pilipili_android.constant.DefaultConstant;
 import com.example.pilipili_android.constant.UrlConstant;
 import com.example.pilipili_android.databinding.ActivitySpaceBinding;
 import com.example.pilipili_android.fragment.AvatarFragment;
+import com.example.pilipili_android.util.AppBarStateChangeListener;
 import com.example.pilipili_android.util.UCropUtil;
 import com.example.pilipili_android.view_model.UserBaseDetail;
 import com.example.pilipili_android.view_model.UserViewModel;
+import com.google.android.material.appbar.AppBarLayout;
 import com.qmuiteam.qmui.widget.QMUIRadiusImageView;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 import com.yalantis.ucrop.UCrop;
@@ -73,14 +80,20 @@ public class SpaceActivity extends AppCompatActivity {
     TextView detail;
     @BindView(R.id.sign)
     TextView signTv;
-
     @BindView(R.id.background)
     ImageView background;
-
     @BindView(R.id.avatar)
     QMUIRadiusImageView avatar;
     @BindView(R.id.uid)
     TextView uid;
+    @BindView(R.id.recyclerview_space)
+    RecyclerView recyclerViewSpace;
+    @BindView(R.id.txt_main_title)
+    TextView txtMainTitle;
+    @BindView(R.id.toolbar_layout)
+    RelativeLayout toolbarLayout;
+    @BindView(R.id.app_bar_layout)
+    AppBarLayout appBarLayout;
 
     private int UID;
     private boolean isDetail = false;
@@ -98,7 +111,22 @@ public class SpaceActivity extends AppCompatActivity {
     ActivitySpaceBinding activitySpaceBinding;
     FragmentManager fragmentManager;
     AvatarFragment avatarFragment;
+    private UserVideoAdapter userVideoAdapter;
 
+    private AppBarStateChangeListener appBarStateChangeListener = new AppBarStateChangeListener() {
+        @Override
+        public void onStateChanged(AppBarLayout appBarLayout, State state) {
+            if (state == State.EXPANDED) {
+                //展开状态
+                toolbarLayout.setVisibility(View.GONE);
+            } else if (state == State.COLLAPSED) {
+                //折叠状态
+                toolbarLayout.setVisibility(View.VISIBLE);
+            } else {
+                toolbarLayout.setVisibility(View.GONE);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +151,7 @@ public class SpaceActivity extends AppCompatActivity {
                 bigVip.setVisibility(View.GONE);
             }
             signOrigin = spaceActivityBean.getSign();
-            if(signOrigin.equals("")) {
+            if (signOrigin.equals("")) {
                 signOrigin = "这个人很神秘，什么都没有留下";
                 signSingle = "这个人很神秘，什么都没有留下";
                 hasSign = false;
@@ -153,6 +181,17 @@ public class SpaceActivity extends AppCompatActivity {
             }
         });
 
+        activitySpaceBinding.getUserViewModel().getUserVideoBeans().observe(this, dataBeans -> {
+            userVideoAdapter.setUserVideoList(activitySpaceBinding.getUserViewModel().getUserVideoBeans().getValue());
+            userVideoAdapter.notifyDataSetChanged();
+        });
+
+        activitySpaceBinding.getUserViewModel().getVideoDetailBean().observe(this, videoDetailBean -> {
+            Intent intent = new Intent(this, VideoActivity.class);
+            intent.putExtra("dataBean", videoDetailBean);
+            startActivity(intent);
+        });
+
     }
 
     private void initData() {
@@ -166,6 +205,18 @@ public class SpaceActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        txtMainTitle.setText(UserBaseDetail.getUsername(this));
+        appBarLayout.addOnOffsetChangedListener(appBarStateChangeListener);
+
+        userVideoAdapter = new UserVideoAdapter(this, activitySpaceBinding.getUserViewModel().getUserVideoBeans().getValue(), pv -> {
+            activitySpaceBinding.getUserViewModel().getVideoDetail(pv);
+        });
+        recyclerViewSpace.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewSpace.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        recyclerViewSpace.setAdapter(userVideoAdapter);
+
+        activitySpaceBinding.getUserViewModel().getUserVideo(UID);
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         activitySpaceBinding.getUserViewModel().getUserSpaceData(UID);
     }
@@ -199,15 +250,15 @@ public class SpaceActivity extends AppCompatActivity {
         defaultBackground.setOnClickListener(view1 -> {
             Bitmap img = ((BitmapDrawable) Objects.requireNonNull(getDrawable(DefaultConstant.BACKGROUND_IMAGE_DEFAULT))).getBitmap();
             File file = new File(CROP_CACHE);
-            if(!file.exists()) //noinspection ResultOfMethodCallIgnored
+            if (!file.exists()) //noinspection ResultOfMethodCallIgnored
                 file.mkdir();
             String fileName = CROP_CACHE + System.currentTimeMillis() + ".png";
-            try{
+            try {
                 OutputStream outputStream = new FileOutputStream(fileName);
                 img.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
                 outputStream.close();
                 activitySpaceBinding.getUserViewModel().uploadUserBackground(fileName);
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             dialog.dismiss();
@@ -223,9 +274,9 @@ public class SpaceActivity extends AppCompatActivity {
             dialog.dismiss();
             if (ContextCompat.checkSelfPermission(this,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-            || ContextCompat.checkSelfPermission(this,
+                    || ContextCompat.checkSelfPermission(this,
                     Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
-            || ContextCompat.checkSelfPermission(this,
+                    || ContextCompat.checkSelfPermission(this,
                     Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE);
             } else {
@@ -238,9 +289,9 @@ public class SpaceActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_EXTERNAL_STORAGE) {
-            if(grantResults.length > 0) {
-                for(int result : grantResults) {
-                    if(result == PackageManager.PERMISSION_DENIED) {
+            if (grantResults.length > 0) {
+                for (int result : grantResults) {
+                    if (result == PackageManager.PERMISSION_DENIED) {
                         Toast.makeText(this, "啊啦~被残忍拒绝了呢~", Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -265,9 +316,9 @@ public class SpaceActivity extends AppCompatActivity {
             //图片路径 同样视频地址也是这个
             assert data != null;
             List<String> pathList = Matisse.obtainPathResult(data);
-           // String path = UriUtil.getPath(this, pathList.get(0));
+            // String path = UriUtil.getPath(this, pathList.get(0));
             File dir = new File(UrlConstant.COMPRESS_CACHE);
-            if(!dir.exists()) dir.mkdir();
+            if (!dir.exists()) dir.mkdir();
             Luban.with(this)
                     .load(pathList.get(0))
                     .ignoreBy(300)
@@ -319,21 +370,21 @@ public class SpaceActivity extends AppCompatActivity {
                 overridePendingTransition(0, 0);
             }
         } else if (requestCode == EDIT_USER_INFO || resultCode == RESULT_OK) {
-            if(data != null) {
+            if (data != null) {
                 String avatarUrl = data.getStringExtra("avatarUrl");
                 assert avatarUrl != null;
-                if(!avatarUrl.equals("")){
+                if (!avatarUrl.equals("")) {
                     Glide.with(this).load(avatarUrl).diskCacheStrategy(DiskCacheStrategy.NONE).into(avatar);
                 }
                 usernameTv.setText(data.getStringExtra("username"));
-                if(data.getBooleanExtra("gender", false)) {
+                if (data.getBooleanExtra("gender", false)) {
                     genderImg.setImageResource(R.drawable.cyx);
                 } else {
                     genderImg.setImageResource(R.drawable.cyz);
                 }
                 signOrigin = data.getStringExtra("sign");
                 assert signOrigin != null;
-                if(signOrigin.equals("")) {
+                if (signOrigin.equals("")) {
                     signOrigin = "这个人很神秘，什么都没有留下";
                     signSingle = "这个人很神秘，什么都没有留下";
                     hasSign = false;
@@ -411,5 +462,11 @@ public class SpaceActivity extends AppCompatActivity {
         intent.putExtra("id", UID);
         intent.putExtra("isFollow", false);
         startActivity(intent);
+    }
+
+
+    @OnClick(R.id.icon_left)
+    public void onIconLeftClicked() {
+        this.finish();
     }
 }

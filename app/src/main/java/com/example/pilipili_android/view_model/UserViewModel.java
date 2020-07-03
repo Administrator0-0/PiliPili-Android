@@ -28,6 +28,7 @@ import com.example.pilipili_android.bean.netbean.RenameReturn;
 import com.example.pilipili_android.bean.netbean.UserDetailReturn;
 import com.example.pilipili_android.bean.netbean.UserOpenDetailReturn;
 import com.example.pilipili_android.bean.netbean.UserVideoReturn;
+import com.example.pilipili_android.bean.netbean.VideoDetailReturn;
 import com.example.pilipili_android.constant.SPConstant;
 import com.example.pilipili_android.inteface.OnNetRequestListener;
 import com.example.pilipili_android.model.UserDataSource;
@@ -40,6 +41,11 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class UserViewModel extends AndroidViewModel {
 
@@ -63,6 +69,8 @@ public class UserViewModel extends AndroidViewModel {
     private MutableLiveData<List<ListFollowReturn.DataBean.ListBean>> followedList = new MutableLiveData<>();
     private MutableLiveData<List<ListFollowReturn.DataBean.ListBean>> fanList = new MutableLiveData<>();
     private MutableLiveData<List<UserVideoReturn.DataBean.VideoListBean>> userVideoBeans = new MutableLiveData<>();
+
+    private MutableLiveData<VideoDetailReturn.DataBean> videoDetailBean = new MutableLiveData<>();
 
     public UserViewModel(@NonNull Application application) {
         super(application);
@@ -383,7 +391,7 @@ public class UserViewModel extends AndroidViewModel {
             }
         });
 
-        userDataSource.getUserAvatar(UserBaseDetail.getUID(context), new OnNetRequestListener() {
+        userDataSource.getUserAvatar(UID, new OnNetRequestListener() {
             @Override
             public void onSuccess(NetRequestResult netRequestResult) {
                 GetOSSUrlReturn getOSSUrlReturn = (GetOSSUrlReturn) netRequestResult.getData();
@@ -862,6 +870,30 @@ public class UserViewModel extends AndroidViewModel {
         });
     }
 
+    public void getVideoDetail(int pv) {
+        userDataSource.getVideoDetail(UserBaseDetail.getToken(context), pv, new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+                videoDetailBean.setValue((VideoDetailReturn.DataBean) netRequestResult.getData());
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+
+            }
+        });
+    }
+
     public void listFollowings(int id) {
         userDataSource.listFollowings(UserBaseDetail.getToken(context), id, new OnNetRequestListener() {
             @Override
@@ -1094,5 +1126,9 @@ public class UserViewModel extends AndroidViewModel {
 
     public MutableLiveData<List<UserVideoReturn.DataBean.VideoListBean>> getUserVideoBeans() {
         return userVideoBeans;
+    }
+
+    public MutableLiveData<VideoDetailReturn.DataBean> getVideoDetailBean() {
+        return videoDetailBean;
     }
 }

@@ -4,20 +4,33 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.pilipili_android.R;
+import com.example.pilipili_android.adapter.UserVideoAdapter;
 import com.example.pilipili_android.constant.DefaultConstant;
 import com.example.pilipili_android.databinding.ActivityOtherSpaceBinding;
+import com.example.pilipili_android.util.AppBarStateChangeListener;
+import com.example.pilipili_android.view_model.UserBaseDetail;
 import com.example.pilipili_android.view_model.UserViewModel;
+import com.google.android.material.appbar.AppBarLayout;
 import com.qmuiteam.qmui.widget.QMUIRadiusImageView;
 
 import butterknife.BindView;
@@ -44,6 +57,14 @@ public class OtherSpaceActivity extends AppCompatActivity {
     TextView uid;
     @BindView(R.id.fan)
     TextView fan;
+    @BindView(R.id.recyclerview_space)
+    RecyclerView recyclerViewSpace;
+    @BindView(R.id.txt_main_title)
+    TextView txtMainTitle;
+    @BindView(R.id.toolbar_layout)
+    RelativeLayout toolbarLayout;
+    @BindView(R.id.app_bar_layout)
+    AppBarLayout appBarLayout;
 
     private int UID;
     private boolean isDetail = false;
@@ -51,6 +72,24 @@ public class OtherSpaceActivity extends AppCompatActivity {
     private boolean hasSign = false;
     private String signOrigin = "";//指sign展开显示
     ActivityOtherSpaceBinding activitySpaceBinding;
+
+    private UserVideoAdapter userVideoAdapter;
+
+    private AppBarStateChangeListener appBarStateChangeListener = new AppBarStateChangeListener() {
+        @Override
+        public void onStateChanged(AppBarLayout appBarLayout, State state) {
+            if (state == State.EXPANDED) {
+                //展开状态
+
+                toolbarLayout.setVisibility(View.GONE);
+            } else if (state == State.COLLAPSED) {
+                //折叠状态
+                toolbarLayout.setVisibility(View.VISIBLE);
+            } else {
+                toolbarLayout.setVisibility(View.GONE);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +100,7 @@ public class OtherSpaceActivity extends AppCompatActivity {
 
         activitySpaceBinding.getUserViewModel().getSpaceActivityBean().observe(this, spaceActivityBean -> {
             activitySpaceBinding.setSpaceActivityBean(spaceActivityBean);
+            txtMainTitle.setText(activitySpaceBinding.getSpaceActivityBean().getUsername());
             if (spaceActivityBean.isGender()) {
                 genderImg.setImageResource(R.drawable.cyx);
             } else {
@@ -108,6 +148,17 @@ public class OtherSpaceActivity extends AppCompatActivity {
             fan.setText(aBoolean ? "取消关注" : "+ 关注");
         });
 
+        activitySpaceBinding.getUserViewModel().getUserVideoBeans().observe(this, dataBeans -> {
+            userVideoAdapter.setUserVideoList(activitySpaceBinding.getUserViewModel().getUserVideoBeans().getValue());
+            userVideoAdapter.notifyDataSetChanged();
+        });
+
+        activitySpaceBinding.getUserViewModel().getVideoDetailBean().observe(this, videoDetailBean -> {
+            Intent intent = new Intent(this, VideoActivity.class);
+            intent.putExtra("dataBean", videoDetailBean);
+            startActivity(intent);
+        });
+
     }
 
     private void initData() {
@@ -122,7 +173,21 @@ public class OtherSpaceActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        appBarLayout.addOnOffsetChangedListener(appBarStateChangeListener);
+
+        userVideoAdapter = new UserVideoAdapter(this, activitySpaceBinding.getUserViewModel().getUserVideoBeans().getValue(), pv -> {
+            activitySpaceBinding.getUserViewModel().getVideoDetail(pv);
+        });
+        recyclerViewSpace.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewSpace.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        recyclerViewSpace.setAdapter(userVideoAdapter);
+
+        activitySpaceBinding.getUserViewModel().getUserVideo(UID);
+
+        //部分机型的statusbar会有半透明的黑色背景
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+  //      getWindow().setStatusBarColor(Color.TRANSPARENT);
         activitySpaceBinding.getUserViewModel().getUserSpaceData(UID);
         activitySpaceBinding.getUserViewModel().isFollowed(UID);
     }
@@ -170,6 +235,24 @@ public class OtherSpaceActivity extends AppCompatActivity {
         intent.putExtra("id", UID);
         intent.putExtra("isFollow", false);
         startActivity(intent);
+    }
+
+    @OnClick(R.id.uid)
+    public void onUidClicked() {
+        //获取剪贴板管理器：
+        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        // 创建普通字符型ClipData
+        ClipData mClipData = ClipData.newPlainText("Label", UID + "");
+        // 将ClipData内容放到系统剪贴板里。
+        if (cm != null) {
+            cm.setPrimaryClip(mClipData);
+        }
+        Toast.makeText(this, "UID已复制到剪切板", Toast.LENGTH_SHORT).show();
+    }
+
+    @OnClick(R.id.icon_left)
+    public void onIconLeftClicked() {
+        this.finish();
     }
 
 }

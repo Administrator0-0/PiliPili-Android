@@ -28,12 +28,7 @@
                 android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:layout_marginBottom="6dp"
-                android:clickable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:focusable="true">
+                android:layout_marginBottom="6dp">
 
                 <com.qmuiteam.qmui.widget.QMUIRadiusImageView
                     android:id="@+id/user_avatar"
@@ -53,7 +48,7 @@
                     android:layout_marginEnd="4dp"
                     android:minWidth="72dp"
                     android:textSize="16sp"
-                    android:text="刘薪王"/>
+                    tools:text="刘薪王"/>
 
                 <TextView
                     android:id="@+id/fans"
@@ -66,7 +61,7 @@
                     android:minWidth="72dp"
                     android:textSize="12sp"
                     android:textColor="@color/gray"
-                    android:text="199999万粉丝"/>
+                    tools:text="199999万粉丝"/>
 
             </RelativeLayout>
 
@@ -81,7 +76,7 @@
                 android:layout_centerInParent="true"
                 android:background="@drawable/btn_pin_bg"
                 android:gravity="center"
-                android:text="+ 关注"
+                tools:text="+ 关注"
                 android:textSize="14sp"
                 android:textColor="@color/white" />
 
@@ -105,7 +100,7 @@
                     android:lineSpacingExtra="2dp"
                     android:textSize="18sp"
                     android:layout_centerVertical="true"
-                    android:text="刘薪王太强了"/>
+                    tools:text="刘薪王太强了"/>
 
                 <ImageView
                     android:id="@+id/up_down_img"
@@ -127,7 +122,6 @@
                 android:paddingEnd="10dp"
                 android:layout_marginTop="7dp"
                 android:paddingStart="10dp">
-
 
                 <ImageView
                     android:layout_width="17dp"

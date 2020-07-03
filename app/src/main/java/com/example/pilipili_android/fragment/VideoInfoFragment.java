@@ -51,6 +51,8 @@ public class VideoInfoFragment extends Fragment {
     QMUIRadiusImageView userAvatar;
     @BindView(R.id.user_name)
     TextView userName;
+    @BindView(R.id.follow)
+    TextView follow;
     @BindView(R.id.fans)
     TextView fans;
     @BindView(R.id.tv_title)
@@ -162,12 +164,14 @@ public class VideoInfoFragment extends Fragment {
         userViewModel.getIsFollowed().observe(getActivity(), isFollow -> {
             if(isFollow) {
                 this.isFollow = true;
-                fans.setText("已关注");
-                fans.setBackground(Objects.requireNonNull(getContext()).getDrawable(R.drawable.btn_pin_bg_already_follow));
+                follow.setTextColor(getContext().getColor(R.color.gray));
+                follow.setText("已关注");
+                follow.setBackground(Objects.requireNonNull(getContext()).getDrawable(R.drawable.btn_pin_bg_already_follow));
             } else {
                 this.isFollow = false;
-                fans.setText("+ 关注");
-                fans.setBackground(Objects.requireNonNull(getContext()).getDrawable(R.drawable.btn_pin_bg));
+                follow.setTextColor(getContext().getColor(R.color.white));
+                follow.setText("+ 关注");
+                follow.setBackground(Objects.requireNonNull(getContext()).getDrawable(R.drawable.btn_pin_bg));
             }
         });
 
@@ -215,10 +219,15 @@ public class VideoInfoFragment extends Fragment {
             isStar = true;
             starImg.setImageResource(R.drawable.bsp_selected);
         }
+        if(UserBaseDetail.getUID(getContext()) == videoViewModel.getDataBean().getAuthor()) {
+            follow.setVisibility(View.GONE);
+            this.isFollow = false;
+        }
         if(videoViewModel.getDataBean().isIs_followed()) {
             isFollow = true;
-            fans.setText("已关注");
-            fans.setBackground(getContext().getDrawable(R.drawable.btn_pin_bg_already_follow));
+            follow.setText("已关注");
+            follow.setTextColor(getContext().getColor(R.color.gray));
+            follow.setBackground(getContext().getDrawable(R.drawable.btn_pin_bg_already_follow));
         }
     }
 

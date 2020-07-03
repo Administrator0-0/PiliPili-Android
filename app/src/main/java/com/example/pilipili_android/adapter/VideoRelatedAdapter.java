@@ -68,7 +68,7 @@ public class VideoRelatedAdapter extends RecyclerView.Adapter {
         this.relateVideoList = relateVideoList;
     }
 
-    public static class ItemViewHolder extends RecyclerView.ViewHolder {
+    static class ItemViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.cover_image)
         ImageView coverImage;

@@ -41,7 +41,7 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:screenOrientation="fullSensor"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.SpaceActivity" />
+        <activity android:name=".activity.SpaceActivity"  android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activity.PayActivity" />
         <activity android:name=".activity.SplashActivity">
             <intent-filter>
