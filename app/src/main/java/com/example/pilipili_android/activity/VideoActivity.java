@@ -31,6 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.dueeeke.videoplayer.ijk.IjkPlayerFactory;
 import com.example.pilipili_android.R;
 import com.example.pilipili_android.bean.localbean.CommentItemBean;
 import com.example.pilipili_android.bean.netbean.DanmukuListReturn;
@@ -151,6 +152,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
 
         videoViewModel.getVideoUrl().observe(this, url -> {
             player.setUrl(url);
+            player.setPlayerFactory(IjkPlayerFactory.create());
             player.start();
         });
 

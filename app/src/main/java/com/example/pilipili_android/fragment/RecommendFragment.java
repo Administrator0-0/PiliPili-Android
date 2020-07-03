@@ -70,6 +70,7 @@ public class RecommendFragment extends Fragment {
         });
 
         videoViewModel.getRecommendVideoBeans().observe(getActivity(), isFinish -> {
+            recommendVideoAdapter.setDataBeanList(videoViewModel.getRecommendVideoBeans().getValue());
             recommendVideoAdapter.notifyDataSetChanged();
             refreshLayout.finishRefresh();
         });

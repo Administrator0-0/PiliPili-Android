@@ -110,8 +110,8 @@ public class VideoInfoFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         videoViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(VideoViewModel.class);
-        videoRelatedAdapter = new VideoRelatedAdapter(getContext(), videoViewModel.getVideoRelatedBeans().getValue(), () -> {
-            videoViewModel.getVideoDetail(videoViewModel.getDataBean().getPv());
+        videoRelatedAdapter = new VideoRelatedAdapter(getContext(), videoViewModel.getVideoRelatedBeans().getValue(), pv -> {
+            videoViewModel.getVideoDetail(pv);
         });
         userViewModel = new ViewModelProvider(getActivity()).get(UserViewModel.class);
         videoViewModel.getRelatedVideos(videoViewModel.getDataBean().getPv());

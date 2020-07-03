@@ -18,6 +18,7 @@ import com.example.pilipili_android.bean.localbean.SignBean;
 import com.example.pilipili_android.bean.netbean.BuyCoinReturn;
 import com.example.pilipili_android.bean.netbean.BuyVIPReturn;
 import com.example.pilipili_android.bean.netbean.GetOSSUrlReturn;
+import com.example.pilipili_android.bean.netbean.GetRelatedVideoReturn;
 import com.example.pilipili_android.bean.netbean.IsFollowedReturn;
 import com.example.pilipili_android.bean.netbean.ListFollowReturn;
 import com.example.pilipili_android.bean.netbean.LoginSend;
@@ -26,6 +27,7 @@ import com.example.pilipili_android.bean.localbean.SpaceActivityBean;
 import com.example.pilipili_android.bean.netbean.RenameReturn;
 import com.example.pilipili_android.bean.netbean.UserDetailReturn;
 import com.example.pilipili_android.bean.netbean.UserOpenDetailReturn;
+import com.example.pilipili_android.bean.netbean.UserVideoReturn;
 import com.example.pilipili_android.constant.SPConstant;
 import com.example.pilipili_android.inteface.OnNetRequestListener;
 import com.example.pilipili_android.model.UserDataSource;
@@ -60,6 +62,7 @@ public class UserViewModel extends AndroidViewModel {
     private MutableLiveData<Boolean> isFollowed = new MutableLiveData<>();
     private MutableLiveData<List<ListFollowReturn.DataBean.ListBean>> followedList = new MutableLiveData<>();
     private MutableLiveData<List<ListFollowReturn.DataBean.ListBean>> fanList = new MutableLiveData<>();
+    private MutableLiveData<List<UserVideoReturn.DataBean.VideoListBean>> userVideoBeans = new MutableLiveData<>();
 
     public UserViewModel(@NonNull Application application) {
         super(application);
@@ -67,6 +70,7 @@ public class UserViewModel extends AndroidViewModel {
         userDataSource = new UserDataSource();
         followedList.setValue(new ArrayList<>());
         fanList.setValue(new ArrayList<>());
+        userVideoBeans.setValue(new ArrayList<>());
     }
 
     public boolean verifyLocalToken(){
@@ -248,6 +252,7 @@ public class UserViewModel extends AndroidViewModel {
     }
 
     public void getUserDetailInfo() {
+        Log.d("aaa1", "getUserDetailInfo: ");
         userDataSource.getUserDetail(UserBaseDetail.getToken(context), new OnNetRequestListener() {
             @Override
             public void onSuccess(NetRequestResult netRequestResult) {
@@ -262,8 +267,10 @@ public class UserViewModel extends AndroidViewModel {
                 userDataSource.getUserAvatar(UserBaseDetail.getUID(context), new OnNetRequestListener() {
                     @Override
                     public void onSuccess(NetRequestResult netRequestResult) {
+                        Log.d("aaa5", "getUserDetailInfo: ");
                         GetOSSUrlReturn getOSSUrlReturn = (GetOSSUrlReturn) netRequestResult.getData();
                         if(getOSSUrlReturn.getData().getFile() == null) {
+                            Log.d("aaa6", "getUserDetailInfo");
                             isSuccessLogin.setValue(true);
                             return;
                         }
@@ -271,16 +278,18 @@ public class UserViewModel extends AndroidViewModel {
                                 getOSSUrlReturn.getData().getGuest_secret(),
                                 getOSSUrlReturn.getData().getSecurity_token(),
                                 getOSSUrlReturn.getData().getFile());
+                        Log.d("aaa8", url);
                         CustomTarget<Drawable> customTarget = new CustomTarget<Drawable>() {
                             @Override
                             public void onResourceReady(@NonNull Drawable resource, Transition<? super Drawable> transition) {
                                 putAvatar(url);
+                                Log.d("aaa7", "getUserDetailInfo: ");
                                 isSuccessLogin.setValue(true);
                             }
 
                             @Override
                             public void onLoadCleared(@Nullable Drawable placeholder) {
-
+                                Log.d("aaa9", "getUserDetailInfo: ");
                             }
                         };
 
@@ -829,7 +838,11 @@ public class UserViewModel extends AndroidViewModel {
         userDataSource.getUserVideo(uid, new OnNetRequestListener() {
             @Override
             public void onSuccess(NetRequestResult netRequestResult) {
-
+                List<UserVideoReturn.DataBean.VideoListBean> listBeans = new ArrayList<>();
+                for(Object bean : (List<?>)netRequestResult.getData()){
+                    listBeans.add((UserVideoReturn.DataBean.VideoListBean) bean);
+                }
+                userVideoBeans.setValue(listBeans);
             }
 
             @Override
@@ -1077,5 +1090,9 @@ public class UserViewModel extends AndroidViewModel {
 
     public MutableLiveData<List<ListFollowReturn.DataBean.ListBean>> getFanList() {
         return fanList;
+    }
+
+    public MutableLiveData<List<UserVideoReturn.DataBean.VideoListBean>> getUserVideoBeans() {
+        return userVideoBeans;
     }
 }

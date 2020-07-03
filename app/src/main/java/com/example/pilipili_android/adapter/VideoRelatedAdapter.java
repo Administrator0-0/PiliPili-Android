@@ -55,7 +55,7 @@ public class VideoRelatedAdapter extends RecyclerView.Adapter {
         itemViewHolder.textVideoTitle.setText(videoRelatedBean.getTitle());
         itemViewHolder.coverImage.post(() -> Glide.with(context).load(getOSS(context, videoRelatedBean.getBucket_cover().getGuest_key(), videoRelatedBean.getBucket_cover().getGuest_secret(), videoRelatedBean.getBucket_cover().getSecurity_token()).presignPublicObjectURL(PILIPILI_BUCKET, videoRelatedBean.getBucket_cover().getFile())).diskCacheStrategy(DiskCacheStrategy.NONE).into(itemViewHolder.coverImage));
         itemViewHolder.itemView.setOnClickListener(view -> {
-            onItemClickListener.onItemClick();
+            onItemClickListener.onItemClick(videoRelatedBean.getId());
         });
     }
 

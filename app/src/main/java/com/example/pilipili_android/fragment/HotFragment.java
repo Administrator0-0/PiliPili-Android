@@ -74,6 +74,7 @@ public class HotFragment extends Fragment {
         });
 
         videoViewModel.getHotVideoBeans().observe(getActivity(), isFinish -> {
+            hotVideoAdapter.setDataBeanList(videoViewModel.getHotVideoBeans().getValue());
             hotVideoAdapter.notifyDataSetChanged();
             refreshLayout.finishRefresh();
         });

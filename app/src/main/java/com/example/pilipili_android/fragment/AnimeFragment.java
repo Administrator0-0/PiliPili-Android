@@ -74,6 +74,7 @@ public class AnimeFragment extends Fragment {
         });
 
         videoViewModel.getAnimeVideoBeans().observe(getActivity(), isFinish -> {
+            animeVideoAdapter.setDataBeanList(videoViewModel.getAnimeVideoBeans().getValue());
             animeVideoAdapter.notifyDataSetChanged();
             refreshLayout.finishRefresh();
         });

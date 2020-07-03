@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -30,9 +31,6 @@ public class SplashActivity extends BaseActivity {
 
         Handler handler = new Handler();
         handler.postDelayed(runnable, 2000);
-
-//        new Thread(() -> Glide.get(this).clearDiskCache()).start();
-//        Glide.get(this).clearMemory();
 
         if(!userViewModel.verifyLocalToken()) {
             isLoginActivity = true;
