@@ -3,6 +3,7 @@ package com.example.pilipili_android.view_model;
 import android.app.Application;
 import android.content.Context;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;

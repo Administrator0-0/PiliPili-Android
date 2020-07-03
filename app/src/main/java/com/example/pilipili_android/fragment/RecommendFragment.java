@@ -53,7 +53,7 @@ public class RecommendFragment extends Fragment {
         recommendVideoAdapter = new RecommendVideoAdapter(getContext());
         recommendVideoAdapter.setDataBeanList(videoViewModel.getRecommendVideoBeans().getValue());
         recyclerView.setAdapter(recommendVideoAdapter);
-        if(videoViewModel.getAnimeVideoBeans().getValue().size() == 0){
+        if(videoViewModel.getRecommendVideoBeans().getValue().size() == 0){
             videoViewModel.getRecommendVideoDetail();
         }
 
