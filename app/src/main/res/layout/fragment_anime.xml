@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<com.scwang.smartrefresh.layout.SmartRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/refreshLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragment.AnimeFragment">
-    <TextView
+    app:srlAccentColor="@color/white"
+    app:srlHeaderHeight="60dp"
+    app:srlPrimaryColor="@color/colorPrimary"
+    android:layout_height="match_parent">
+    <com.scwang.smartrefresh.header.StoreHouseHeader
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="这番柰子真大"
-        android:textSize="200sp"/>
+        android:layout_height="wrap_content"/>
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/recyclerview_anime"/>
-</RelativeLayout>
+        android:layout_height="wrap_content"/>
+
+</com.scwang.smartrefresh.layout.SmartRefreshLayout>

@@ -4,10 +4,9 @@ import java.io.Serializable;
 
 public class VideoDetailReturn {
 
-
     /**
      * code : 200
-     * data : {"author":1,"bucket_cover":{"file":"uid-1-2020-06-28-23-06-26-1593356786818.png","guest_key":"STS.NTxa7gxNJpWz3Kn24WFQBmXsv","guest_secret":"DQJQeUrFSvUvcXo7aTNThu1mVMdo16swSwF2QVvFgKBV","security_token":"CAIS8wF1q6Ft5B2yfSjIr5fNKo3TlZFrx5WRMW3f1jQCSt5ugp3YlDz2IHtFe3lhA+oWt/k0lGFV7/YelqN3SoJVRErbZM1/tleNOsR5Jdivgde8yJBZor/HcDHhJnyW9cvWZPqDP7G5U/yxalfCuzZuyL/hD1uLVECkNpv74vwOLK5gPG+CYCFBGc1dKyZ7tcYeLgGxD/u2NQPwiWeiZygB+CgE0DMnuPXvnZPNsUaD1w2rm9V4/dqhfsKWCOB3J4p6XtuP2+h7S7HMyiY46WIRr/Yp3P0eo2ee44rNUgQIs0mcUe7V781uKhBwYKcquAK8CFlRZpYagAEzAi59fOe3YkgLBPWGxbb2kzZTyNKFjcoVa3Djr/Dn2DDVXBXMJzcCGD+QBWTHFqJwfBv4BGd1vCot63yfW7WpBt45/iVmPVp9cq25h6QoMZWh8xsMRIwE5zLWuze24nluw4rE7/l7Wd0akXRfENmlpgnciKTzz/PM65MSaK0C3Q=="},"coins":0,"collections":0,"comments":0,"danmuku":0,"duration":"0:40","is_collected":false,"is_liked":false,"likes":0,"pv":2,"sign":"Ggghh","time":"2020-06-28 23:08:07","title":"Ycyvyyvyv","type":1,"views":0}
+     * data : {"author":3,"author_name":"user","bucket_cover":{"file":"uid-3-2020-06-30-15-20-18-1593501615410.png","guest_key":"STS.NT3zr1No6JEKmRLgpfyFnxhW3","guest_secret":"LfTwRLySe8HxC9WtN7sk1FN6HJ9grzrrp6rm2LTa8dT","security_token":"CAIS8wF1q6Ft5B2yfSjIr5eGMciFo7AX/Yegb3T9g3AzdclCl6380Tz2IHtFe3lhA+oWt/k0lGFV7/YelqN3SoJVRErbZM1/tn65X5N5Jdivgde8yJBZor/HcDHhJnyW9cvWZPqDP7G5U/yxalfCuzZuyL/hD1uLVECkNpv74vwOLK5gPG+CYCFBGc1dKyZ7tcYeLgGxD/u2NQPwiWeiZygB+CgE0DMnuPXvnZPNsUaD1w2rm9V4/dqhfsKWCOB3J4p6XtuP2+h7S7HMyiY46WIRr/Yp3P0eo2ee44rNUgQIs0mcUe7V781uKhBwYKcquAK8CFlRZpYagAFDCP69PCuBgyGQPj8aurKUiIDav9QIySt0/m4fkbiUBwcCZP9REVldT2NwXgq7y0BtS+b2YUEEkhS84oQa5oxdzhaZWS/eayFqVaWQIuUij5JpArk7tsBZRAyGlLveqwv0oJaMCLKuOabHIpQA5Q6+jqb8ab8A1tJBjOJQepsazA=="},"coins":1,"collections":0,"comments":0,"danmuku":0,"duration":"4:55","is_collected":false,"is_followed":false,"is_liked":true,"likes":1,"pv":22,"sign":"本视频提供B站众人津津乐道的各种梗的出处，希望能搏你一笑","time":"2020-06-30 15:21:40","title":"万恶之源\u2014B站中梗的出处","type":1,"views":1}
      * message : 详情
      */
 
@@ -39,27 +38,30 @@ public class VideoDetailReturn {
         this.message = message;
     }
 
-    public static class DataBean implements Serializable {
+    public static class DataBean implements Serializable{
         /**
-         * author : 1
-         * bucket_cover : {"file":"uid-1-2020-06-28-23-06-26-1593356786818.png","guest_key":"STS.NTxa7gxNJpWz3Kn24WFQBmXsv","guest_secret":"DQJQeUrFSvUvcXo7aTNThu1mVMdo16swSwF2QVvFgKBV","security_token":"CAIS8wF1q6Ft5B2yfSjIr5fNKo3TlZFrx5WRMW3f1jQCSt5ugp3YlDz2IHtFe3lhA+oWt/k0lGFV7/YelqN3SoJVRErbZM1/tleNOsR5Jdivgde8yJBZor/HcDHhJnyW9cvWZPqDP7G5U/yxalfCuzZuyL/hD1uLVECkNpv74vwOLK5gPG+CYCFBGc1dKyZ7tcYeLgGxD/u2NQPwiWeiZygB+CgE0DMnuPXvnZPNsUaD1w2rm9V4/dqhfsKWCOB3J4p6XtuP2+h7S7HMyiY46WIRr/Yp3P0eo2ee44rNUgQIs0mcUe7V781uKhBwYKcquAK8CFlRZpYagAEzAi59fOe3YkgLBPWGxbb2kzZTyNKFjcoVa3Djr/Dn2DDVXBXMJzcCGD+QBWTHFqJwfBv4BGd1vCot63yfW7WpBt45/iVmPVp9cq25h6QoMZWh8xsMRIwE5zLWuze24nluw4rE7/l7Wd0akXRfENmlpgnciKTzz/PM65MSaK0C3Q=="}
-         * coins : 0
+         * author : 3
+         * author_name : user
+         * bucket_cover : {"file":"uid-3-2020-06-30-15-20-18-1593501615410.png","guest_key":"STS.NT3zr1No6JEKmRLgpfyFnxhW3","guest_secret":"LfTwRLySe8HxC9WtN7sk1FN6HJ9grzrrp6rm2LTa8dT","security_token":"CAIS8wF1q6Ft5B2yfSjIr5eGMciFo7AX/Yegb3T9g3AzdclCl6380Tz2IHtFe3lhA+oWt/k0lGFV7/YelqN3SoJVRErbZM1/tn65X5N5Jdivgde8yJBZor/HcDHhJnyW9cvWZPqDP7G5U/yxalfCuzZuyL/hD1uLVECkNpv74vwOLK5gPG+CYCFBGc1dKyZ7tcYeLgGxD/u2NQPwiWeiZygB+CgE0DMnuPXvnZPNsUaD1w2rm9V4/dqhfsKWCOB3J4p6XtuP2+h7S7HMyiY46WIRr/Yp3P0eo2ee44rNUgQIs0mcUe7V781uKhBwYKcquAK8CFlRZpYagAFDCP69PCuBgyGQPj8aurKUiIDav9QIySt0/m4fkbiUBwcCZP9REVldT2NwXgq7y0BtS+b2YUEEkhS84oQa5oxdzhaZWS/eayFqVaWQIuUij5JpArk7tsBZRAyGlLveqwv0oJaMCLKuOabHIpQA5Q6+jqb8ab8A1tJBjOJQepsazA=="}
+         * coins : 1
          * collections : 0
          * comments : 0
          * danmuku : 0
-         * duration : 0:40
+         * duration : 4:55
          * is_collected : false
-         * is_liked : false
-         * likes : 0
-         * pv : 2
-         * sign : Ggghh
-         * time : 2020-06-28 23:08:07
-         * title : Ycyvyyvyv
+         * is_followed : false
+         * is_liked : true
+         * likes : 1
+         * pv : 22
+         * sign : 本视频提供B站众人津津乐道的各种梗的出处，希望能搏你一笑
+         * time : 2020-06-30 15:21:40
+         * title : 万恶之源—B站中梗的出处
          * type : 1
-         * views : 0
+         * views : 1
          */
 
         private int author;
+        private String author_name;
         private BucketCoverBean bucket_cover;
         private int coins;
         private int collections;
@@ -67,6 +69,7 @@ public class VideoDetailReturn {
         private int danmuku;
         private String duration;
         private boolean is_collected;
+        private boolean is_followed;
         private boolean is_liked;
         private int likes;
         private int pv;
@@ -82,6 +85,14 @@ public class VideoDetailReturn {
 
         public void setAuthor(int author) {
             this.author = author;
+        }
+
+        public String getAuthor_name() {
+            return author_name;
+        }
+
+        public void setAuthor_name(String author_name) {
+            this.author_name = author_name;
         }
 
         public BucketCoverBean getBucket_cover() {
@@ -138,6 +149,14 @@ public class VideoDetailReturn {
 
         public void setIs_collected(boolean is_collected) {
             this.is_collected = is_collected;
+        }
+
+        public boolean isIs_followed() {
+            return is_followed;
+        }
+
+        public void setIs_followed(boolean is_followed) {
+            this.is_followed = is_followed;
         }
 
         public boolean isIs_liked() {
@@ -206,10 +225,10 @@ public class VideoDetailReturn {
 
         public static class BucketCoverBean implements Serializable {
             /**
-             * file : uid-1-2020-06-28-23-06-26-1593356786818.png
-             * guest_key : STS.NTxa7gxNJpWz3Kn24WFQBmXsv
-             * guest_secret : DQJQeUrFSvUvcXo7aTNThu1mVMdo16swSwF2QVvFgKBV
-             * security_token : CAIS8wF1q6Ft5B2yfSjIr5fNKo3TlZFrx5WRMW3f1jQCSt5ugp3YlDz2IHtFe3lhA+oWt/k0lGFV7/YelqN3SoJVRErbZM1/tleNOsR5Jdivgde8yJBZor/HcDHhJnyW9cvWZPqDP7G5U/yxalfCuzZuyL/hD1uLVECkNpv74vwOLK5gPG+CYCFBGc1dKyZ7tcYeLgGxD/u2NQPwiWeiZygB+CgE0DMnuPXvnZPNsUaD1w2rm9V4/dqhfsKWCOB3J4p6XtuP2+h7S7HMyiY46WIRr/Yp3P0eo2ee44rNUgQIs0mcUe7V781uKhBwYKcquAK8CFlRZpYagAEzAi59fOe3YkgLBPWGxbb2kzZTyNKFjcoVa3Djr/Dn2DDVXBXMJzcCGD+QBWTHFqJwfBv4BGd1vCot63yfW7WpBt45/iVmPVp9cq25h6QoMZWh8xsMRIwE5zLWuze24nluw4rE7/l7Wd0akXRfENmlpgnciKTzz/PM65MSaK0C3Q==
+             * file : uid-3-2020-06-30-15-20-18-1593501615410.png
+             * guest_key : STS.NT3zr1No6JEKmRLgpfyFnxhW3
+             * guest_secret : LfTwRLySe8HxC9WtN7sk1FN6HJ9grzrrp6rm2LTa8dT
+             * security_token : CAIS8wF1q6Ft5B2yfSjIr5eGMciFo7AX/Yegb3T9g3AzdclCl6380Tz2IHtFe3lhA+oWt/k0lGFV7/YelqN3SoJVRErbZM1/tn65X5N5Jdivgde8yJBZor/HcDHhJnyW9cvWZPqDP7G5U/yxalfCuzZuyL/hD1uLVECkNpv74vwOLK5gPG+CYCFBGc1dKyZ7tcYeLgGxD/u2NQPwiWeiZygB+CgE0DMnuPXvnZPNsUaD1w2rm9V4/dqhfsKWCOB3J4p6XtuP2+h7S7HMyiY46WIRr/Yp3P0eo2ee44rNUgQIs0mcUe7V781uKhBwYKcquAK8CFlRZpYagAFDCP69PCuBgyGQPj8aurKUiIDav9QIySt0/m4fkbiUBwcCZP9REVldT2NwXgq7y0BtS+b2YUEEkhS84oQa5oxdzhaZWS/eayFqVaWQIuUij5JpArk7tsBZRAyGlLveqwv0oJaMCLKuOabHIpQA5Q6+jqb8ab8A1tJBjOJQepsazA==
              */
 
             private String file;

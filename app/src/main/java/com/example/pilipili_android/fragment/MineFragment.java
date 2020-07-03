@@ -109,7 +109,6 @@ public class MineFragment extends Fragment {
     @OnClick(R.id.space_btn)
     void onMySpaceClicked() {
         Intent intent = new Intent(getActivity(), SpaceActivity.class);
-        intent.putExtra("UID", UserBaseDetail.getUID(getContext()));
         startActivity(intent);
     }
 

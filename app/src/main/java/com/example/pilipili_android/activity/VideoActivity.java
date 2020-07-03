@@ -38,6 +38,7 @@ import com.example.pilipili_android.bean.netbean.DanmukuSend;
 import com.example.pilipili_android.bean.netbean.VideoDetailReturn;
 import com.example.pilipili_android.fragment.CommentDetailsFragment;
 import com.example.pilipili_android.fragment.FragmentMsg;
+import com.example.pilipili_android.fragment.RewardVideoFragment;
 import com.example.pilipili_android.fragment.VideoCommentFragment;
 import com.example.pilipili_android.fragment.VideoInfoFragment;
 import com.example.pilipili_android.util.AppBarStateChangeListener;
@@ -105,7 +106,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     Button sendComment;
 
     private int pv;
-    private String imgUrl;
+    private FragmentManager fragmentManager;
     private List<String> titles = new ArrayList<>();
     private List<Fragment> fragments = new ArrayList<>();
     private AppBarLayout.LayoutParams mAppBarParams;
@@ -137,6 +138,8 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
+        fragmentManager = getSupportFragmentManager();
         Intent intent = getIntent();
         videoViewModel = new ViewModelProvider(this).get(VideoViewModel.class);
         videoViewModel.setDataBean((VideoDetailReturn.DataBean)intent.getSerializableExtra("dataBean"));
@@ -155,6 +158,15 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         initView();
         initToolBar();
         initPage();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onFragmentMessage(FragmentMsg fragmentMsg) {
+        if(fragmentMsg.getWhatFragment().equals("VideoInfoFragment")) {
+            if(fragmentMsg.getMsgString().equals("show")) {
+                fragmentManager.beginTransaction().add(R.id.box, new RewardVideoFragment()).commit();
+            }
+        }
     }
 
     private AppBarStateChangeListener appBarStateChangeListener = new AppBarStateChangeListener() {
@@ -231,6 +243,9 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         if (supportActionBar != null) {
             supportActionBar.setDisplayHomeAsUpEnabled(false);
         }
+        mToolbar.setNavigationOnClickListener(view -> {
+            VideoActivity.this.finish();
+        });
         //设置还没收缩时状态下字体颜色
         mCollapsingToolbarLayout.setExpandedTitleColor(Color.TRANSPARENT);
         //设置收缩后Toolbar上字体的颜色
@@ -342,7 +357,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         layoutParams.setMargins(0, 30, 0, 40);
         danmakuView.setLayoutParams(layoutParams);
-        controller.addDefaultControlComponent("刘薪王太强了", danmuku -> {
+        controller.addDefaultControlComponent(videoViewModel.getDataBean().getTitle(), danmuku -> {
             danmuku.setTime(danmakuView.getCurrentTime() + 1200);
             temp = danmuku;
             danmukuViewModel.postDanmuku(pv, danmuku);
@@ -405,6 +420,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         if (player != null) {
             player.release();
         }

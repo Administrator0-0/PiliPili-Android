@@ -1,19 +1,14 @@
 package com.example.pilipili_android.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
@@ -23,12 +18,10 @@ import com.example.pilipili_android.constant.DefaultConstant;
 import com.example.pilipili_android.view_model.UserBaseDetail;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.qmuiteam.qmui.widget.QMUIRadiusImageView;
-import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -82,11 +75,13 @@ public class MainFragment extends Fragment {
         RecommendFragment recommendFragment = new RecommendFragment();
         AnimeFragment animeFragment = new AnimeFragment();
         HotFragment hotFragment = new HotFragment();
+        ColorFragment colorFragment = new ColorFragment();
         ArrayList<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(recommendFragment);
         fragmentList.add(hotFragment);
         fragmentList.add(animeFragment);
-        String[] fragmentTitle = {"推荐", "热门", "追番"};
+        fragmentList.add(colorFragment);
+        String[] fragmentTitle = {"推荐", "热门", "追番", "资源"};
         viewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
             @NonNull
             @Override

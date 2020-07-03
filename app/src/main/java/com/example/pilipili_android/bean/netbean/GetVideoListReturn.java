@@ -2,7 +2,7 @@ package com.example.pilipili_android.bean.netbean;
 
 import java.util.List;
 
-public class GetRecommendVideoListReturn {
+public class GetVideoListReturn {
 
     /**
      * code : 200

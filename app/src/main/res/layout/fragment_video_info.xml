@@ -108,12 +108,14 @@
                     android:text="刘薪王太强了"/>
 
                 <ImageView
+                    android:id="@+id/up_down_img"
                     android:layout_centerVertical="true"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/b98"
+                    android:layout_width="16dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/bez"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="10dp"/>
+<!--bf0-->
 
             </RelativeLayout>
 
@@ -287,7 +289,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/btn_fav"
+                android:id="@+id/btn_star"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

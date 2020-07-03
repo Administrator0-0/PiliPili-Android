@@ -21,6 +21,7 @@ import com.example.pilipili_android.bean.netbean.UploadSignReturn;
 import com.example.pilipili_android.bean.netbean.UploadUserBackgroundReturn;
 import com.example.pilipili_android.bean.netbean.UserDetailReturn;
 import com.example.pilipili_android.bean.netbean.UserOpenDetailReturn;
+import com.example.pilipili_android.bean.netbean.UserVideoReturn;
 import com.example.pilipili_android.inteface.OnNetRequestListener;
 import com.example.pilipili_android.inteface.RetrofitService;
 import com.example.pilipili_android.util.EncryptUtil;
@@ -533,7 +534,30 @@ public class UserDataSource {
                 onNetRequestListener.onFail("网络不稳定，请检查网络");
             }
         });
+    }
 
+    public void getUserVideo(int uid, OnNetRequestListener onNetRequestListener) {
+        Call<UserVideoReturn> call = retrofitService.getUserVideoDetail(uid + "");
+        call.enqueue(new Callback<UserVideoReturn>() {
+            @Override
+            public void onResponse(@NonNull Call<UserVideoReturn> call, @NonNull Response<UserVideoReturn> response) {
+                UserVideoReturn userVideoReturn = response.body();
+                if(userVideoReturn == null) {
+                    onNetRequestListener.onFail("获取相关视频错误");
+                    return;
+                }
+                if(userVideoReturn.getCode() == 200) {
+                    onNetRequestListener.onSuccess(new NetRequestResult<>(userVideoReturn.getData().getVideo_list()));
+                } else {
+                    onNetRequestListener.onFail(Objects.requireNonNull(userVideoReturn).getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<UserVideoReturn> call, @NonNull Throwable t) {
+                onNetRequestListener.onFail("网络不稳定，请检查网络");
+            }
+        });
     }
 
 }

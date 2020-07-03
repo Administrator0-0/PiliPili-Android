@@ -156,8 +156,7 @@ public class SpaceActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        Intent intent = getIntent();
-        UID = intent.getIntExtra("UID", -1);
+        UID = UserBaseDetail.getUID(this);
     }
 
     private void initBind() {

@@ -707,7 +707,7 @@ public class UserViewModel extends AndroidViewModel {
 
             @Override
             public void onFail(String errorMessage) {
-
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -731,7 +731,7 @@ public class UserViewModel extends AndroidViewModel {
 
             @Override
             public void onFail(String errorMessage) {
-
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -742,6 +742,30 @@ public class UserViewModel extends AndroidViewModel {
             public void onSuccess(NetRequestResult netRequestResult) {
                 IsFollowedReturn isFollowedReturn = (IsFollowedReturn) netRequestResult.getData();
                 isFollowed.setValue(isFollowedReturn.getData().isIs_followed());
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+
+            }
+        });
+    }
+
+    public void getUserVideo(int uid) {
+        userDataSource.getUserVideo(uid, new OnNetRequestListener() {
+            @Override
+            public void onSuccess(NetRequestResult netRequestResult) {
+
             }
 
             @Override
