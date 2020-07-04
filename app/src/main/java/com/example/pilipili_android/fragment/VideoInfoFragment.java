@@ -189,9 +189,9 @@ public class VideoInfoFragment extends Fragment {
         });
 
         videoViewModel.getVideoDetailBean().observe(getActivity(), videoDetailBean -> {
-            Intent intent = new Intent(getActivity(), VideoActivity.class);
+            Intent intent = new Intent(videoViewModel.getContext(), VideoActivity.class);
             intent.putExtra("dataBean", videoDetailBean);
-            getActivity().startActivity(intent);
+            videoViewModel.getContext().startActivity(intent);
         });
 
         return view;

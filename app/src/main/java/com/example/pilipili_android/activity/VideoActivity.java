@@ -366,6 +366,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
             danmukuViewModel.postDanmuku(pv, danmuku);
         });
         controller.addControlComponent(danmakuView);
+        controller.setEnableOrientation(true);
         player.setVideoController(controller);
         player.setListener(new OnVideoListener() {
             @Override

@@ -84,9 +84,9 @@ public class AnimeFragment extends Fragment {
         });
 
         videoViewModel.getVideoDetailBeanFromAnime().observe(getActivity(), dataBean -> {
-            Intent intent = new Intent(getActivity(), VideoActivity.class);
+            Intent intent = new Intent(videoViewModel.getContext(), VideoActivity.class);
             intent.putExtra("dataBean", dataBean);
-            getContext().startActivity(intent);
+            videoViewModel.getContext().startActivity(intent);
         });
 
         return view;

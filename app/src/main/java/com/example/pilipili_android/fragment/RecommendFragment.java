@@ -80,9 +80,9 @@ public class RecommendFragment extends Fragment {
         });
 
         videoViewModel.getVideoDetailBeanFromRecommend().observe(getActivity(), dataBean -> {
-            Intent intent = new Intent(getActivity(), VideoActivity.class);
+            Intent intent = new Intent(videoViewModel.getContext(), VideoActivity.class);
             intent.putExtra("dataBean", dataBean);
-            getContext().startActivity(intent);
+            videoViewModel.getContext().startActivity(intent);
         });
 
         return view;

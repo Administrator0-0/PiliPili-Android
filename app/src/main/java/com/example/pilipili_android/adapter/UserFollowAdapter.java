@@ -54,7 +54,6 @@ public class UserFollowAdapter extends RecyclerView.Adapter {
         ListFollowReturn.DataBean.ListBean bean = userList.get(position);
         itemViewHolder.username.setText(bean.getUsername());
         itemViewHolder.sign.setText(bean.getSign());
-        itemViewHolder.userAvatar.post(() -> Glide.with(mContext).load(bean.getAvatar()).diskCacheStrategy(DiskCacheStrategy.NONE).into(itemViewHolder.userAvatar));
         if (bean.getId() == UserBaseDetail.getUID(mContext)) {
             itemViewHolder.follow.setVisibility(View.GONE);
         } else {

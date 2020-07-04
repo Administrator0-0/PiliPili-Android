@@ -101,9 +101,9 @@ public class CommentReplayAdapter extends RecyclerView.Adapter {
             itemViewHolder.commentContent.setText(itemBean.getComment().getContent());
         }
         if (itemBean.getComment().isIs_liked()) {
-            itemViewHolder.mLike.setBackground(mContext.getResources().getDrawable(R.drawable.b_z));
+            itemViewHolder.mLike.setImageResource(R.drawable.b_z);
         } else {
-            itemViewHolder.mLike.setBackground(mContext.getResources().getDrawable(R.drawable.ba0));
+            itemViewHolder.mLike.setImageResource(R.drawable.ba0);
         }
     }
 

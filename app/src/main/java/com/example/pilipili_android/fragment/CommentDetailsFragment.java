@@ -22,6 +22,7 @@ import com.example.pilipili_android.activity.VideoActivity;
 import com.example.pilipili_android.adapter.CommentReplayAdapter;
 import com.example.pilipili_android.adapter.VideoCommentAdapter;
 import com.example.pilipili_android.bean.localbean.CommentItemBean;
+import com.example.pilipili_android.constant.DefaultConstant;
 import com.example.pilipili_android.util.AliyunOSSUtil;
 import com.example.pilipili_android.view_model.CommentViewModel;
 import com.example.pilipili_android.view_model.UserBaseDetail;
@@ -103,11 +104,16 @@ public class CommentDetailsFragment extends Fragment implements View.OnClickList
             } else {
                 commentLike.setImageResource(R.drawable.mall_ic_like);
             }
+            commentLikeNum.setText("" + main.getComment().getLikes());
         });
         commentViewModel.getReplayListDFS(main.getComment().getId());
-        String url = AliyunOSSUtil.getImageUrl(getActivity().getApplicationContext(), main.getAvatar().getGuest_key(),
-                main.getAvatar().getGuest_secret(), main.getAvatar().getSecurity_token(), main.getAvatar().getFile());
-        Glide.with(getActivity()).load(url).into(user);
+        if (main.getAvatar() != null) {
+            String url = AliyunOSSUtil.getImageUrl(getActivity().getApplicationContext(), main.getAvatar().getGuest_key(),
+                    main.getAvatar().getGuest_secret(), main.getAvatar().getSecurity_token(), main.getAvatar().getFile());
+            Glide.with(getActivity()).load(url).into(user);
+        } else {
+            user.setImageResource(DefaultConstant.AVATAR_IMAGE_DEFAULT);
+        }
         username.setText(main.getComment().getAuthor_name());
         commentTime.setText(main.getComment().getAuthor_name());
         commentContent.setText(main.getComment().getContent());

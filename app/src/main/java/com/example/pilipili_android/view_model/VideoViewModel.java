@@ -609,4 +609,8 @@ public class VideoViewModel extends AndroidViewModel {
     public MutableLiveData<VideoDetailReturn.DataBean> getVideoDetailBean() {
         return videoDetailBean;
     }
+
+    public Context getContext() {
+        return context;
+    }
 }

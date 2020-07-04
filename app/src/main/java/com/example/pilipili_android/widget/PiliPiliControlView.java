@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -196,9 +197,13 @@ public class PiliPiliControlView extends FrameLayout implements IControlComponen
         switch (playerState) {
             case VideoView.PLAYER_NORMAL:
                 mFullScreen.setSelected(false);
+                isFull = false;
+                changeControlView();
                 break;
             case VideoView.PLAYER_FULL_SCREEN:
                 mFullScreen.setSelected(true);
+                isFull = true;
+                changeControlView();
                 break;
         }
 
@@ -296,11 +301,9 @@ public class PiliPiliControlView extends FrameLayout implements IControlComponen
     private void toggleFullScreen() {
         Activity activity = PlayerUtils.scanForActivity(getContext());
         mControlWrapper.toggleFullScreen(activity);
-        changeControlView();
     }
 
     public void changeControlView() {
-        isFull = !isFull;
         int progress = mVideoProgress.getProgress();
         String curTime = mCurrTime.getText().toString();
         String totalTime = mTotalTime.getText().toString();
