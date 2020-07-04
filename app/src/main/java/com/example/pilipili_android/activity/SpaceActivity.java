@@ -43,6 +43,7 @@ import com.example.pilipili_android.constant.DefaultConstant;
 import com.example.pilipili_android.constant.UrlConstant;
 import com.example.pilipili_android.databinding.ActivitySpaceBinding;
 import com.example.pilipili_android.fragment.AvatarFragment;
+import com.example.pilipili_android.fragment.FragmentMsg;
 import com.example.pilipili_android.util.AppBarStateChangeListener;
 import com.example.pilipili_android.util.UCropUtil;
 import com.example.pilipili_android.view_model.UserBaseDetail;
@@ -53,6 +54,10 @@ import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 import com.yalantis.ucrop.UCrop;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -96,6 +101,7 @@ public class SpaceActivity extends AppCompatActivity {
     AppBarLayout appBarLayout;
 
     private int UID;
+    private int what = -1;
     private boolean isDetail = false;
     private String signSingle = "";//指sign单行显示
     private boolean hasSign = false;
@@ -199,6 +205,7 @@ public class SpaceActivity extends AppCompatActivity {
     }
 
     private void initBind() {
+        EventBus.getDefault().register(this);
         activitySpaceBinding = DataBindingUtil.setContentView(this, R.layout.activity_space);
         activitySpaceBinding.setUserViewModel(new ViewModelProvider(this).get(UserViewModel.class));
         ButterKnife.bind(this);
@@ -280,6 +287,7 @@ public class SpaceActivity extends AppCompatActivity {
                     Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE);
             } else {
+                what = REQUEST_CODE_CHOOSE_BG;
                 openAlbum();
             }
         });
@@ -296,6 +304,7 @@ public class SpaceActivity extends AppCompatActivity {
                         return;
                     }
                 }
+                what = REQUEST_CODE_CHOOSE_BG;
                 openAlbum();
             }
         }
@@ -305,7 +314,7 @@ public class SpaceActivity extends AppCompatActivity {
     private void openAlbum() {
         Matisse.from(this).choose(MimeType.ofImage()).showSingleMediaType(true).maxSelectable(1)
                 .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT).thumbnailScale(0.8f)
-                .theme(R.style.Matisse_Dracula).forResult(REQUEST_CODE_CHOOSE_BG);
+                .theme(R.style.Matisse_Dracula).forResult(what);
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -464,6 +473,18 @@ public class SpaceActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onFragmentMsg(FragmentMsg fragmentMsg) {
+        if (fragmentMsg.getWhatFragment().equals("AvatarFragment") && fragmentMsg.getMsgString().equals("what")) {
+            what = fragmentMsg.getMsgInt();
+        }
+    }
 
     @OnClick(R.id.icon_left)
     public void onIconLeftClicked() {

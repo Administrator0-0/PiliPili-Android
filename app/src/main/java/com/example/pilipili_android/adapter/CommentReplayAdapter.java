@@ -78,6 +78,11 @@ public class CommentReplayAdapter extends RecyclerView.Adapter {
                     .setMessage("是否删除该评论？");
             commonDialog.show();
         });
+        if (itemBean.getComment().isIs_liked()) {
+            itemViewHolder.mLike.setImageResource(R.drawable.b_z);
+        } else {
+            itemViewHolder.mLike.setImageResource(R.drawable.ba0);
+        }
         itemViewHolder.username.setText(itemBean.getComment().getAuthor_name());
         if (itemBean.getAvatar() != null && itemBean.getAvatar().getFile() != null) {
             String url = AliyunOSSUtil.getImageUrl(mContext.getApplicationContext(), itemBean.getAvatar().getGuest_key(),
@@ -89,6 +94,8 @@ public class CommentReplayAdapter extends RecyclerView.Adapter {
         if (itemBean.getComment().getAuthor() != UserBaseDetail.getUID(mContext)
                 && UserBaseDetail.getUID(mContext) != main.getComment().getAuthor()) {
             itemViewHolder.more.setVisibility(View.GONE);
+        } else {
+            itemViewHolder.more.setVisibility(View.VISIBLE);
         }
         itemViewHolder.commentTime.setText(itemBean.getComment().getTime());
         itemViewHolder.commentLikeNum.setText("" + itemBean.getComment().getLikes());
@@ -99,11 +106,6 @@ public class CommentReplayAdapter extends RecyclerView.Adapter {
             itemViewHolder.commentContent.setText(string);
         } else {
             itemViewHolder.commentContent.setText(itemBean.getComment().getContent());
-        }
-        if (itemBean.getComment().isIs_liked()) {
-            itemViewHolder.mLike.setImageResource(R.drawable.b_z);
-        } else {
-            itemViewHolder.mLike.setImageResource(R.drawable.ba0);
         }
     }
 

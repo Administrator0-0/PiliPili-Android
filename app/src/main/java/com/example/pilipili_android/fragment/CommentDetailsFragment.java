@@ -34,6 +34,8 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.pilipili_android.constant.DefaultConstant.AVATAR_IMAGE_DEFAULT;
+
 public class CommentDetailsFragment extends Fragment implements View.OnClickListener {
 
     @BindView(R.id.user_avatar)
@@ -107,15 +109,16 @@ public class CommentDetailsFragment extends Fragment implements View.OnClickList
             commentLikeNum.setText("" + main.getComment().getLikes());
         });
         commentViewModel.getReplayListDFS(main.getComment().getId());
-        if (main.getAvatar() != null) {
+        if (main.getAvatar() != null && main.getAvatar().getFile() != null) {
             String url = AliyunOSSUtil.getImageUrl(getActivity().getApplicationContext(), main.getAvatar().getGuest_key(),
                     main.getAvatar().getGuest_secret(), main.getAvatar().getSecurity_token(), main.getAvatar().getFile());
             Glide.with(getActivity()).load(url).into(user);
         } else {
-            user.setImageResource(DefaultConstant.AVATAR_IMAGE_DEFAULT);
+            user.setImageDrawable(getActivity().getDrawable(AVATAR_IMAGE_DEFAULT));
         }
+        user.setImageDrawable(getActivity().getDrawable(AVATAR_IMAGE_DEFAULT));
         username.setText(main.getComment().getAuthor_name());
-        commentTime.setText(main.getComment().getAuthor_name());
+        commentTime.setText(main.getComment().getTime());
         commentContent.setText(main.getComment().getContent());
         commentLikeNum.setText("" + main.getComment().getLikes());
     }

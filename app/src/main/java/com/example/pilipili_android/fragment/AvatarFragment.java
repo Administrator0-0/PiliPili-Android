@@ -37,6 +37,8 @@ import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Objects;
@@ -140,6 +142,7 @@ public class AvatarFragment extends Fragment {
 //                .imageEngine(new PicassoEngine())
                 //请求码
                 .forResult(REQUEST_CODE_CHOOSE_AVATAR);
+        EventBus.getDefault().post(FragmentMsg.getInstance("AvatarFragment", "what", REQUEST_CODE_CHOOSE_AVATAR));
     }
 
     //获取权限的结果

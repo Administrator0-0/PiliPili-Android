@@ -422,7 +422,6 @@ public class CommentViewModel extends AndroidViewModel {
                     list.set(list.indexOf(itemBean), itemBean);
                     commentList.postValue(list);
                 } else {
-                    itemBean.getComment().setLikes(itemBean.getComment().getLikes() + 1);
                     List<CommentItemBean> finallist = Objects.requireNonNull(replayList.getValue()).get(parentId);
                     HashMap<Integer, List<CommentItemBean>> map = Objects.requireNonNull(replayList.getValue());
                     map.put(parentId, finallist);

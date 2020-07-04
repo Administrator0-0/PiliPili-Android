@@ -120,6 +120,13 @@ public class VideoCommentAdapter extends RecyclerView.Adapter {
         if (itemBean.getComment().getAuthor() != UserBaseDetail.getUID(mContext)
                 && UserBaseDetail.getUID(mContext) != up) {
             itemViewHolder.more.setVisibility(View.GONE);
+        } else {
+            itemViewHolder.more.setVisibility(View.VISIBLE);
+        }
+        if (itemBean.getComment().isIs_liked()) {
+            itemViewHolder.mLike.setImageResource(R.drawable.mall_ic_liked);
+        } else {
+            itemViewHolder.mLike.setImageResource(R.drawable.mall_ic_like);
         }
         itemViewHolder.mUsername.setText(itemBean.getComment().getAuthor_name());
         if (itemBean.getAvatar() != null && itemBean.getAvatar().getFile() != null) {
@@ -162,11 +169,6 @@ public class VideoCommentAdapter extends RecyclerView.Adapter {
             itemViewHolder.replays[3].setVisibility(View.VISIBLE);
         } else {
             itemViewHolder.replays[3].setVisibility(View.GONE);
-        }
-        if (itemBean.getComment().isIs_liked()) {
-            itemViewHolder.mLike.setImageResource(R.drawable.mall_ic_liked);
-        } else {
-            itemViewHolder.mLike.setImageResource(R.drawable.mall_ic_like);
         }
     }
 
