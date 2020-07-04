@@ -378,6 +378,8 @@ public class PiliPiliControlView extends FrameLayout implements IControlComponen
                     bottom.setChecked(false);
                 }
             });
+            smallSize.setChecked(true);
+            scroll.setChecked(true);
             mFullScreen = findViewById(R.id.fullscreen);
             mFullScreen.setOnClickListener(this);
             mBottomContainer = findViewById(R.id.bottom_container);

@@ -30,6 +30,14 @@ android {
         enabled true
     }
 
+    android.applicationVariants.all {
+        variant ->
+            variant.outputs.all {
+                //这里修改apk文件名
+                outputFileName = "PiliPili_v${defaultConfig.versionName}.apk"
+            }
+    }
+
 }
 
 dependencies {

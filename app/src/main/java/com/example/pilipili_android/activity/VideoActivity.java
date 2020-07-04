@@ -585,6 +585,8 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
             window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         }
         ImageView send = view.findViewById(R.id.send);
+        smallSize.setChecked(true);
+        scroll.setChecked(true);
         send.setOnClickListener(this);
         danmukuDialog.show();
     }
