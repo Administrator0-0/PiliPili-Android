@@ -279,6 +279,7 @@ public class SpaceActivity extends AppCompatActivity {
         QMUIRoundButton selfDef = view.findViewById(R.id.self_def);
         selfDef.setOnClickListener(view1 -> {
             dialog.dismiss();
+            what = REQUEST_CODE_CHOOSE_BG;
             if (ContextCompat.checkSelfPermission(this,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                     || ContextCompat.checkSelfPermission(this,
@@ -287,7 +288,6 @@ public class SpaceActivity extends AppCompatActivity {
                     Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE);
             } else {
-                what = REQUEST_CODE_CHOOSE_BG;
                 openAlbum();
             }
         });
@@ -304,7 +304,6 @@ public class SpaceActivity extends AppCompatActivity {
                         return;
                     }
                 }
-                what = REQUEST_CODE_CHOOSE_BG;
                 openAlbum();
             }
         }

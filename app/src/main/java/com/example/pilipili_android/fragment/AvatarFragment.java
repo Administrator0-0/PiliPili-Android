@@ -103,6 +103,7 @@ public class AvatarFragment extends Fragment {
                 || ContextCompat.checkSelfPermission(getContext(),
                 Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()), PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE);
+            EventBus.getDefault().post(FragmentMsg.getInstance("AvatarFragment", "what", REQUEST_CODE_CHOOSE_AVATAR));
         } else {
             openAlbum();
             Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().remove(this).commit();
@@ -145,22 +146,22 @@ public class AvatarFragment extends Fragment {
         EventBus.getDefault().post(FragmentMsg.getInstance("AvatarFragment", "what", REQUEST_CODE_CHOOSE_AVATAR));
     }
 
-    //获取权限的结果
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_EXTERNAL_STORAGE) {
-            if(grantResults.length > 0) {
-                for(int result : grantResults) {
-                    if(result == PackageManager.PERMISSION_DENIED) {
-                        Toast.makeText(getContext(), "啊啦~被残忍拒绝了呢~", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                }
-                Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().remove(this).commit();
-                openAlbum();
-            }
-        }
-    }
+//    //获取权限的结果
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        if (requestCode == REQUEST_EXTERNAL_STORAGE) {
+//            if(grantResults.length > 0) {
+//                for(int result : grantResults) {
+//                    if(result == PackageManager.PERMISSION_DENIED) {
+//                        Toast.makeText(getContext(), "啊啦~被残忍拒绝了呢~", Toast.LENGTH_SHORT).show();
+//                        return;
+//                    }
+//                }
+//                Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().remove(this).commit();
+//                openAlbum();
+//            }
+//        }
+//    }
 
     @OnClick(R.id.save_avatar)
     void onSaveAvatarClicked() {
